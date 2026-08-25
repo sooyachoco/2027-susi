@@ -61,4 +61,11 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.99,
   },
+  dankook2027: {
+    type: "university",
+    url: "https://ipsi.dankook.ac.kr/jukjeon/notice/list.html?bbsid=juk_info&bltn_seq=50954&ctg_cd=01&mode=view",
+    document: "2027학년도 단국대학교 수시 신입생 모집요강",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
 };
