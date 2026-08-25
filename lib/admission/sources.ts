@@ -33,4 +33,25 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.9,
   },
+  snu2027: {
+    type: "university",
+    url: "https://admission.snu.ac.kr/undergraduate/early/guide",
+    document: "2027학년도 대학 신입학생 수시모집 안내",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
+  snu2027Plan: {
+    type: "university",
+    url: "https://admission.snu.ac.kr/undergraduate/notice?bbsidx=154588&md=v",
+    document: "2027학년도 대학 신입학생 입학전형 시행계획(수정)",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
+  yonsei2027: {
+    type: "university",
+    url: "https://admission.yonsei.ac.kr/seoul/admission/html/rolling/guide.asp",
+    document: "2027학년도 신입학 수시모집요강",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
 };
