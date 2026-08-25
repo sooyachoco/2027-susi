@@ -24,11 +24,8 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
     return { admission, score: Math.round(clamp(score + offset)) };
   }).sort((a, b) => b.score - a.score);
 
-  // 4단계 구성: 대학 중복을 먼저 줄이고, 부족할 때만 같은 대학의 다른 전형으로 보충한다.
   const diversified = diversifyUniversities(scored, 6);
 
-  // 적합도 점수가 높을수록 안정에 가깝다.
-  // 추천 카드의 전략적 의미가 뒤집히지 않도록 점수순으로 안정→상향 순으로 배치한다.
   return diversified.map((item, index) => ({
     tier: tierForIndex(index, diversified.length),
     admissionId: item.admission.id,
@@ -41,7 +38,6 @@ function diversifyUniversities(items: Array<{ admission: Admission; score: numbe
   const selected: Array<{ admission: Admission; score: number }> = [];
   const usedUniversities = new Set<string>();
 
-  // 최고 적합도부터 보되 대학 중복을 먼저 피한다.
   for (const item of items) {
     if (selected.length >= limit) break;
     if (!usedUniversities.has(item.admission.universityId)) {
@@ -50,7 +46,6 @@ function diversifyUniversities(items: Array<{ admission: Admission; score: numbe
     }
   }
 
-  // 후보 대학이 부족한 경우 남은 전형으로 보충한다.
   if (selected.length < limit) {
     const selectedIds = new Set(selected.map((item) => item.admission.id));
     for (const item of items) {
@@ -78,7 +73,10 @@ function getAdmissionMajorGroup(admission: Admission): string | null {
   const department = [...verified2027Departments, ...expanded2027Departments].find(
     (item) => item.id === admission.departmentId,
   );
-  return department?.majorGroup ?? department?.category ?? null;
+
+  // Department의 공통 타입에 의존하지 않고 category를 fallback으로 사용한다.
+  // 확장 데이터도 category에 전공군을 저장하므로 기존/확장 데이터 모두 호환된다.
+  return department?.category ?? null;
 }
 
 function normalizeMajorGroup(major: string): string | null {
