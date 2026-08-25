@@ -8,8 +8,8 @@ const source = {
 };
 
 /**
- * 2027학년도 수시 추천 범위를 넓히기 위한 확장 데이터.
- * 개별 대학의 최종 모집요강과 세부 모집인원은 대학 발표 기준으로 재검증해야 한다.
+ * 2027학년도 수시 탐색 확장 데이터.
+ * 개별 대학의 최종 모집요강과 세부 모집인원 재검증 전까지 실제 추천에서 사용하지 않는다.
  */
 export const expanded2027Universities: University[] = [
   { id: "gachon", name: "가천대학교", region: "경기" },
@@ -72,7 +72,7 @@ export const expanded2027Departments: Department[] = defs.map(([universityId, id
   category,
 }));
 
-export const expanded2027Admissions: Admission[] = defs.flatMap(([universityId, departmentId, , , shortName]) => [
+export const expanded2027Admissions: Admission[] = defs.flatMap(([universityId, departmentId]) => [
   {
     id: `${departmentId}-holistic-2027`,
     universityId,
@@ -83,7 +83,7 @@ export const expanded2027Admissions: Admission[] = defs.flatMap(([universityId, 
     interview: false,
     csatMinimum: { enabled: false },
     source,
-    isMock: false,
+    isMock: true,
   },
   {
     id: `${departmentId}-subject-2027`,
@@ -95,7 +95,7 @@ export const expanded2027Admissions: Admission[] = defs.flatMap(([universityId, 
     studentRecordWeight: 100,
     csatMinimum: { enabled: false },
     source,
-    isMock: false,
+    isMock: true,
   },
   {
     id: `${departmentId}-essay-2027`,
@@ -106,6 +106,6 @@ export const expanded2027Admissions: Admission[] = defs.flatMap(([universityId, 
     type: "논술" as const,
     csatMinimum: { enabled: false },
     source,
-    isMock: false,
+    isMock: true,
   },
 ]);
