@@ -1,11 +1,12 @@
 import type { Admission, Recommendation, StudentProfile } from "@/lib/types";
+import { verified2027Departments } from "@/lib/admission/real2027";
 import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 
 /** 2027 전형 속성을 반영하는 전략 적합도 엔진. 합격확률이 아니다. */
 export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0): Recommendation[] {
   const targetGroup = normalizeMajorGroup(student.desiredMajor);
   const majorMatched = targetGroup
-    ? admissions.filter((admission) => admission.majorGroup === targetGroup)
+    ? admissions.filter((admission) => getAdmissionMajorGroup(admission) === targetGroup)
     : admissions;
 
   // 희망전공이 입력됐는데 해당 전공군 데이터가 없으면 엉뚱한 학과를 추천하지 않는다.
@@ -31,10 +32,17 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
   }));
 }
 
+function getAdmissionMajorGroup(admission: Admission): string | null {
+  if (admission.majorGroup) return admission.majorGroup;
+  const department = verified2027Departments.find((item) => item.id === admission.departmentId);
+  return department?.category ?? null;
+}
+
 function normalizeMajorGroup(major: string): string | null {
   const value = major.replace(/\s+/g, "").toLowerCase();
   if (!value) return null;
   if (/(경영|business|마케팅|회계|세무|금융|경제|국제통상|무역)/.test(value)) return "경영·경제";
+  if (/(법학|법률|law|법무)/.test(value)) return "법·행정";
   if (/(컴퓨터|소프트웨어|sw|ai|인공지능|데이터|정보보호|사이버)/.test(value)) return "컴퓨터·소프트웨어";
   if (/(전자|전기|반도체|전기전자)/.test(value)) return "전기·전자";
   if (/(기계|자동차|로봇|메카트로닉스)/.test(value)) return "기계·로봇";
