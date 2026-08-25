@@ -53,6 +53,7 @@ const defs: Array<[string, string, string, string, string]> = [
   ["inha", "inha-cs", "컴퓨터공학과", "컴퓨터·소프트웨어", "인하대"],
   ["ajou", "ajou-business", "경영학과", "경영·경제", "아주대"],
   ["ajou", "ajou-cs", "소프트웨어학과", "컴퓨터·소프트웨어", "아주대"],
+  ["ajou", "ajou-ai-computer", "AI컴퓨터공학부", "컴퓨터·소프트웨어", "아주대"],
   ["dankook", "dankook-law", "법학과", "법·행정", "단국대"],
   ["dankook", "dankook-business", "경영학부", "경영·경제", "단국대"],
   ["dankook", "dankook-cs", "컴퓨터공학과", "컴퓨터·소프트웨어", "단국대"],
