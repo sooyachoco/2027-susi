@@ -28,6 +28,8 @@ export const expanded2027Universities: University[] = [
   { id: "chungbuk", name: "충북대학교", region: "충북" },
   { id: "chonnam", name: "전남대학교", region: "광주" },
   { id: "pusan", name: "부산대학교", region: "부산" },
+  { id: "snu", name: "서울대학교", region: "서울" },
+  { id: "yonsei", name: "연세대학교", region: "서울" },
 ];
 
 const defs: Array<[string, string, string, string, string]> = [
@@ -63,6 +65,10 @@ const defs: Array<[string, string, string, string, string]> = [
   ["pusan", "pusan-law", "법학과", "법·행정", "부산대"],
   ["pusan", "pusan-business", "경영학과", "경영·경제", "부산대"],
   ["pusan", "pusan-cs", "컴퓨터공학과", "컴퓨터·소프트웨어", "부산대"],
+  ["snu", "snu-free", "자유전공학부", "자율전공", "서울대"],
+  ["snu", "snu-business", "경영대학", "경영·경제", "서울대"],
+  ["yonsei", "yonsei-business", "상경계열", "경영·경제", "연세대"],
+  ["yonsei", "yonsei-free", "인문·사회계열 모집단위", "인문·사회", "연세대"],
 ];
 
 export const expanded2027Departments: Department[] = defs.map(([universityId, id, name, category]) => ({
