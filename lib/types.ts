@@ -9,7 +9,6 @@ export type Department = {
   universityId: string;
   name: string;
   category?: string;
-  /** 입학추천에서 사용하는 전공군. 예: 경영·경제, 컴퓨터·소프트웨어 */
   majorGroup?: string;
 };
 
@@ -38,6 +37,8 @@ export type Admission = {
   csatMinimum?: { enabled: boolean; description?: string };
   source?: AdmissionSource;
   isMock?: boolean;
+  /** 희망전공과의 매칭에 사용하는 전공군 */
+  majorGroup?: string;
 };
 
 export type Track = "자연계" | "인문계" | "예체능";
@@ -48,9 +49,7 @@ export type StudentProfile = {
   track: Track | null;
   desiredMajor: string;
   mockAverage: number | null;
-  /** 학생부 전공연계 (2~5), null = 미입력 */
   studentRecordLink: number | null;
-  /** 수능최저 충족 가능성 (2~5), null = 미입력 */
   csatMinimumChance: number | null;
 };
 
