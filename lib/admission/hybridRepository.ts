@@ -1,6 +1,7 @@
 import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { verified2027Admissions } from "./verified2027";
+import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, University } from "./types";
 
@@ -33,7 +34,10 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const allowedUniversityIds = new Set(universitiesInScope.map((u) => u.id));
 
     // 확장/프로토타입 전형은 탐색용으로만 유지하고 실제 추천에서는 제외한다.
-    const all: Admission[] = verified2027Admissions.filter((admission) => !admission.isMock);
+    const all: Admission[] = [
+      ...verified2027Admissions,
+      ...verifiedAjou2027Admissions,
+    ].filter((admission) => !admission.isMock);
 
     return all.filter((a) =>
       allowedUniversityIds.has(a.universityId) &&
