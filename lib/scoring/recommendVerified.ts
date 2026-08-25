@@ -3,7 +3,15 @@ import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 
 /** 2027 전형 속성을 반영하는 전략 적합도 엔진. 합격확률이 아니다. */
 export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0): Recommendation[] {
-  const scored = admissions.map((admission) => {
+  const targetGroup = normalizeMajorGroup(student.desiredMajor);
+  const majorMatched = targetGroup
+    ? admissions.filter((admission) => admission.majorGroup === targetGroup)
+    : admissions;
+
+  // 희망전공이 입력됐는데 해당 전공군 데이터가 없으면 엉뚱한 학과를 추천하지 않는다.
+  if (student.desiredMajor.trim() && majorMatched.length === 0) return [];
+
+  const scored = majorMatched.map((admission) => {
     const converted = convertStudentToAdmissionScore(student, admission);
     const minimumFit = csatFit(student, admission);
     let score = converted.score;
@@ -23,6 +31,25 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
   }));
 }
 
+function normalizeMajorGroup(major: string): string | null {
+  const value = major.replace(/\s+/g, "").toLowerCase();
+  if (!value) return null;
+  if (/(경영|business|마케팅|회계|세무|금융|경제|국제통상|무역)/.test(value)) return "경영·경제";
+  if (/(컴퓨터|소프트웨어|sw|ai|인공지능|데이터|정보보호|사이버)/.test(value)) return "컴퓨터·소프트웨어";
+  if (/(전자|전기|반도체|전기전자)/.test(value)) return "전기·전자";
+  if (/(기계|자동차|로봇|메카트로닉스)/.test(value)) return "기계·로봇";
+  if (/(화학|화공|신소재|재료)/.test(value)) return "화학·신소재";
+  if (/(생명|생명공학|바이오|식품)/.test(value)) return "생명·바이오";
+  if (/(건축|토목|도시|환경공학)/.test(value)) return "건축·도시·환경";
+  if (/(심리|사회|행정|정치|언론|미디어|사회학)/.test(value)) return "사회·정책";
+  if (/(국어|영어|중어|중국어|일어|일본어|불어|독어|문헌정보)/.test(value)) return "어문·인문";
+  if (/(교육|유아교육|초등교육|특수교육)/.test(value)) return "교육";
+  if (/(수학|통계|물리|화학)/.test(value)) return "자연과학";
+  if (/(간호|의예|의학|치의|약학|한의|보건)/.test(value)) return "의료·보건";
+  if (/(디자인|미술|음악|체육|연극|영화)/.test(value)) return "예체능";
+  return value;
+}
+
 function strategicAdjustment(student: StudentProfile, admission: Admission) {
   const gradeAverage = student.gradeAverage ?? 3;
   const studentRecordLink = student.studentRecordLink ?? 3;
@@ -40,7 +67,8 @@ function buildReason(admission: Admission, score: number) {
   const parts = [admission.type === "학종" ? "학생부 중심" : "교과 중심"];
   if (admission.interview) parts.push("면접 변수 있음");
   if (admission.csatMinimum?.enabled) parts.push("수능최저 반영");
-  if (admission.source?.type === "adiga") parts.push("2027 확인 데이터");
+  if (admission.source?.type === "adiga" || admission.source?.type === "university") parts.push("2027 확인 데이터");
+  if (admission.isMock) parts.push("프로토타입 데이터");
   return `${parts.join(" · ")} · 전략 적합도 ${score}`;
 }
 
