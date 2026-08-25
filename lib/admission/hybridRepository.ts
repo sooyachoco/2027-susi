@@ -2,7 +2,7 @@ import { departments, universities } from "./mockData";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { verified2027Admissions } from "./verified2027";
 import { isTargetRegion } from "./regionScope";
-import type { AdmissionQuery, AdmissionRepository } from "./types";
+import type { AdmissionQuery, AdmissionRepository, University } from "./types";
 
 /**
  * 서울·경기·인천을 1차 수집 범위로 사용하는 통합 저장소.
@@ -10,9 +10,15 @@ import type { AdmissionQuery, AdmissionRepository } from "./types";
  * 확장 데이터는 Admission.isMock으로 구분한다.
  */
 export class HybridAdmissionRepository implements AdmissionRepository {
-  async getUniversities(region?: AdmissionQuery["region"]) {
+  async getUniversities(region?: AdmissionQuery["region"]): Promise<University[]> {
     const all = dedupeById([...universities, ...expanded2027Universities]);
-    const scoped = all.filter((university) => isTargetRegion(university.region));
+    const scoped = all
+      .filter((university) => isTargetRegion(university.region))
+      .map((university) => ({
+        id: university.id,
+        name: university.name,
+        region: university.region,
+      }));
     return region ? scoped.filter((university) => university.region === region) : scoped;
   }
 
