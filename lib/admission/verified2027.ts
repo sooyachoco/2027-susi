@@ -1,7 +1,7 @@
 import type { Admission } from "./types";
 import { admissionSources } from "./sources";
 
-/** 공개된 2027학년도 자료에서 확인한 최소 단위의 검증 데이터. */
+/** 공개된 2027학년도 공식 자료에서 확인한 전형 데이터. */
 export const verified2027Admissions: Admission[] = [
   {
     id: "a-kku-self-verified",
@@ -28,6 +28,92 @@ export const verified2027Admissions: Admission[] = [
     source: admissionSources.konkuk2027,
     isMock: false,
   },
+  {
+    id: "a-snu-free-region-2027",
+    universityId: "snu",
+    departmentId: "snu-free",
+    academicYear: 2027,
+    name: "지역균형전형",
+    type: "학종",
+    recruitmentCount: 20,
+    documentWeight: 70,
+    interview: true,
+    csatMinimum: { enabled: true, description: "전 모집단위 적용" },
+    source: admissionSources.snu2027,
+    isMock: false,
+  },
+  {
+    id: "a-snu-free-general-2027",
+    universityId: "snu",
+    departmentId: "snu-free",
+    academicYear: 2027,
+    name: "일반전형",
+    type: "학종",
+    recruitmentCount: 48,
+    interview: true,
+    source: admissionSources.snu2027,
+    isMock: false,
+  },
+  {
+    id: "a-snu-business-region-2027",
+    universityId: "snu",
+    departmentId: "snu-business",
+    academicYear: 2027,
+    name: "지역균형전형",
+    type: "학종",
+    recruitmentCount: 26,
+    documentWeight: 70,
+    interview: true,
+    csatMinimum: { enabled: true, description: "전 모집단위 적용" },
+    source: admissionSources.snu2027,
+    isMock: false,
+  },
+  {
+    id: "a-snu-business-general-2027",
+    universityId: "snu",
+    departmentId: "snu-business",
+    academicYear: 2027,
+    name: "일반전형",
+    type: "학종",
+    recruitmentCount: 47,
+    interview: true,
+    source: admissionSources.snu2027,
+    isMock: false,
+  },
+  {
+    id: "a-yonsei-recommendation-2027",
+    universityId: "yonsei",
+    departmentId: "yonsei-free",
+    academicYear: 2027,
+    name: "학생부교과전형[추천형]",
+    type: "교과",
+    source: admissionSources.yonsei2027,
+    isMock: false,
+  },
+  {
+    id: "a-yonsei-activity-2027",
+    universityId: "yonsei",
+    departmentId: "yonsei-free",
+    academicYear: 2027,
+    name: "학생부종합전형[활동우수형]",
+    type: "학종",
+    source: admissionSources.yonsei2027,
+    isMock: false,
+  },
+  {
+    id: "a-yonsei-essay-2027",
+    universityId: "yonsei",
+    departmentId: "yonsei-free",
+    academicYear: 2027,
+    name: "논술전형",
+    type: "논술",
+    source: admissionSources.yonsei2027,
+    isMock: false,
+  },
 ];
 
-export const verified2027Sources = [admissionSources.uos2027];
+export const verified2027Sources = [
+  admissionSources.uos2027,
+  admissionSources.snu2027,
+  admissionSources.yonsei2027,
+];
