@@ -17,7 +17,6 @@ export function recommendSixByData(student: StudentProfile, admissions: Admissio
     if (admission.type === "교과") score += gradeAverage <= 2.5 ? 5 : -3;
     if (admission.interview) score += studentRecordLink >= 4 ? 2 : -2;
     if (admission.csatMinimum?.enabled) score += csatMinimumChance >= 4 ? 4 : -7;
-    if (admission.isMock === false) score += 2;
 
     return { admission, score: Math.round(clamp(score + offset)) };
   }).sort((a, b) => b.score - a.score);
@@ -36,7 +35,7 @@ function buildReason(admission: Admission, score: number) {
   parts.push(admission.type === "학종" ? "학생부 경쟁력을 중심으로 평가하는 전형" : "교과 성적을 주요 기반으로 보는 전형");
   if (admission.interview) parts.push("면접 변수 있음");
   if (admission.csatMinimum?.enabled) parts.push("수능최저 확인 필요");
-  if (admission.isMock === false) parts.push("2027 확인 데이터");
+  if (admission.source?.type === "adiga" || admission.source?.type === "university") parts.push("확인 데이터");
   return `${parts.join(" · ")} · 전략 적합도 ${score}`;
 }
 
