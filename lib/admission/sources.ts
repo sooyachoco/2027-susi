@@ -82,4 +82,11 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.95,
   },
+  incheon2027: {
+    type: "university",
+    url: "https://admission.inu.ac.kr/submenu.do?menuurl=7dcKmGI5ZvQB9F1mAEBAGg%3D%3D",
+    document: "2027학년도 인천대학교 수시모집요강",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
 };
