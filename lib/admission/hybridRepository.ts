@@ -2,7 +2,7 @@ import { departments, universities } from "./mockData";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { verified2027Admissions } from "./verified2027";
 import { isTargetRegion } from "./regionScope";
-import type { Admission as LegacyAdmission, University as LegacyUniversity } from "../types";
+import type { Admission as LegacyAdmission } from "../types";
 import type { Admission, AdmissionQuery, AdmissionRepository, University } from "./types";
 
 /**
@@ -48,6 +48,19 @@ export class HybridAdmissionRepository implements AdmissionRepository {
 }
 
 function normalizeLegacyAdmission(admission: LegacyAdmission): Admission {
+  const source = admission.source
+    ? {
+        type: admission.source.type,
+        url: admission.source.url,
+        document: admission.source.document,
+        page: admission.source.page,
+        academicYear: admission.academicYear,
+        collectedAt: admission.source.collectedAt,
+        verifiedAt: admission.source.verifiedAt,
+        confidence: admission.source.confidence,
+      }
+    : undefined;
+
   return {
     id: admission.id,
     universityId: admission.universityId,
@@ -60,12 +73,7 @@ function normalizeLegacyAdmission(admission: LegacyAdmission): Admission {
     studentRecordWeight: admission.studentRecordWeight,
     interview: admission.interview,
     csatMinimum: admission.csatMinimum,
-    source: admission.source
-      ? {
-          ...admission.source,
-          academicYear: admission.source.academicYear ?? admission.academicYear,
-        }
-      : undefined,
+    source,
     isMock: admission.isMock,
   };
 }
