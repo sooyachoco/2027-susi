@@ -9,6 +9,8 @@ export type Department = {
   universityId: string;
   name: string;
   category?: string;
+  /** 입학추천에서 사용하는 전공군. 예: 경영·경제, 컴퓨터·소프트웨어 */
+  majorGroup?: string;
 };
 
 export type AdmissionType = "교과" | "학종" | "논술" | "기타";
@@ -35,6 +37,7 @@ export type Admission = {
   interview?: boolean;
   csatMinimum?: { enabled: boolean; description?: string };
   source?: AdmissionSource;
+  isMock?: boolean;
 };
 
 export type Track = "자연계" | "인문계" | "예체능";
