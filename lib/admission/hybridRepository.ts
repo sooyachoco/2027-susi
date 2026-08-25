@@ -2,7 +2,8 @@ import { departments, universities } from "./mockData";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { verified2027Admissions } from "./verified2027";
 import { isTargetRegion } from "./regionScope";
-import type { AdmissionQuery, AdmissionRepository, University } from "./types";
+import type { Admission as LegacyAdmission, University as LegacyUniversity } from "../types";
+import type { Admission, AdmissionQuery, AdmissionRepository, University } from "./types";
 
 /**
  * 서울·경기·인천을 1차 수집 범위로 사용하는 통합 저장소.
@@ -28,10 +29,13 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
 
-  async getAdmissions(query: AdmissionQuery = {}) {
+  async getAdmissions(query: AdmissionQuery = {}): Promise<Admission[]> {
     const universitiesInScope = await this.getUniversities(query.region);
     const allowedUniversityIds = new Set(universitiesInScope.map((u) => u.id));
-    const all = dedupeById([...verified2027Admissions, ...expanded2027Admissions]);
+    const all: Admission[] = [
+      ...verified2027Admissions,
+      ...expanded2027Admissions.map(normalizeLegacyAdmission),
+    ];
 
     return all.filter((a) =>
       allowedUniversityIds.has(a.universityId) &&
@@ -41,6 +45,29 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       (!query.type || a.type === query.type)
     );
   }
+}
+
+function normalizeLegacyAdmission(admission: LegacyAdmission): Admission {
+  return {
+    id: admission.id,
+    universityId: admission.universityId,
+    departmentId: admission.departmentId,
+    academicYear: admission.academicYear,
+    name: admission.name,
+    type: admission.type,
+    majorGroup: admission.majorGroup,
+    recruitmentCount: admission.모집인원,
+    studentRecordWeight: admission.studentRecordWeight,
+    interview: admission.interview,
+    csatMinimum: admission.csatMinimum,
+    source: admission.source
+      ? {
+          ...admission.source,
+          academicYear: admission.source.academicYear ?? admission.academicYear,
+        }
+      : undefined,
+    isMock: admission.isMock,
+  };
 }
 
 function dedupeById<T extends { id: string }>(items: T[]): T[] {
