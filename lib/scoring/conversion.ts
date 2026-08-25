@@ -10,14 +10,21 @@ export type ConversionResult = {
  * v0.1 conversion engine.
  * IMPORTANT: this is a strategy simulation, not an official university calculator.
  * Official university formulas should replace these adapters once verified.
+ *
+ * Nullable student fields are treated as neutral midpoints so incomplete
+ * profiles do not produce TypeScript errors or NaN scores during build.
  */
 export function convertStudentToAdmissionScore(
   student: StudentProfile,
   admission: Admission,
 ): ConversionResult {
-  const grade = clamp(100 - (student.gradeAverage - 1) * 10.5, 45, 98);
-  const record = clamp((student.studentRecordLink / 5) * 100, 40, 100);
-  const csat = clamp(100 - (student.mockAverage - 1) * 9, 45, 98);
+  const gradeAverage = student.gradeAverage ?? 3;
+  const studentRecordLink = student.studentRecordLink ?? 3;
+  const mockAverage = student.mockAverage ?? 3;
+
+  const grade = clamp(100 - (gradeAverage - 1) * 10.5, 45, 98);
+  const record = clamp((studentRecordLink / 5) * 100, 40, 100);
+  const csat = clamp(100 - (mockAverage - 1) * 9, 45, 98);
 
   if (admission.type === "교과") {
     const quantitative = grade;
@@ -56,7 +63,7 @@ export function convertStudentToAdmissionScore(
 
 export function csatFit(student: StudentProfile, admission: Admission): number {
   if (!admission.csatMinimum?.enabled) return 100;
-  const chance = clamp((student.csatMinimumChance / 5) * 100, 0, 100);
+  const chance = clamp(((student.csatMinimumChance ?? 3) / 5) * 100, 0, 100);
   return round(chance);
 }
 
