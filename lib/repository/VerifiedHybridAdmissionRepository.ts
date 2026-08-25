@@ -1,46 +1,33 @@
 import type { Admission, Department, University } from "@/lib/types";
 import { MOCK_ADMISSIONS, MOCK_DEPARTMENTS, MOCK_UNIVERSITIES } from "@/lib/data/mock";
-import {
-  verified2027Admissions,
-  verified2027Departments,
-  verified2027Universities,
-} from "@/lib/admission/real2027";
+import { verified2027Admissions, verified2027Departments, verified2027Universities } from "@/lib/admission/real2027";
+import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "@/lib/admission/expanded2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
-const verified: Admission[] = verified2027Admissions.map((a) => ({ ...a }));
+const verified: Admission[] = [...verified2027Admissions, ...expanded2027Admissions].map((a) => ({ ...a }));
+const verifiedUniversities: University[] = [...verified2027Universities, ...expanded2027Universities];
+const verifiedDepartments: Department[] = [...verified2027Departments, ...expanded2027Departments];
 
 const mergedAdmissions: Admission[] = [
-  ...MOCK_ADMISSIONS.filter(
-    (mock) => !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId),
-  ),
+  ...MOCK_ADMISSIONS.filter((mock) => !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId)),
   ...verified,
 ];
 
 const mergedUniversities: University[] = [
-  ...MOCK_UNIVERSITIES.filter(
-    (mock) => !verified2027Universities.some((real) => real.id === mock.id),
-  ),
-  ...verified2027Universities,
+  ...MOCK_UNIVERSITIES.filter((mock) => !verifiedUniversities.some((real) => real.id === mock.id)),
+  ...verifiedUniversities.filter((university, index, all) => all.findIndex((item) => item.id === university.id) === index),
 ];
 
 const mergedDepartments: Department[] = [
-  ...MOCK_DEPARTMENTS.filter(
-    (mock) => !verified2027Departments.some((real) => real.id === mock.id),
-  ),
-  ...verified2027Departments,
+  ...MOCK_DEPARTMENTS.filter((mock) => !verifiedDepartments.some((real) => real.id === mock.id)),
+  ...verifiedDepartments.filter((department, index, all) => all.findIndex((item) => item.id === department.id) === index),
 ];
 
 export class VerifiedHybridAdmissionRepository implements AdmissionRepository {
-  async getUniversities(): Promise<University[]> {
-    return mergedUniversities;
-  }
-
+  async getUniversities(): Promise<University[]> { return mergedUniversities; }
   async getDepartments(universityId?: string): Promise<Department[]> {
-    return universityId
-      ? mergedDepartments.filter((d) => d.universityId === universityId)
-      : mergedDepartments;
+    return universityId ? mergedDepartments.filter((d) => d.universityId === universityId) : mergedDepartments;
   }
-
   async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> {
     return mergedAdmissions.filter((a) => {
       if (params?.academicYear && a.academicYear !== params.academicYear) return false;
