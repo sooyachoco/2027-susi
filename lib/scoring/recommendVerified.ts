@@ -10,7 +10,6 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
     ? admissions.filter((admission) => getAdmissionMajorGroup(admission) === targetGroup)
     : admissions;
 
-  // 희망전공이 입력됐는데 해당 전공군 데이터가 없으면 엉뚱한 학과를 추천하지 않는다.
   if (student.desiredMajor.trim() && majorMatched.length === 0) return [];
 
   const scored = majorMatched.map((admission) => {
@@ -26,8 +25,8 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
 
   const diversified = diversifyUniversities(scored, 6);
 
-  return diversified.map((item, index) => ({
-    tier: tierForIndex(index, diversified.length),
+  return diversified.map((item) => ({
+    tier: tierForScore(item.score),
     admissionId: item.admission.id,
     score: item.score,
     reason: buildReason(item.admission, item.score),
@@ -60,11 +59,15 @@ function diversifyUniversities(items: Array<{ admission: Admission; score: numbe
   return selected;
 }
 
-function tierForIndex(index: number, length: number): "상향" | "적정" | "안정" {
-  if (length <= 1) return "적정";
-  if (length <= 3) return index === 0 ? "안정" : "상향";
-  if (length <= 5) return index === 0 ? "안정" : index <= 2 ? "적정" : "상향";
-  return index === 0 ? "안정" : index <= 3 ? "적정" : "상향";
+/**
+ * 전략 적합도를 기준으로 한 지원 전략 구분.
+ * 실제 합격 가능성을 의미하지 않으며, 공식 입결 데이터가 없는 전형은
+ * 보수적으로 적정으로 분류한다.
+ */
+function tierForScore(score: number): "상향" | "적정" | "안정" {
+  if (score >= 86) return "안정";
+  if (score >= 70) return "적정";
+  return "상향";
 }
 
 function getAdmissionMajorGroup(admission: Admission): string | null {
@@ -73,9 +76,8 @@ function getAdmissionMajorGroup(admission: Admission): string | null {
   const department = [...verified2027Departments, ...expanded2027Departments].find(
     (item) => item.id === admission.departmentId,
   );
-
-  // Department의 공통 타입에 의존하지 않고 category를 fallback으로 사용한다.
-  // 확장 데이터도 category에 전공군을 저장하므로 기존/확장 데이터 모두 호환된다.
+  // expanded2027의 majorGroup은 런타임 데이터에서 확인하되, 타입 의존성을 낮추기 위해
+  // 기존 category를 최종 fallback으로 사용한다.
   return department?.category ?? null;
 }
 
