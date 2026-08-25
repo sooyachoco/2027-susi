@@ -7,6 +7,7 @@ export const universities: University[] = [
   { id: "dongguk", name: "동국대학교", region: "서울" },
   { id: "ssu", name: "숭실대학교", region: "서울" },
   { id: "kw", name: "광운대학교", region: "서울" },
+  { id: "incheon", name: "인천대학교", region: "인천" },
 ];
 
 export const departments: Department[] = [
@@ -16,6 +17,9 @@ export const departments: Department[] = [
   { id: "dongguk-ai", universityId: "dongguk", name: "AI융합학부", category: "자연계" },
   { id: "ssu-sw", universityId: "ssu", name: "소프트웨어학부", category: "자연계" },
   { id: "kw-cs", universityId: "kw", name: "컴퓨터정보공학부", category: "자연계" },
+  { id: "incheon-law", universityId: "incheon", name: "법학부", category: "법·행정" },
+  { id: "incheon-business", universityId: "incheon", name: "경영학부", category: "경영·경제" },
+  { id: "incheon-cs", universityId: "incheon", name: "컴퓨터공학부", category: "컴퓨터·소프트웨어" },
 ];
 
 export const admissions: Admission[] = [
