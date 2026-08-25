@@ -9,7 +9,6 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
     let score = converted.score;
 
     if (admission.csatMinimum?.enabled) score = score * 0.85 + minimumFit * 0.15;
-    if (admission.isMock === false) score += 2;
     score += strategicAdjustment(student, admission);
 
     return { admission, score: Math.round(clamp(score + offset)) };
@@ -41,7 +40,7 @@ function buildReason(admission: Admission, score: number) {
   const parts = [admission.type === "학종" ? "학생부 중심" : "교과 중심"];
   if (admission.interview) parts.push("면접 변수 있음");
   if (admission.csatMinimum?.enabled) parts.push("수능최저 반영");
-  if (admission.source?.type === "adiga" || admission.isMock === false) parts.push("2027 확인 데이터");
+  if (admission.source?.type === "adiga") parts.push("2027 확인 데이터");
   return `${parts.join(" · ")} · 전략 적합도 ${score}`;
 }
 
