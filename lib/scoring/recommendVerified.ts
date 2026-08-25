@@ -25,11 +25,15 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
 }
 
 function strategicAdjustment(student: StudentProfile, admission: Admission) {
+  const gradeAverage = student.gradeAverage ?? 3;
+  const studentRecordLink = student.studentRecordLink ?? 3;
+  const csatMinimumChance = student.csatMinimumChance ?? 3;
+
   let adjustment = 0;
-  if (admission.type === "학종") adjustment += student.studentRecordLink >= 4 ? 4 : -2;
-  if (admission.type === "교과") adjustment += student.gradeAverage <= 2.5 ? 4 : -3;
-  if (admission.interview) adjustment += student.studentRecordLink >= 4 ? 2 : -2;
-  if (admission.csatMinimum?.enabled) adjustment += student.csatMinimumChance >= 4 ? 2 : -5;
+  if (admission.type === "학종") adjustment += studentRecordLink >= 4 ? 4 : -2;
+  if (admission.type === "교과") adjustment += gradeAverage <= 2.5 ? 4 : -3;
+  if (admission.interview) adjustment += studentRecordLink >= 4 ? 2 : -2;
+  if (admission.csatMinimum?.enabled) adjustment += csatMinimumChance >= 4 ? 2 : -5;
   return adjustment;
 }
 
