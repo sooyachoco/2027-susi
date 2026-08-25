@@ -42,6 +42,7 @@ export type Admission = {
   academicYear: number;
   name: string;
   type: AdmissionType;
+  majorGroup?: string;
   recruitmentCount?: number;
   studentRecordWeight?: number;
   interview?: boolean;
