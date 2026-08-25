@@ -13,6 +13,10 @@ export const verified2027Universities: University[] = [
   { id: "kyunggi", name: "경기대학교", region: "경기" },
   { id: "tukorea", name: "한국공학대학교", region: "경기" },
   { id: "myongji", name: "명지대학교", region: "경기" },
+  { id: "gachon", name: "가천대학교", region: "경기" },
+  { id: "sungshin", name: "성신여자대학교", region: "서울" },
+  { id: "kookmin", name: "국민대학교", region: "서울" },
+  { id: "kwangwoon", name: "광운대학교", region: "서울" },
 ];
 
 export const verified2027Departments: Department[] = [
@@ -43,6 +47,10 @@ export const verified2027Departments: Department[] = [
   { id: "myongji-ai-business", universityId: "myongji", name: "AI 경영정보학과", category: "경영·경제" },
   { id: "myongji-ai-cs", universityId: "myongji", name: "AI 컴퓨터공학전공", category: "컴퓨터·소프트웨어" },
   { id: "myongji-electronics", universityId: "myongji", name: "전기전자공학부", category: "전기·전자" },
+  { id: "gachon-law", universityId: "gachon", name: "법학과", category: "법·행정" },
+  { id: "sungshin-law", universityId: "sungshin", name: "법학부", category: "법·행정" },
+  { id: "kookmin-law", universityId: "kookmin", name: "법학부", category: "법·행정" },
+  { id: "kwangwoon-law", universityId: "kwangwoon", name: "법학부", category: "법·행정" },
 ];
 
 const sourceSkku = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000133");
@@ -54,6 +62,10 @@ const sourceEwha = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.d
 const sourceKyunggi = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000056");
 const sourceTukorea = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000247");
 const sourceMyongji = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000109");
+const sourceGachon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
+const sourceSungshin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
+const sourceKookmin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
+const sourceKwangwoon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
 
 export const verified2027Admissions: Admission[] = [
   ...["skku-sw", "skku-business", "skku-global-business", "skku-global-economics", "skku-cs"].flatMap((departmentId) => [
@@ -77,4 +89,11 @@ export const verified2027Admissions: Admission[] = [
     { id: `tukorea-kyogwa-${departmentId}`, universityId: "tukorea", departmentId, academicYear: 2027, name: "학생부교과(교과우수자)", type: "교과" as const, source: sourceTukorea, isMock: false },
   ]),
   ...["myongji-business", "myongji-ai-business", "myongji-ai-cs", "myongji-electronics"].map((departmentId) => ({ id: `myongji-holistic-${departmentId}`, universityId: "myongji", departmentId, academicYear: 2027, name: "학생부종합", type: "학종" as const, source: sourceMyongji, isMock: false })),
+  { id: "gachon-law-kyogwa-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "학생부교과", type: "교과", source: sourceGachon, isMock: false },
+  { id: "gachon-law-holistic-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "학생부종합", type: "학종", source: sourceGachon, isMock: false },
+  { id: "gachon-law-essay-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "논술", type: "교과", source: sourceGachon, isMock: false },
+  { id: "sungshin-law-holistic-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "학생부종합(자기주도인재)", type: "학종", source: sourceSungshin, isMock: false },
+  { id: "sungshin-law-opportunity-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "기회균형Ⅰ", type: "학종", source: sourceSungshin, isMock: false },
+  { id: "sungshin-law-kyogwa-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "학생부교과(지역균형)", type: "교과", source: sourceSungshin, isMock: false },
+  { id: "kwangwoon-law-essay-2027", universityId: "kwangwoon", departmentId: "kwangwoon-law", academicYear: 2027, name: "논술우수자전형", type: "교과", source: sourceKwangwoon, isMock: false },
 ];
