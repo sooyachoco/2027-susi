@@ -68,4 +68,18 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.99,
   },
+  ajou2027: {
+    type: "university",
+    url: "https://www.iajou.ac.kr/notice/?f=&m_type=SUSI&nPage=&s=",
+    document: "2027학년도 아주대학교 수시 모집요강 공고/수정 공고",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
+  inha2027: {
+    type: "adiga",
+    url: "https://www.adiga.kr/ucp/uvt/uni/univDetail.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000169",
+    document: "인하대학교 2027학년도 대학정보 및 수시 모집요강",
+    academicYear: 2027,
+    confidence: 0.95,
+  },
 };
