@@ -12,13 +12,14 @@ import type { AdmissionQuery, AdmissionRepository, University } from "./types";
 export class HybridAdmissionRepository implements AdmissionRepository {
   async getUniversities(region?: AdmissionQuery["region"]): Promise<University[]> {
     const all = dedupeById([...universities, ...expanded2027Universities]);
-    const scoped = all
-      .filter((university) => isTargetRegion(university.region))
-      .map((university) => ({
+    const scoped: University[] = all.flatMap((university) => {
+      if (!isTargetRegion(university.region)) return [];
+      return [{
         id: university.id,
         name: university.name,
         region: university.region,
-      }));
+      }];
+    });
     return region ? scoped.filter((university) => university.region === region) : scoped;
   }
 
