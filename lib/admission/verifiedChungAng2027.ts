@@ -6,7 +6,7 @@ export const verifiedChungAng2027Universities: University[] = [
 
 const explorationNames = [
   "국어국문학부", "영어영문학과", "유럽문화학부", "아시아문화학부", "정치국제학과", "심리학과", "사회복지학부", "도시계획·부동산학과", "공공인재학부", "미디어커뮤니케이션학부",
-  "경제학부", "광고홍보학부", "국제물류학과", "산업보안학과(인문)", "경영학부", "간호학과", "산업보안학과(자연)",
+  "경제학부", "광고홍보학부", "국제물류학과", "산업보안학과(인문)", "경영학부", "응용통계학과", "간호학과", "산업보안학과(자연)",
   "물리학과", "화학과", "생명과학과", "수학과", "사회기반시스템공학부", "건축학부", "에너지시스템공학부", "화학공학과", "기계공학부",
   "전자전기공학부", "융합공학부", "지능형반도체공학과", "소프트웨어학부", "AI학과", "약학부", "의학부", "생명자원공학부", "식품공학부", "시스템생명공학과", "첨단소재공학과", "예술공학부",
 ];
@@ -74,7 +74,6 @@ export const verifiedChungAng2027Admissions: Admission[] = verifiedChungAng2027D
   return admissions;
 });
 
-// Keep this map intentionally exported for later validation/reporting.
 export const verifiedChungAng2027GrowthDepartments = growthNames
   .map((name) => departmentByName.get(name))
   .filter((department): department is Department => Boolean(department));
