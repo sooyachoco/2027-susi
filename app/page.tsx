@@ -40,7 +40,7 @@ export default function Page() {
 
   const complete = isProfileComplete(profile);
   const competitiveness = useMemo(() => calcCompetitiveness(profile), [profile]);
-  const recommendations = useMemo(() => complete && analysisStarted ? recommendSix(profile, admissions, offset) : [], [profile, admissions, offset, complete, analysisStarted]);
+  const recommendations = useMemo(() => complete && analysisStarted ? recommendSix(profile, admissions, offset, universities) : [], [profile, admissions, universities, offset, complete, analysisStarted]);
   const uniById = useMemo(() => new Map(universities.map((u) => [u.id, u])), [universities]);
   const deptById = useMemo(() => new Map(departments.map((d) => [d.id, d])), [departments]);
   const admissionById = useMemo(() => new Map(admissions.map((a) => [a.id, a])), [admissions]);
