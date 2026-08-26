@@ -103,4 +103,12 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.95,
   },
+  hanshin2027: {
+    type: "university",
+    url: "https://ent.hs.ac.kr/ipsi/pages/?b=B_1_1&bn=22867&m=read&p=17",
+    document: "2027학년도 한신대학교 신입학 수시모집요강_최종",
+    academicYear: 2027,
+    confidence: 0.99,
+    verifiedAt: "2026-08-26",
+  },
 };
