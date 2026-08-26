@@ -26,7 +26,7 @@ export const verifiedEwha2027Admissions: Admission[] = verifiedEwha2027Departmen
     universityId: "ewha-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "학생부종합",
+    type: "학종",
     name: "미래인재전형",
     isMock: false,
   },
