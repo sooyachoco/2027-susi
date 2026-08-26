@@ -8,7 +8,8 @@ export async function GET() {
   ]);
 
   const byRegion = universities.reduce<Record<string, number>>((acc, university) => {
-    acc[university.region] = (acc[university.region] ?? 0) + 1;
+    const region = university.region ?? "미지정";
+    acc[region] = (acc[region] ?? 0) + 1;
     return acc;
   }, {});
 
@@ -23,13 +24,26 @@ export async function GET() {
     return acc;
   }, {});
 
-  const universityDepartmentCounts = universities.map((university) => ({
-    universityId: university.id,
-    universityName: university.name,
-    region: university.region,
-    departmentCount: departments.filter((department) => department.universityId === university.id).length,
-    admissionCount: admissions.filter((admission) => admission.universityId === university.id).length,
-  }));
+  const byCategory = departments.reduce<Record<string, number>>((acc, department) => {
+    const category = department.majorGroup ?? department.category ?? "미분류";
+    acc[category] = (acc[category] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  const universityDepartmentCounts = universities.map((university) => {
+    const universityDepartments = departments.filter((department) => department.universityId === university.id);
+    const universityAdmissions = admissions.filter((admission) => admission.universityId === university.id);
+    return {
+      universityId: university.id,
+      universityName: university.name,
+      region: university.region,
+      departmentCount: universityDepartments.length,
+      admissionCount: universityAdmissions.length,
+      departmentsWithoutAdmissions: universityDepartments
+        .filter((department) => !universityAdmissions.some((admission) => admission.departmentId === department.id))
+        .map((department) => department.name),
+    };
+  });
 
   const duplicateAdmissionGroups = Object.values(
     admissions.reduce<Record<string, number>>((acc, admission) => {
@@ -41,16 +55,37 @@ export async function GET() {
     }, {}),
   ).filter((count) => count > 1).length;
 
+  const sparseUniversities = universityDepartmentCounts
+    .filter((item) => item.departmentCount < 3 || item.admissionCount < 3)
+    .sort((a, b) => (a.admissionCount - b.admissionCount) || (a.departmentCount - b.departmentCount));
+
+  const targetEducationNames = ["교육", "유아교육", "특수교육", "초등교육", "국어교육", "영어교육", "수학교육", "사회교육", "미술교육"];
+  const educationCoverage = targetEducationNames.map((target) => {
+    const matches = departments.filter((department) => {
+      const text = `${department.name} ${department.majorGroup ?? ""} ${department.category ?? ""}`;
+      return text.includes(target);
+    });
+    return {
+      target,
+      departmentCount: matches.length,
+      universityCount: new Set(matches.map((department) => department.universityId)).size,
+      admissionCount: admissions.filter((admission) => matches.some((department) => department.id === admission.departmentId)).length,
+    };
+  });
+
   return Response.json({
     generatedAt: new Date().toISOString(),
-    scope: "서울·경기·인천 / 2027 / isMock=false",
+    scope: "서울·경기·인천 / 2027 / 최종 추천 저장소",
     universities: universities.length,
     departments: departments.length,
     admissions: admissions.length,
     byRegion,
     byType,
     bySource,
+    byCategory,
     duplicateAdmissionGroups,
+    sparseUniversities,
+    educationCoverage,
     universitiesDetail: universityDepartmentCounts,
   });
 }
