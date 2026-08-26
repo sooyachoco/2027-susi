@@ -32,13 +32,14 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedMetroCore2027Universities, ...verifiedSoongsil2027Universities,
       ...verifiedDongguk2027Universities, ...verifiedChungAng2027Universities,
     ]);
+
     const scoped = all.filter((university) => isTargetRegion(university.region));
     const normalized: University[] = scoped.map((university) => ({
       id: university.id,
       name: university.name,
       region: university.region as AdmissionRegion,
     }));
-    const uniqueByName = preferVerifiedUniversities(normalized);
+    const uniqueByName = dedupeUniversityNames(normalized);
     return region ? uniqueByName.filter((university) => university.region === region) : uniqueByName;
   }
 
@@ -89,7 +90,7 @@ function dedupeById<T extends { id: string }>(items: T[]): T[] {
   });
 }
 
-function preferVerifiedUniversities(items: University[]): University[] {
+function dedupeUniversityNames(items: University[]): University[] {
   const map = new Map<string, University>();
   for (const item of items) {
     const key = normalizeUniversityName(item.name);
