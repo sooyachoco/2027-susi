@@ -2,11 +2,12 @@ import type { Admission, Department, University } from "@/lib/types";
 import { MOCK_ADMISSIONS, MOCK_DEPARTMENTS, MOCK_UNIVERSITIES } from "@/lib/data/mock";
 import { verified2027Admissions, verified2027Departments, verified2027Universities } from "@/lib/admission/real2027";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "@/lib/admission/expanded2027";
+import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "@/lib/admission/remainingMetro2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
-const verified: Admission[] = [...verified2027Admissions, ...expanded2027Admissions].map((a) => ({ ...a }));
-const verifiedUniversities: University[] = [...verified2027Universities, ...expanded2027Universities];
-const verifiedDepartments: Department[] = [...verified2027Departments, ...expanded2027Departments];
+const verified: Admission[] = [...verified2027Admissions, ...expanded2027Admissions, ...remainingMetro2027Admissions].map((a) => ({ ...a }));
+const verifiedUniversities: University[] = [...verified2027Universities, ...expanded2027Universities, ...remainingMetro2027Universities];
+const verifiedDepartments: Department[] = [...verified2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments];
 
 const mergedAdmissions: Admission[] = [
   ...MOCK_ADMISSIONS.filter((mock) => !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId)),
