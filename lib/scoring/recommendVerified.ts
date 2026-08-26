@@ -1,12 +1,15 @@
 import type { Admission, Department, Recommendation, StudentProfile, University } from "@/lib/types";
-import { verified2027Departments } from "@/lib/admission/real2027";
-import { expanded2027Departments } from "@/lib/admission/expanded2027";
-import { remainingMetro2027Departments } from "@/lib/admission/remainingMetro2027";
 import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 
-export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0, universities: University[] = []): Recommendation[] {
+export function recommendSix(
+  student: StudentProfile,
+  admissions: Admission[],
+  offset = 0,
+  universities: University[] = [],
+  departments: Department[] = [],
+): Recommendation[] {
   const desired = student.desiredMajor.trim();
-  const majorMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a)) : admissions;
+  const majorMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a, departments)) : admissions;
   if (desired && majorMatched.length === 0) return [];
 
   const scored = majorMatched.map((admission) => {
@@ -42,20 +45,18 @@ function scoreVariation(seed: number, id: string): number {
   return (Math.abs(hash) % 7) - 3;
 }
 
-function majorNameMatches(query: string, admission: Admission): boolean {
+function majorNameMatches(query: string, admission: Admission, departments: Department[]): boolean {
   const q = normalizeText(query);
   if (!q) return true;
-  const department = findDepartment(admission.departmentId);
-  const names = [department?.name, department?.category, department?.majorGroup, admission.name, admission.majorGroup].filter((value): value is string => Boolean(value));
+  const department = departments.find((item) => item.id === admission.departmentId);
+  const names = [department?.name, department?.category, admission.name, admission.majorGroup]
+    .filter((value): value is string => Boolean(value));
   if (names.some((name) => normalizeText(name).includes(q) || q.includes(normalizeText(name)))) return true;
   const queryGroups = majorTags(q);
   if (queryGroups.length === 0) return false;
   return names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
 }
 
-function findDepartment(id: string): Department | undefined {
-  return [...verified2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments].find((item) => item.id === id);
-}
 function normalizeText(value: string): string { return value.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase(); }
 
 function majorTags(value: string): string[] {
