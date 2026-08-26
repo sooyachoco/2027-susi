@@ -8,12 +8,7 @@ const source = {
   confidence: 0.95,
 };
 
-/**
- * 2027학년도 공식 자료에서 모집단위/전형 관계가 명시적으로 확인된
- * 숙명여자대학교 핵심 데이터.
- *
- * 확인된 범위만 추천 풀에 넣고, 전체 모집단위 확장은 별도 검증 후 진행한다.
- */
+/** 2027학년도 공식 자료에서 모집단위/전형 관계가 명시적으로 확인된 숙명여자대학교 핵심 데이터. */
 export const verifiedSookmyung2027Universities: University[] = [
   { id: "sookmyung", name: "숙명여자대학교", region: "서울" },
 ];
@@ -33,7 +28,6 @@ export const verifiedSookmyung2027Admissions: Admission[] = [
     academicYear: 2027,
     name: "소프트웨어인재",
     type: "학종" as const,
-    recruitmentCount: departmentId === "sookmyung-ai" ? 0 : undefined,
     documentWeight: 100,
     interview: true,
     csatMinimum: { enabled: false },
