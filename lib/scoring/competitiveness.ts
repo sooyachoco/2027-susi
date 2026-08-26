@@ -19,13 +19,25 @@ function levelToScore(level: number): number {
   return (level / 5) * 100;
 }
 
+function isFiniteNumber(value: number | null): value is number {
+  return value !== null && Number.isFinite(value);
+}
+
 export function isProfileComplete(student: StudentProfile): boolean {
   return (
-    student.gradeAverage !== null &&
+    isFiniteNumber(student.gradeAverage) &&
+    student.gradeAverage >= 1 &&
+    student.gradeAverage <= 9 &&
     student.desiredMajor.trim().length > 0 &&
-    student.mockAverage !== null &&
-    student.studentRecordLink !== null &&
-    student.csatMinimumChance !== null
+    isFiniteNumber(student.mockAverage) &&
+    student.mockAverage >= 1 &&
+    student.mockAverage <= 9 &&
+    isFiniteNumber(student.studentRecordLink) &&
+    student.studentRecordLink >= 2 &&
+    student.studentRecordLink <= 5 &&
+    isFiniteNumber(student.csatMinimumChance) &&
+    student.csatMinimumChance >= 2 &&
+    student.csatMinimumChance <= 5
   );
 }
 
@@ -34,10 +46,10 @@ export function calcCompetitiveness(student: StudentProfile): Competitiveness {
     return { subject: 0, holistic: 0, csatMinimum: 0, total: 0 };
   }
 
-  const gradeScore = gradeToScore(student.gradeAverage!);
-  const mockScore = mockToScore(student.mockAverage!);
-  const studentRecordLinkScore = levelToScore(student.studentRecordLink!);
-  const csatMinimumChanceScore = levelToScore(student.csatMinimumChance!);
+  const gradeScore = gradeToScore(student.gradeAverage);
+  const mockScore = mockToScore(student.mockAverage);
+  const studentRecordLinkScore = levelToScore(student.studentRecordLink);
+  const csatMinimumChanceScore = levelToScore(student.csatMinimumChance);
 
   const subject = Math.round(gradeScore);
   const holistic = Math.round(gradeScore * 0.45 + studentRecordLinkScore * 0.55);
