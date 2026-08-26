@@ -28,15 +28,6 @@ const adiga = (url: string): DataSource => ({
 
 export const coverageTargets2027: CoverageTarget[] = [
   {
-    universityId: "kyunghee",
-    name: "경희대학교",
-    region: "서울",
-    status: "확장대기",
-    priority: 1,
-    source: adiga("https://m.adiga.kr/mob/ucp/uvt/uni/univDetailSelection.do?menuId=MOUVTINF1001&searchSyr=2027&unvCd=0000066"),
-    note: "2027 전형평가기준 확인. 서울 주요 대학 우선 확장 대상.",
-  },
-  {
     universityId: "hufs",
     name: "한국외국어대학교",
     region: "서울",
@@ -80,15 +71,6 @@ export const coverageTargets2027: CoverageTarget[] = [
     priority: 2,
     source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000212"),
     note: "2027 전형평가기준 및 모집요강 존재 확인.",
-  },
-  {
-    universityId: "hanyang-erica",
-    name: "한양대학교(ERICA)",
-    region: "경기",
-    status: "확장대기",
-    priority: 1,
-    source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetail.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000204"),
-    note: "ERICA 2027 모집요강 및 전형평가기준 확인.",
   },
   {
     universityId: "catholic",
