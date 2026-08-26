@@ -51,7 +51,7 @@ export const verifiedDongguk2027Admissions: Admission[] = verifiedDongguk2027Dep
   if (/교육|체육|영화|스포츠|약학/.test(department.name)) {
     admissions.push({
       id: `${department.id}-special`, universityId: "dongguk-2027", departmentId: department.id, academicYear: 2027,
-      name: "실기/실적", type: "실기", source, isMock: false,
+      name: "실기/실적", type: "기타", source, isMock: false,
     });
   }
   return admissions;
