@@ -22,6 +22,11 @@ import {
   verifiedKwangwoon2027Departments,
   verifiedKwangwoon2027Universities,
 } from "./verifiedKwangwoon2027";
+import {
+  verifiedUos2027Admissions,
+  verifiedUos2027Departments,
+  verifiedUos2027Universities,
+} from "./verifiedUos2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University } from "./types";
 
@@ -39,6 +44,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedGachonAllFields2027Universities,
       ...verifiedIncheonAllFields2027Universities,
       ...verifiedKwangwoon2027Universities,
+      ...verifiedUos2027Universities,
     ]);
     const scoped: University[] = all.flatMap((university) => {
       if (!isTargetRegion(university.region)) return [];
@@ -55,6 +61,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedGachonAllFields2027Departments,
       ...verifiedIncheonAllFields2027Departments,
       ...verifiedKwangwoon2027Departments,
+      ...verifiedUos2027Departments,
     ]);
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
@@ -69,6 +76,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedGachonAllFields2027Admissions,
       ...verifiedIncheonAllFields2027Admissions,
       ...verifiedKwangwoon2027Admissions,
+      ...verifiedUos2027Admissions,
     ].filter((admission) => !admission.isMock);
 
     return all.filter((a) =>
