@@ -89,4 +89,11 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.99,
   },
+  sejong2027: {
+    type: "university",
+    url: "https://ipsi.sejong.ac.kr/sub_page/sub6/0101_view.asp?B_CATEGORY=1&B_CODE=BOARD_1455878015&IDX=1128&gotopage=78&search_category=&searchstring=&tab1=6",
+    document: "2027학년도 세종대학교 수시모집 모집요강 공지(2026-05-29)",
+    academicYear: 2027,
+    confidence: 0.99,
+  },
 };
