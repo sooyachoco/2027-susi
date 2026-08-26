@@ -1,10 +1,10 @@
-import type { Admission, Department, Recommendation, StudentProfile } from "@/lib/types";
+import type { Admission, Department, Recommendation, StudentProfile, University } from "@/lib/types";
 import { verified2027Departments } from "@/lib/admission/real2027";
 import { expanded2027Departments } from "@/lib/admission/expanded2027";
 import { remainingMetro2027Departments } from "@/lib/admission/remainingMetro2027";
 import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 
-export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0): Recommendation[] {
+export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0, universities: University[] = []): Recommendation[] {
   const desired = student.desiredMajor.trim();
   const majorMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a)) : admissions;
   if (desired && majorMatched.length === 0) return [];
@@ -21,14 +21,12 @@ export function recommendSix(student: StudentProfile, admissions: Admission[], o
   const ranked = [...scored].sort((a, b) => b.score - a.score || a.admission.id.localeCompare(b.admission.id));
   const seed = Math.abs(offset);
   const rotated = rotateBySeed(ranked, seed);
-  const diversified = diversifyUniversities(rotated, 6);
+  const diversified = diversifyUniversities(rotated, 6, universities);
 
-  return diversified.map((item) => ({
-    tier: tierForScore(item.score),
-    admissionId: item.admission.id,
-    score: Math.round(clamp(item.score + scoreVariation(seed, item.admission.id))),
-    reason: buildReason(item.admission, Math.round(clamp(item.score + scoreVariation(seed, item.admission.id)))),
-  }));
+  return diversified.map((item) => {
+    const score = Math.round(clamp(item.score + scoreVariation(seed, item.admission.id)));
+    return { tier: tierForScore(score), admissionId: item.admission.id, score, reason: buildReason(item.admission, score) };
+  });
 }
 
 function rotateBySeed<T>(items: T[], seed: number): T[] {
@@ -48,15 +46,11 @@ function majorNameMatches(query: string, admission: Admission): boolean {
   const q = normalizeText(query);
   if (!q) return true;
   const department = findDepartment(admission.departmentId);
-  const names = [department?.name, department?.category, department?.majorGroup, admission.name, admission.majorGroup]
-    .filter((value): value is string => Boolean(value));
+  const names = [department?.name, department?.category, department?.majorGroup, admission.name, admission.majorGroup].filter((value): value is string => Boolean(value));
   if (names.some((name) => normalizeText(name).includes(q) || q.includes(normalizeText(name)))) return true;
   const queryGroups = majorTags(q);
   if (queryGroups.length === 0) return false;
-  return names.some((name) => {
-    const tags = majorTags(name);
-    return queryGroups.some((group) => tags.includes(group));
-  });
+  return names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
 }
 
 function findDepartment(id: string): Department | undefined {
@@ -71,26 +65,31 @@ function majorTags(value: string): string[] {
   add("교육", /교육|교직|교원|사범/); add("유아교육", /유아|아동교육/); add("초등교육", /초등/); add("특수교육", /특수교육/);
   add("미술교육", /미술교육|조형교육/); add("음악교육", /음악교육/); add("체육교육", /체육교육/); add("국어교육", /국어교육/);
   add("영어교육", /영어교육/); add("수학교육", /수학교육/); add("컴퓨터교육", /컴퓨터교육|정보교육|소프트웨어교육/);
-  add("경영·경제", /경영|경제|회계|세무|금융|마케팅|무역|통상|관광경영/);
-  add("법·행정", /법학|법무|법률|행정|정치|정책|경찰|공공인재/);
-  add("사회·정책", /사회|사회학|사회과학|정치외교|행정|미디어|언론|심리|복지|국제관계|외교/);
-  add("어문·인문", /국어|영어|중국어|중어|일본어|일어|불어|독어|어문|문학|철학|사학|역사|인문/);
-  add("컴퓨터·소프트웨어", /컴퓨터|소프트웨어|인공지능|ai|데이터|정보보호|사이버|빅데이터|정보통신|it/);
-  add("전기·전자", /전기|전자|반도체|통신|임베디드|전력|제어/); add("기계·로봇", /기계|자동차|로봇|메카트로닉스|모빌리티|항공우주/);
-  add("화학·신소재", /화학|화공|신소재|재료|고분자|에너지|소재/); add("생명·바이오", /생명|바이오|식품|생물|유전|환경생명/);
-  add("건축·도시·환경", /건축|토목|도시|환경|건설|조경|인프라/); add("자연과학", /수학|통계|물리|천문|지구과학|과학/);
-  add("의료·보건", /간호|의예|의학|치의|약학|한의|보건|방사선|임상병리|물리치료|작업치료|치위생|응급구조|재활|의료/);
+  add("경영·경제", /경영|경제|회계|세무|금융|마케팅|무역|통상|관광경영/); add("법·행정", /법학|법무|법률|행정|정치|정책|경찰|공공인재/);
+  add("사회·정책", /사회|사회학|사회과학|정치외교|행정|미디어|언론|심리|복지|국제관계|외교/); add("어문·인문", /국어|영어|중국어|중어|일본어|일어|불어|독어|어문|문학|철학|사학|역사|인문/);
+  add("컴퓨터·소프트웨어", /컴퓨터|소프트웨어|인공지능|ai|데이터|정보보호|사이버|빅데이터|정보통신|it/); add("전기·전자", /전기|전자|반도체|통신|임베디드|전력|제어/);
+  add("기계·로봇", /기계|자동차|로봇|메카트로닉스|모빌리티|항공우주/); add("화학·신소재", /화학|화공|신소재|재료|고분자|에너지|소재/);
+  add("생명·바이오", /생명|바이오|식품|생물|유전|환경생명/); add("건축·도시·환경", /건축|토목|도시|환경|건설|조경|인프라/);
+  add("자연과학", /수학|통계|물리|천문|지구과학|과학/); add("의료·보건", /간호|의예|의학|치의|약학|한의|보건|방사선|임상병리|물리치료|작업치료|치위생|응급구조|재활|의료/);
   add("예체능", /디자인|미술|음악|체육|연극|영화|공연|조형|예술|콘텐츠|애니메이션|사진|뷰티|무용/);
   return [...new Set(tags)];
 }
 
-function diversifyUniversities(items: Array<{ admission: Admission; score: number }>, limit: number) {
+function diversifyUniversities(items: Array<{ admission: Admission; score: number }>, limit: number, universities: University[]) {
+  const universityNameById = new Map(universities.map((u) => [u.id, normalizeText(u.name)]));
   const selected: Array<{ admission: Admission; score: number }> = [];
   const used = new Set<string>();
-  for (const item of items) { if (selected.length >= limit) break; if (!used.has(item.admission.universityId)) { selected.push(item); used.add(item.admission.universityId); } }
+  for (const item of items) {
+    if (selected.length >= limit) break;
+    const universityKey = universityNameById.get(item.admission.universityId) || item.admission.universityId;
+    if (!used.has(universityKey)) { selected.push(item); used.add(universityKey); }
+  }
   if (selected.length < limit) {
     const ids = new Set(selected.map((x) => x.admission.id));
-    for (const item of items) { if (selected.length >= limit) break; if (!ids.has(item.admission.id)) { selected.push(item); ids.add(item.admission.id); } }
+    for (const item of items) {
+      if (selected.length >= limit) break;
+      if (!ids.has(item.admission.id)) { selected.push(item); ids.add(item.admission.id); }
+    }
   }
   return selected;
 }
