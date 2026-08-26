@@ -3,6 +3,7 @@ import { MOCK_ADMISSIONS, MOCK_DEPARTMENTS, MOCK_UNIVERSITIES } from "@/lib/data
 import { verified2027Admissions, verified2027Departments, verified2027Universities } from "@/lib/admission/real2027";
 import { verifiedHanyang2027Admissions, verifiedHanyang2027Departments, verifiedHanyang2027Universities } from "@/lib/admission/verifiedHanyang2027";
 import { verifiedMetroTop2027Admissions, verifiedMetroTop2027Departments, verifiedMetroTop2027Universities } from "@/lib/admission/verifiedMetroTop2027";
+import { verifiedMajorMetro2027Admissions, verifiedMajorMetro2027Departments, verifiedMajorMetro2027Universities } from "@/lib/admission/verifiedMajorMetro2027";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "@/lib/admission/expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "@/lib/admission/remainingMetro2027";
 import { capital2027Admissions, capital2027Departments, capital2027Universities } from "@/lib/admission/capital2027";
@@ -14,6 +15,7 @@ const verified: Admission[] = [
   ...verified2027Admissions,
   ...verifiedHanyang2027Admissions,
   ...verifiedMetroTop2027Admissions,
+  ...verifiedMajorMetro2027Admissions,
   ...expanded2027Admissions,
   ...remainingMetro2027Admissions,
   ...capital2027Admissions,
@@ -22,6 +24,7 @@ const verifiedUniversities: University[] = [
   ...verified2027Universities,
   ...verifiedHanyang2027Universities,
   ...verifiedMetroTop2027Universities,
+  ...verifiedMajorMetro2027Universities,
   ...expanded2027Universities,
   ...remainingMetro2027Universities,
   ...capital2027Universities,
@@ -30,6 +33,7 @@ const verifiedDepartments: Department[] = [
   ...verified2027Departments,
   ...verifiedHanyang2027Departments,
   ...verifiedMetroTop2027Departments,
+  ...verifiedMajorMetro2027Departments,
   ...expanded2027Departments,
   ...remainingMetro2027Departments,
   ...capital2027Departments,
