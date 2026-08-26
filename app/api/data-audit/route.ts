@@ -1,5 +1,6 @@
 import { verifiedAdmissionRepository } from "@/lib/admission/hybridRepository";
 import { buildCoveragePriority } from "@/lib/audit/coveragePriority";
+import { auditEducationCoverage } from "@/lib/audit/educationCoverage";
 
 export async function GET() {
   const [universities, departments, admissions] = await Promise.all([
@@ -65,21 +66,7 @@ export async function GET() {
     .filter((item) => item.departmentCount < 3 || item.admissionCount < 3)
     .sort((a, b) => (a.admissionCount - b.admissionCount) || (a.departmentCount - b.departmentCount));
 
-  const targetEducationNames = ["교육", "유아교육", "특수교육", "초등교육", "국어교육", "영어교육", "수학교육", "사회교육", "미술교육"];
-  const educationCoverage = targetEducationNames.map((target) => {
-    const matches = departments.filter((department) => {
-      const text = `${department.name} ${department.category ?? ""}`;
-      return text.includes(target);
-    });
-    const matchIds = new Set(matches.map((department) => department.id));
-    return {
-      target,
-      departmentCount: matches.length,
-      universityCount: new Set(matches.map((department) => department.universityId)).size,
-      admissionCount: admissions.filter((admission) => matchIds.has(admission.departmentId)).length,
-    };
-  });
-
+  const educationCoverage = auditEducationCoverage(departments, admissionsByDepartment);
   const coveragePriority = buildCoveragePriority(departments, admissionsByDepartment);
 
   return Response.json({
