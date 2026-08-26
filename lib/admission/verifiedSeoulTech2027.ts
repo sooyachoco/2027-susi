@@ -50,7 +50,7 @@ export const verifiedSeoulTech2027Admissions: Admission[] = verifiedSeoulTech202
     academicYear: 2027,
     name: "학생부종합(학교생활우수자전형)",
     type: "학종" as const,
-    documentWeight: 100,
+    documentWeight: 70,
     interview: true,
     csatMinimum: { enabled: false },
     source,
