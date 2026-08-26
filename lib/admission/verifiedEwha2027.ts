@@ -20,23 +20,33 @@ export const verifiedEwha2027Departments: Department[] = names.map((name, i) => 
   name,
 }));
 
+const source = {
+  type: "university" as const,
+  url: "https://admission.ewha.ac.kr/admission/html/rolling/guide.asp",
+  document: "이화여자대학교 2027학년도 수시모집요강",
+  academicYear: 2027,
+  confidence: 0.98,
+};
+
 export const verifiedEwha2027Admissions: Admission[] = verifiedEwha2027Departments.flatMap((department) => [
   {
     id: `${department.id}-eureka`,
     universityId: "ewha-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "학종",
-    name: "미래인재전형",
+    type: "학종" as const,
+    name: "미래인재전형-서류형",
     isMock: false,
+    source,
   },
   {
     id: `${department.id}-essay`,
     universityId: "ewha-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "논술",
+    type: "논술" as const,
     name: "논술전형",
     isMock: false,
+    source,
   },
 ]);
