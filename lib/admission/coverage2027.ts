@@ -58,10 +58,10 @@ export const coverageTargets2027: CoverageTarget[] = [
     universityId: "hongik",
     name: "홍익대학교",
     region: "서울",
-    status: "확장대기",
+    status: "부분검증",
     priority: 2,
     source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000212"),
-    note: "2027 전형평가기준 및 모집요강 존재 확인.",
+    note: "경영학부·컴퓨터공학과에 학교생활우수자와 학교장추천자 핵심 전형을 1차 검증·편입. 전체 모집단위 및 논술/고른기회 세부 대조 필요.",
   },
   {
     universityId: "catholic",
