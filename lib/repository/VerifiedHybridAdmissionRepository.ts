@@ -4,6 +4,7 @@ import { verified2027Admissions, verified2027Departments, verified2027Universiti
 import { verifiedHanyang2027Admissions, verifiedHanyang2027Departments, verifiedHanyang2027Universities } from "@/lib/admission/verifiedHanyang2027";
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "@/lib/admission/expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "@/lib/admission/remainingMetro2027";
+import { capital2027Admissions, capital2027Departments, capital2027Universities } from "@/lib/admission/capital2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -13,18 +14,21 @@ const verified: Admission[] = [
   ...verifiedHanyang2027Admissions,
   ...expanded2027Admissions,
   ...remainingMetro2027Admissions,
+  ...capital2027Admissions,
 ].map((a) => ({ ...a }));
 const verifiedUniversities: University[] = [
   ...verified2027Universities,
   ...verifiedHanyang2027Universities,
   ...expanded2027Universities,
   ...remainingMetro2027Universities,
+  ...capital2027Universities,
 ];
 const verifiedDepartments: Department[] = [
   ...verified2027Departments,
   ...verifiedHanyang2027Departments,
   ...expanded2027Departments,
   ...remainingMetro2027Departments,
+  ...capital2027Departments,
 ];
 
 const mergedUniversities: University[] = [
