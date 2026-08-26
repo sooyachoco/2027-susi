@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 216" role="img" aria-label="수시 화이팅!">
+<defs><linearGradient id="cap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59a70"/><stop offset="1" stop-color="#e66e4b"/></linearGradient></defs>
+<g transform="translate(10 15)">
+  <path d="M210 9C124 4 48 25 20 83 4 117 14 151 42 160c30 10 57-7 77-27 24 10 61 10 87 0 21 20 48 37 78 27 28-9 38-43 22-77C278 34 243 13 210 9Z" fill="url(#cap)" stroke="#4c342d" stroke-width="7"/>
+  <path d="M74 45c30 10 57 29 72 58M47 77c33 9 63 30 82 59M176 21c27 17 49 40 62 69M222 24c20 17 35 37 44 60" fill="none" stroke="#fff1df" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+  <path d="M82 128c18-30 44-44 78-44 36 0 64 14 83 44l8 38c-5 31-38 43-91 43-52 0-84-12-89-43Z" fill="#fffaf0" stroke="#4c342d" stroke-width="7"/>
+  <circle cx="116" cy="141" r="11" fill="#4c342d"/><circle cx="194" cy="141" r="11" fill="#4c342d"/>
+  <ellipse cx="96" cy="163" rx="18" ry="10" fill="#f7a98d" opacity=".65"/><ellipse cx="214" cy="163" rx="18" ry="10" fill="#f7a98d" opacity=".65"/>
+  <path d="M145 157c7 11 20 11 27 0" fill="none" stroke="#4c342d" stroke-width="6" stroke-linecap="round"/>
+</g>
+<text x="330" y="137" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="112" font-weight="800" fill="#ef7650">수시</text>
+<text x="570" y="137" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="112" font-weight="800" fill="#8f9878">화이팅</text>
+<text x="810" y="137" font-family="Arial, sans-serif" font-size="112" font-weight="800" fill="#ef7650">!</text>
+</svg>
