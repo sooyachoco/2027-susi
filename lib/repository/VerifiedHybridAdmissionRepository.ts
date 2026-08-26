@@ -7,6 +7,7 @@ import { verifiedMajorMetro2027Admissions, verifiedMajorMetro2027Departments, ve
 import { expanded2027Admissions, expanded2027Departments, expanded2027Universities } from "@/lib/admission/expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "@/lib/admission/remainingMetro2027";
 import { capital2027Admissions, capital2027Departments, capital2027Universities } from "@/lib/admission/capital2027";
+import { seoulNext2027Admissions, seoulNext2027Departments, seoulNext2027Universities } from "@/lib/admission/seoulNext2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -19,6 +20,7 @@ const verified: Admission[] = [
   ...expanded2027Admissions,
   ...remainingMetro2027Admissions,
   ...capital2027Admissions,
+  ...seoulNext2027Admissions,
 ].map((a) => ({ ...a }));
 const verifiedUniversities: University[] = [
   ...verified2027Universities,
@@ -28,6 +30,7 @@ const verifiedUniversities: University[] = [
   ...expanded2027Universities,
   ...remainingMetro2027Universities,
   ...capital2027Universities,
+  ...seoulNext2027Universities,
 ];
 const verifiedDepartments: Department[] = [
   ...verified2027Departments,
@@ -37,6 +40,7 @@ const verifiedDepartments: Department[] = [
   ...expanded2027Departments,
   ...remainingMetro2027Departments,
   ...capital2027Departments,
+  ...seoulNext2027Departments,
 ];
 
 const mergedUniversities: University[] = [
@@ -44,36 +48,23 @@ const mergedUniversities: University[] = [
   ...verifiedUniversities.filter((university, index, all) => all.findIndex((item) => item.id === university.id) === index),
 ];
 
-// 서비스의 추천/검색 범위는 현재 단계에서 서울·경기·인천 대학에 집중한다.
 const metroUniversityIds = new Set(
-  mergedUniversities
-    .filter((university) => METRO_REGIONS.has(university.region ?? ""))
-    .map((university) => university.id),
+  mergedUniversities.filter((university) => METRO_REGIONS.has(university.region ?? "")).map((university) => university.id),
 );
 
 const mergedAdmissions: Admission[] = [
-  ...MOCK_ADMISSIONS.filter((mock) =>
-    metroUniversityIds.has(mock.universityId) &&
-    !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId),
-  ),
+  ...MOCK_ADMISSIONS.filter((mock) => metroUniversityIds.has(mock.universityId) && !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId)),
   ...verified.filter((admission) => metroUniversityIds.has(admission.universityId)),
 ];
 
 const mergedDepartments: Department[] = [
   ...MOCK_DEPARTMENTS.filter((mock) => metroUniversityIds.has(mock.universityId) && !verifiedDepartments.some((real) => real.id === mock.id)),
-  ...verifiedDepartments.filter((department, index, all) =>
-    metroUniversityIds.has(department.universityId) &&
-    all.findIndex((item) => item.id === department.id) === index,
-  ),
+  ...verifiedDepartments.filter((department, index, all) => metroUniversityIds.has(department.universityId) && all.findIndex((item) => item.id === department.id) === index),
 ];
 
 export class VerifiedHybridAdmissionRepository implements AdmissionRepository {
-  async getUniversities(): Promise<University[]> {
-    return mergedUniversities.filter((university) => METRO_REGIONS.has(university.region ?? ""));
-  }
-  async getDepartments(universityId?: string): Promise<Department[]> {
-    return universityId ? mergedDepartments.filter((d) => d.universityId === universityId) : mergedDepartments;
-  }
+  async getUniversities(): Promise<University[]> { return mergedUniversities.filter((university) => METRO_REGIONS.has(university.region ?? "")); }
+  async getDepartments(universityId?: string): Promise<Department[]> { return universityId ? mergedDepartments.filter((d) => d.universityId === universityId) : mergedDepartments; }
   async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> {
     return mergedAdmissions.filter((a) => {
       if (params?.academicYear && a.academicYear !== params.academicYear) return false;
