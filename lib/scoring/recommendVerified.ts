@@ -8,7 +8,7 @@ import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 export function recommendSix(student: StudentProfile, admissions: Admission[], offset = 0): Recommendation[] {
   const targetGroup = normalizeMajorGroup(student.desiredMajor);
   const majorMatched = targetGroup
-    ? admissions.filter((admission) => getAdmissionMajorGroup(admission) === targetGroup)
+    ? admissions.filter((admission) => normalizeAdmissionMajorGroup(getAdmissionMajorGroup(admission)) === targetGroup)
     : admissions;
 
   if (student.desiredMajor.trim() && majorMatched.length === 0) return [];
@@ -60,11 +60,6 @@ function diversifyUniversities(items: Array<{ admission: Admission; score: numbe
   return selected;
 }
 
-/**
- * 전략 적합도를 기준으로 한 지원 전략 구분.
- * 실제 합격 가능성을 의미하지 않으며, 공식 입결 데이터가 없는 전형은
- * 보수적으로 적정으로 분류한다.
- */
 function tierForScore(score: number): "상향" | "적정" | "안정" {
   if (score >= 86) return "안정";
   if (score >= 70) return "적정";
@@ -77,27 +72,37 @@ function getAdmissionMajorGroup(admission: Admission): string | null {
   const department = [...verified2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments].find(
     (item) => item.id === admission.departmentId,
   );
-  return department?.category ?? null;
+  return department?.majorGroup ?? department?.category ?? null;
 }
 
+/**
+ * 대학마다 사용하는 전공군 명칭이 달라도 하나의 표준 전공군으로 매칭한다.
+ * 예: 사회 / 사회학 / 사회과학 / 인문·사회 / 정치·행정 → 사회·정책
+ */
 function normalizeMajorGroup(major: string): string | null {
-  const value = major.replace(/\s+/g, "").toLowerCase();
+  const value = major.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase();
   if (!value) return null;
-  if (/(경영|business|마케팅|회계|세무|금융|경제|국제통상|무역|유통|호텔경영)/.test(value)) return "경영·경제";
-  if (/(법학|법률|law|법무|법조)/.test(value)) return "법·행정";
-  if (/(컴퓨터|소프트웨어|sw|ai|인공지능|데이터|정보보호|사이버|빅데이터)/.test(value)) return "컴퓨터·소프트웨어";
-  if (/(전자|전기|반도체|전기전자|전자공학|통신|임베디드)/.test(value)) return "전기·전자";
-  if (/(기계|자동차|로봇|메카트로닉스|스마트모빌리티|항공우주)/.test(value)) return "기계·로봇";
-  if (/(화학|화공|신소재|재료|고분자|에너지공학)/.test(value)) return "화학·신소재";
-  if (/(생명|생명공학|바이오|식품|생명과학|환경생명)/.test(value)) return "생명·바이오";
-  if (/(건축|토목|도시|환경공학|건설|조경)/.test(value)) return "건축·도시·환경";
-  if (/(심리|사회|행정|정치|언론|미디어|사회학|공공정책|정책학|국제관계|외교)/.test(value)) return "사회·정책";
-  if (/(국어|영어|중어|중국어|일어|일본어|불어|독어|문헌정보|철학|사학|역사|문화)/.test(value)) return "어문·인문";
-  if (/(교육|유아교육|초등교육|특수교육|교육학|상담교육)/.test(value)) return "교육";
-  if (/(수학|통계|물리|천문|지구과학|화학과학)/.test(value)) return "자연과학";
-  if (/(간호|의예|의학|치의|약학|한의|보건|방사선|임상병리|물리치료|작업치료)/.test(value)) return "의료·보건";
-  if (/(디자인|미술|음악|체육|연극|영화|공연|조형)/.test(value)) return "예체능";
+
+  if (/(경영|business|마케팅|회계|세무|금융|경제|국제통상|무역|유통|호텔경영|관광경영|경영정보|산업경영)/.test(value)) return "경영·경제";
+  if (/(법학|법률|law|법무|법조|법정|법정계열)/.test(value)) return "법·행정";
+  if (/(컴퓨터|소프트웨어|software|sw|ai|인공지능|데이터|정보보호|사이버|빅데이터|컴퓨터공학|정보통신|정보시스템|it)/.test(value)) return "컴퓨터·소프트웨어";
+  if (/(전자|전기|반도체|전기전자|전자공학|통신|임베디드|전력|제어계측)/.test(value)) return "전기·전자";
+  if (/(기계|자동차|로봇|메카트로닉스|스마트모빌리티|항공우주|기계공학|모빌리티)/.test(value)) return "기계·로봇";
+  if (/(화학|화공|신소재|재료|고분자|에너지공학|화학공학|소재)/.test(value)) return "화학·신소재";
+  if (/(생명|생명공학|바이오|식품|생명과학|환경생명|생물|유전공학|식품공학)/.test(value)) return "생명·바이오";
+  if (/(건축|토목|도시|환경공학|건설|조경|건축공학|도시공학|인프라)/.test(value)) return "건축·도시·환경";
+  if (/(사회|사회학|사회과학|인문사회|인문학사회|정치|정치외교|행정|행정학|언론|미디어|신문방송|커뮤니케이션|공공정책|정책학|국제관계|외교|심리|복지|사회복지|아동|청소년|경찰|소방|공공인재|지역개발)/.test(value)) return "사회·정책";
+  if (/(국어|영어|중어|중국어|일어|일본어|불어|독어|문헌정보|철학|사학|역사|문화|문학|언어|어문|인문|인문학)/.test(value)) return "어문·인문";
+  if (/(교육|유아교육|초등교육|특수교육|교육학|상담교육|청소년교육|평생교육)/.test(value)) return "교육";
+  if (/(수학|통계|물리|천문|지구과학|화학과학|수리|과학)/.test(value)) return "자연과학";
+  if (/(간호|의예|의학|치의|약학|한의|보건|방사선|임상병리|물리치료|작업치료|치위생|응급구조|재활|의료|보건의료)/.test(value)) return "의료·보건";
+  if (/(디자인|미술|음악|체육|연극|영화|공연|조형|예술|콘텐츠|애니메이션|사진|뷰티|무용)/.test(value)) return "예체능";
   return value;
+}
+
+function normalizeAdmissionMajorGroup(group: string | null): string | null {
+  if (!group) return null;
+  return normalizeMajorGroup(group);
 }
 
 function strategicAdjustment(student: StudentProfile, admission: Admission) {
