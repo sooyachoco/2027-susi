@@ -33,8 +33,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       if (!isTargetRegion(university.region)) return [];
       return [{ id: university.id, name: university.name, region: university.region }];
     });
-    const uniqueByName = dedupeByName(scoped);
-    return region ? uniqueByName.filter((university) => university.region === region) : uniqueByName;
+    return region ? scoped.filter((university) => university.region === region) : scoped;
   }
 
   async getDepartments(universityId?: string): Promise<Department[]> {
@@ -80,20 +79,6 @@ function dedupeById<T extends { id: string }>(items: T[]): T[] {
     seen.add(item.id);
     return true;
   });
-}
-
-function dedupeByName(items: University[]): University[] {
-  const seen = new Set<string>();
-  return items.filter((item) => {
-    const key = normalizeUniversityName(item.name);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-function normalizeUniversityName(name: string): string {
-  return name.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase();
 }
 
 export const verifiedAdmissionRepository = new HybridAdmissionRepository();
