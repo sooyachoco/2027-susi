@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 216" role="img" aria-label="수시 화이팅!">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 216" role="img" aria-label="수시 화이팅">
 <defs><linearGradient id="cap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59a70"/><stop offset="1" stop-color="#e66e4b"/></linearGradient></defs>
 <g transform="translate(10 15)">
   <path d="M210 9C124 4 48 25 20 83 4 117 14 151 42 160c30 10 57-7 77-27 24 10 61 10 87 0 21 20 48 37 78 27 28-9 38-43 22-77C278 34 243 13 210 9Z" fill="url(#cap)" stroke="#4c342d" stroke-width="7"/>
@@ -10,5 +10,4 @@
 </g>
 <text x="330" y="137" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="112" font-weight="800" fill="#ef7650">수시</text>
 <text x="570" y="137" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="112" font-weight="800" fill="#8f9878">화이팅</text>
-<text x="810" y="137" font-family="Arial, sans-serif" font-size="112" font-weight="800" fill="#ef7650">!</text>
 </svg>
