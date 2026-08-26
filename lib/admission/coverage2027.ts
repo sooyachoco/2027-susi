@@ -49,10 +49,10 @@ export const coverageTargets2027: CoverageTarget[] = [
     universityId: "sejong",
     name: "세종대학교",
     region: "서울",
-    status: "확장대기",
+    status: "부분검증",
     priority: 1,
     source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000138"),
-    note: "세종대학교 입학처가 2026-05-29 2027 수시 모집요강을 공지. 모집단위·전형별 세부 검증 후 편입.",
+    note: "법학부·경영학부·컴퓨터공학과에 대해 세종인재(면접형/서류형)와 지역균형 핵심 전형을 1차 검증·편입. 전체 모집단위 및 특수전형/논술은 추가 대조 필요.",
   },
   {
     universityId: "hongik",
