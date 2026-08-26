@@ -1,9 +1,10 @@
 import type { AdmissionRegion, DataSource } from "./types";
+import { admissionSources } from "./sources";
 
 /**
- * 2027 수도권 데이터 커버리지 백로그.
+ * 2027 수도권 수시 데이터 커버리지 백로그.
  *
- * 대입정보포털에서 2027 자료가 확인되지만 아직 최종 추천 저장소에
+ * 대입정보포털 또는 대학 입학처에서 2027 자료가 확인되지만 아직 최종 추천 저장소에
  * 충분한 모집단위/전형 단위로 편입하지 않은 대학을 관리한다.
  * 이 목록 자체는 추천 데이터가 아니며, 검증 완료 전에는 추천 결과에 사용하지 않는다.
  */
@@ -51,8 +52,8 @@ export const coverageTargets2027: CoverageTarget[] = [
     region: "서울",
     status: "부분검증",
     priority: 1,
-    source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000138"),
-    note: "법학부·경영학부·컴퓨터공학과에 대해 세종인재(면접형/서류형)와 지역균형 핵심 전형을 1차 검증·편입. 전체 모집단위 및 특수전형/논술은 추가 대조 필요.",
+    source: admissionSources.sejong2027,
+    note: "2026-05-29 세종대학교 입학처가 2027 수시모집요강을 공식 공지함. 법학부·경영학부·컴퓨터공학과 핵심 전형을 우선 대조하고, 전체 모집단위·특수전형·논술은 추가 검증한다.",
   },
   {
     universityId: "hongik",
@@ -70,7 +71,7 @@ export const coverageTargets2027: CoverageTarget[] = [
     status: "확장대기",
     priority: 2,
     source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000046"),
-    note: "2027 전형평가기준 및 결과공개 자료 확인.",
+    note: "2027 전형평가기준 및 결과공개 자료 확인. 공식 모집요강과 모집단위별 전형 세부값을 대조한 뒤 verified 편입 예정.",
   },
 ];
 
