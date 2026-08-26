@@ -14,6 +14,7 @@ import { verifiedEwha2027Admissions, verifiedEwha2027Departments, verifiedEwha20
 import { verifiedKookmin2027Admissions, verifiedKookmin2027Departments, verifiedKookmin2027Universities } from "./verifiedKookmin2027";
 import { verifiedMyeongji2027Admissions, verifiedMyeongji2027Departments, verifiedMyeongji2027Universities } from "./verifiedMyeongji2027";
 import { verifiedMetroCore2027Admissions, verifiedMetroCore2027Departments, verifiedMetroCore2027Universities } from "./verifiedMetroCore2027";
+import { verifiedSoongsil2027Admissions, verifiedSoongsil2027Departments, verifiedSoongsil2027Universities } from "./verifiedSoongsil2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University } from "./types";
 
@@ -26,7 +27,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedUos2027Universities, ...verifiedSeoulTech2027Universities,
       ...verifiedSeoulWomen2027Universities, ...verifiedEwha2027Universities,
       ...verifiedKookmin2027Universities, ...verifiedMyeongji2027Universities,
-      ...verifiedMetroCore2027Universities,
+      ...verifiedMetroCore2027Universities, ...verifiedSoongsil2027Universities,
     ]);
     const scoped: University[] = all.flatMap((university) => {
       if (!isTargetRegion(university.region)) return [];
@@ -43,7 +44,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedUos2027Departments, ...verifiedSeoulTech2027Departments,
       ...verifiedSeoulWomen2027Departments, ...verifiedEwha2027Departments,
       ...verifiedKookmin2027Departments, ...verifiedMyeongji2027Departments,
-      ...verifiedMetroCore2027Departments,
+      ...verifiedMetroCore2027Departments, ...verifiedSoongsil2027Departments,
     ]);
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
@@ -58,7 +59,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedUos2027Admissions, ...verifiedSeoulTech2027Admissions,
       ...verifiedSeoulWomen2027Admissions, ...verifiedEwha2027Admissions,
       ...verifiedKookmin2027Admissions, ...verifiedMyeongji2027Admissions,
-      ...verifiedMetroCore2027Admissions,
+      ...verifiedMetroCore2027Admissions, ...verifiedSoongsil2027Admissions,
     ].filter((admission) => !admission.isMock);
 
     return all.filter((a) =>
