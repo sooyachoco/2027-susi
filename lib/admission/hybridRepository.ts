@@ -3,6 +3,7 @@ import { expanded2027Departments, expanded2027Universities } from "./expanded202
 import { remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { verified2027Admissions } from "./verified2027";
 import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verified2027Universities as verifiedCore2027Universities } from "./real2027";
+import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
 import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
 import { verifiedGyeonggi2027Admissions, verifiedGyeonggi2027Departments, verifiedGyeonggi2027Universities } from "./verifiedGyeonggi2027";
 import { verifiedGachonAllFields2027Admissions, verifiedGachonAllFields2027Departments, verifiedGachonAllFields2027Universities } from "./verifiedGachonAllFields2027";
@@ -28,16 +29,10 @@ import { verifiedHufs2027Admissions, verifiedHufs2027Departments, verifiedHufs20
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 
-/**
- * 2027 데이터는 두 층으로 관리한다.
- * - catalog: 대학/학과 탐색용 확장 데이터
- * - verified: 실제 2027 전형 근거가 확인된 데이터
- * 추천과 전형 선택은 verified 풀에서만 나온다.
- */
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
     return dedupeById([
-      ...verified2027Admissions, ...verifiedCore2027Admissions, ...verifiedAjou2027Admissions,
+      ...verified2027Admissions, ...verifiedCore2027Admissions, ...verifiedSookmyung2027Admissions, ...verifiedAjou2027Admissions,
       ...verifiedGyeonggi2027Admissions, ...verifiedGachonAllFields2027Admissions, ...verifiedIncheonAllFields2027Admissions,
       ...verifiedKwangwoon2027Admissions, ...verifiedUos2027Admissions, ...verifiedSeoulTech2027Admissions,
       ...verifiedSeoulWomen2027Admissions, ...verifiedEwha2027Admissions, ...verifiedKookmin2027Admissions,
@@ -54,7 +49,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const verifiedUniversityIds = new Set(verifiedAdmissions.map((admission) => admission.universityId));
     const all = dedupeById([
       ...universities, ...expanded2027Universities, ...remainingMetro2027Universities,
-      ...verifiedCore2027Universities, ...verifiedGyeonggi2027Universities, ...verifiedGachonAllFields2027Universities,
+      ...verifiedCore2027Universities, ...verifiedSookmyung2027Universities, ...verifiedGyeonggi2027Universities, ...verifiedGachonAllFields2027Universities,
       ...verifiedIncheonAllFields2027Universities, ...verifiedKwangwoon2027Universities, ...verifiedUos2027Universities,
       ...verifiedSeoulTech2027Universities, ...verifiedSeoulWomen2027Universities, ...verifiedEwha2027Universities,
       ...verifiedKookmin2027Universities, ...verifiedMyeongji2027Universities, ...verifiedMetroCore2027Universities,
@@ -74,7 +69,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const verifiedDepartmentIds = new Set(verifiedAdmissions.map((admission) => admission.departmentId));
     const all = dedupeById([
       ...departments, ...expanded2027Departments, ...remainingMetro2027Departments,
-      ...verifiedCore2027Departments, ...verifiedGyeonggi2027Departments, ...verifiedGachonAllFields2027Departments,
+      ...verifiedCore2027Departments, ...verifiedSookmyung2027Departments, ...verifiedGyeonggi2027Departments, ...verifiedGachonAllFields2027Departments,
       ...verifiedIncheonAllFields2027Departments, ...verifiedKwangwoon2027Departments, ...verifiedUos2027Departments,
       ...verifiedSeoulTech2027Departments, ...verifiedSeoulWomen2027Departments, ...verifiedEwha2027Departments,
       ...verifiedKookmin2027Departments, ...verifiedMyeongji2027Departments, ...verifiedMetroCore2027Departments,
