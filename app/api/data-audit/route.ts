@@ -9,6 +9,30 @@ export async function GET() {
     verifiedAdmissionRepository.getAdmissions({ academicYear: 2027 }),
   ]);
 
+  const universityIds = new Set(universities.map((university) => university.id));
+  const departmentIds = new Set(departments.map((department) => department.id));
+
+  const orphanDepartments = departments
+    .filter((department) => !universityIds.has(department.universityId))
+    .map((department) => ({ id: department.id, name: department.name, universityId: department.universityId }));
+
+  const orphanAdmissions = admissions
+    .filter((admission) => !universityIds.has(admission.universityId) || !departmentIds.has(admission.departmentId))
+    .map((admission) => ({
+      id: admission.id,
+      name: admission.name,
+      universityId: admission.universityId,
+      departmentId: admission.departmentId,
+    }));
+
+  const non2027Admissions = admissions
+    .filter((admission) => admission.academicYear !== 2027)
+    .map((admission) => ({ id: admission.id, academicYear: admission.academicYear, name: admission.name }));
+
+  const admissionsMissingSource = admissions
+    .filter((admission) => !admission.source?.type)
+    .map((admission) => ({ id: admission.id, name: admission.name }));
+
   const byRegion = universities.reduce<Record<string, number>>((acc, university) => {
     const region = university.region ?? "미지정";
     acc[region] = (acc[region] ?? 0) + 1;
@@ -69,6 +93,8 @@ export async function GET() {
   const educationCoverage = auditEducationCoverage(departments, admissionsByDepartment);
   const coveragePriority = buildCoveragePriority(departments, admissionsByDepartment);
 
+  const integrityErrors = orphanDepartments.length + orphanAdmissions.length + non2027Admissions.length;
+
   return Response.json({
     generatedAt: new Date().toISOString(),
     scope: "서울·경기·인천 / 2027 / 최종 추천 저장소",
@@ -85,5 +111,12 @@ export async function GET() {
     coveragePriority,
     coveragePriorityCount: coveragePriority.length,
     universitiesDetail: universityDepartmentCounts,
+    integrity: {
+      errorCount: integrityErrors,
+      orphanDepartments,
+      orphanAdmissions,
+      non2027Admissions,
+      admissionsMissingSource,
+    },
   });
 }
