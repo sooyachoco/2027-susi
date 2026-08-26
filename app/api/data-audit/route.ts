@@ -1,4 +1,5 @@
 import { verifiedAdmissionRepository } from "@/lib/admission/hybridRepository";
+import { coverageTargets2027 } from "@/lib/admission/coverage2027";
 import { buildCoveragePriority } from "@/lib/audit/coveragePriority";
 import { auditEducationCoverage } from "@/lib/audit/educationCoverage";
 
@@ -93,6 +94,11 @@ export async function GET() {
   const educationCoverage = auditEducationCoverage(departments, admissionsByDepartment);
   const coveragePriority = buildCoveragePriority(departments, admissionsByDepartment);
 
+  const activeCoverageTargetIds = new Set(universities.map((university) => university.id));
+  const coverageBacklog = coverageTargets2027
+    .filter((target) => !activeCoverageTargetIds.has(target.universityId))
+    .sort((a, b) => a.priority - b.priority || a.name.localeCompare(b.name));
+
   const integrityErrors = orphanDepartments.length + orphanAdmissions.length + non2027Admissions.length;
 
   return Response.json({
@@ -110,6 +116,8 @@ export async function GET() {
     educationCoverage,
     coveragePriority,
     coveragePriorityCount: coveragePriority.length,
+    coverageBacklog,
+    coverageBacklogCount: coverageBacklog.length,
     universitiesDetail: universityDepartmentCounts,
     integrity: {
       errorCount: integrityErrors,
