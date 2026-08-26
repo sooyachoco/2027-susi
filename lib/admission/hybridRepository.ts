@@ -18,7 +18,7 @@ import { verifiedSoongsil2027Admissions, verifiedSoongsil2027Departments, verifi
 import { verifiedDongguk2027Admissions, verifiedDongguk2027Departments, verifiedDongguk2027Universities } from "./verifiedDongguk2027";
 import { verifiedChungAng2027Admissions, verifiedChungAng2027Departments, verifiedChungAng2027Universities } from "./verifiedChungAng2027";
 import { isTargetRegion } from "./regionScope";
-import type { Admission, AdmissionQuery, AdmissionRepository, Department, University } from "./types";
+import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 
 export class HybridAdmissionRepository implements AdmissionRepository {
   async getUniversities(region?: AdmissionQuery["region"]): Promise<University[]> {
@@ -33,7 +33,12 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedDongguk2027Universities, ...verifiedChungAng2027Universities,
     ]);
     const scoped = all.filter((university) => isTargetRegion(university.region));
-    const uniqueByName = preferVerifiedUniversities(scoped);
+    const normalized: University[] = scoped.map((university) => ({
+      id: university.id,
+      name: university.name,
+      region: university.region as AdmissionRegion,
+    }));
+    const uniqueByName = preferVerifiedUniversities(normalized);
     return region ? uniqueByName.filter((university) => university.region === region) : uniqueByName;
   }
 
