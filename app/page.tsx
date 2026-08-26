@@ -27,11 +27,7 @@ export default function Page() {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [u, d, a] = await Promise.all([
-        admissionRepository.getUniversities(),
-        admissionRepository.getDepartments(),
-        admissionRepository.getAdmissions({ academicYear: 2027 }),
-      ]);
+      const [u, d, a] = await Promise.all([admissionRepository.getUniversities(), admissionRepository.getDepartments(), admissionRepository.getAdmissions({ academicYear: 2027 })]);
       if (!alive) return;
       setUniversities(u); setDepartments(d); setAdmissions(a);
     })();
@@ -69,7 +65,7 @@ export default function Page() {
     <section className="hero"><Hero onStart={() => document.getElementById("profile")?.scrollIntoView({ behavior: "smooth" })} /><ScorePanel total={competitiveness.total} aiSummary={aiSummary} ready={complete && analysisStarted} /></section>
     <section className="section" id="profile"><div className="sectionHead"><div><h2>나의 수시 정보</h2><div className="muted">처음에는 비워져 있습니다. 직접 입력해주세요.</div></div></div><StudentProfileTemplateForm profile={profile} onChange={handleChange} /><div style={{marginTop:14,display:"flex",justifyContent:"flex-end"}}><button className="primary" onClick={startAnalysis} disabled={!complete} style={{opacity:complete?1:.45,cursor:complete?"pointer":"not-allowed"}}>내 수시 6장 분석하기 →</button></div>{!complete && <div className="alert" style={{marginTop:12}}>💡 모든 항목을 입력하면 분석 버튼이 활성화됩니다.</div>}</section>
     {complete && analysisStarted && <><section className="section"><div className="grid"><CompetitivenessCard label="교과 경쟁력" value={competitiveness.subject} /><CompetitivenessCard label="학종 경쟁력" value={competitiveness.holistic} /><CompetitivenessCard label="수능최저 가능성" value={competitiveness.csatMinimum} /></div></section>
-    <section className="section" id="results"><div className="sectionHead"><div><h2>🎯 나의 수시 6장</h2><div className="muted">서울 · 경기 · 인천 / 2027 데이터 기준</div></div><button className="secondary" onClick={() => setOffset((o) => nextShuffleOffset(o))}>조합 다시 짜기</button></div><div className="six">{recommendations.map((rec) => { const { universityName, departmentName } = resolveNames(rec.admissionId); const admission = admissionById.get(rec.admissionId); return <UniversityCard key={rec.admissionId} tier={rec.tier} universityName={universityName} departmentName={departmentName} score={rec.score} reason={`${rec.reason}${sourceLabel(admission)}`} onShowReason={() => alert(`${universityName} ${departmentName}\n\n${rec.reason}`)} onCompare={() => alert("비교 기능 준비중")} />; })}</div></section>
+    <section className="section" id="results"><div className="sectionHead"><div><h2>🎯 나의 수시 6장</h2><div className="muted">서울 · 경기 · 인천 / 2027 데이터 기준</div></div><button className="secondary" onClick={() => setOffset((o) => nextShuffleOffset(o))}>조합 다시 짜기</button></div><div className="six">{recommendations.map((rec) => { const { universityName, departmentName } = resolveNames(rec.admissionId); const admission = admissionById.get(rec.admissionId); return <UniversityCard key={rec.admissionId} tier={rec.tier} universityName={universityName} departmentName={departmentName} score={rec.score} reason={`${rec.reason}${sourceLabel(admission)}`} admissionsUrl={admission?.source?.url} onShowReason={() => alert(`${universityName} ${departmentName}\n\n${rec.reason}`)} onCompare={() => alert("비교 기능 준비중")} />; })}</div></section>
     <section className="section"><div className="sectionHead"><div><h2>포트폴리오 안정성</h2><div className="muted">현재 입력값과 추천 6장의 실제 구성을 종합한 전략 지표</div></div></div><div className="portfolio"><PortfolioSummary balance={balance} alert={balanceAlertText(recommendations)} /><StrategyComment comment={strategyComment} /></div></section></>}
     {!complete && <section className="section"><div className="panel balance"><div className="muted">분석 준비</div><h3>수도권 수시 6장을 맞춤 설계해볼까요?</h3><div className="balanceText">내신, 모의고사, 학생부 전공연계, 수능최저 가능성을 입력하면 서울·경기·인천의 2027 전형 데이터와 연결해 상향·적정·안정 조합을 만들어줍니다.</div></div></section>}
     <div className="footer">수시6 v0.3 · 사용자 입력형 템플릿 · 서울·경기·인천 2027 전략 · 실제 합격을 보장하지 않습니다.</div>
