@@ -1,4 +1,5 @@
 import { verifiedAdmissionRepository } from "@/lib/admission/hybridRepository";
+import { buildCoveragePriority } from "@/lib/audit/coveragePriority";
 
 export async function GET() {
   const [universities, departments, admissions] = await Promise.all([
@@ -29,6 +30,11 @@ export async function GET() {
     acc[category] = (acc[category] ?? 0) + 1;
     return acc;
   }, {});
+
+  const admissionsByDepartment = admissions.reduce<Map<string, number>>((map, admission) => {
+    map.set(admission.departmentId, (map.get(admission.departmentId) ?? 0) + 1);
+    return map;
+  }, new Map());
 
   const universityDepartmentCounts = universities.map((university) => {
     const universityDepartments = departments.filter((department) => department.universityId === university.id);
@@ -74,6 +80,8 @@ export async function GET() {
     };
   });
 
+  const coveragePriority = buildCoveragePriority(departments, admissionsByDepartment);
+
   return Response.json({
     generatedAt: new Date().toISOString(),
     scope: "서울·경기·인천 / 2027 / 최종 추천 저장소",
@@ -87,6 +95,8 @@ export async function GET() {
     duplicateAdmissionGroups,
     sparseUniversities,
     educationCoverage,
+    coveragePriority,
+    coveragePriorityCount: coveragePriority.length,
     universitiesDetail: universityDepartmentCounts,
   });
 }
