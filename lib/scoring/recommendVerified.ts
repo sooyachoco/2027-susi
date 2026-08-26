@@ -1,6 +1,7 @@
 import type { Admission, Recommendation, StudentProfile } from "@/lib/types";
 import { verified2027Departments } from "@/lib/admission/real2027";
 import { expanded2027Departments } from "@/lib/admission/expanded2027";
+import { remainingMetro2027Departments } from "@/lib/admission/remainingMetro2027";
 import { convertStudentToAdmissionScore, csatFit } from "./conversion";
 
 /** 2027 전형 속성을 반영하는 전략 적합도 엔진. 합격확률이 아니다. */
@@ -73,11 +74,9 @@ function tierForScore(score: number): "상향" | "적정" | "안정" {
 function getAdmissionMajorGroup(admission: Admission): string | null {
   if (admission.majorGroup) return admission.majorGroup;
 
-  const department = [...verified2027Departments, ...expanded2027Departments].find(
+  const department = [...verified2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments].find(
     (item) => item.id === admission.departmentId,
   );
-  // expanded2027의 majorGroup은 런타임 데이터에서 확인하되, 타입 의존성을 낮추기 위해
-  // 기존 category를 최종 fallback으로 사용한다.
   return department?.category ?? null;
 }
 
