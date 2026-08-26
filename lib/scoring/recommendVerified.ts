@@ -49,15 +49,54 @@ function majorNameMatches(query: string, admission: Admission, departments: Depa
   const q = normalizeText(query);
   if (!q) return true;
   const department = departments.find((item) => item.id === admission.departmentId);
-  const names = [department?.name, department?.category, admission.name, admission.majorGroup]
+  const names = [department?.name, admission.name, admission.majorGroup]
     .filter((value): value is string => Boolean(value));
-  if (names.some((name) => normalizeText(name).includes(q) || q.includes(normalizeText(name)))) return true;
-  const queryGroups = majorTags(q);
-  if (queryGroups.length === 0) return false;
-  return names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
+
+  // Exact department/name matching always wins. This prevents broad category names
+  // such as "사회" or "교육" from swallowing unrelated detailed majors.
+  if (names.some((name) => normalizeText(name) === q)) return true;
+
+  const exactAliases = majorAliases(q);
+  if (exactAliases.length > 0) {
+    return names.some((name) => exactAliases.some((alias) => normalizeText(name).includes(alias)));
+  }
+
+  // Only use broad family matching for genuinely broad user selections.
+  if (isBroadMajor(q)) {
+    const queryGroups = majorTags(q);
+    return queryGroups.length > 0 && names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
+  }
+
+  return false;
 }
 
 function normalizeText(value: string): string { return value.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase(); }
+
+function isBroadMajor(q: string): boolean {
+  return ["교육", "인문", "어문", "사회", "사회과학", "경영", "경제", "법", "행정", "공학", "자연과학", "의료", "보건", "예체능", "디자인", "미술", "음악", "체육", "컴퓨터", "소프트웨어", "ai", "인공지능"].includes(q);
+}
+
+function majorAliases(query: string): string[] {
+  const q = normalizeText(query);
+  const aliases: Record<string, string[]> = {
+    "유아교육": ["유아교육", "유아교육학", "유아교육과"],
+    "미술교육": ["미술교육", "미술교육학", "미술교육과", "조형교육"],
+    "음악교육": ["음악교육", "음악교육학", "음악교육과"],
+    "체육교육": ["체육교육", "체육교육학", "체육교육과"],
+    "국어교육": ["국어교육", "국어교육학", "국어교육과"],
+    "영어교육": ["영어교육", "영어교육학", "영어교육과"],
+    "수학교육": ["수학교육", "수학교육학", "수학교육과"],
+    "특수교육": ["특수교육", "특수교육학", "특수교육과"],
+    "컴퓨터교육": ["컴퓨터교육", "정보교육", "소프트웨어교육"],
+    "사회교육": ["사회교육", "사회교육학", "사회교육과"],
+    "역사교육": ["역사교육", "역사교육학", "역사교육과"],
+    "지리교육": ["지리교육", "지리교육학", "지리교육과"],
+    "윤리교육": ["윤리교육", "윤리교육학", "윤리교육과"],
+    "가정교육": ["가정교육", "가정교육학", "가정교육과"],
+    "교육학": ["교육학", "교육학과"],
+  };
+  return (aliases[q] ?? []).map(normalizeText);
+}
 
 function majorTags(value: string): string[] {
   const v = normalizeText(value);
