@@ -7,6 +7,11 @@ import {
   verifiedGyeonggi2027Departments,
   verifiedGyeonggi2027Universities,
 } from "./verifiedGyeonggi2027";
+import {
+  verifiedGachonAllFields2027Admissions,
+  verifiedGachonAllFields2027Departments,
+  verifiedGachonAllFields2027Universities,
+} from "./verifiedGachonAllFields2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University } from "./types";
 
@@ -21,14 +26,11 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...universities,
       ...expanded2027Universities,
       ...verifiedGyeonggi2027Universities,
+      ...verifiedGachonAllFields2027Universities,
     ]);
     const scoped: University[] = all.flatMap((university) => {
       if (!isTargetRegion(university.region)) return [];
-      return [{
-        id: university.id,
-        name: university.name,
-        region: university.region,
-      }];
+      return [{ id: university.id, name: university.name, region: university.region }];
     });
     return region ? scoped.filter((university) => university.region === region) : scoped;
   }
@@ -38,6 +40,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...departments,
       ...expanded2027Departments,
       ...verifiedGyeonggi2027Departments,
+      ...verifiedGachonAllFields2027Departments,
     ]);
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
@@ -45,12 +48,11 @@ export class HybridAdmissionRepository implements AdmissionRepository {
   async getAdmissions(query: AdmissionQuery = {}): Promise<Admission[]> {
     const universitiesInScope = await this.getUniversities(query.region);
     const allowedUniversityIds = new Set(universitiesInScope.map((u) => u.id));
-
-    // 확장/프로토타입 전형은 탐색용으로만 유지하고 실제 추천에서는 제외한다.
     const all: Admission[] = [
       ...verified2027Admissions,
       ...verifiedAjou2027Admissions,
       ...verifiedGyeonggi2027Admissions,
+      ...verifiedGachonAllFields2027Admissions,
     ].filter((admission) => !admission.isMock);
 
     return all.filter((a) =>
