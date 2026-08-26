@@ -9,19 +9,34 @@ export function recommendSix(
   departments: Department[] = [],
 ): Recommendation[] {
   const desired = student.desiredMajor.trim();
-  const majorMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a, departments)) : admissions;
-  // A detailed dropdown value must not make the whole result disappear just because
-  // one university stores the department name in a slightly different form.
-  // If no exact/alias match exists, fall back to the full verified pool rather than
-  // showing an empty six-card result.
-  const candidateAdmissions = majorMatched.length > 0 ? majorMatched : admissions;
+  const exactMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a, departments)) : admissions;
+  const exactIds = new Set(exactMatched.map((a) => a.id));
+
+  // 특정 세부전공의 2027 검증 데이터가 6장보다 적을 수 있다.
+  // 이 경우 바로 전체 풀로 점프하지 않고, 같은 전공군의 인접 전공을 먼저 보완한다.
+  const relatedMatched = desired
+    ? admissions.filter((a) => !exactIds.has(a.id) && relatedMajorMatches(desired, a, departments))
+    : [];
+  const relatedIds = new Set(relatedMatched.map((a) => a.id));
+
+  let candidateAdmissions = exactMatched;
+  if (candidateAdmissions.length < 6) candidateAdmissions = [...candidateAdmissions, ...relatedMatched];
+
+  // 인접 전공까지 부족하면 마지막으로 검증된 전체 풀에서 보완해 항상 6장을 만들 수 있게 한다.
+  if (candidateAdmissions.length < 6) {
+    candidateAdmissions = [
+      ...candidateAdmissions,
+      ...admissions.filter((a) => !exactIds.has(a.id) && !relatedIds.has(a.id)),
+    ];
+  }
+
   const scored = candidateAdmissions.map((admission) => {
     const converted = convertStudentToAdmissionScore(student, admission);
     const minimumFit = csatFit(student, admission);
     let score = converted.score;
     if (admission.csatMinimum?.enabled) score = score * 0.85 + minimumFit * 0.15;
     score += strategicAdjustment(student, admission);
-    if (majorMatched.length === 0) score -= 6;
+    if (desired && !exactIds.has(admission.id)) score -= relatedIds.has(admission.id) ? 4 : 8;
     return { admission, score: Math.round(clamp(score)) };
   });
 
@@ -32,7 +47,10 @@ export function recommendSix(
 
   return diversified.map((item) => {
     const score = Math.round(clamp(item.score + scoreVariation(seed, item.admission.id)));
-    return { tier: tierForScore(score), admissionId: item.admission.id, score, reason: buildReason(item.admission, score) };
+    const relationNote = desired && !exactIds.has(item.admission.id)
+      ? relatedIds.has(item.admission.id) ? " · 전공 연계 추천" : " · 전공 데이터 부족으로 범위 확장"
+      : "";
+    return { tier: tierForScore(score), admissionId: item.admission.id, score, reason: `${buildReason(item.admission, score)}${relationNote}` };
   });
 }
 
@@ -44,8 +62,6 @@ function majorNameMatches(query: string, admission: Admission, departments: Depa
   if (!q) return true;
   const department = departments.find((item) => item.id === admission.departmentId);
   const names = [department?.name, admission.name, admission.majorGroup].filter((value): value is string => Boolean(value));
-  // Department datasets commonly use suffixes such as 학과/학부/전공/학과군.
-  // Match both directions after normalization so "국어국문" matches "국어국문학과".
   if (names.some((name) => {
     const normalized = normalizeText(name);
     return normalized === q || normalized.includes(q) || q.includes(normalized);
@@ -58,6 +74,14 @@ function majorNameMatches(query: string, admission: Admission, departments: Depa
     return queryGroups.length > 0 && names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
   }
   return false;
+}
+
+function relatedMajorMatches(query: string, admission: Admission, departments: Department[]): boolean {
+  const queryGroups = majorTags(query);
+  if (queryGroups.length === 0) return false;
+  const department = departments.find((item) => item.id === admission.departmentId);
+  const names = [department?.name, admission.name, admission.majorGroup].filter((value): value is string => Boolean(value));
+  return names.some((name) => majorTags(name).some((group) => queryGroups.includes(group)));
 }
 
 function normalizeText(value: string): string { return value.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase(); }
