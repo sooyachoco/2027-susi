@@ -2,8 +2,13 @@ import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { verified2027Admissions } from "./verified2027";
 import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
+import {
+  verifiedGyeonggi2027Admissions,
+  verifiedGyeonggi2027Departments,
+  verifiedGyeonggi2027Universities,
+} from "./verifiedGyeonggi2027";
 import { isTargetRegion } from "./regionScope";
-import type { Admission, AdmissionQuery, AdmissionRepository, University } from "./types";
+import type { Admission, AdmissionQuery, AdmissionRepository, Department, University } from "./types";
 
 /**
  * 서울·경기·인천을 1차 수집 범위로 사용하는 통합 저장소.
@@ -12,7 +17,11 @@ import type { Admission, AdmissionQuery, AdmissionRepository, University } from 
  */
 export class HybridAdmissionRepository implements AdmissionRepository {
   async getUniversities(region?: AdmissionQuery["region"]): Promise<University[]> {
-    const all = dedupeById([...universities, ...expanded2027Universities]);
+    const all = dedupeById([
+      ...universities,
+      ...expanded2027Universities,
+      ...verifiedGyeonggi2027Universities,
+    ]);
     const scoped: University[] = all.flatMap((university) => {
       if (!isTargetRegion(university.region)) return [];
       return [{
@@ -24,8 +33,12 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     return region ? scoped.filter((university) => university.region === region) : scoped;
   }
 
-  async getDepartments(universityId?: string) {
-    const all = dedupeById([...departments, ...expanded2027Departments]);
+  async getDepartments(universityId?: string): Promise<Department[]> {
+    const all = dedupeById([
+      ...departments,
+      ...expanded2027Departments,
+      ...verifiedGyeonggi2027Departments,
+    ]);
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
 
@@ -37,6 +50,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const all: Admission[] = [
       ...verified2027Admissions,
       ...verifiedAjou2027Admissions,
+      ...verifiedGyeonggi2027Admissions,
     ].filter((admission) => !admission.isMock);
 
     return all.filter((a) =>
