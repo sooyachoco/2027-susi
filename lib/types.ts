@@ -33,6 +33,8 @@ export type Admission = {
   type: AdmissionType;
   모집인원?: number;
   studentRecordWeight?: number;
+  /** 학생부종합 등 서류평가 반영 비율 */
+  documentWeight?: number;
   interview?: boolean;
   csatMinimum?: { enabled: boolean; description?: string };
   source?: AdmissionSource;
