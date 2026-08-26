@@ -22,7 +22,6 @@ function levelToScore(level: number): number {
 export function isProfileComplete(student: StudentProfile): boolean {
   return (
     student.gradeAverage !== null &&
-    student.track !== null &&
     student.desiredMajor.trim().length > 0 &&
     student.mockAverage !== null &&
     student.studentRecordLink !== null &&
