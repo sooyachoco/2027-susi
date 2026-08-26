@@ -59,13 +59,14 @@ const sourceKorea = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.
 const sourceUos = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000040");
 const sourceKonkuk = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000052");
 const sourceEwha = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000163");
+const sourceChungang = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000175");
 const sourceKyunggi = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000056");
 const sourceTukorea = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000247");
 const sourceMyongji = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000109");
-const sourceGachon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
-const sourceSungshin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
-const sourceKookmin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
-const sourceKwangwoon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027");
+const sourceGachon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000063");
+const sourceSungshin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000136");
+const sourceKookmin = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000078");
+const sourceKwangwoon = adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000054");
 
 export const verified2027Admissions: Admission[] = [
   ...["skku-sw", "skku-business", "skku-global-business", "skku-global-economics", "skku-cs"].flatMap((departmentId) => [
@@ -79,7 +80,7 @@ export const verified2027Admissions: Admission[] = [
   { id: "konkuk-ku-recommend-2027", universityId: "konkuk", departmentId: "konkuk-cs", academicYear: 2027, name: "KU지역균형", type: "교과", studentRecordWeight: 70, source: sourceKonkuk, isMock: false },
   { id: "konkuk-ku-self-2027", universityId: "konkuk", departmentId: "konkuk-cs", academicYear: 2027, name: "KU자기추천", type: "학종", studentRecordWeight: 70, interview: true, source: sourceKonkuk, isMock: false },
   { id: "ewha-future-document-2027", universityId: "ewha", departmentId: "ewha-cs", academicYear: 2027, name: "미래인재전형-서류형", type: "학종", csatMinimum: { enabled: true, description: "모집단위별 수능최저 적용" }, source: sourceEwha, isMock: false },
-  { id: "chungang-holistic-2027", universityId: "chungang", departmentId: "chungang-sw", academicYear: 2027, name: "학생부종합", type: "학종", source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027"), isMock: false },
+  { id: "chungang-holistic-2027", universityId: "chungang", departmentId: "chungang-sw", academicYear: 2027, name: "학생부종합", type: "학종", source: sourceChungang, isMock: false },
   ...["kyunggi-law", "kyunggi-business", "kyunggi-economics", "kyunggi-ai-cs", "kyunggi-electronics", "kyunggi-mechanical", "kyunggi-media", "kyunggi-hotel"].flatMap((departmentId) => [
     { id: `kyunggi-kgu-${departmentId}`, universityId: "kyunggi", departmentId, academicYear: 2027, name: "학생부종합(KGU 학생부종합전형)", type: "학종" as const, interview: true, csatMinimum: { enabled: false }, source: sourceKyunggi, isMock: false },
     { id: `kyunggi-school-${departmentId}`, universityId: "kyunggi", departmentId, academicYear: 2027, name: "학생부교과(학교장추천전형)", type: "교과" as const, studentRecordWeight: 90, csatMinimum: { enabled: false }, source: sourceKyunggi, isMock: false },
@@ -91,7 +92,7 @@ export const verified2027Admissions: Admission[] = [
   ...["myongji-business", "myongji-ai-business", "myongji-ai-cs", "myongji-electronics"].map((departmentId) => ({ id: `myongji-holistic-${departmentId}`, universityId: "myongji", departmentId, academicYear: 2027, name: "학생부종합", type: "학종" as const, source: sourceMyongji, isMock: false })),
   { id: "gachon-law-kyogwa-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "학생부교과", type: "교과", source: sourceGachon, isMock: false },
   { id: "gachon-law-holistic-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "학생부종합", type: "학종", source: sourceGachon, isMock: false },
-  { id: "gachon-law-essay-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "논술", type: "교과", source: sourceGachon, isMock: false },
+  { id: "gachon-law-essay-2027", universityId: "gachon", departmentId: "gachon-law", academicYear: 2027, name: "논술", type: "논술", source: sourceGachon, isMock: false },
   { id: "sungshin-law-holistic-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "학생부종합(자기주도인재)", type: "학종", source: sourceSungshin, isMock: false },
   { id: "sungshin-law-opportunity-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "기회균형Ⅰ", type: "학종", source: sourceSungshin, isMock: false },
   { id: "sungshin-law-kyogwa-2027", universityId: "sungshin", departmentId: "sungshin-law", academicYear: 2027, name: "학생부교과(지역균형)", type: "교과", source: sourceSungshin, isMock: false },
