@@ -19,6 +19,7 @@ import { verifiedDongguk2027Admissions, verifiedDongguk2027Departments, verified
 import { verifiedChungAng2027Admissions, verifiedChungAng2027Departments, verifiedChungAng2027Universities } from "./verifiedChungAng2027";
 import { verifiedSkku2027Admissions, verifiedSkku2027Departments, verifiedSkku2027Universities, verifiedHanyang2027Admissions, verifiedHanyang2027Departments, verifiedHanyang2027Universities } from "./verifiedTopSeoul2027";
 import { verifiedSogang2027Admissions, verifiedSogang2027Departments, verifiedSogang2027Universities } from "./verifiedSogang2027";
+import { verifiedNextSeoul2027Admissions, verifiedNextSeoul2027Departments, verifiedNextSeoul2027Universities } from "./verifiedNextSeoul2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 
@@ -34,7 +35,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedMetroCore2027Universities, ...verifiedSoongsil2027Universities,
       ...verifiedDongguk2027Universities, ...verifiedChungAng2027Universities,
       ...verifiedSkku2027Universities, ...verifiedHanyang2027Universities,
-      ...verifiedSogang2027Universities,
+      ...verifiedSogang2027Universities, ...verifiedNextSeoul2027Universities,
     ]);
     const scoped = all.filter((university) => isTargetRegion(university.region));
     const normalized: University[] = scoped.map((university) => ({ id: university.id, name: university.name, region: university.region as AdmissionRegion }));
@@ -53,7 +54,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedMetroCore2027Departments, ...verifiedSoongsil2027Departments,
       ...verifiedDongguk2027Departments, ...verifiedChungAng2027Departments,
       ...verifiedSkku2027Departments, ...verifiedHanyang2027Departments,
-      ...verifiedSogang2027Departments,
+      ...verifiedSogang2027Departments, ...verifiedNextSeoul2027Departments,
     ]);
     return universityId ? all.filter((d) => d.universityId === universityId) : all;
   }
@@ -71,7 +72,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedMetroCore2027Admissions, ...verifiedSoongsil2027Admissions,
       ...verifiedDongguk2027Admissions, ...verifiedChungAng2027Admissions,
       ...verifiedSkku2027Admissions, ...verifiedHanyang2027Admissions,
-      ...verifiedSogang2027Admissions,
+      ...verifiedSogang2027Admissions, ...verifiedNextSeoul2027Admissions,
     ].filter((admission) => !admission.isMock);
     return all.filter((a) => allowedUniversityIds.has(a.universityId) && (!query.academicYear || a.academicYear === query.academicYear) && (!query.universityId || a.universityId === query.universityId) && (!query.departmentId || a.departmentId === query.departmentId) && (!query.type || a.type === query.type));
   }
@@ -79,6 +80,6 @@ export class HybridAdmissionRepository implements AdmissionRepository {
 
 function dedupeById<T extends { id: string }>(items: T[]): T[] { const seen = new Set<string>(); return items.filter((item) => { if (seen.has(item.id)) return false; seen.add(item.id); return true; }); }
 function dedupeUniversityNames(items: University[]): University[] { const map = new Map<string, University>(); for (const item of items) { const key = normalizeUniversityName(item.name); const current = map.get(key); if (!current || isVerifiedUniversity(item)) map.set(key, item); } return [...map.values()]; }
-function isVerifiedUniversity(university: University): boolean { return /2027|verified|ajou|inha|incheon|dankook|kau|uos|gachon|kwangwoon|ewha|kookmin|myeongji|soongsil|dongguk|cau|skku|hanyang|sogang/i.test(university.id); }
+function isVerifiedUniversity(university: University): boolean { return /2027|verified|ajou|inha|incheon|dankook|kau|uos|gachon|kwangwoon|ewha|kookmin|myeongji|soongsil|dongguk|cau|skku|hanyang|sogang|hongik|kyunghee|hufs|sookmyung/i.test(university.id); }
 function normalizeUniversityName(name: string): string { return name.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase(); }
 export const verifiedAdmissionRepository = new HybridAdmissionRepository();
