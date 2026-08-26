@@ -19,32 +19,43 @@ export const verifiedSoongsil2027Departments: Department[] = names.map((name, i)
   name,
 }));
 
+const source = {
+  type: "university" as const,
+  url: "https://admission.ssu.ac.kr/mojip/req.asp?flag=1&page_no=1_2_2",
+  document: "숭실대학교 2027학년도 수시 모집요강",
+  academicYear: 2027,
+  confidence: 0.95,
+};
+
 export const verifiedSoongsil2027Admissions: Admission[] = verifiedSoongsil2027Departments.flatMap((department) => [
   {
-    id: `${department.id}-ssu-ssu`,
+    id: `${department.id}-ssu-future`,
     universityId: "soongsil-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "학종",
+    type: "학종" as const,
     name: "SSU미래인재전형",
     isMock: false,
+    source,
   },
   {
-    id: `${department.id}- 교과`,
+    id: `${department.id}-교과`,
     universityId: "soongsil-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "교과",
-    name: "학생부우수자전형",
+    type: "교과" as const,
+    name: "교과우수자전형",
     isMock: false,
+    source,
   },
   {
     id: `${department.id}-논술`,
     universityId: "soongsil-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "논술",
+    type: "논술" as const,
     name: "논술우수자전형",
     isMock: false,
+    source,
   },
 ]);
