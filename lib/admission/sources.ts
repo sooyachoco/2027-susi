@@ -96,4 +96,11 @@ export const admissionSources: Record<string, DataSource> = {
     academicYear: 2027,
     confidence: 0.99,
   },
+  catholic2027: {
+    type: "adiga",
+    url: "https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000049",
+    document: "가톨릭대학교 2027학년도 전형평가기준 및 결과공개",
+    academicYear: 2027,
+    confidence: 0.95,
+  },
 };
