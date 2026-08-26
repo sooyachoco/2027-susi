@@ -3,6 +3,13 @@ import type { Competitiveness, StudentProfile } from "@/lib/types";
 const MIN = 45;
 const MAX = 98;
 
+type CompleteStudentProfile = StudentProfile & {
+  gradeAverage: number;
+  mockAverage: number;
+  studentRecordLink: number;
+  csatMinimumChance: number;
+};
+
 export function clamp(value: number, min = MIN, max = MAX): number {
   return Math.max(min, Math.min(max, value));
 }
@@ -23,7 +30,9 @@ function isFiniteNumber(value: number | null): value is number {
   return value !== null && Number.isFinite(value);
 }
 
-export function isProfileComplete(student: StudentProfile): boolean {
+export function isProfileComplete(
+  student: StudentProfile,
+): student is CompleteStudentProfile {
   return (
     isFiniteNumber(student.gradeAverage) &&
     student.gradeAverage >= 1 &&
