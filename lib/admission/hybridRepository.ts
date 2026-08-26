@@ -31,11 +31,9 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedMetroCore2027Universities, ...verifiedSoongsil2027Universities,
       ...verifiedDongguk2027Universities,
     ]);
-    const scoped: University[] = all.flatMap((university) => {
-      if (!isTargetRegion(university.region)) return [];
-      return [{ id: university.id, name: university.name, region: university.region }];
-    });
-    return region ? scoped.filter((university) => university.region === region) : scoped;
+    const scoped = all.filter((university) => isTargetRegion(university.region));
+    const uniqueByName = preferVerifiedUniversities(scoped);
+    return region ? uniqueByName.filter((university) => university.region === region) : uniqueByName;
   }
 
   async getDepartments(universityId?: string): Promise<Department[]> {
@@ -83,6 +81,24 @@ function dedupeById<T extends { id: string }>(items: T[]): T[] {
     seen.add(item.id);
     return true;
   });
+}
+
+function preferVerifiedUniversities(items: University[]): University[] {
+  const map = new Map<string, University>();
+  for (const item of items) {
+    const key = normalizeUniversityName(item.name);
+    const current = map.get(key);
+    if (!current || isVerifiedUniversity(item)) map.set(key, item);
+  }
+  return [...map.values()];
+}
+
+function isVerifiedUniversity(university: University): boolean {
+  return /2027|verified|ajou|inha|incheon|dankook|kau|uos|gachon|kwangwoon|ewha|kookmin|myeongji|soongsil|dongguk/i.test(university.id);
+}
+
+function normalizeUniversityName(name: string): string {
+  return name.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase();
 }
 
 export const verifiedAdmissionRepository = new HybridAdmissionRepository();
