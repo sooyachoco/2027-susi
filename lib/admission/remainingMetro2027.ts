@@ -45,15 +45,31 @@ const departmentSeed: Array<[string, string, string, string]> = [
   ["free", "자유전공·전공자율선택", "자유전공", "자유전공"],
 ];
 
-export const remainingMetro2027Universities = universities;
-export const remainingMetro2027Departments: Department[] = universities.flatMap((u) =>
-  departmentSeed.map(([suffix, name, category]) => ({
-    id: `${u.id}-${suffix}`,
-    universityId: u.id,
-    name,
-    category,
-  }))
-);
+// 공식 2027 모집요강에서 확인된 교육계열 모집단위만 별도로 추가한다.
+// 안양대학교 2027 수시 모집요강에는 유아교육과가 명시되어 있다.
+// 성신여자대학교 2027 수시 모집요강에는 교육학과·사회교육과·윤리교육과·한문교육과·유아교육과가 명시되어 있다.
+const verifiedEducationDepartments: Array<[string, string, string, string]> = [
+  ["anyang", "early-childhood-education", "유아교육과", "교육"],
+  ["sungshin", "education", "교육학과", "교육"],
+  ["sungshin", "social-education", "사회교육과", "교육"],
+  ["sungshin", "ethics-education", "윤리교육과", "교육"],
+  ["sungshin", "classical-chinese-education", "한문교육과", "교육"],
+  ["sungshin", "early-childhood-education", "유아교육과", "교육"],
+];
+
+export const remainingMetro2027Universities = [
+  ...universities,
+  { id: "sungshin", name: "성신여자대학교", region: "서울" },
+];
+
+export const remainingMetro2027Departments: Department[] = [
+  ...universities.flatMap((u) => departmentSeed.map(([suffix, name, category]) => ({
+    id: `${u.id}-${suffix}`, universityId: u.id, name, category,
+  }))),
+  ...verifiedEducationDepartments.map(([universityId, suffix, name, category]) => ({
+    id: `${universityId}-${suffix}`, universityId, name, category, majorGroup: "교육",
+  })),
+];
 
 export const remainingMetro2027Admissions: Admission[] = remainingMetro2027Departments.flatMap((d) => [
   { id: `${d.id}-subject-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
