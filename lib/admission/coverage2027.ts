@@ -68,10 +68,10 @@ export const coverageTargets2027: CoverageTarget[] = [
     universityId: "catholic",
     name: "가톨릭대학교",
     region: "경기",
-    status: "확장대기",
+    status: "부분검증",
     priority: 2,
-    source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000046"),
-    note: "2027 전형평가기준 및 결과공개 자료 확인. 공식 모집요강과 모집단위별 전형 세부값을 대조한 뒤 verified 편입 예정.",
+    source: admissionSources.catholic2027,
+    note: "2027학년도 수시모집요강(2026-05-27 공표)과 대입정보포털 자료를 대조해 경영학과·법학과·컴퓨터정보공학부·인공지능학과·데이터사이언스학과의 지역균형·잠재능력우수자서류·잠재능력우수자면접 핵심 전형을 verified 편입. 나머지 모집단위·특수전형·논술은 추가 검증한다.",
   },
 ];
 
