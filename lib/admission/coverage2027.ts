@@ -28,15 +28,6 @@ const adiga = (url: string): DataSource => ({
 
 export const coverageTargets2027: CoverageTarget[] = [
   {
-    universityId: "hufs",
-    name: "한국외국어대학교",
-    region: "서울",
-    status: "확장대기",
-    priority: 1,
-    source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000192"),
-    note: "면접형·SW인재·서류형·학교장추천 등 2027 전형 구조 확인.",
-  },
-  {
     universityId: "sookmyung",
     name: "숙명여자대학교",
     region: "서울",
