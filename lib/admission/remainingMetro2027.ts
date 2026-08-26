@@ -13,7 +13,7 @@ const universities: University[] = [
   { id: "kangnam", name: "강남대학교", region: "경기" },
   { id: "yongin", name: "용인대학교", region: "경기" },
   { id: "eulji", name: "을지대학교", region: "경기" },
-  { id: "tech-univ-korea", name: "한국공학대학교", region: "경기" },
+  { id: "tukorea", name: "한국공학대학교", region: "경기" },
   { id: "cha", name: "차의과학대학교", region: "경기" },
   { id: "pyeongtaek", name: "평택대학교", region: "경기" },
   { id: "hansei", name: "한세대학교", region: "경기" },
@@ -25,7 +25,7 @@ const universities: University[] = [
   { id: "chungwoon-incheon", name: "청운대학교", region: "인천" },
   { id: "kyungin", name: "경인교육대학교", region: "인천" },
   { id: "hanyang-erica", name: "한양대학교(ERICA)", region: "경기" },
-  { id: "kyonggi", name: "경기대학교", region: "경기" },
+  { id: "kyunggi", name: "경기대학교", region: "경기" },
   { id: "catholic", name: "가톨릭대학교", region: "경기" },
 ];
 
@@ -46,8 +46,6 @@ const departmentSeed: Array<[string, string, string, string]> = [
 ];
 
 // 공식 2027 모집요강에서 확인된 교육계열 모집단위만 별도로 추가한다.
-// 안양대학교 2027 수시 모집요강에는 유아교육과가 명시되어 있다.
-// 성신여자대학교 2027 수시 모집요강에는 교육학과·사회교육과·윤리교육과·한문교육과·유아교육과가 명시되어 있다.
 const verifiedEducationDepartments: Array<[string, string, string, string]> = [
   ["anyang", "early-childhood-education", "유아교육과", "교육"],
   ["sungshin", "education", "교육학과", "교육"],
@@ -57,7 +55,7 @@ const verifiedEducationDepartments: Array<[string, string, string, string]> = [
   ["sungshin", "early-childhood-education", "유아교육과", "교육"],
 ];
 
-export const remainingMetro2027Universities = [
+export const remainingMetro2027Universities: University[] = [
   ...universities,
   { id: "sungshin", name: "성신여자대학교", region: "서울" },
 ];
