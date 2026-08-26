@@ -1,4 +1,4 @@
-import type { Admission, Recommendation, StudentProfile } from "@/lib/types";
+import type { Admission, Department, Recommendation, StudentProfile } from "@/lib/types";
 import { verified2027Departments } from "@/lib/admission/real2027";
 import { expanded2027Departments } from "@/lib/admission/expanded2027";
 import { remainingMetro2027Departments } from "@/lib/admission/remainingMetro2027";
@@ -72,7 +72,15 @@ function getAdmissionMajorGroup(admission: Admission): string | null {
   const department = [...verified2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments].find(
     (item) => item.id === admission.departmentId,
   );
-  return department?.majorGroup ?? department?.category ?? null;
+  return getDepartmentMajorGroup(department);
+}
+
+function getDepartmentMajorGroup(department: Department | undefined): string | null {
+  if (!department) return null;
+  // Department의 표준 필드는 category이며, 일부 확장 데이터가 majorGroup을 가질 수 있으므로
+  // 런타임에서는 안전하게 읽어 기존/확장 데이터 모두 지원한다.
+  const candidate = department as Department & { majorGroup?: string | null };
+  return candidate.majorGroup ?? department.category ?? null;
 }
 
 /**
