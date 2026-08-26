@@ -1,5 +1,6 @@
 import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
+import { remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { verified2027Admissions } from "./verified2027";
 import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
 import { verifiedGyeonggi2027Admissions, verifiedGyeonggi2027Departments, verifiedGyeonggi2027Universities } from "./verifiedGyeonggi2027";
@@ -19,7 +20,7 @@ import type { Admission, AdmissionQuery, AdmissionRepository, Department, Univer
 export class HybridAdmissionRepository implements AdmissionRepository {
   async getUniversities(region?: AdmissionQuery["region"]): Promise<University[]> {
     const all = dedupeById([
-      ...universities, ...expanded2027Universities,
+      ...universities, ...expanded2027Universities, ...remainingMetro2027Universities,
       ...verifiedGyeonggi2027Universities, ...verifiedGachonAllFields2027Universities,
       ...verifiedIncheonAllFields2027Universities, ...verifiedKwangwoon2027Universities,
       ...verifiedUos2027Universities, ...verifiedSeoulTech2027Universities,
@@ -36,7 +37,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
 
   async getDepartments(universityId?: string): Promise<Department[]> {
     const all = dedupeById([
-      ...departments, ...expanded2027Departments,
+      ...departments, ...expanded2027Departments, ...remainingMetro2027Departments,
       ...verifiedGyeonggi2027Departments, ...verifiedGachonAllFields2027Departments,
       ...verifiedIncheonAllFields2027Departments, ...verifiedKwangwoon2027Departments,
       ...verifiedUos2027Departments, ...verifiedSeoulTech2027Departments,
