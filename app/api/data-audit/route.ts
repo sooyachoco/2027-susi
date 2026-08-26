@@ -25,7 +25,7 @@ export async function GET() {
   }, {});
 
   const byCategory = departments.reduce<Record<string, number>>((acc, department) => {
-    const category = department.majorGroup ?? department.category ?? "미분류";
+    const category = department.category ?? "미분류";
     acc[category] = (acc[category] ?? 0) + 1;
     return acc;
   }, {});
@@ -62,14 +62,15 @@ export async function GET() {
   const targetEducationNames = ["교육", "유아교육", "특수교육", "초등교육", "국어교육", "영어교육", "수학교육", "사회교육", "미술교육"];
   const educationCoverage = targetEducationNames.map((target) => {
     const matches = departments.filter((department) => {
-      const text = `${department.name} ${department.majorGroup ?? ""} ${department.category ?? ""}`;
+      const text = `${department.name} ${department.category ?? ""}`;
       return text.includes(target);
     });
+    const matchIds = new Set(matches.map((department) => department.id));
     return {
       target,
       departmentCount: matches.length,
       universityCount: new Set(matches.map((department) => department.universityId)).size,
-      admissionCount: admissions.filter((admission) => matches.some((department) => department.id === admission.departmentId)).length,
+      admissionCount: admissions.filter((admission) => matchIds.has(admission.departmentId)).length,
     };
   });
 
