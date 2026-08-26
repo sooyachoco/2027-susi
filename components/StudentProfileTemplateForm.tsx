@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { StudentProfile, Track } from "@/lib/types";
+import type { StudentProfile } from "@/lib/types";
 
 type Props = { profile: StudentProfile; onChange: (patch: Partial<StudentProfile>) => void };
 type MajorGroup = { label: string; options: string[] };
@@ -36,7 +36,6 @@ export function StudentProfileTemplateForm({ profile, onChange }: Props) {
 
   return <div className="panel form">
     <div className="field"><label htmlFor="grade">내신 평균등급</label><input id="grade" type="number" min="1" max="9" step=".01" placeholder="예: 2.73" value={profile.gradeAverage ?? ""} onChange={(e) => onChange({ gradeAverage: e.target.value === "" ? null : Number(e.target.value) })} /></div>
-    <div className="field"><label htmlFor="track">희망 계열</label><select id="track" value={profile.track ?? ""} onChange={(e) => onChange({ track: e.target.value ? (e.target.value as Track) : null })}><option value="">선택하세요</option><option value="자연계">자연계</option><option value="인문계">인문계</option><option value="예체능">예체능</option></select></div>
     <div className="field"><label htmlFor="majorGroup">희망 전공 계열</label><select id="majorGroup" value={majorGroup} onChange={(e) => handleGroupChange(e.target.value)}><option value="">계열을 선택하세요</option>{MAJOR_GROUPS.map((group) => <option key={group.label} value={group.label}>{group.label}</option>)}</select></div>
     <div className="field"><label htmlFor="major">세부 전공</label><select id="major" value={profile.desiredMajor} disabled={!majorGroup} onChange={(e) => onChange({ desiredMajor: e.target.value })}><option value="">세부 전공을 선택하세요</option>{selectedOptions.map((major) => <option key={major} value={major}>{major}</option>)}</select></div>
     <div className="field"><label htmlFor="mock">모의고사 평균등급</label><input id="mock" type="number" min="1" max="9" step=".1" placeholder="예: 2.7" value={profile.mockAverage ?? ""} onChange={(e) => onChange({ mockAverage: e.target.value === "" ? null : Number(e.target.value) })} /></div>
