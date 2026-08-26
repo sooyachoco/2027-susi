@@ -29,6 +29,15 @@ const adiga = (url: string): DataSource => ({
 
 export const coverageTargets2027: CoverageTarget[] = [
   {
+    universityId: "anyang",
+    name: "안양대학교",
+    region: "경기",
+    status: "부분검증",
+    priority: 1,
+    source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetail.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000147"),
+    note: "2027 수시 최종 모집요강을 대조해 자유전공·유아교육·글로벌경영·행정·데이터사이언스·AI·디지털미디어디자인·정보전기전자·환경에너지·스포츠 핵심 모집단위의 아리학생부교과·아리학생부면접·아리학생부종합을 verified로 편입. 전체 모집단위와 특수전형·실기전형은 추가 검증한다.",
+  },
+  {
     universityId: "sookmyung",
     name: "숙명여자대학교",
     region: "서울",
