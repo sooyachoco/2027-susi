@@ -51,6 +51,10 @@ export const verifiedInhaSuwonDankook2027Admissions: Admission[] = rows.flatMap(
     isMock: false,
   };
 
+  // 인하대학교 경영학과는 verified2027.ts에서 동일 전형을 관리한다.
+  // 학과 row는 유지해도 되지만 전형은 이 배치에서 중복 생성하지 않는다.
+  if (u === "inha" && key === "business") return [];
+
   if (u === "inha") {
     return [
       { ...base, id: `${departmentId}-future-interview`, name: "인하미래인재(면접형)", type: "학종" as const, interview: true, documentWeight: 70 },
