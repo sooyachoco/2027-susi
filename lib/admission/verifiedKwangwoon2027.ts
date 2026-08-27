@@ -13,23 +13,38 @@ export const verifiedKwangwoon2027Universities: University[] = [
 ];
 
 const departmentSeed = [
-  ["kwangwoon-northeast-culture", "동북아문화산업학부", "인문·문화"],
-  ["kwangwoon-admin", "행정학과", "사회과학"],
-  ["kwangwoon-psychology", "산업심리학과", "사회과학"],
-  ["kwangwoon-korean", "국어국문학과", "인문·어문"],
-  ["kwangwoon-international", "국제학부", "인문·국제"],
-  ["kwangwoon-english-industry", "영어산업학과", "인문·어문"],
+  ["kwangwoon-electronics", "전자공학과", "공학·전자"],
+  ["kwangwoon-electronic-communication", "전자통신공학과", "공학·전자"],
+  ["kwangwoon-electronic-convergence", "전자융합공학과", "공학·전자"],
+  ["kwangwoon-electrical", "전기공학과", "공학·전기"],
+  ["kwangwoon-electronic-materials", "전자재료공학과", "공학·전자"],
+  ["kwangwoon-semiconductor", "반도체시스템공학부", "공학·반도체"],
+  ["kwangwoon-computer", "컴퓨터정보공학부", "컴퓨터·소프트웨어"],
+  ["kwangwoon-software", "소프트웨어학부", "컴퓨터·소프트웨어"],
+  ["kwangwoon-information-convergence", "정보융합학부", "컴퓨터·데이터"],
+  ["kwangwoon-robot", "로봇학부 AI로봇전공", "컴퓨터·로봇"],
+  ["kwangwoon-architecture", "건축학과", "건축"],
+  ["kwangwoon-chemical", "화학공학과", "공학·화학"],
+  ["kwangwoon-environment", "환경공학과", "공학·환경"],
   ["kwangwoon-math", "수학과", "자연과학"],
   ["kwangwoon-electronic-biophysics", "전자바이오물리학과", "자연과학·바이오"],
-  ["kwangwoon-electronics", "전자공학과", "공학·전자"],
+  ["kwangwoon-chemistry", "화학과", "자연과학"],
+  ["kwangwoon-korean", "국어국문학과", "인문·어문"],
+  ["kwangwoon-english", "영어영문학과", "인문·어문"],
   ["kwangwoon-media", "미디어커뮤니케이션학부", "사회과학·미디어"],
+  ["kwangwoon-psychology", "산업심리학과", "사회과학"],
+  ["kwangwoon-northeast-culture", "동북아문화산업학부", "인문·문화"],
+  ["kwangwoon-admin", "행정학과", "사회과학"],
+  ["kwangwoon-law", "법학부", "법·행정"],
+  ["kwangwoon-international", "국제학부", "인문·국제"],
+  ["kwangwoon-business", "경영학부", "경영·경제"],
 ] as const;
 
 export const verifiedKwangwoon2027Departments: Department[] = departmentSeed.map(
   ([id, name, category]) => ({ id, universityId: "kwangwoon", name, category })
 );
 
-export const verifiedKwangwoon2027Admissions: Admission[] = verifiedKwangwoon2027Departments.flatMap((department) => [
+const commonAdmissions = verifiedKwangwoon2027Departments.flatMap((department) => [
   {
     id: `${department.id}-bright-2027`,
     universityId: "kwangwoon",
@@ -70,3 +85,31 @@ export const verifiedKwangwoon2027Admissions: Admission[] = verifiedKwangwoon202
     isMock: false,
   },
 ]);
+
+const softwareDepartmentIds = new Set([
+  "kwangwoon-computer",
+  "kwangwoon-software",
+  "kwangwoon-information-convergence",
+  "kwangwoon-robot",
+]);
+
+const softwareAdmissions = verifiedKwangwoon2027Departments
+  .filter((department) => softwareDepartmentIds.has(department.id))
+  .map((department) => ({
+    id: `${department.id}-software-excellence-2027`,
+    universityId: "kwangwoon",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "소프트웨어우수인재전형",
+    type: "학종" as const,
+    documentWeight: 60,
+    interview: true,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  }));
+
+export const verifiedKwangwoon2027Admissions: Admission[] = [
+  ...commonAdmissions,
+  ...softwareAdmissions,
+];
