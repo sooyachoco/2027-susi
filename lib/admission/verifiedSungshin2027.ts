@@ -33,9 +33,35 @@ const source = {
   confidence: 0.99,
 };
 
-// 전형별 모집단위 매핑을 공식 모집요강 표와 대조하기 전에는
-// 다른 대학의 데이터를 성신여대 데이터에 섞지 않는다.
-// 기존 파일은 상명대/한성대를 성신여대 export에 포함시키는 오류가 있었으므로 제거했다.
-export const verifiedSungshin2027Admissions: Admission[] = [];
+const csatMinimum = {
+  enabled: true,
+  description: "국어·영어·수학·탐구(상위 1과목) 중 2개 영역 합 7등급 이내",
+};
+
+// 공식 2027 모집요강의 논술우수자전형 모집단위 표와
+// 현재 저장소에 등록된 성신여대 모집단위 중 교집합만 우선 반영한다.
+// 모집인원은 다음 검증 패스에서 모집단위별 표와 다시 대조한다.
+const essayDepartmentIds = new Set([
+  "sungshin-business",
+  "sungshin-economics",
+  "sungshin-media",
+  "sungshin-computer",
+  "sungshin-ai",
+  "sungshin-law",
+]);
+
+export const verifiedSungshin2027Admissions: Admission[] = verifiedSungshin2027Departments
+  .filter((department) => essayDepartmentIds.has(department.id))
+  .map((department) => ({
+    id: `${department.id}-essay-2027`,
+    universityId: "sungshin-2027",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "논술우수자전형",
+    type: "논술",
+    csatMinimum,
+    source,
+    isMock: false,
+  }));
 
 void source;
