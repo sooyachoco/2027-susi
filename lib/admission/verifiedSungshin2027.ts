@@ -1,7 +1,11 @@
 import type { Admission, Department, University } from "./types";
+import { verifiedSangmyung2027Admissions, verifiedSangmyung2027Departments, verifiedSangmyung2027Universities } from "./verifiedSangmyung2027";
+import { verifiedHansung2027Admissions, verifiedHansung2027Departments, verifiedHansung2027Universities } from "./verifiedHansung2027";
 
 export const verifiedSungshin2027Universities: University[] = [
   { id: "sungshin-2027", name: "성신여자대학교", region: "서울" },
+  ...verifiedSangmyung2027Universities,
+  ...verifiedHansung2027Universities,
 ];
 
 const coreDepartments = [
@@ -21,10 +25,11 @@ const educationDepartments = [
   { id: "sungshin-early-childhood", name: "유아교육과", category: "교육·사범" },
 ];
 
-export const verifiedSungshin2027Departments: Department[] = [...coreDepartments, ...educationDepartments].map((department) => ({
-  ...department,
-  universityId: "sungshin-2027",
-}));
+export const verifiedSungshin2027Departments: Department[] = [
+  ...[...coreDepartments, ...educationDepartments].map((department) => ({ ...department, universityId: "sungshin-2027" })),
+  ...verifiedSangmyung2027Departments,
+  ...verifiedHansung2027Departments,
+];
 
 const source = {
   type: "university" as const,
@@ -69,4 +74,9 @@ const educationAdmissions: Admission[] = educationDepartments.flatMap((departmen
   ];
 });
 
-export const verifiedSungshin2027Admissions: Admission[] = [...coreAdmissions, ...educationAdmissions];
+export const verifiedSungshin2027Admissions: Admission[] = [
+  ...coreAdmissions,
+  ...educationAdmissions,
+  ...verifiedSangmyung2027Admissions,
+  ...verifiedHansung2027Admissions,
+];
