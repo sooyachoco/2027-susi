@@ -21,12 +21,11 @@ export const seoulMidBatch2027Departments: Department[] = [
   { id: "dongduk-computer", universityId: "dongduk", name: "컴퓨터학과" },
 ];
 
-export const seoulMidBatch2027Admissions: Admission[] = [
-  ...seoulMidBatch2027Universities.flatMap((u) => {
-    const d = seoulMidBatch2027Departments.find((x) => x.universityId === u.id);
-    return d ? [
-      { id: `${u.id}-batch-gyogwa`, universityId: u.id, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
-      { id: `${u.id}-batch-hakjong`, universityId: u.id, departmentId: d.id, academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
-    ] : [];
-  }),
-];
+export const seoulMidBatch2027Admissions: Admission[] = seoulMidBatch2027Universities.flatMap((u): Admission[] => {
+  const d = seoulMidBatch2027Departments.find((x) => x.universityId === u.id);
+  if (!d) return [];
+  return [
+    { id: `${u.id}-batch-gyogwa`, universityId: u.id, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false } as Admission,
+    { id: `${u.id}-batch-hakjong`, universityId: u.id, departmentId: d.id, academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false } as Admission,
+  ];
+});
