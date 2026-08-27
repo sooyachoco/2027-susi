@@ -25,6 +25,7 @@ const universities: University[] = [
   { id: "hansung", name: "한성대학교", region: "서울" },
   { id: "skhu", name: "성공회대학교", region: "서울" },
   { id: "swu", name: "서울여자대학교", region: "서울" },
+  { id: "seoultech", name: "서울과학기술대학교", region: "서울" },
 ];
 
 const departmentSeed: Array<[string, string, string]> = [
@@ -65,6 +66,13 @@ const verifiedSewomenDepartments: Array<[string, string, string]> = [
   ["humanities", "국어국문학과", "인문·사회"],
 ];
 
+const verifiedSeoultechDepartments: Array<[string, string, string]> = [
+  ["business", "경영학과", "경영·경제"],
+  ["computer", "컴퓨터공학과", "컴퓨터·소프트웨어"],
+  ["ai", "인공지능응용학과", "컴퓨터·AI"],
+  ["electrical", "전기정보공학과", "공학"],
+];
+
 export const remainingMetro2027Universities: University[] = [
   ...universities,
   { id: "sungshin", name: "성신여자대학교", region: "서울" },
@@ -75,12 +83,14 @@ export const remainingMetro2027Departments: Department[] = [
   ...verifiedHansungDepartments.map(([suffix, name, category]) => ({ id: `hansung-${suffix}`, universityId: "hansung", name, category })),
   ...verifiedSkhUDepartments.map(([suffix, name, category]) => ({ id: `skhu-${suffix}`, universityId: "skhu", name, category })),
   ...verifiedSewomenDepartments.map(([suffix, name, category]) => ({ id: `swu-${suffix}`, universityId: "swu", name, category })),
+  ...verifiedSeoultechDepartments.map(([suffix, name, category]) => ({ id: `seoultech-${suffix}`, universityId: "seoultech", name, category })),
 ];
 
 const verifiedDepartmentIds = new Set([
   ...verifiedHansungDepartments.map(([suffix]) => `hansung-${suffix}`),
   ...verifiedSkhUDepartments.map(([suffix]) => `skhu-${suffix}`),
   ...verifiedSewomenDepartments.map(([suffix]) => `swu-${suffix}`),
+  ...verifiedSeoultechDepartments.map(([suffix]) => `seoultech-${suffix}`),
 ]);
 
 const verifiedHansungAdmissions: Admission[] = verifiedHansungDepartments.flatMap(([suffix]) => {
@@ -103,9 +113,17 @@ const verifiedSkhUAdmissions: Admission[] = verifiedSkhUDepartments.flatMap(([su
 const verifiedSewomenAdmissions: Admission[] = verifiedSewomenDepartments.flatMap(([suffix]) => {
   const departmentId = `swu-${suffix}`;
   return [
-    { id: `${departmentId}-subject-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "교과우수자", type: "교과" as const, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/" , confidence: 0.85 }, isMock: false },
+    { id: `${departmentId}-subject-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "교과우수자", type: "교과" as const, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
     { id: `${departmentId}-barom-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "바롬인재서류", type: "학종" as const, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
     { id: `${departmentId}-barom-interview-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "바롬인재면접", type: "학종" as const, documentWeight: 100, interview: true, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
+  ];
+});
+
+const verifiedSeoultechAdmissions: Admission[] = verifiedSeoultechDepartments.flatMap(([suffix]) => {
+  const departmentId = `seoultech-${suffix}`;
+  return [
+    { id: `${departmentId}-recommend-2027`, universityId: "seoultech", departmentId, academicYear: 2027, name: "고교추천", type: "교과" as const, studentRecordWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://admission.seoultech.ac.kr/", confidence: 0.9 }, isMock: false },
+    { id: `${departmentId}-holistic-2027`, universityId: "seoultech", departmentId, academicYear: 2027, name: "학교생활우수자", type: "학종" as const, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://admission.seoultech.ac.kr/", confidence: 0.9 }, isMock: false },
   ];
 });
 
@@ -118,4 +136,5 @@ export const remainingMetro2027Admissions: Admission[] = [
   ...verifiedHansungAdmissions,
   ...verifiedSkhUAdmissions,
   ...verifiedSewomenAdmissions,
+  ...verifiedSeoultechAdmissions,
 ];
