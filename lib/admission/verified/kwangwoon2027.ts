@@ -11,6 +11,7 @@ export const kwangwoon2027Departments: Department[] = [
   { id: "kwangwoon-computer", universityId: "kwangwoon", name: "컴퓨터정보공학부" },
   { id: "kwangwoon-software", universityId: "kwangwoon", name: "소프트웨어학부" },
   { id: "kwangwoon-business", universityId: "kwangwoon", name: "경영학부" },
+  { id: "kwangwoon-media", universityId: "kwangwoon", name: "미디어커뮤니케이션학부" },
 ];
 
 export const kwangwoon2027Admissions: Admission[] = [];
