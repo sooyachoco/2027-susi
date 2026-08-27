@@ -1,11 +1,7 @@
 import type { Admission, Department, University } from "./types";
-import { verifiedSangmyung2027Admissions, verifiedSangmyung2027Departments, verifiedSangmyung2027Universities } from "./verifiedSangmyung2027";
-import { verifiedHansung2027Admissions, verifiedHansung2027Departments, verifiedHansung2027Universities } from "./verifiedHansung2027";
 
 export const verifiedSungshin2027Universities: University[] = [
   { id: "sungshin-2027", name: "성신여자대학교", region: "서울" },
-  ...verifiedSangmyung2027Universities,
-  ...verifiedHansung2027Universities,
 ];
 
 const coreDepartments = [
@@ -27,56 +23,19 @@ const educationDepartments = [
 
 export const verifiedSungshin2027Departments: Department[] = [
   ...[...coreDepartments, ...educationDepartments].map((department) => ({ ...department, universityId: "sungshin-2027" })),
-  ...verifiedSangmyung2027Departments,
-  ...verifiedHansung2027Departments,
 ];
 
 const source = {
   type: "university" as const,
-  url: "https://ipsi.sungshin.ac.kr/bbs/fileview.php?bbsid=guideline&file_seq=2871",
+  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view&page=1",
   document: "성신여자대학교 2027학년도 수시 신입생 모집요강",
   academicYear: 2027,
   confidence: 0.99,
 };
 
-const coreRecruitment: Record<string, { self: number; regional: number; essay: number }> = {
-  "sungshin-business": { self: 27, regional: 6, essay: 6 },
-  "sungshin-economics": { self: 14, regional: 5, essay: 4 },
-  "sungshin-media": { self: 12, regional: 5, essay: 4 },
-  "sungshin-computer": { self: 17, regional: 7, essay: 5 },
-  "sungshin-ai": { self: 27, regional: 8, essay: 6 },
-  "sungshin-law": { self: 30, regional: 7, essay: 8 },
-};
+// 전형별 모집단위 매핑을 공식 모집요강 표와 대조하기 전에는
+// 다른 대학의 데이터를 성신여대 데이터에 섞지 않는다.
+// 기존 파일은 상명대/한성대를 성신여대 export에 포함시키는 오류가 있었으므로 제거했다.
+export const verifiedSungshin2027Admissions: Admission[] = [];
 
-const coreAdmissions: Admission[] = coreDepartments.flatMap((department) => {
-  const counts = coreRecruitment[department.id];
-  const common = { universityId: "sungshin-2027", departmentId: department.id, academicYear: 2027, source, isMock: false };
-  return [
-    { ...common, id: `${department.id}-self-directed-2027`, name: "학생부종합(자기주도인재)", type: "학종" as const, recruitmentCount: counts.self, documentWeight: 60, interview: true, csatMinimum: { enabled: false } },
-    { ...common, id: `${department.id}-regional-2027`, name: "학생부교과(지역균형)", type: "교과" as const, recruitmentCount: counts.regional, studentRecordWeight: 100, csatMinimum: { enabled: false } },
-    { ...common, id: `${department.id}-essay-2027`, name: "논술우수자", type: "논술" as const, recruitmentCount: counts.essay, csatMinimum: { enabled: true } },
-  ];
-});
-
-const educationRecruitment: Record<string, number> = {
-  "sungshin-education": 10,
-  "sungshin-social-education": 10,
-  "sungshin-ethics-education": 10,
-  "sungshin-chinese-education": 10,
-  "sungshin-early-childhood": 13,
-};
-
-const educationAdmissions: Admission[] = educationDepartments.flatMap((department) => {
-  const common = { universityId: "sungshin-2027", departmentId: department.id, academicYear: 2027, source, isMock: false };
-  return [
-    { ...common, id: `${department.id}-self-directed-2027`, name: "학생부종합(자기주도인재)", type: "학종" as const, recruitmentCount: educationRecruitment[department.id], documentWeight: 60, interview: true, csatMinimum: { enabled: false } },
-    { ...common, id: `${department.id}-regional-2027`, name: "학생부교과(지역균형)", type: "교과" as const, recruitmentCount: department.id === "sungshin-early-childhood" ? 5 : 4, studentRecordWeight: 100, csatMinimum: { enabled: false } },
-  ];
-});
-
-export const verifiedSungshin2027Admissions: Admission[] = [
-  ...coreAdmissions,
-  ...educationAdmissions,
-  ...verifiedSangmyung2027Admissions,
-  ...verifiedHansung2027Admissions,
-];
+void source;
