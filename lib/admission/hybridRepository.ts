@@ -40,6 +40,7 @@ import { seoulRealBatch7Admissions, seoulRealBatch7Departments, seoulRealBatch7U
 import { seoulRealNext2027Admissions, seoulRealNext2027Departments, seoulRealNext2027Universities } from "./verified/seoul_real_next2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
+import type { University as RootUniversity } from "../types";
 
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
@@ -78,10 +79,11 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
-    const map = new Map<string, University>();
+    const map = new Map<string, RootUniversity>();
     for (const u of scoped) {
       const key = `${normalize(u.name)}|${u.region}`;
-      if (!map.has(key) || isPreferredVerified(u)) map.set(key, u as University);
+      const rootUniversity: RootUniversity = { id: u.id, name: u.name, region: u.region };
+      if (!map.has(key) || isPreferredVerified(rootUniversity)) map.set(key, rootUniversity);
     }
     const result = [...map.values()];
     return region ? result.filter((u) => u.region === region) : result;
@@ -132,7 +134,7 @@ function dedupeByKey<T extends { id: string }>(items: T[]): T[] {
   return [...map.values()];
 }
 
-function isPreferredVerified(university: University): boolean {
+function isPreferredVerified(university: RootUniversity): boolean {
   return /verified|real|2027/i.test(university.id);
 }
 
