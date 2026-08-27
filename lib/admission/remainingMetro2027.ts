@@ -47,13 +47,6 @@ const verifiedSkhUDepartments: Array<[string, string, string, number, number]> =
   ["free", "자유전공학부", "자유전공", 60, 28],
 ];
 
-const verifiedSewomenDepartments: Array<[string, string, string]> = [
-  ["business", "경영학과", "경영·경제"],
-  ["computer", "컴퓨터학과", "컴퓨터·소프트웨어"],
-  ["media", "디지털미디어학과", "미디어·콘텐츠"],
-  ["humanities", "국어국문학과", "인문·사회"],
-];
-
 const verifiedSeoultechDepartments: Array<[string, string, string]> = [
   ["business", "경영학과", "경영·경제"],
   ["computer", "컴퓨터공학과", "컴퓨터·소프트웨어"],
@@ -75,20 +68,6 @@ const verifiedDongdukDepartments: Array<[string, string, string]> = [
   ["economics", "경제학전공", "경영·경제"],
 ];
 
-const verifiedSahmyookDepartments: Array<[string, string, string]> = [
-  ["business", "경영학과", "경영·경제"],
-  ["computer", "컴퓨터공학부", "컴퓨터·소프트웨어"],
-  ["ai", "인공지능융합학부", "컴퓨터·AI"],
-  ["health", "간호학과", "보건·간호"],
-];
-
-const verifiedSkuDepartments: Array<[string, string, string]> = [
-  ["business", "경영학부", "경영·경제"],
-  ["computer", "소프트웨어학과", "컴퓨터·소프트웨어"],
-  ["ai", "AI빅데이터학과", "컴퓨터·AI"],
-  ["media", "광고홍보콘텐츠학과", "미디어·콘텐츠"],
-];
-
 export const remainingMetro2027Universities: University[] = [
   ...universities,
   { id: "sungshin", name: "성신여자대학교", region: "서울" },
@@ -97,23 +76,17 @@ export const remainingMetro2027Universities: University[] = [
 const verifiedDepartmentIds = new Set([
   ...verifiedHansungDepartments.map(([suffix]) => `hansung-${suffix}`),
   ...verifiedSkhUDepartments.map(([suffix]) => `skhu-${suffix}`),
-  ...verifiedSewomenDepartments.map(([suffix]) => `swu-${suffix}`),
   ...verifiedSeoultechDepartments.map(([suffix]) => `seoultech-${suffix}`),
   ...verifiedDuksungDepartments.map(([suffix]) => `duksung-${suffix}`),
   ...verifiedDongdukDepartments.map(([suffix]) => `dongduk-${suffix}`),
-  ...verifiedSahmyookDepartments.map(([suffix]) => `sahmyook-${suffix}`),
-  ...verifiedSkuDepartments.map(([suffix]) => `skuniv-${suffix}`),
 ]);
 
 export const remainingMetro2027Departments: Department[] = [
   ...verifiedHansungDepartments.map(([suffix, name, category]) => ({ id: `hansung-${suffix}`, universityId: "hansung", name, category })),
   ...verifiedSkhUDepartments.map(([suffix, name, category]) => ({ id: `skhu-${suffix}`, universityId: "skhu", name, category })),
-  ...verifiedSewomenDepartments.map(([suffix, name, category]) => ({ id: `swu-${suffix}`, universityId: "swu", name, category })),
   ...verifiedSeoultechDepartments.map(([suffix, name, category]) => ({ id: `seoultech-${suffix}`, universityId: "seoultech", name, category })),
   ...verifiedDuksungDepartments.map(([suffix, name, category]) => ({ id: `duksung-${suffix}`, universityId: "duksung", name, category })),
   ...verifiedDongdukDepartments.map(([suffix, name, category]) => ({ id: `dongduk-${suffix}`, universityId: "dongduk", name, category })),
-  ...verifiedSahmyookDepartments.map(([suffix, name, category]) => ({ id: `sahmyook-${suffix}`, universityId: "sahmyook", name, category })),
-  ...verifiedSkuDepartments.map(([suffix, name, category]) => ({ id: `skuniv-${suffix}`, universityId: "skuniv", name, category })),
 ];
 
 const verifiedHansungAdmissions: Admission[] = verifiedHansungDepartments.flatMap(([suffix]) => {
@@ -130,15 +103,6 @@ const verifiedSkhUAdmissions: Admission[] = verifiedSkhUDepartments.flatMap(([su
   return [
     { id: `${departmentId}-holistic-2027`, universityId: "skhu", departmentId, academicYear: 2027, name: "열린인재", type: "학종" as const, recruitmentCount: holisticCount, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do", confidence: 0.9 }, isMock: false },
     { id: `${departmentId}-subject-2027`, universityId: "skhu", departmentId, academicYear: 2027, name: "교과성적", type: "교과" as const, recruitmentCount: subjectCount, studentRecordWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do", confidence: 0.9 }, isMock: false },
-  ];
-});
-
-const verifiedSewomenAdmissions: Admission[] = verifiedSewomenDepartments.flatMap(([suffix]) => {
-  const departmentId = `swu-${suffix}`;
-  return [
-    { id: `${departmentId}-subject-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "교과우수자", type: "교과" as const, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
-    { id: `${departmentId}-barom-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "바롬인재서류", type: "학종" as const, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
-    { id: `${departmentId}-barom-interview-2027`, universityId: "swu", departmentId, academicYear: 2027, name: "바롬인재면접", type: "학종" as const, documentWeight: 100, interview: true, source: { type: "university" as const, academicYear: 2027, url: "https://www.swu.ac.kr/", confidence: 0.85 }, isMock: false },
   ];
 });
 
@@ -168,29 +132,10 @@ const verifiedDongdukAdmissions: Admission[] = verifiedDongdukDepartments.flatMa
   ];
 });
 
-const verifiedSahmyookAdmissions: Admission[] = verifiedSahmyookDepartments.flatMap(([suffix]) => {
-  const departmentId = `sahmyook-${suffix}`;
-  return [
-    { id: `${departmentId}-subject-2027`, universityId: "sahmyook", departmentId, academicYear: 2027, name: "학생부교과", type: "교과" as const, studentRecordWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.syu.ac.kr/", confidence: 0.8 }, isMock: false },
-    { id: `${departmentId}-holistic-2027`, universityId: "sahmyook", departmentId, academicYear: 2027, name: "학생부종합", type: "학종" as const, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.syu.ac.kr/", confidence: 0.8 }, isMock: false },
-  ];
-});
-
-const verifiedSkuAdmissions: Admission[] = verifiedSkuDepartments.flatMap(([suffix]) => {
-  const departmentId = `skuniv-${suffix}`;
-  return [
-    { id: `${departmentId}-subject-2027`, universityId: "skuniv", departmentId, academicYear: 2027, name: "학생부교과", type: "교과" as const, studentRecordWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skuniv.ac.kr/", confidence: 0.8 }, isMock: false },
-    { id: `${departmentId}-holistic-2027`, universityId: "skuniv", departmentId, academicYear: 2027, name: "학생부종합", type: "학종" as const, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skuniv.ac.kr/", confidence: 0.8 }, isMock: false },
-  ];
-});
-
 export const remainingMetro2027Admissions: Admission[] = [
   ...verifiedHansungAdmissions,
   ...verifiedSkhUAdmissions,
-  ...verifiedSewomenAdmissions,
   ...verifiedSeoultechAdmissions,
   ...verifiedDuksungAdmissions,
   ...verifiedDongdukAdmissions,
-  ...verifiedSahmyookAdmissions,
-  ...verifiedSkuAdmissions,
 ];
