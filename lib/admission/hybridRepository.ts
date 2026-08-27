@@ -2,7 +2,7 @@ import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { verified2027Admissions } from "./verified2027";
-import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verified2027Universities as verifiedCore2027Universities } from "./real2027";
+import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verifiedCore2027Universities } from "./real2027";
 import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
 import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
 import { verifiedGyeonggi2027Admissions, verifiedGyeonggi2027Departments, verifiedGyeonggi2027Universities } from "./verifiedGyeonggi2027";
@@ -35,6 +35,7 @@ import { verifiedGyeonggiNext2027Admissions, verifiedGyeonggiNext2027Departments
 import { verifiedGyeonggiBatch2Admissions, verifiedGyeonggiBatch2Departments, verifiedGyeonggiBatch2Universities } from "./verifiedGyeonggiBatch2_2027";
 import { verifiedMetroBatch3Admissions, verifiedMetroBatch3Departments, verifiedMetroBatch3Universities } from "./verifiedMetroBatch3_2027";
 import { verifiedMetroBatch4Admissions, verifiedMetroBatch4Departments, verifiedMetroBatch4Universities } from "./verifiedMetroBatch4_2027";
+import { verifiedInhaSuwonDankook2027Admissions, verifiedInhaSuwonDankook2027Departments, verifiedInhaSuwonDankook2027Universities } from "./verifiedInhaSuwonDankook2027";
 import { seoulRealBatch2Admissions, seoulRealBatch2Departments, seoulRealBatch2Universities } from "./verified/seoul_real_batch2_2027";
 import { seoulRealBatch3Admissions, seoulRealBatch3Departments, seoulRealBatch3Universities } from "./verified/seoul_real_batch3_2027";
 import { seoulRealBatch4Admissions, seoulRealBatch4Departments, seoulRealBatch4Universities } from "./verified/seoul_real_batch4_2027";
@@ -61,7 +62,8 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSungshin2027Admissions, ...verifiedHanyangErica2027Admissions, ...verifiedKyunghee2027Admissions,
       ...verifiedHufs2027Admissions, ...verifiedSejong2027Admissions, ...verifiedHongik2027Admissions,
       ...verifiedCatholic2027Admissions, ...verifiedAnyang2027Admissions, ...verifiedHanshin2027Admissions,
-      ...verifiedGyeonggiNext2027Admissions, ...verifiedGyeonggiBatch2Admissions, ...verifiedMetroBatch3Admissions, ...verifiedMetroBatch4Admissions, ...remainingMetro2027Admissions,
+      ...verifiedGyeonggiNext2027Admissions, ...verifiedGyeonggiBatch2Admissions, ...verifiedMetroBatch3Admissions, ...verifiedMetroBatch4Admissions,
+      ...verifiedInhaSuwonDankook2027Admissions, ...remainingMetro2027Admissions,
       ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions,
       ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions,
       ...seoulRealBatch9Admissions,
@@ -84,6 +86,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSejong2027Universities, ...verifiedHongik2027Universities, ...verifiedCatholic2027Universities,
       ...verifiedAnyang2027Universities, ...verifiedHanshin2027Universities, ...verifiedGyeonggiNext2027Universities,
       ...verifiedGyeonggiBatch2Universities, ...verifiedMetroBatch3Universities, ...verifiedMetroBatch4Universities,
+      ...verifiedInhaSuwonDankook2027Universities,
       ...seoulRealNext2027Universities, ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities,
       ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities,
       ...seoulRealBatch9Universities,
@@ -106,6 +109,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const all = dedupeByKey([
       ...departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...verifiedGyeonggiNext2027Departments,
       ...verifiedGyeonggiBatch2Departments, ...verifiedMetroBatch3Departments, ...verifiedMetroBatch4Departments,
+      ...verifiedInhaSuwonDankook2027Departments,
       ...verifiedCore2027Departments, ...verifiedSookmyung2027Departments, ...verifiedGyeonggi2027Departments,
       ...verifiedGachonAllFields2027Departments, ...verifiedIncheonAllFields2027Departments, ...verifiedKwangwoon2027Departments,
       ...verifiedUos2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedSeoulWomen2027Departments,
