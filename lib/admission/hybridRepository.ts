@@ -1,6 +1,6 @@
 import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
-import { remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
+import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { verified2027Admissions } from "./verified2027";
 import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verified2027Universities as verifiedCore2027Universities } from "./real2027";
 import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
@@ -31,6 +31,7 @@ import { verifiedHongik2027Admissions, verifiedHongik2027Departments, verifiedHo
 import { verifiedCatholic2027Admissions, verifiedCatholic2027Departments, verifiedCatholic2027Universities } from "./verifiedCatholic2027";
 import { verifiedAnyang2027Admissions, verifiedAnyang2027Departments, verifiedAnyang2027Universities } from "./verifiedAnyang2027";
 import { verifiedHanshin2027Admissions, verifiedHanshin2027Departments, verifiedHanshin2027Universities } from "./verifiedHanshin2027";
+import { verifiedGyeonggiNext2027Admissions, verifiedGyeonggiNext2027Departments, verifiedGyeonggiNext2027Universities } from "./verifiedGyeonggiNext2027";
 import { seoulRealBatch2Admissions, seoulRealBatch2Departments, seoulRealBatch2Universities } from "./verified/seoul_real_batch2_2027";
 import { seoulRealBatch3Admissions, seoulRealBatch3Departments, seoulRealBatch3Universities } from "./verified/seoul_real_batch3_2027";
 import { seoulRealBatch4Admissions, seoulRealBatch4Departments, seoulRealBatch4Universities } from "./verified/seoul_real_batch4_2027";
@@ -57,6 +58,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSungshin2027Admissions, ...verifiedHanyangErica2027Admissions, ...verifiedKyunghee2027Admissions,
       ...verifiedHufs2027Admissions, ...verifiedSejong2027Admissions, ...verifiedHongik2027Admissions,
       ...verifiedCatholic2027Admissions, ...verifiedAnyang2027Admissions, ...verifiedHanshin2027Admissions,
+      ...verifiedGyeonggiNext2027Admissions, ...remainingMetro2027Admissions,
       ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions,
       ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions,
       ...seoulRealBatch9Admissions,
@@ -77,8 +79,8 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSogang2027Universities, ...verifiedNextSeoul2027Universities, ...verifiedSungshin2027Universities,
       ...verifiedHanyangErica2027Universities, ...verifiedKyunghee2027Universities, ...verifiedHufs2027Universities,
       ...verifiedSejong2027Universities, ...verifiedHongik2027Universities, ...verifiedCatholic2027Universities,
-      ...verifiedAnyang2027Universities, ...verifiedHanshin2027Universities, ...seoulRealNext2027Universities,
-      ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities,
+      ...verifiedAnyang2027Universities, ...verifiedHanshin2027Universities, ...verifiedGyeonggiNext2027Universities,
+      ...seoulRealNext2027Universities, ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities,
       ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities,
       ...seoulRealBatch9Universities,
     ]);
@@ -98,7 +100,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const admissions = this.getVerifiedAdmissions();
     const allowed = new Set(admissions.map((a) => a.departmentId));
     const all = dedupeByKey([
-      ...departments, ...expanded2027Departments, ...remainingMetro2027Departments,
+      ...departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...verifiedGyeonggiNext2027Departments,
       ...verifiedCore2027Departments, ...verifiedSookmyung2027Departments, ...verifiedGyeonggi2027Departments,
       ...verifiedGachonAllFields2027Departments, ...verifiedIncheonAllFields2027Departments, ...verifiedKwangwoon2027Departments,
       ...verifiedUos2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedSeoulWomen2027Departments,
