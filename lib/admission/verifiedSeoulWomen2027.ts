@@ -5,7 +5,8 @@ const source = {
   url: "https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000126",
   document: "대입정보포털 서울여자대학교 2027학년도 전형평가기준 및 결과공개",
   academicYear: 2027,
-  confidence: 0.97,
+  verifiedAt: "2026-08-27",
+  confidence: 0.98,
 };
 
 export const verifiedSeoulWomen2027Universities: University[] = [
@@ -18,12 +19,12 @@ const departmentSeed = [
   ["free-scitech", "자유전공학부(과학기술융합)", "자연·융합"],
   ["free-future", "자유전공학부(미래산업융합)", "융합"],
   ["free-wide", "자유전공학부(광역)", "자유전공"],
-  ["ai", "AI 융합학부(인공지능전공)", "AI·소프트웨어"],
-  ["software", "AI 융합학부(소프트웨어전공)", "AI·소프트웨어"],
-  ["data-science", "AI 융합학부(데이터사이언스전공)", "데이터·AI"],
-  ["ai-content", "글로벌 ICT 인문융합학부(AI 융합콘텐츠전공)", "인문·ICT융합"],
-  ["ai-brain", "심리·인지과학학부(AI 뇌융합학습전공)", "심리·AI융합"],
-  ["ai-real-content", "첨단융합학부(AI 실감콘텐츠전공)", "첨단융합"],
+  ["ai", "AI융합학부(인공지능전공)", "AI·소프트웨어"],
+  ["software", "AI융합학부(소프트웨어전공)", "AI·소프트웨어"],
+  ["data-science", "AI융합학부(데이터사이언스전공)", "데이터·AI"],
+  ["ai-content", "AI융합콘텐츠전공", "인문·ICT융합"],
+  ["ai-brain", "AI뇌융합학습전공", "심리·AI융합"],
+  ["ai-real-content", "첨단융합학부(AI실감콘텐츠전공)", "첨단융합"],
   ["new-media-design", "첨단융합학부(뉴미디어디자인전공)", "디자인·첨단융합"],
   ["business-convergence", "첨단융합학부(기업경영전공)", "경영·첨단융합"],
   ["digital-media", "디지털미디어학과", "미디어·ICT"],
@@ -54,41 +55,36 @@ const departmentSeed = [
   ["visual-design", "시각디자인전공", "디자인"],
 ] as const;
 
-export const verifiedSeoulWomen2027Departments: Department[] = departmentSeed.map(
-  ([id, name, category]) => ({ id: `seoul-women-${id}`, universityId: "seoul-women", name, category })
-);
+export const verifiedSeoulWomen2027Departments: Department[] = departmentSeed.map(([id, name, category]) => ({
+  id: `seoul-women-${id}`, universityId: "seoul-women", name, category,
+}));
 
-const departments = verifiedSeoulWomen2027Departments;
+const byKey = (key: string) => `seoul-women-${key}`;
 
-export const verifiedSeoulWomen2027Admissions: Admission[] = departments.flatMap((department) => {
-  const general = [
-    {
-      id: `${department.id}-barom-doc-2027`, universityId: "seoul-women", departmentId: department.id,
-      academicYear: 2027, name: "바롬인재서류전형", type: "학종" as const,
-      documentWeight: 100, interview: false, csatMinimum: { enabled: false }, source, isMock: false,
-    },
-    {
-      id: `${department.id}-barom-interview-2027`, universityId: "seoul-women", departmentId: department.id,
-      academicYear: 2027, name: "바롬인재면접전형", type: "학종" as const,
-      documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source, isMock: false,
-    },
-    {
-      id: `${department.id}-school-record-2027`, universityId: "seoul-women", departmentId: department.id,
-      academicYear: 2027, name: "교과우수자전형", type: "교과" as const,
-      studentRecordWeight: 100, interview: false,
-      csatMinimum: { enabled: true, description: "국어·수학·영어·탐구(1과목) 중 2개 영역 합 7등급 이내" }, source, isMock: false,
-    },
-  ];
-
-  const isSw = ["ai", "software", "data-science", "digital-media", "information-security"].some(
-    (key) => department.id === `seoul-women-${key}`
-  );
-  if (isSw) {
-    general.push({
-      id: `${department.id}-sw-2027`, universityId: "seoul-women", departmentId: department.id,
-      academicYear: 2027, name: "SW 융합인재전형", type: "학종" as const,
-      documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source, isMock: false,
-    });
-  }
-  return general;
-});
+export const verifiedSeoulWomen2027Admissions: Admission[] = [
+  {
+    id: "seoul-women-free-wide-essay-2027", universityId: "seoul-women", departmentId: byKey("free-wide"),
+    academicYear: 2027, name: "논술우수자전형", type: "논술", recruitmentCount: 120,
+    csatMinimum: { enabled: false }, source, isMock: false,
+  },
+  {
+    id: "seoul-women-ai-real-content-incumbent-2027", universityId: "seoul-women", departmentId: byKey("ai-real-content"),
+    academicYear: 2027, name: "기회균형전형_특성화고 등을 졸업한 재직자", type: "학종", recruitmentCount: 25,
+    documentWeight: 100, csatMinimum: { enabled: false }, source, isMock: false,
+  },
+  {
+    id: "seoul-women-new-media-design-incumbent-2027", universityId: "seoul-women", departmentId: byKey("new-media-design"),
+    academicYear: 2027, name: "기회균형전형_특성화고 등을 졸업한 재직자", type: "학종", recruitmentCount: 25,
+    documentWeight: 100, csatMinimum: { enabled: false }, source, isMock: false,
+  },
+  {
+    id: "seoul-women-business-convergence-incumbent-2027", universityId: "seoul-women", departmentId: byKey("business-convergence"),
+    academicYear: 2027, name: "기회균형전형_특성화고 등을 졸업한 재직자", type: "학종", recruitmentCount: 39,
+    documentWeight: 100, csatMinimum: { enabled: false }, source, isMock: false,
+  },
+  ...["software", "data-science", "digital-media", "information-security"].map((key) => ({
+    id: `${byKey(key)}-sw-2027`, universityId: "seoul-women", departmentId: byKey(key),
+    academicYear: 2027 as const, name: "SW융합인재전형", type: "학종" as const,
+    documentWeight: 50, interviewWeight: 50, csatMinimum: { enabled: false }, source, isMock: false,
+  })),
+];
