@@ -27,6 +27,8 @@ const universities: University[] = [
   { id: "hanyang-erica", name: "한양대학교(ERICA)", region: "경기" },
   { id: "kyunggi", name: "경기대학교", region: "경기" },
   { id: "catholic", name: "가톨릭대학교", region: "경기" },
+  { id: "hansung", name: "한성대학교", region: "서울" },
+  { id: "skhu", name: "성공회대학교", region: "서울" },
 ];
 
 const departmentSeed: Array<[string, string, string, string]> = [
@@ -55,6 +57,21 @@ const verifiedEducationDepartments: Array<[string, string, string, string]> = [
   ["sungshin", "early-childhood-education", "유아교육과", "교육"],
 ];
 
+const verifiedHansungDepartments: Array<[string, string, string]> = [
+  ["business", "경영학부", "경영·경제"],
+  ["computer", "IT공과대학", "컴퓨터·소프트웨어"],
+  ["ai", "AI응용학과", "컴퓨터·AI"],
+];
+
+const verifiedSkhUDepartments: Array<[string, string, string, number, number]> = [
+  ["business", "경영학부", "경영·경제", 22, 7],
+  ["social", "사회융합학부", "인문·사회", 33, 15],
+  ["media", "미디어콘텐츠융합학부", "미디어·콘텐츠", 31, 14],
+  ["future", "미래융합학부", "컴퓨터·AI", 18, 8],
+  ["software", "소프트웨어융합학부", "컴퓨터·소프트웨어", 37, 15],
+  ["free", "자유전공학부", "자유전공", 60, 28],
+];
+
 export const remainingMetro2027Universities: University[] = [
   ...universities,
   { id: "sungshin", name: "성신여자대학교", region: "서울" },
@@ -65,12 +82,46 @@ export const remainingMetro2027Departments: Department[] = [
     id: `${u.id}-${suffix}`, universityId: u.id, name, category,
   }))),
   ...verifiedEducationDepartments.map(([universityId, suffix, name, category]) => ({
-    id: `${universityId}-${suffix}`, universityId, name, category, majorGroup: "교육",
+    id: `${universityId}-${suffix}`, universityId, name, category,
+  })),
+  ...verifiedHansungDepartments.map(([suffix, name, category]) => ({
+    id: `hansung-${suffix}`, universityId: "hansung", name, category,
+  })),
+  ...verifiedSkhUDepartments.map(([suffix, name, category]) => ({
+    id: `skhu-${suffix}`, universityId: "skhu", name, category,
   })),
 ];
 
-export const remainingMetro2027Admissions: Admission[] = remainingMetro2027Departments.flatMap((d) => [
-  { id: `${d.id}-subject-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
-  { id: `${d.id}-holistic-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부종합", type: "학종" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
-  { id: `${d.id}-essay-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "논술", type: "논술" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
+const verifiedDepartmentIds = new Set([
+  ...verifiedHansungDepartments.map(([suffix]) => `hansung-${suffix}`),
+  ...verifiedSkhUDepartments.map(([suffix]) => `skhu-${suffix}`),
 ]);
+
+const verifiedHansungAdmissions: Admission[] = verifiedHansungDepartments.flatMap(([suffix]) => {
+  const departmentId = `hansung-${suffix}`;
+  return [
+    { id: `${departmentId}-subject-2027`, universityId: "hansung", departmentId, academicYear: 2027, name: "교과우수", type: "교과" as const, studentRecordWeight: 100, csatMinimum: { enabled: false }, source: { type: "university" as const, academicYear: 2027, url: "https://www.hansung.ac.kr/futureplus/728/subview.do", confidence: 0.85 }, isMock: false },
+    { id: `${departmentId}-regional-2027`, universityId: "hansung", departmentId, academicYear: 2027, name: "지역균형", type: "교과" as const, source: { type: "university" as const, academicYear: 2027, url: "https://www.hansung.ac.kr/futureplus/728/subview.do", confidence: 0.85 }, isMock: false },
+    { id: `${departmentId}-holistic-2027`, universityId: "hansung", departmentId, academicYear: 2027, name: "한성인재", type: "학종" as const, documentWeight: 100, csatMinimum: { enabled: false }, source: { type: "university" as const, academicYear: 2027, url: "https://www.hansung.ac.kr/futureplus/728/subview.do", confidence: 0.85 }, isMock: false },
+  ];
+});
+
+const verifiedSkhUAdmissions: Admission[] = verifiedSkhUDepartments.flatMap(([suffix, , , holisticCount, subjectCount]) => {
+  const departmentId = `skhu-${suffix}`;
+  return [
+    { id: `${departmentId}-holistic-2027`, universityId: "skhu", departmentId, academicYear: 2027, name: "열린인재", type: "학종" as const, recruitmentCount: holisticCount, documentWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do", confidence: 0.9 }, isMock: false },
+    { id: `${departmentId}-subject-2027`, universityId: "skhu", departmentId, academicYear: 2027, name: "교과성적", type: "교과" as const, recruitmentCount: subjectCount, studentRecordWeight: 100, source: { type: "university" as const, academicYear: 2027, url: "https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do", confidence: 0.9 }, isMock: false },
+  ];
+});
+
+export const remainingMetro2027Admissions: Admission[] = [
+  ...remainingMetro2027Departments
+    .filter((d) => !verifiedDepartmentIds.has(d.id))
+    .flatMap((d) => [
+      { id: `${d.id}-subject-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
+      { id: `${d.id}-holistic-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부종합", type: "학종" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
+      { id: `${d.id}-essay-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "논술", type: "논술" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
+    ]),
+  ...verifiedHansungAdmissions,
+  ...verifiedSkhUAdmissions,
+];
