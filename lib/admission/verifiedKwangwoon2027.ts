@@ -136,7 +136,7 @@ const essayRecruitmentCounts: Record<string, number> = {
   "kwangwoon-psychology": 4,
   "kwangwoon-northeast-culture": 6,
   "kwangwoon-admin": 5,
-  "kwangwoon-law": 12,
+  "kwangwoon-law": 10,
   "kwangwoon-international": 4,
   "kwangwoon-business": 12,
   "kwangwoon-business-bigdata": 4,
