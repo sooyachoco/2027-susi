@@ -36,7 +36,7 @@ export const verifiedSungkonghoe2027Admissions: Admission[] = seed.flatMap(([id,
   if (openCount > 0) result.push({
     id: `${departmentId}-open-2027`, universityId: "sungkonghoe", departmentId,
     academicYear: 2027, name: "학생부종합(열린인재)", type: "학종",
-    recruitmentCount: openCount, documentWeight: 60, interviewWeight: 40,
+    recruitmentCount: openCount, documentWeight: 60, interview: true,
     csatMinimum: { enabled: false }, source, isMock: false,
   });
   if (gradeCount > 0) result.push({
