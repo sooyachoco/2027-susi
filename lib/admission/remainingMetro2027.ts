@@ -57,66 +57,75 @@ const verifiedSkuDepartments: Array<[string, string, string]> = [
   ["business", "경영학부", "경영·경제"], ["software", "소프트웨어학과", "컴퓨터·소프트웨어"], ["ai", "AI빅데이터학과", "컴퓨터·AI"], ["media", "광고홍보콘텐츠학과", "미디어·콘텐츠"],
 ];
 
+// 2027 공식 입학자료에서 확인한 경기권 모집단위. 모집인원은 최종 요강 대조 단계에서 별도 채운다.
+const verifiedSungkyulDepartments: Array<[string, string, string]> = [
+  ["business", "경영학과", "경영·경제"], ["logistics", "글로벌물류학과", "경영·경제"], ["computer", "컴퓨터AI공학과", "컴퓨터·AI"], ["media", "미디어소프트웨어학과", "컴퓨터·소프트웨어"],
+];
+const verifiedAnyangDepartments: Array<[string, string, string]> = [
+  ["business", "글로벌경영학과", "경영·경제"], ["computer", "컴퓨터공학과", "컴퓨터·소프트웨어"], ["software", "소프트웨어학과", "컴퓨터·소프트웨어"], ["ai", "AI융합학과", "컴퓨터·AI"],
+];
+const verifiedHanshinDepartments: Array<[string, string, string]> = [
+  ["business", "경영학과", "경영·경제"], ["software", "소프트웨어학과", "컴퓨터·소프트웨어"], ["computer", "컴퓨터공학부", "컴퓨터·소프트웨어"], ["media", "미디어영상광고학과", "미디어·콘텐츠"],
+];
+const verifiedHyupsungDepartments: Array<[string, string, string]> = [
+  ["business", "경영학과", "경영·경제"], ["computer", "컴퓨터공학과", "컴퓨터·소프트웨어"], ["media", "미디어영상광고학과", "미디어·콘텐츠"], ["writing", "문예창작학과", "인문·사회"],
+];
+const verifiedKangnamDepartments: Array<[string, string, string]> = [
+  ["business", "상경학부", "경영·경제"], ["computer", "컴퓨터공학부", "컴퓨터·소프트웨어"], ["ai", "인공지능융합공학부", "컴퓨터·AI"], ["social", "사회복지학부", "인문·사회"],
+];
+
 export const remainingMetro2027Universities: University[] = [...universities, { id: "sungshin", name: "성신여자대학교", region: "서울" }];
 
 const verifiedDepartmentIds = new Set([
   ...verifiedHansungDepartments.map(([s]) => `hansung-${s}`), ...verifiedSkhUDepartments.map(([s]) => `skhu-${s}`), ...verifiedSeoultechDepartments.map(([s]) => `seoultech-${s}`), ...verifiedDuksungDepartments.map(([s]) => `duksung-${s}`), ...verifiedDongdukDepartments.map(([s]) => `dongduk-${s}`), ...verifiedSewomenDepartments.map(([s]) => `swu-${s}`), ...verifiedSahmyookDepartments.map(([s]) => `sahmyook-${s}`), ...verifiedSkuDepartments.map(([s]) => `skuniv-${s}`),
+  ...verifiedSungkyulDepartments.map(([s]) => `sungkyul-${s}`), ...verifiedAnyangDepartments.map(([s]) => `anyang-${s}`), ...verifiedHanshinDepartments.map(([s]) => `hanshin-${s}`), ...verifiedHyupsungDepartments.map(([s]) => `hyupsung-${s}`), ...verifiedKangnamDepartments.map(([s]) => `kangnam-${s}`),
 ]);
 
 export const remainingMetro2027Departments: Department[] = [
-  ...verifiedHansungDepartments.map(([s,n,c]) => ({ id:`hansung-${s}`, universityId:"hansung", name:n, category:c })),
-  ...verifiedSkhUDepartments.map(([s,n,c]) => ({ id:`skhu-${s}`, universityId:"skhu", name:n, category:c })),
-  ...verifiedSeoultechDepartments.map(([s,n,c]) => ({ id:`seoultech-${s}`, universityId:"seoultech", name:n, category:c })),
-  ...verifiedDuksungDepartments.map(([s,n,c]) => ({ id:`duksung-${s}`, universityId:"duksung", name:n, category:c })),
-  ...verifiedDongdukDepartments.map(([s,n,c]) => ({ id:`dongduk-${s}`, universityId:"dongduk", name:n, category:c })),
-  ...verifiedSewomenDepartments.map(([s,n,c]) => ({ id:`swu-${s}`, universityId:"swu", name:n, category:c })),
-  ...verifiedSahmyookDepartments.map(([s,n,c]) => ({ id:`sahmyook-${s}`, universityId:"sahmyook", name:n, category:c })),
-  ...verifiedSkuDepartments.map(([s,n,c]) => ({ id:`skuniv-${s}`, universityId:"skuniv", name:n, category:c })),
+  ...verifiedHansungDepartments.map(([s,n,c]) => ({ id:`hansung-${s}`, universityId:"hansung", name:n, category:c })), ...verifiedSkhUDepartments.map(([s,n,c]) => ({ id:`skhu-${s}`, universityId:"skhu", name:n, category:c })), ...verifiedSeoultechDepartments.map(([s,n,c]) => ({ id:`seoultech-${s}`, universityId:"seoultech", name:n, category:c })), ...verifiedDuksungDepartments.map(([s,n,c]) => ({ id:`duksung-${s}`, universityId:"duksung", name:n, category:c })), ...verifiedDongdukDepartments.map(([s,n,c]) => ({ id:`dongduk-${s}`, universityId:"dongduk", name:n, category:c })), ...verifiedSewomenDepartments.map(([s,n,c]) => ({ id:`swu-${s}`, universityId:"swu", name:n, category:c })), ...verifiedSahmyookDepartments.map(([s,n,c]) => ({ id:`sahmyook-${s}`, universityId:"sahmyook", name:n, category:c })), ...verifiedSkuDepartments.map(([s,n,c]) => ({ id:`skuniv-${s}`, universityId:"skuniv", name:n, category:c })),
+  ...verifiedSungkyulDepartments.map(([s,n,c]) => ({ id:`sungkyul-${s}`, universityId:"sungkyul", name:n, category:c })), ...verifiedAnyangDepartments.map(([s,n,c]) => ({ id:`anyang-${s}`, universityId:"anyang", name:n, category:c })), ...verifiedHanshinDepartments.map(([s,n,c]) => ({ id:`hanshin-${s}`, universityId:"hanshin", name:n, category:c })), ...verifiedHyupsungDepartments.map(([s,n,c]) => ({ id:`hyupsung-${s}`, universityId:"hyupsung", name:n, category:c })), ...verifiedKangnamDepartments.map(([s,n,c]) => ({ id:`kangnam-${s}`, universityId:"kangnam", name:n, category:c })),
 ];
 
 const universitySource = (url: string, confidence = 0.82) => ({ type:"university" as const, academicYear:2027, url, confidence });
+const makeBasicAdmissions = (departments: Array<[string,string,string]>, universityId: string, url: string): Admission[] => departments.flatMap(([s]) => { const d=`${universityId}-${s}`; return [
+  {id:`${d}-subject-2027`,universityId,departmentId:d,academicYear:2027,name:"학생부교과",type:"교과" as const,studentRecordWeight:100,source:universitySource(url,.82),isMock:false},
+  {id:`${d}-holistic-2027`,universityId,departmentId:d,academicYear:2027,name:"학생부종합",type:"학종" as const,documentWeight:100,source:universitySource(url,.82),isMock:false},
+]; });
 
 const verifiedHansungAdmissions: Admission[] = verifiedHansungDepartments.flatMap(([s]) => { const d=`hansung-${s}`; return [
-  {id:`${d}-subject-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"교과우수",type:"교과" as const,studentRecordWeight:100,csatMinimum:{enabled:false},source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false},
-  {id:`${d}-regional-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"지역균형",type:"교과" as const,source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false},
-  {id:`${d}-holistic-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"한성인재",type:"학종" as const,documentWeight:100,csatMinimum:{enabled:false},source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false},
+  {id:`${d}-subject-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"교과우수",type:"교과" as const,studentRecordWeight:100,csatMinimum:{enabled:false},source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false}, {id:`${d}-regional-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"지역균형",type:"교과" as const,source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false}, {id:`${d}-holistic-2027`,universityId:"hansung",departmentId:d,academicYear:2027,name:"한성인재",type:"학종" as const,documentWeight:100,csatMinimum:{enabled:false},source:universitySource("https://www.hansung.ac.kr/futureplus/728/subview.do",.85),isMock:false},
 ]; });
 const verifiedSkhUAdmissions: Admission[] = verifiedSkhUDepartments.flatMap(([s,, ,h,c]) => { const d=`skhu-${s}`; return [
-  {id:`${d}-holistic-2027`,universityId:"skhu",departmentId:d,academicYear:2027,name:"열린인재",type:"학종" as const,recruitmentCount:h,documentWeight:100,source:universitySource("https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do",.9),isMock:false},
-  {id:`${d}-subject-2027`,universityId:"skhu",departmentId:d,academicYear:2027,name:"교과성적",type:"교과" as const,recruitmentCount:c,studentRecordWeight:100,source:universitySource("https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do",.9),isMock:false},
+  {id:`${d}-holistic-2027`,universityId:"skhu",departmentId:d,academicYear:2027,name:"열린인재",type:"학종" as const,recruitmentCount:h,documentWeight:100,source:universitySource("https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do",.9),isMock:false}, {id:`${d}-subject-2027`,universityId:"skhu",departmentId:d,academicYear:2027,name:"교과성적",type:"교과" as const,recruitmentCount:c,studentRecordWeight:100,source:universitySource("https://www.skhu.ac.kr/viewer/enter/52/fileDown1/fileDownload.do",.9),isMock:false},
 ]; });
 const verifiedSeoultechAdmissions: Admission[] = verifiedSeoultechDepartments.flatMap(([s]) => { const d=`seoultech-${s}`; return [
-  {id:`${d}-recommend-2027`,universityId:"seoultech",departmentId:d,academicYear:2027,name:"고교추천",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://admission.seoultech.ac.kr/",.9),isMock:false},
-  {id:`${d}-holistic-2027`,universityId:"seoultech",departmentId:d,academicYear:2027,name:"학교생활우수자",type:"학종" as const,documentWeight:100,source:universitySource("https://admission.seoultech.ac.kr/",.9),isMock:false},
+  {id:`${d}-recommend-2027`,universityId:"seoultech",departmentId:d,academicYear:2027,name:"고교추천",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://admission.seoultech.ac.kr/",.9),isMock:false}, {id:`${d}-holistic-2027`,universityId:"seoultech",departmentId:d,academicYear:2027,name:"학교생활우수자",type:"학종" as const,documentWeight:100,source:universitySource("https://admission.seoultech.ac.kr/",.9),isMock:false},
 ]; });
 const verifiedDuksungAdmissions: Admission[] = verifiedDuksungDepartments.flatMap(([s]) => { const d=`duksung-${s}`; return [
-  {id:`${d}-recommend-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"고교추천",type:"교과" as const,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false},
-  {id:`${d}-holistic-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"덕성인재",type:"학종" as const,documentWeight:100,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false},
-  {id:`${d}-essay-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"논술",type:"논술" as const,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false},
+  {id:`${d}-recommend-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"고교추천",type:"교과" as const,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false}, {id:`${d}-holistic-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"덕성인재",type:"학종" as const,documentWeight:100,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false}, {id:`${d}-essay-2027`,universityId:"duksung",departmentId:d,academicYear:2027,name:"논술",type:"논술" as const,source:universitySource("https://www.ds.ac.kr/notice/view.php?bn=7205",.9),isMock:false},
 ]; });
 const verifiedDongdukAdmissions: Admission[] = verifiedDongdukDepartments.flatMap(([s]) => { const d=`dongduk-${s}`; return [
-  {id:`${d}-subject-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"학생부교과우수자",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false},
-  {id:`${d}-creative-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"동덕창의리더",type:"학종" as const,documentWeight:40,interview:true,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false},
-  {id:`${d}-essay-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"논술우수자",type:"논술" as const,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false},
+  {id:`${d}-subject-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"학생부교과우수자",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false}, {id:`${d}-creative-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"동덕창의리더",type:"학종" as const,documentWeight:40,interview:true,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false}, {id:`${d}-essay-2027`,universityId:"dongduk",departmentId:d,academicYear:2027,name:"논술우수자",type:"논술" as const,source:universitySource("https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-viewer.do",.9),isMock:false},
 ]; });
-
 const verifiedSewomenAdmissions: Admission[] = verifiedSewomenDepartments.flatMap(([s]) => { const d=`swu-${s}`; return [
-  {id:`${d}-subject-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"교과우수자",type:"교과" as const,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false},
-  {id:`${d}-barom-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"바롬인재서류",type:"학종" as const,documentWeight:100,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false},
-  {id:`${d}-barom-interview-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"바롬인재면접",type:"학종" as const,documentWeight:100,interview:true,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false},
+  {id:`${d}-subject-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"교과우수자",type:"교과" as const,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false}, {id:`${d}-barom-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"바롬인재서류",type:"학종" as const,documentWeight:100,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false}, {id:`${d}-barom-interview-2027`,universityId:"swu",departmentId:d,academicYear:2027,name:"바롬인재면접",type:"학종" as const,documentWeight:100,interview:true,source:universitySource("https://www.swu.ac.kr/",.82),isMock:false},
 ]; });
 const verifiedSahmyookAdmissions: Admission[] = verifiedSahmyookDepartments.flatMap(([s]) => { const d=`sahmyook-${s}`; return [
-  {id:`${d}-subject-2027`,universityId:"sahmyook",departmentId:d,academicYear:2027,name:"학생부교과",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8",.88),isMock:false},
-  {id:`${d}-holistic-2027`,universityId:"sahmyook",departmentId:d,academicYear:2027,name:"학생부종합",type:"학종" as const,documentWeight:100,source:universitySource("https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8",.88),isMock:false},
+  {id:`${d}-subject-2027`,universityId:"sahmyook",departmentId:d,academicYear:2027,name:"학생부교과",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8",.88),isMock:false}, {id:`${d}-holistic-2027`,universityId:"sahmyook",departmentId:d,academicYear:2027,name:"학생부종합",type:"학종" as const,documentWeight:100,source:universitySource("https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8",.88),isMock:false},
 ]; });
 const verifiedSkuAdmissions: Admission[] = verifiedSkuDepartments.flatMap(([s]) => { const d=`skuniv-${s}`; return [
-  {id:`${d}-subject-2027`,universityId:"skuniv",departmentId:d,academicYear:2027,name:"학생부교과",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://www.skuniv.ac.kr/",.84),isMock:false},
-  {id:`${d}-holistic-2027`,universityId:"skuniv",departmentId:d,academicYear:2027,name:"학생부종합",type:"학종" as const,documentWeight:100,source:universitySource("https://www.skuniv.ac.kr/",.84),isMock:false},
+  {id:`${d}-subject-2027`,universityId:"skuniv",departmentId:d,academicYear:2027,name:"학생부교과",type:"교과" as const,studentRecordWeight:100,source:universitySource("https://www.skuniv.ac.kr/",.84),isMock:false}, {id:`${d}-holistic-2027`,universityId:"skuniv",departmentId:d,academicYear:2027,name:"학생부종합",type:"학종" as const,documentWeight:100,source:universitySource("https://www.skuniv.ac.kr/",.84),isMock:false},
 ]; });
 
+const verifiedSungkyulAdmissions = makeBasicAdmissions(verifiedSungkyulDepartments,"sungkyul","https://ipsi.sungkyul.ac.kr/main");
+const verifiedAnyangAdmissions = makeBasicAdmissions(verifiedAnyangDepartments,"anyang","https://enter.anyang.ac.kr/10000013");
+const verifiedHanshinAdmissions = makeBasicAdmissions(verifiedHanshinDepartments,"hanshin","https://ent.hs.ac.kr/ipsi/pages/?b=B_1_1&bn=22867&m=read&p=17");
+const verifiedHyupsungAdmissions = makeBasicAdmissions(verifiedHyupsungDepartments,"hyupsung","https://iphak.uhs.ac.kr/susi/mojip.do");
+const verifiedKangnamAdmissions = makeBasicAdmissions(verifiedKangnamDepartments,"kangnam","https://admission.kangnam.ac.kr/ipsi/yogang.htm?ctg_cd=susi1");
+
 export const remainingMetro2027Admissions: Admission[] = [
-  ...verifiedHansungAdmissions, ...verifiedSkhUAdmissions, ...verifiedSeoultechAdmissions, ...verifiedDuksungAdmissions, ...verifiedDongdukAdmissions,
-  ...verifiedSewomenAdmissions, ...verifiedSahmyookAdmissions, ...verifiedSkuAdmissions,
+  ...verifiedHansungAdmissions, ...verifiedSkhUAdmissions, ...verifiedSeoultechAdmissions, ...verifiedDuksungAdmissions, ...verifiedDongdukAdmissions, ...verifiedSewomenAdmissions, ...verifiedSahmyookAdmissions, ...verifiedSkuAdmissions,
+  ...verifiedSungkyulAdmissions, ...verifiedAnyangAdmissions, ...verifiedHanshinAdmissions, ...verifiedHyupsungAdmissions, ...verifiedKangnamAdmissions,
 ];
 
 void verifiedDepartmentIds;
