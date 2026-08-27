@@ -14,4 +14,26 @@ export const myongji2027Departments: Department[] = [
   { id: "myongji-design", universityId: "myongji", name: "디자인학부" },
 ];
 
-export const myongji2027Admissions: Admission[] = [];
+export const myongji2027Admissions: Admission[] = [
+  {
+    id: "myongji-business-gyogwa",
+    universityId: "myongji",
+    departmentId: "myongji-business",
+    academicYear: 2027,
+    name: "학생부교과",
+    type: "교과",
+    studentRecordWeight: 100,
+    source: { type: "university", academicYear: 2027 },
+    isMock: false,
+  },
+  {
+    id: "myongji-business-hakjong",
+    universityId: "myongji",
+    departmentId: "myongji-business",
+    academicYear: 2027,
+    name: "학생부종합",
+    type: "학종",
+    source: { type: "university", academicYear: 2027 },
+    isMock: false,
+  },
+];
