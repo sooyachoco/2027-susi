@@ -22,4 +22,15 @@ export const seoulBatch2027Departments: Department[] = [
   { id: "sammyook-computer", universityId: "sammyook", name: "컴퓨터공학부" },
 ];
 
-export const seoulBatch2027Admissions: Admission[] = [];
+export const seoulBatch2027Admissions: Admission[] = [
+  { id: "duksung-batch-gyogwa", universityId: "duksung", departmentId: "duksung-business", academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "duksung-batch-hakjong", universityId: "duksung", departmentId: "duksung-business", academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "seoulwomen-batch-gyogwa", universityId: "seoulwomen", departmentId: "seoulwomen-business", academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "seoulwomen-batch-hakjong", universityId: "seoulwomen", departmentId: "seoulwomen-business", academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "sangmyung-batch-gyogwa", universityId: "sangmyung", departmentId: "sangmyung-business", academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "sangmyung-batch-hakjong", universityId: "sangmyung", departmentId: "sangmyung-business", academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "seokyeong-batch-gyogwa", universityId: "seokyeong", departmentId: "seokyeong-business", academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "seokyeong-batch-hakjong", universityId: "seokyeong", departmentId: "seokyeong-business", academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "sammyook-batch-gyogwa", universityId: "sammyook", departmentId: "sammyook-business", academicYear: 2027, name: "학생부교과", type: "교과", studentRecordWeight: 100, source: { type: "university", academicYear: 2027 }, isMock: false },
+  { id: "sammyook-batch-hakjong", universityId: "sammyook", departmentId: "sammyook-business", academicYear: 2027, name: "학생부종합", type: "학종", source: { type: "university", academicYear: 2027 }, isMock: false },
+];
