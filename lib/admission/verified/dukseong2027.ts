@@ -12,6 +12,7 @@ export const dukseong2027Departments: Department[] = [
   { id: "dukseong-media", universityId: "dukseong", name: "디지털소프트웨어공학부" },
   { id: "dukseong-psychology", universityId: "dukseong", name: "심리학전공" },
   { id: "dukseong-english", universityId: "dukseong", name: "영어영문학전공" },
+  { id: "dukseong-media-communication", universityId: "dukseong", name: "미디어커뮤니케이션학전공" },
 ];
 
 export const dukseong2027Admissions: Admission[] = [];
