@@ -63,8 +63,8 @@ export const verifiedSungshin2027Departments: Department[] = departments.map((de
 
 const source = {
   type: "university" as const,
-  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view&page=1",
-  document: "성신여자대학교 2027학년도 수시 신입생 모집요강",
+  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=notice&bltn_seq=36251&ctg_cd=susi&mode=view",
+  document: "성신여자대학교 2027학년도 특성화고등을 졸업한 재직자전형 모집요강 및 안내책자",
   academicYear: 2027,
   confidence: 0.99,
 };
@@ -75,115 +75,57 @@ const csatMinimum = {
 };
 
 const essayDepartmentIds = new Set([
-  "sungshin-korean",
-  "sungshin-english",
-  "sungshin-german",
-  "sungshin-french",
-  "sungshin-japanese",
-  "sungshin-chinese",
-  "sungshin-history",
-  "sungshin-arts-management",
-  "sungshin-politics",
-  "sungshin-psychology",
-  "sungshin-geography",
-  "sungshin-economics",
-  "sungshin-media",
-  "sungshin-business",
-  "sungshin-social-welfare",
-  "sungshin-law",
-  "sungshin-clothing",
-  "sungshin-consumer",
-  "sungshin-nursing",
-  "sungshin-statistics",
-  "sungshin-chem-energy",
-  "sungshin-biohealth",
-  "sungshin-clean-materials",
-  "sungshin-biofood",
-  "sungshin-biodrug",
-  "sungshin-ai",
-  "sungshin-ai-semiconductor",
-  "sungshin-computer",
-  "sungshin-security",
-  "sungshin-service-design",
+  "sungshin-korean", "sungshin-english", "sungshin-german", "sungshin-french", "sungshin-japanese", "sungshin-chinese", "sungshin-history", "sungshin-arts-management", "sungshin-politics", "sungshin-psychology", "sungshin-geography", "sungshin-economics", "sungshin-media", "sungshin-business", "sungshin-social-welfare", "sungshin-law", "sungshin-clothing", "sungshin-consumer", "sungshin-nursing", "sungshin-statistics", "sungshin-chem-energy", "sungshin-biohealth", "sungshin-clean-materials", "sungshin-biofood", "sungshin-biodrug", "sungshin-ai", "sungshin-ai-semiconductor", "sungshin-computer", "sungshin-security", "sungshin-service-design",
 ]);
-
-// 전형별 모집단위 범위는 공식 모집요강의 전형별 표를 추가 대조한 뒤 단계적으로 확정한다.
-// 이번 커밋에서는 모집단위 누락을 먼저 해소하고 기존에 검증된 전형 연결은 유지한다.
 const selfDirectedDepartmentIds = new Set([
-  "sungshin-business",
-  "sungshin-economics",
-  "sungshin-media",
-  "sungshin-computer",
-  "sungshin-ai",
-  "sungshin-law",
-  "sungshin-education",
-  "sungshin-social-education",
-  "sungshin-ethics-education",
-  "sungshin-chinese-education",
-  "sungshin-early-childhood",
+  "sungshin-business", "sungshin-economics", "sungshin-media", "sungshin-computer", "sungshin-ai", "sungshin-law", "sungshin-education", "sungshin-social-education", "sungshin-ethics-education", "sungshin-chinese-education", "sungshin-early-childhood",
 ]);
 const regionalDepartmentIds = new Set([
-  "sungshin-business",
-  "sungshin-economics",
-  "sungshin-media",
-  "sungshin-computer",
-  "sungshin-ai",
-  "sungshin-law",
-  "sungshin-education",
-  "sungshin-social-education",
-  "sungshin-ethics-education",
-  "sungshin-chinese-education",
-  "sungshin-early-childhood",
+  "sungshin-business", "sungshin-economics", "sungshin-media", "sungshin-computer", "sungshin-ai", "sungshin-law", "sungshin-education", "sungshin-social-education", "sungshin-ethics-education", "sungshin-chinese-education", "sungshin-early-childhood",
 ]);
 
 const essayAdmissions: Admission[] = verifiedSungshin2027Departments
   .filter((department) => essayDepartmentIds.has(department.id))
   .map((department) => ({
-    id: `${department.id}-essay-2027`,
-    universityId: "sungshin-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    name: "논술우수자전형",
-    type: "논술",
-    csatMinimum,
-    source,
-    isMock: false,
+    id: `${department.id}-essay-2027`, universityId: "sungshin-2027", departmentId: department.id,
+    academicYear: 2027, name: "논술우수자전형", type: "논술", csatMinimum, source, isMock: false,
   }));
 
 const selfDirectedAdmissions: Admission[] = verifiedSungshin2027Departments
   .filter((department) => selfDirectedDepartmentIds.has(department.id))
   .map((department) => ({
-    id: `${department.id}-self-directed-2027`,
-    universityId: "sungshin-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    name: "자기주도인재",
-    type: "학종",
-    documentWeight: 60,
-    interview: true,
-    source,
-    isMock: false,
+    id: `${department.id}-self-directed-2027`, universityId: "sungshin-2027", departmentId: department.id,
+    academicYear: 2027, name: "자기주도인재", type: "학종", documentWeight: 60, interview: true, source, isMock: false,
   }));
 
 const regionalAdmissions: Admission[] = verifiedSungshin2027Departments
   .filter((department) => regionalDepartmentIds.has(department.id))
   .map((department) => ({
-    id: `${department.id}-regional-2027`,
+    id: `${department.id}-regional-2027`, universityId: "sungshin-2027", departmentId: department.id,
+    academicYear: 2027, name: "지역균형", type: "교과", studentRecordWeight: 100, csatMinimum, source, isMock: false,
+  }));
+
+// 2027 정원외 재직자전형: 경영학과 113명.
+// 2026-08-18 공식 안내책자와 2027 대입전형 기본계획에서 모집단위/인원을 교차 확인.
+const incumbentWorkerAdmissions: Admission[] = [
+  {
+    id: "sungshin-business-incumbent-worker-2027",
     universityId: "sungshin-2027",
-    departmentId: department.id,
+    departmentId: "sungshin-business",
     academicYear: 2027,
-    name: "지역균형",
-    type: "교과",
-    studentRecordWeight: 100,
-    csatMinimum,
+    name: "특성화고 등을 졸업한 재직자전형",
+    type: "학종",
+    recruitmentCount: 113,
     source,
     isMock: false,
-  }));
+  },
+];
 
 export const verifiedSungshin2027Admissions: Admission[] = [
   ...essayAdmissions,
   ...selfDirectedAdmissions,
   ...regionalAdmissions,
+  ...incumbentWorkerAdmissions,
 ];
 
 void source;
