@@ -38,6 +38,8 @@ import { verifiedMetroBatch4Admissions, verifiedMetroBatch4Departments, verified
 import { verifiedInhaSuwonDankook2027Admissions, verifiedInhaSuwonDankook2027Departments, verifiedInhaSuwonDankook2027Universities } from "./verifiedInhaSuwonDankook2027";
 import { verifiedDuksung2027Admissions, verifiedDuksung2027Departments, verifiedDuksung2027Universities } from "./verifiedDuksung2027";
 import { verifiedDongduk2027Admissions, verifiedDongduk2027Departments, verifiedDongduk2027Universities } from "./verifiedDongduk2027";
+import { verifiedSahmyook2027Admissions, verifiedSahmyook2027Departments, verifiedSahmyook2027Universities } from "./verifiedSahmyook2027";
+import { verifiedSungkonghoe2027Admissions, verifiedSungkonghoe2027Departments, verifiedSungkonghoe2027Universities } from "./verifiedSungkonghoe2027";
 import { seoulRealBatch2Admissions, seoulRealBatch2Departments, seoulRealBatch2Universities } from "./verified/seoul_real_batch2_2027";
 import { seoulRealBatch3Admissions, seoulRealBatch3Departments, seoulRealBatch3Universities } from "./verified/seoul_real_batch3_2027";
 import { seoulRealBatch4Admissions, seoulRealBatch4Departments, seoulRealBatch4Universities } from "./verified/seoul_real_batch4_2027";
@@ -65,7 +67,8 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedHufs2027Admissions, ...verifiedSejong2027Admissions, ...verifiedHongik2027Admissions,
       ...verifiedCatholic2027Admissions, ...verifiedAnyang2027Admissions, ...verifiedHanshin2027Admissions,
       ...verifiedGyeonggiNext2027Admissions, ...verifiedGyeonggiBatch2Admissions, ...verifiedMetroBatch3Admissions, ...verifiedMetroBatch4Admissions,
-      ...verifiedInhaSuwonDankook2027Admissions, ...verifiedDuksung2027Admissions, ...verifiedDongduk2027Admissions, ...remainingMetro2027Admissions,
+      ...verifiedInhaSuwonDankook2027Admissions, ...verifiedDuksung2027Admissions, ...verifiedDongduk2027Admissions,
+      ...verifiedSahmyook2027Admissions, ...verifiedSungkonghoe2027Admissions, ...remainingMetro2027Admissions,
       ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions,
       ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions,
       ...seoulRealBatch9Admissions,
@@ -89,6 +92,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedAnyang2027Universities, ...verifiedHanshin2027Universities, ...verifiedGyeonggiNext2027Universities,
       ...verifiedGyeonggiBatch2Universities, ...verifiedMetroBatch3Universities, ...verifiedMetroBatch4Universities,
       ...verifiedInhaSuwonDankook2027Universities, ...verifiedDuksung2027Universities, ...verifiedDongduk2027Universities,
+      ...verifiedSahmyook2027Universities, ...verifiedSungkonghoe2027Universities,
       ...seoulRealNext2027Universities, ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities,
       ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities,
       ...seoulRealBatch9Universities,
@@ -112,6 +116,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...verifiedGyeonggiNext2027Departments,
       ...verifiedGyeonggiBatch2Departments, ...verifiedMetroBatch3Departments, ...verifiedMetroBatch4Departments,
       ...verifiedInhaSuwonDankook2027Departments, ...verifiedDuksung2027Departments, ...verifiedDongduk2027Departments,
+      ...verifiedSahmyook2027Departments, ...verifiedSungkonghoe2027Departments,
       ...verifiedCore2027Departments, ...verifiedSookmyung2027Departments, ...verifiedGyeonggi2027Departments,
       ...verifiedGachonAllFields2027Departments, ...verifiedIncheonAllFields2027Departments, ...verifiedKwangwoon2027Departments,
       ...verifiedUos2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedSeoulWomen2027Departments,
