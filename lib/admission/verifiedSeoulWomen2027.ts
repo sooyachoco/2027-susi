@@ -85,6 +85,6 @@ export const verifiedSeoulWomen2027Admissions: Admission[] = [
   ...["software", "data-science", "digital-media", "information-security"].map((key) => ({
     id: `${byKey(key)}-sw-2027`, universityId: "seoul-women", departmentId: byKey(key),
     academicYear: 2027 as const, name: "SW융합인재전형", type: "학종" as const,
-    documentWeight: 50, interviewWeight: 50, csatMinimum: { enabled: false }, source, isMock: false,
+    documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source, isMock: false,
   })),
 ];
