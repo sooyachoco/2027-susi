@@ -32,22 +32,6 @@ const universities: University[] = [
   { id: "skuniv", name: "서경대학교", region: "서울" },
 ];
 
-const departmentSeed: Array<[string, string, string]> = [
-  ["humanities", "인문사회계열", "인문·사회"],
-  ["business", "경영·경제계열", "경영·경제"],
-  ["law", "법·행정계열", "법·행정"],
-  ["media", "미디어·콘텐츠계열", "미디어·콘텐츠"],
-  ["computer", "컴퓨터·소프트웨어계열", "컴퓨터·소프트웨어"],
-  ["ai", "AI·데이터계열", "컴퓨터·AI"],
-  ["engineering", "공학계열", "공학"],
-  ["natural", "자연과학계열", "자연과학"],
-  ["bio", "생명·바이오계열", "생명·바이오"],
-  ["health", "보건·간호계열", "보건·간호"],
-  ["design", "디자인·예술계열", "디자인·예술"],
-  ["sports", "체육·스포츠계열", "체육·스포츠"],
-  ["free", "자유전공·전공자율선택", "자유전공"],
-];
-
 const verifiedHansungDepartments: Array<[string, string, string]> = [
   ["business", "경영학부", "경영·경제"],
   ["computer", "IT공과대학", "컴퓨터·소프트웨어"],
@@ -110,18 +94,6 @@ export const remainingMetro2027Universities: University[] = [
   { id: "sungshin", name: "성신여자대학교", region: "서울" },
 ];
 
-export const remainingMetro2027Departments: Department[] = [
-  ...universities.flatMap((u) => departmentSeed.map(([suffix, name, category]) => ({ id: `${u.id}-${suffix}`, universityId: u.id, name, category }))),
-  ...verifiedHansungDepartments.map(([suffix, name, category]) => ({ id: `hansung-${suffix}`, universityId: "hansung", name, category })),
-  ...verifiedSkhUDepartments.map(([suffix, name, category]) => ({ id: `skhu-${suffix}`, universityId: "skhu", name, category })),
-  ...verifiedSewomenDepartments.map(([suffix, name, category]) => ({ id: `swu-${suffix}`, universityId: "swu", name, category })),
-  ...verifiedSeoultechDepartments.map(([suffix, name, category]) => ({ id: `seoultech-${suffix}`, universityId: "seoultech", name, category })),
-  ...verifiedDuksungDepartments.map(([suffix, name, category]) => ({ id: `duksung-${suffix}`, universityId: "duksung", name, category })),
-  ...verifiedDongdukDepartments.map(([suffix, name, category]) => ({ id: `dongduk-${suffix}`, universityId: "dongduk", name, category })),
-  ...verifiedSahmyookDepartments.map(([suffix, name, category]) => ({ id: `sahmyook-${suffix}`, universityId: "sahmyook", name, category })),
-  ...verifiedSkuDepartments.map(([suffix, name, category]) => ({ id: `skuniv-${suffix}`, universityId: "skuniv", name, category })),
-];
-
 const verifiedDepartmentIds = new Set([
   ...verifiedHansungDepartments.map(([suffix]) => `hansung-${suffix}`),
   ...verifiedSkhUDepartments.map(([suffix]) => `skhu-${suffix}`),
@@ -132,6 +104,17 @@ const verifiedDepartmentIds = new Set([
   ...verifiedSahmyookDepartments.map(([suffix]) => `sahmyook-${suffix}`),
   ...verifiedSkuDepartments.map(([suffix]) => `skuniv-${suffix}`),
 ]);
+
+export const remainingMetro2027Departments: Department[] = [
+  ...verifiedHansungDepartments.map(([suffix, name, category]) => ({ id: `hansung-${suffix}`, universityId: "hansung", name, category })),
+  ...verifiedSkhUDepartments.map(([suffix, name, category]) => ({ id: `skhu-${suffix}`, universityId: "skhu", name, category })),
+  ...verifiedSewomenDepartments.map(([suffix, name, category]) => ({ id: `swu-${suffix}`, universityId: "swu", name, category })),
+  ...verifiedSeoultechDepartments.map(([suffix, name, category]) => ({ id: `seoultech-${suffix}`, universityId: "seoultech", name, category })),
+  ...verifiedDuksungDepartments.map(([suffix, name, category]) => ({ id: `duksung-${suffix}`, universityId: "duksung", name, category })),
+  ...verifiedDongdukDepartments.map(([suffix, name, category]) => ({ id: `dongduk-${suffix}`, universityId: "dongduk", name, category })),
+  ...verifiedSahmyookDepartments.map(([suffix, name, category]) => ({ id: `sahmyook-${suffix}`, universityId: "sahmyook", name, category })),
+  ...verifiedSkuDepartments.map(([suffix, name, category]) => ({ id: `skuniv-${suffix}`, universityId: "skuniv", name, category })),
+];
 
 const verifiedHansungAdmissions: Admission[] = verifiedHansungDepartments.flatMap(([suffix]) => {
   const departmentId = `hansung-${suffix}`;
@@ -202,11 +185,6 @@ const verifiedSkuAdmissions: Admission[] = verifiedSkuDepartments.flatMap(([suff
 });
 
 export const remainingMetro2027Admissions: Admission[] = [
-  ...remainingMetro2027Departments.filter((d) => !verifiedDepartmentIds.has(d.id)).flatMap((d) => [
-    { id: `${d.id}-subject-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부교과", type: "교과" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
-    { id: `${d.id}-holistic-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "학생부종합", type: "학종" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
-    { id: `${d.id}-essay-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "논술", type: "논술" as const, source: { type: "adiga" as const, academicYear: 2027, confidence: 0.6 }, isMock: true },
-  ]),
   ...verifiedHansungAdmissions,
   ...verifiedSkhUAdmissions,
   ...verifiedSewomenAdmissions,
