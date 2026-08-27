@@ -28,31 +28,9 @@ const source = {
   confidence: 0.98,
 };
 
-export const verifiedDongguk2027Admissions: Admission[] = verifiedDongguk2027Departments.flatMap((department) => {
-  const admissions: Admission[] = [
-    {
-      id: `${department.id}-dodream`, universityId: "dongguk-2027", departmentId: department.id, academicYear: 2027,
-      name: "Do Dream", type: "학종", documentWeight: 100, interview: true,
-      csatMinimum: { enabled: false }, source, isMock: false,
-    },
-    {
-      id: `${department.id}-recommend`, universityId: "dongguk-2027", departmentId: department.id, academicYear: 2027,
-      name: "학교장추천인재", type: "교과", studentRecordWeight: 70,
-      csatMinimum: { enabled: false }, source, isMock: false,
-    },
-    {
-      id: `${department.id}-essay`, universityId: "dongguk-2027", departmentId: department.id, academicYear: 2027,
-      name: "논술", type: "논술", studentRecordWeight: 20,
-      csatMinimum: { enabled: true, description: "인문·자연 2개 영역 등급 합 5 이내(계열별 반영영역 기준 상이), 경찰행정 2개 영역 합 4, 약학 3개 영역 합 4" },
-      source, isMock: false,
-    },
-  ];
+// 2027 공식 모집단위·모집인원 표에서 전형별 배정이 서로 다르므로,
+// 논술을 모든 모집단위에 일괄 부여하던 기존 로직은 제거한다.
+// Do Dream / 학교장추천인재도 세부 모집단위 표를 추가 대조하면서 단계적으로 보강한다.
+export const verifiedDongguk2027Admissions: Admission[] = [];
 
-  if (/교육|체육|영화|스포츠|약학/.test(department.name)) {
-    admissions.push({
-      id: `${department.id}-special`, universityId: "dongguk-2027", departmentId: department.id, academicYear: 2027,
-      name: "실기/실적", type: "기타", source, isMock: false,
-    });
-  }
-  return admissions;
-});
+void source;
