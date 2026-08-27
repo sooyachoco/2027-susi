@@ -81,7 +81,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const map = new Map<string, University>();
     for (const u of scoped) {
       const key = `${normalize(u.name)}|${u.region}`;
-      if (!map.has(key) || isPreferredVerified(u)) map.set(key, u);
+      if (!map.has(key) || isPreferredVerified(u)) map.set(key, u as University);
     }
     const result = [...map.values()];
     return region ? result.filter((u) => u.region === region) : result;
