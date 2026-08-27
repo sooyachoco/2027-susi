@@ -38,9 +38,6 @@ const csatMinimum = {
   description: "국어·영어·수학·탐구(상위 1과목) 중 2개 영역 합 7등급 이내",
 };
 
-// 공식 2027 모집요강의 논술우수자전형 모집단위 표와
-// 현재 저장소에 등록된 성신여대 모집단위 중 교집합만 우선 반영한다.
-// 모집인원은 다음 검증 패스에서 모집단위별 표와 다시 대조한다.
 const essayDepartmentIds = new Set([
   "sungshin-business",
   "sungshin-economics",
@@ -50,7 +47,12 @@ const essayDepartmentIds = new Set([
   "sungshin-law",
 ]);
 
-export const verifiedSungshin2027Admissions: Admission[] = verifiedSungshin2027Departments
+// 2027 최종 모집요강의 전형방법을 현재 저장소에 등록된 모집단위에 우선 연결한다.
+// 모집인원은 모집단위별 표의 2차 검증에서 별도 반영한다.
+const selfDirectedDepartmentIds = new Set(verifiedSungshin2027Departments.map(({ id }) => id));
+const regionalDepartmentIds = new Set(verifiedSungshin2027Departments.map(({ id }) => id));
+
+const essayAdmissions: Admission[] = verifiedSungshin2027Departments
   .filter((department) => essayDepartmentIds.has(department.id))
   .map((department) => ({
     id: `${department.id}-essay-2027`,
@@ -63,5 +65,41 @@ export const verifiedSungshin2027Admissions: Admission[] = verifiedSungshin2027D
     source,
     isMock: false,
   }));
+
+const selfDirectedAdmissions: Admission[] = verifiedSungshin2027Departments
+  .filter((department) => selfDirectedDepartmentIds.has(department.id))
+  .map((department) => ({
+    id: `${department.id}-self-directed-2027`,
+    universityId: "sungshin-2027",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "자기주도인재",
+    type: "학종",
+    documentWeight: 60,
+    interview: true,
+    source,
+    isMock: false,
+  }));
+
+const regionalAdmissions: Admission[] = verifiedSungshin2027Departments
+  .filter((department) => regionalDepartmentIds.has(department.id))
+  .map((department) => ({
+    id: `${department.id}-regional-2027`,
+    universityId: "sungshin-2027",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "지역균형",
+    type: "교과",
+    studentRecordWeight: 100,
+    csatMinimum,
+    source,
+    isMock: false,
+  }));
+
+export const verifiedSungshin2027Admissions: Admission[] = [
+  ...essayAdmissions,
+  ...selfDirectedAdmissions,
+  ...regionalAdmissions,
+];
 
 void source;
