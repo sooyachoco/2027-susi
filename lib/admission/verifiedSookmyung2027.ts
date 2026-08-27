@@ -20,6 +20,11 @@ export const verifiedSookmyung2027Departments: Department[] = [
   { id: "sookmyung-business", universityId: "sookmyung", name: "경영학부", category: "경영·경제" },
   { id: "sookmyung-economics", universityId: "sookmyung", name: "경제학부", category: "경영·경제" },
   { id: "sookmyung-consumer-economics", universityId: "sookmyung", name: "소비자경제학과", category: "경영·경제" },
+  { id: "sookmyung-korean", universityId: "sookmyung", name: "한국어문학부", category: "인문" },
+  { id: "sookmyung-history", universityId: "sookmyung", name: "역사문화학과", category: "인문" },
+  { id: "sookmyung-french", universityId: "sookmyung", name: "프랑스언어·문화학과", category: "인문" },
+  { id: "sookmyung-chinese", universityId: "sookmyung", name: "중어중문학부", category: "인문" },
+  { id: "sookmyung-german", universityId: "sookmyung", name: "독일언어·문화학과", category: "인문" },
 ];
 
 export const verifiedSookmyung2027Admissions: Admission[] = [
@@ -39,4 +44,19 @@ export const verifiedSookmyung2027Admissions: Admission[] = [
   { id: "sookmyung-consumer-economics-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-consumer-economics", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 6, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
   { id: "sookmyung-consumer-economics-region-2027", universityId: "sookmyung", departmentId: "sookmyung-consumer-economics", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 3, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
   { id: "sookmyung-consumer-economics-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-consumer-economics", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 3, csatMinimum: { enabled: true }, source, isMock: false },
+  { id: "sookmyung-korean-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-korean", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 12, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-korean-balance-2027", universityId: "sookmyung", departmentId: "sookmyung-korean", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 8, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-korean-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-korean", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 12, csatMinimum: { enabled: true }, source, isMock: false },
+  { id: "sookmyung-history-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-history", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 6, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-history-balance-2027", universityId: "sookmyung", departmentId: "sookmyung-history", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 5, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-history-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-history", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 5, csatMinimum: { enabled: true }, source, isMock: false },
+  { id: "sookmyung-french-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-french", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 10, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-french-balance-2027", universityId: "sookmyung", departmentId: "sookmyung-french", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 3, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-french-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-french", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 4, csatMinimum: { enabled: true }, source, isMock: false },
+  { id: "sookmyung-chinese-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-chinese", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 15, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-chinese-balance-2027", universityId: "sookmyung", departmentId: "sookmyung-chinese", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 9, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-chinese-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-chinese", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 12, csatMinimum: { enabled: true }, source, isMock: false },
+  { id: "sookmyung-german-hakjong-2027", universityId: "sookmyung", departmentId: "sookmyung-german", academicYear: 2027, name: "숙명인재(면접형)", type: "학종", recruitmentCount: 9, documentWeight: 70, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-german-balance-2027", universityId: "sookmyung", departmentId: "sookmyung-german", academicYear: 2027, name: "지역균형선발", type: "교과", recruitmentCount: 2, studentRecordWeight: 70, documentWeight: 30, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "sookmyung-german-essay-2027", universityId: "sookmyung", departmentId: "sookmyung-german", academicYear: 2027, name: "논술우수자", type: "논술", recruitmentCount: 3, csatMinimum: { enabled: true }, source, isMock: false },
 ];
