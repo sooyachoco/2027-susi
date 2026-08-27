@@ -9,7 +9,6 @@ const source = {
 
 /**
  * 안양대학교 2027 수시모집요강(최종본, 2026-06-19 반영)과 대입정보포털을 대조한 핵심 모집단위.
- * 전체 모집단위/특수전형은 후속 검증 대상으로 남긴다.
  */
 export const verifiedAnyang2027Universities: University[] = [
   { id: "anyang", name: "안양대학교", region: "경기" },
@@ -61,7 +60,9 @@ export const verifiedAnyang2027Admissions: Admission[] = departments.flatMap((de
     academicYear: 2027,
     name: "아리학생부종합전형",
     type: "학종" as const,
-    studentRecordWeight: 100,
+    documentWeight: 100,
+    interview: false,
+    csatMinimum: { enabled: false },
     source,
     isMock: false,
   },
