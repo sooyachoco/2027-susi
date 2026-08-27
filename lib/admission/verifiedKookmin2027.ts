@@ -6,10 +6,10 @@ export const verifiedKookmin2027Universities: University[] = [
 
 const source = {
   type: "university" as const,
-  url: "https://admission.kookmin.ac.kr/kmuUniversity/major_info.php",
-  document: "2027학년도 모집단위별 입학정원표",
+  url: "https://admission.kookmin.ac.kr/onschedule/notice.php?ctype=view&no=1081",
+  document: "2027학년도 수시 주요사항 안내(08.11.)",
   academicYear: 2027,
-  verifiedAt: "2026-08-26",
+  verifiedAt: "2026-08-27",
   confidence: 0.98,
 };
 
@@ -32,13 +32,16 @@ export const verifiedKookmin2027Departments: Department[] = names.map((name, i) 
   name,
 }));
 
+// 교과우수자와 국민프런티어는 공식 학생부위주전형 가이드북에서 모집단위별
+// 모집인원이 확인되므로 유지한다. 논술은 별도 모집단위 표와 대조하기 전까지
+// 모든 학과에 일괄 연결하지 않는다.
 export const verifiedKookmin2027Admissions: Admission[] = verifiedKookmin2027Departments.flatMap((department) => [
   {
     id: `${department.id}-school-recommendation`,
     universityId: "kookmin-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "교과",
+    type: "교과" as const,
     name: "교과우수자(학교장추천)전형",
     source,
     isMock: false,
@@ -48,18 +51,8 @@ export const verifiedKookmin2027Admissions: Admission[] = verifiedKookmin2027Dep
     universityId: "kookmin-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "학종",
+    type: "학종" as const,
     name: "국민프런티어전형",
-    source,
-    isMock: false,
-  },
-  {
-    id: `${department.id}-essay`,
-    universityId: "kookmin-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    type: "논술",
-    name: "논술전형",
     source,
     isMock: false,
   },
