@@ -2,8 +2,6 @@ import type { Admission, Department, University } from "../types";
 
 export const seoulFinalBatch2027Universities: University[] = [
   { id: "seoultech", name: "서울과학기술대학교", region: "서울" },
-  { id: "seoultech", name: "서울과학기술대학교", region: "서울" },
-  { id: "gachon_seoul", name: "가천대학교", region: "서울" },
   { id: "hankuk_foreign", name: "한국외국어대학교", region: "서울" },
   { id: "konkuk", name: "건국대학교", region: "서울" },
   { id: "hongik", name: "홍익대학교", region: "서울" },
