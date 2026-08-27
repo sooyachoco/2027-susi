@@ -50,7 +50,7 @@ export const verifiedSahmyook2027Admissions: Admission[] = verifiedSahmyook2027D
       id: `${d.id}-seum-2027`, universityId: "sahmyook", departmentId: d.id,
       academicYear: 2027, name: "세움인재전형", type: "학종",
       ...(counts.seum ? { recruitmentCount: counts.seum } : {}),
-      documentWeight: 60, interviewWeight: 40,
+      documentWeight: 60, interview: true,
       csatMinimum: isPharmacy ? { enabled: true, description: "국어·영어·수학(미적분 또는 기하)·과학탐구(1과목) 중 3개 영역 합 5등급 이내" } : { enabled: false },
       source, isMock: false,
     },
