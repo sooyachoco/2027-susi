@@ -10,6 +10,7 @@ const coreDepartments = [
   { id: "sungshin-media", name: "미디어커뮤니케이션학과", category: "미디어·콘텐츠" },
   { id: "sungshin-computer", name: "컴퓨터공학과", category: "컴퓨터·소프트웨어" },
   { id: "sungshin-ai", name: "AI융합학과", category: "컴퓨터·소프트웨어" },
+  { id: "sungshin-ai-semiconductor", name: "융합AI반도체공학과", category: "컴퓨터·소프트웨어" },
   { id: "sungshin-law", name: "법학부", category: "법·행정" },
 ];
 
@@ -27,7 +28,7 @@ export const verifiedSungshin2027Departments: Department[] = [
 
 const source = {
   type: "university" as const,
-  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view&page=1",
+  url: "https://ipsi.sungshin.ac.kr/guide/recruit.htm?ctg_cd=susi",
   document: "성신여자대학교 2027학년도 수시 신입생 모집요강",
   academicYear: 2027,
   confidence: 0.99,
