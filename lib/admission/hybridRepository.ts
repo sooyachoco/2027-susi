@@ -2,7 +2,7 @@ import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { verified2027Admissions } from "./verified2027";
-import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verifiedCore2027Universities } from "./real2027";
+import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verified2027Universities as verifiedCore2027Universities } from "./real2027";
 import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
 import { verifiedAjou2027Admissions } from "./verifiedAjou2027";
 import { verifiedGyeonggi2027Admissions, verifiedGyeonggi2027Departments, verifiedGyeonggi2027Universities } from "./verifiedGyeonggi2027";
