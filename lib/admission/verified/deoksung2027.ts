@@ -14,4 +14,26 @@ export const deoksung2027Departments: Department[] = [
   { id: "deoksung-media", universityId: "deoksung", name: "미디어디자인전공" },
 ];
 
-export const deoksung2027Admissions: Admission[] = [];
+export const deoksung2027Admissions: Admission[] = [
+  {
+    id: "deoksung-student-record",
+    universityId: "deoksung",
+    departmentId: "deoksung-business",
+    academicYear: 2027,
+    name: "학생부교과",
+    type: "교과",
+    studentRecordWeight: 100,
+    source: { type: "university", academicYear: 2027 },
+    isMock: false,
+  },
+  {
+    id: "deoksung-hakjong",
+    universityId: "deoksung",
+    departmentId: "deoksung-business",
+    academicYear: 2027,
+    name: "학생부종합",
+    type: "학종",
+    source: { type: "university", academicYear: 2027 },
+    isMock: false,
+  },
+];
