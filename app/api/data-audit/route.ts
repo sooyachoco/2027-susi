@@ -77,15 +77,24 @@ export async function GET() {
     };
   });
 
-  const duplicateAdmissionGroups = Object.values(
-    admissions.reduce<Record<string, number>>((acc, admission) => {
-      const key = [admission.universityId, admission.departmentId, admission.type, admission.name]
-        .join("|")
-        .toLowerCase();
-      acc[key] = (acc[key] ?? 0) + 1;
-      return acc;
-    }, {}),
-  ).filter((count) => count > 1).length;
+  const duplicateAdmissionMap = admissions.reduce<Record<string, { count: number; universityId: string; departmentId: string; type: string; name: string }>>((acc, admission) => {
+    const key = [admission.universityId, admission.departmentId, admission.type, admission.name]
+      .join("|")
+      .toLowerCase();
+    const current = acc[key];
+    acc[key] = {
+      count: (current?.count ?? 0) + 1,
+      universityId: admission.universityId,
+      departmentId: admission.departmentId,
+      type: admission.type,
+      name: admission.name,
+    };
+    return acc;
+  }, {});
+
+  const duplicateAdmissionDetails = Object.values(duplicateAdmissionMap)
+    .filter((item) => item.count > 1)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
   const sparseUniversities = universityDepartmentCounts
     .filter((item) => item.departmentCount < 3 || item.admissionCount < 3)
@@ -111,7 +120,8 @@ export async function GET() {
     byType,
     bySource,
     byCategory,
-    duplicateAdmissionGroups,
+    duplicateAdmissionGroups: duplicateAdmissionDetails.length,
+    duplicateAdmissionDetails,
     sparseUniversities,
     educationCoverage,
     coveragePriority,
