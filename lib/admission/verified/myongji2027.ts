@@ -1,5 +1,7 @@
 import type { Admission, Department, University } from "../types";
 
+const source = { type: "adiga" as const, url: "https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000111", academicYear: 2027, verifiedAt: "2026-08-27", confidence: 0.95 };
+
 export const myongji2027University: University = {
   id: "myongji",
   name: "명지대학교",
@@ -15,25 +17,7 @@ export const myongji2027Departments: Department[] = [
 ];
 
 export const myongji2027Admissions: Admission[] = [
-  {
-    id: "myongji-business-gyogwa",
-    universityId: "myongji",
-    departmentId: "myongji-business",
-    academicYear: 2027,
-    name: "학생부교과",
-    type: "교과",
-    studentRecordWeight: 100,
-    source: { type: "university", academicYear: 2027 },
-    isMock: false,
-  },
-  {
-    id: "myongji-business-hakjong",
-    universityId: "myongji",
-    departmentId: "myongji-business",
-    academicYear: 2027,
-    name: "학생부종합",
-    type: "학종",
-    source: { type: "university", academicYear: 2027 },
-    isMock: false,
-  },
+  { id: "myongji-business-gyogwa", universityId: "myongji", departmentId: "myongji-business", academicYear: 2027, name: "학생부교과(학교장추천전형)", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "myongji-business-hakjong-myeongjiin-myeon", universityId: "myongji", departmentId: "myongji-business", academicYear: 2027, name: "학생부종합(명지인재면접전형)", type: "학종", documentWeight: 70, interview: true, source, isMock: false },
+  { id: "myongji-business-hakjong-myeongjiin-seoryu", universityId: "myongji", departmentId: "myongji-business", academicYear: 2027, name: "학생부종합(명지인재서류전형)", type: "학종", documentWeight: 100, interview: false, source, isMock: false },
 ];
