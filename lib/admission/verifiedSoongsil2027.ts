@@ -27,35 +27,8 @@ const source = {
   confidence: 0.95,
 };
 
-export const verifiedSoongsil2027Admissions: Admission[] = verifiedSoongsil2027Departments.flatMap((department) => [
-  {
-    id: `${department.id}-ssu-future`,
-    universityId: "soongsil-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    type: "학종" as const,
-    name: "SSU미래인재전형",
-    isMock: false,
-    source,
-  },
-  {
-    id: `${department.id}-교과`,
-    universityId: "soongsil-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    type: "교과" as const,
-    name: "교과우수자전형",
-    isMock: false,
-    source,
-  },
-  {
-    id: `${department.id}-논술`,
-    universityId: "soongsil-2027",
-    departmentId: department.id,
-    academicYear: 2027,
-    type: "논술" as const,
-    name: "논술우수자전형",
-    isMock: false,
-    source,
-  },
-]);
+// 전형별 모집단위 표를 모두 대조하기 전까지 모든 학과에
+// 논술을 일괄 연결하지 않는다. 기존 일괄 생성 데이터는 제거한다.
+export const verifiedSoongsil2027Admissions: Admission[] = [];
+
+void source;
