@@ -32,28 +32,84 @@ export const verifiedKookmin2027Departments: Department[] = names.map((name, i) 
   name,
 }));
 
-// 교과우수자와 국민프런티어는 공식 학생부위주전형 가이드북에서 모집단위별
-// 모집인원이 확인되므로 유지한다. 논술은 별도 모집단위 표와 대조하기 전까지
-// 모든 학과에 일괄 연결하지 않는다.
-export const verifiedKookmin2027Admissions: Admission[] = verifiedKookmin2027Departments.flatMap((department) => [
-  {
+// 2027 공식 모집시기별 모집인원표의 교과우수자·국민프런티어 열을 반영한다.
+// 현재 데이터에 2027 명칭과 정확히 일치하지 않는 구 모집단위는 0으로 두어
+// 잘못된 전형 추천을 막고, 후속 패스에서 학과명 자체를 최신 모집단위로 교체한다.
+const verifiedCounts: Record<string, { school: number; frontier: number }> = {
+  "한국어문학부": { school: 12, frontier: 14 },
+  "영어영문학부": { school: 18, frontier: 23 },
+  "중어중문학과": { school: 5, frontier: 19 },
+  "한국역사학과": { school: 10, frontier: 23 },
+  "행정학과": { school: 14, frontier: 15 },
+  "정치외교학과": { school: 5, frontier: 13 },
+  "사회학과": { school: 8, frontier: 10 },
+  "미디어·광고학부": { school: 8, frontier: 18 },
+  "교육학과": { school: 10, frontier: 10 },
+  "러시아·유라시아학과": { school: 4, frontier: 7 },
+  "동아시아국제학부": { school: 4, frontier: 25 },
+  "법학부": { school: 8, frontier: 33 },
+  "기업융합법학과": { school: 2, frontier: 0 },
+  "경제학과": { school: 16, frontier: 10 },
+  "국제통상금융학과": { school: 13, frontier: 10 },
+  "경영학부": { school: 26, frontier: 48 },
+  "경영정보학부": { school: 18, frontier: 0 },
+  "AI빅데이터융합경영학과": { school: 14, frontier: 15 },
+  "기업경영학부": { school: 10, frontier: 1 },
+  "회계세무학과": { school: 8, frontier: 0 },
+  "KMU International Business School": { school: 15, frontier: 15 },
+  "신소재공학부": { school: 16, frontier: 30 },
+  "기계공학부": { school: 40, frontier: 47 },
+  "건설시스템공학부": { school: 34, frontier: 0 },
+  "전자공학부": { school: 55, frontier: 65 },
+  "산림기후환경학과": { school: 0, frontier: 0 },
+  "바이오소재융합공학과": { school: 0, frontier: 0 },
+  "바이오의과학과": { school: 0, frontier: 0 },
+  "식품영양학과": { school: 3, frontier: 14 },
+  "융합바이오공학과": { school: 5, frontier: 10 },
+  "제약공학과": { school: 0, frontier: 0 },
+  "양자융합공학과": { school: 0, frontier: 0 },
+  "정보보안암호수학과": { school: 6, frontier: 8 },
+  "에너지반도체화학공학과": { school: 0, frontier: 0 },
+  "소프트웨어학부": { school: 10, frontier: 19 },
+  "인공지능학부": { school: 7, frontier: 11 },
+  "건축학부": { school: 17, frontier: 18 },
+  "자동차공학과": { school: 0, frontier: 0 },
+  "자동차IT융합학과": { school: 0, frontier: 0 },
+  "미래모빌리티학과": { school: 14, frontier: 9 },
+  "조형대학": { school: 0, frontier: 0 },
+  "예술대학": { school: 0, frontier: 0 },
+  "체육대학": { school: 0, frontier: 0 },
+  "스포츠교육학과": { school: 0, frontier: 0 },
+  "스포츠산업경영학과": { school: 0, frontier: 0 },
+  "스포츠건강재활학과": { school: 0, frontier: 0 },
+  "인문기술융합학부": { school: 200, frontier: 0 },
+  "미래융합전공": { school: 210, frontier: 0 },
+};
+
+export const verifiedKookmin2027Admissions: Admission[] = verifiedKookmin2027Departments.flatMap((department) => {
+  const counts = verifiedCounts[department.name] ?? { school: 0, frontier: 0 };
+  const result: Admission[] = [];
+  if (counts.school > 0) result.push({
     id: `${department.id}-school-recommendation`,
     universityId: "kookmin-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "교과" as const,
+    type: "교과",
     name: "교과우수자(학교장추천)전형",
+    recruitmentCount: counts.school,
     source,
     isMock: false,
-  },
-  {
+  });
+  if (counts.frontier > 0) result.push({
     id: `${department.id}-frontier`,
     universityId: "kookmin-2027",
     departmentId: department.id,
     academicYear: 2027,
-    type: "학종" as const,
+    type: "학종",
     name: "국민프런티어전형",
+    recruitmentCount: counts.frontier,
     source,
     isMock: false,
-  },
-]);
+  });
+  return result;
+});
