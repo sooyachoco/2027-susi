@@ -35,55 +35,47 @@ export const verifiedIncheonAllFields2027Departments: Department[] = [
 
 const departments = verifiedIncheonAllFields2027Departments;
 
-export const verifiedIncheonAllFields2027Admissions: Admission[] = departments.flatMap((department) => {
-  // 법학부·경영학부의 자기추천전형은 verified2027.ts/MetroCore에서
-  // 이미 동일 전형을 관리하므로 이 배치에서는 중복 생성하지 않는다.
-  const self = (department.id === "incheon-law" || department.id === "incheon-business")
-    ? []
-    : [{
-        id: `${department.id}-self-2027`,
-        universityId: "incheon",
-        departmentId: department.id,
-        academicYear: 2027,
-        name: "학생부종합(자기추천전형)",
-        type: "학종" as const,
-        documentWeight: 70,
-        interview: true,
-        csatMinimum: { enabled: false },
-        source: incheonSource,
-        isMock: false,
-      }];
-
-  return [
-    ...self,
-    {
-      id: `${department.id}-grade-2027`,
-      universityId: "incheon",
-      departmentId: department.id,
-      academicYear: 2027,
-      name: "학생부교과(교과성적우수자전형)",
-      type: "교과" as const,
-      studentRecordWeight: 100,
-      csatMinimum: {
-        enabled: true,
-        requiredSubjects: 2,
-        gradeSum: 7,
-        description: "인문계열·자연계열·디자인학부(동북아국제통상전공 제외) 2개 영역 등급합 7 이내. 동북아국제통상전공은 등급합 6 이내.",
-      },
-      source: incheonSource,
-      isMock: false,
+export const verifiedIncheonAllFields2027Admissions: Admission[] = departments.flatMap((department) => [
+  {
+    id: `${department.id}-self-2027`,
+    universityId: "incheon",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "학생부종합(자기추천전형)",
+    type: "학종" as const,
+    documentWeight: 70,
+    interview: true,
+    csatMinimum: { enabled: false },
+    source: incheonSource,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-grade-2027`,
+    universityId: "incheon",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "학생부교과(교과성적우수자전형)",
+    type: "교과" as const,
+    studentRecordWeight: 100,
+    csatMinimum: {
+      enabled: true,
+      requiredSubjects: 2,
+      gradeSum: 7,
+      description: "인문계열·자연계열·디자인학부(동북아국제통상전공 제외) 2개 영역 등급합 7 이내. 동북아국제통상전공은 등급합 6 이내.",
     },
-    {
-      id: `${department.id}-regional-2027`,
-      universityId: "incheon",
-      departmentId: department.id,
-      academicYear: 2027,
-      name: "학생부교과(지역균형전형)",
-      type: "교과" as const,
-      studentRecordWeight: 100,
-      csatMinimum: { enabled: false },
-      source: incheonSource,
-      isMock: false,
-    },
-  ];
-});
+    source: incheonSource,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-regional-2027`,
+    universityId: "incheon",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "학생부교과(지역균형전형)",
+    type: "교과" as const,
+    studentRecordWeight: 100,
+    csatMinimum: { enabled: false },
+    source: incheonSource,
+    isMock: false,
+  },
+]);
