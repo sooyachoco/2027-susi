@@ -86,7 +86,8 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       if (!map.has(key) || isPreferredVerified(rootUniversity)) map.set(key, rootUniversity);
     }
     const result = [...map.values()];
-    return region ? result.filter((u) => u.region === region) : result;
+    const filtered = region ? result.filter((u) => u.region === region) : result;
+    return filtered.map((u) => ({ id: u.id, name: u.name, region: u.region as AdmissionRegion }));
   }
 
   async getDepartments(universityId?: string): Promise<Department[]> {
