@@ -37,6 +37,7 @@ import { seoulRealBatch4Admissions, seoulRealBatch4Departments, seoulRealBatch4U
 import { seoulRealBatch5Admissions, seoulRealBatch5Departments, seoulRealBatch5Universities } from "./verified/seoul_real_batch5_2027";
 import { seoulRealBatch6Admissions, seoulRealBatch6Departments, seoulRealBatch6Universities } from "./verified/seoul_real_batch6_2027";
 import { seoulRealBatch7Admissions, seoulRealBatch7Departments, seoulRealBatch7Universities } from "./verified/seoul_real_batch7_2027";
+import { seoulRealBatch8Admissions, seoulRealBatch8Departments, seoulRealBatch8Universities } from "./verified/seoul_real_batch8_2027";
 import { seoulRealNext2027Admissions, seoulRealNext2027Departments, seoulRealNext2027Universities } from "./verified/seoul_real_next2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
@@ -56,7 +57,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedHufs2027Admissions, ...verifiedSejong2027Admissions, ...verifiedHongik2027Admissions,
       ...verifiedCatholic2027Admissions, ...verifiedAnyang2027Admissions, ...verifiedHanshin2027Admissions,
       ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions,
-      ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions,
+      ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
 
@@ -76,7 +77,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSejong2027Universities, ...verifiedHongik2027Universities, ...verifiedCatholic2027Universities,
       ...verifiedAnyang2027Universities, ...verifiedHanshin2027Universities, ...seoulRealNext2027Universities,
       ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities,
-      ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities,
+      ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
@@ -106,7 +107,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSejong2027Departments, ...verifiedHongik2027Departments, ...verifiedCatholic2027Departments,
       ...verifiedAnyang2027Departments, ...verifiedHanshin2027Departments, ...seoulRealNext2027Departments,
       ...seoulRealBatch2Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments,
-      ...seoulRealBatch5Departments, ...seoulRealBatch6Departments, ...seoulRealBatch7Departments,
+      ...seoulRealBatch5Departments, ...seoulRealBatch6Departments, ...seoulRealBatch7Departments, ...seoulRealBatch8Departments,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
