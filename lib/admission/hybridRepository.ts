@@ -1,6 +1,7 @@
 import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
+import { verifiedMetroAdmissions2027 } from "./verifiedMetroAdmissions2027";
 import { verified2027Admissions } from "./verified2027";
 import { verified2027Admissions as verifiedCore2027Admissions, verified2027Departments as verifiedCore2027Departments, verified2027Universities as verifiedCore2027Universities } from "./real2027";
 import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
@@ -69,6 +70,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedGyeonggiNext2027Admissions, ...verifiedGyeonggiBatch2Admissions, ...verifiedMetroBatch3Admissions, ...verifiedMetroBatch4Admissions,
       ...verifiedInhaSuwonDankook2027Admissions, ...verifiedDuksung2027Admissions, ...verifiedDongduk2027Admissions,
       ...verifiedSahmyook2027Admissions, ...verifiedSungkonghoe2027Admissions, ...remainingMetro2027Admissions,
+      ...verifiedMetroAdmissions2027,
       ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions,
       ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions,
       ...seoulRealBatch9Admissions,
@@ -157,9 +159,3 @@ function dedupeByKey<T extends { id: string }>(items: T[]): T[] {
   for (const item of items) map.set(item.id, item);
   return [...map.values()];
 }
-
-function isPreferredVerified(university: RootUniversity): boolean {
-  return /verified|real|2027/i.test(university.id);
-}
-
-export const verifiedAdmissionRepository = new HybridAdmissionRepository();
