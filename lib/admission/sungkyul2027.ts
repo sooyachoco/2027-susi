@@ -3,12 +3,12 @@ import type { Admission, Department } from "./types";
 const source = {
   type: "university" as const,
   academicYear: 2027,
-  url: "https://ipsi.sungkyul.ac.kr/main",
-  confidence: 0.86,
+  url: "https://ipsi.sungkyul.ac.kr/10000007",
+  confidence: 0.95,
 };
 
 // 2027 성결대 공식 입학처의 신설·명칭변경 공지에서 확인된 모집단위.
-// 최종 모집요강의 학과별 모집인원은 별도 검증 전이므로 숫자를 임의 입력하지 않는다.
+// 최종 모집요강의 전형별 학과 배정/학과별 모집인원은 별도 대조가 필요하므로 임의 배분하지 않는다.
 const catalog: Array<[string, string, string]> = [
   ["korean-culture", "한국어문화학과", "인문·사회"],
   ["english-culture", "영미언어문화학과", "인문·사회"],
@@ -31,8 +31,12 @@ export const sungkyul2027Departments: Department[] = catalog.map(([id, name, cat
   category,
 }));
 
-// 전형명 자체는 2027 성결대 시행계획/입학처 자료에서 확인된 구조를 사용한다.
-// 학과별 최종 모집인원·세부 전형 배정은 최종 모집요강 대조 후 별도 확정한다.
+// 대입정보포털 2027 성결대 전형평가기준과 공식 입학처 자료를 대조한 전형 방법.
+// 영암인재: 서류 100%, 수능최저 없음.
+// 교과성적우수자: 학생부교과 100%, 수능최저 없음.
+// SKU창의: 1단계 학생부교과 100%(6배수), 2단계 1단계 성적 40% + 면접 60%.
+// 미래인재/목회자추천자: 학생부교과 70% + 면접 30%.
+// 전형별 총 모집인원은 확인됐지만 학과별 배정은 이 파일에서 임의로 복제하지 않는다.
 export const sungkyul2027Admissions: Admission[] = sungkyul2027Departments.flatMap((department) => [
   {
     id: `${department.id}-subject-2027`,
@@ -42,6 +46,7 @@ export const sungkyul2027Admissions: Admission[] = sungkyul2027Departments.flatM
     name: "교과성적우수자",
     type: "교과" as const,
     studentRecordWeight: 100,
+    csatMinimum: { enabled: false },
     source,
     isMock: false,
   },
@@ -54,6 +59,7 @@ export const sungkyul2027Admissions: Admission[] = sungkyul2027Departments.flatM
     type: "교과" as const,
     studentRecordWeight: 70,
     interview: true,
+    csatMinimum: { enabled: false },
     source,
     isMock: false,
   },
@@ -64,9 +70,9 @@ export const sungkyul2027Admissions: Admission[] = sungkyul2027Departments.flatM
     academicYear: 2027,
     name: "SKU창의",
     type: "교과" as const,
-    studentRecordWeight: 60,
-    documentWeight: 40,
+    studentRecordWeight: 40,
     interview: true,
+    csatMinimum: { enabled: false },
     source,
     isMock: false,
   },
@@ -78,6 +84,8 @@ export const sungkyul2027Admissions: Admission[] = sungkyul2027Departments.flatM
     name: "영암인재",
     type: "학종" as const,
     documentWeight: 100,
+    interview: false,
+    csatMinimum: { enabled: false },
     source,
     isMock: false,
   },
