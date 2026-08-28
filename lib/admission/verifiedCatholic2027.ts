@@ -69,7 +69,6 @@ export const verifiedCatholic2027Admissions: Admission[] = [
           universityId: "catholic",
           departmentId: department.id,
           academicYear: 2027,
-          academicYear: 2027,
           name: "잠재능력우수자면접전형",
           type: "학종" as const,
           recruitmentCount: counts.interview,
