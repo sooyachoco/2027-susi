@@ -2,20 +2,18 @@ import { departments, universities } from "./mockData";
 import { expanded2027Departments, expanded2027Universities } from "./expanded2027";
 import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingMetro2027Universities } from "./remainingMetro2027";
 import { sungkyul2027Admissions, sungkyul2027Departments } from "./sungkyul2027";
+import { uos2027Admissions, uos2027Departments, uos2027Universities } from "./uos2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
 
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
-    return dedupeByKey([
-      ...remainingMetro2027Admissions,
-      ...sungkyul2027Admissions,
-    ].filter((a) => a.academicYear === 2027 && !a.isMock));
+    return dedupeByKey([...remainingMetro2027Admissions, ...sungkyul2027Admissions, ...uos2027Admissions].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
   async getUniversities(region?: AdmissionRegion): Promise<University[]> {
     const allowed = new Set(this.getVerifiedAdmissions().map((a) => a.universityId));
-    const all = dedupeByKey([...universities, ...expanded2027Universities, ...remainingMetro2027Universities]);
+    const all = dedupeByKey([...universities, ...expanded2027Universities, ...remainingMetro2027Universities, ...uos2027Universities]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
     for (const u of scoped) { const key = `${normalize(u.name)}|${u.region}`; if (!map.has(key)) map.set(key, { id:u.id, name:u.name, region:u.region }); }
@@ -24,7 +22,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
   }
   async getDepartments(universityId?: string): Promise<Department[]> {
     const allowed = new Set(this.getVerifiedAdmissions().map((a) => a.departmentId));
-    const all = dedupeByKey([...departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...sungkyul2027Departments]);
+    const all = dedupeByKey([...departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...sungkyul2027Departments, ...uos2027Departments]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
   }
@@ -33,8 +31,6 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     return this.getVerifiedAdmissions().filter((a) => allowed.has(a.universityId) && (!query.academicYear || a.academicYear === query.academicYear) && (!query.universityId || a.universityId === query.universityId) && (!query.departmentId || a.departmentId === query.departmentId) && (!query.type || a.type === query.type));
   }
 }
-
 export const verifiedAdmissionRepository: AdmissionRepository = new HybridAdmissionRepository();
-
 function normalize(value: string): string { return value.replace(/[\s·•ㆍ\-_/()]/g, "").toLowerCase(); }
 function dedupeByKey<T extends { id:string }>(items:T[]):T[] { const map=new Map<string,T>(); for(const item of items) map.set(item.id,item); return [...map.values()]; }
