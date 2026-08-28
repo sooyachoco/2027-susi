@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm install --no-save @opennextjs/cloudflare@1.20.4 && next build",
     "start": "next start",
     "lint": "next lint",
     "check:majors": "node scripts/major-match-check.mjs"
