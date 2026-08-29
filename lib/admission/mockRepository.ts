@@ -8,7 +8,7 @@ import { seoulRealBatch6Admissions, seoulRealBatch6Departments, seoulRealBatch6U
 import { seoulRealBatch7Admissions, seoulRealBatch7Departments, seoulRealBatch7Universities } from "./verified/seoul_real_batch7_2027";
 import type { Admission, AdmissionQuery, AdmissionRegion, AdmissionRepository, Department, University } from "./types";
 
-const TARGET_REGIONS: AdmissionRegion[] = ["서울", "경기", "인천"];
+const TARGET_REGIONS: AdmissionRegion[] = ["서울", "경기", "인천", "충남"];
 const rawUniversities: University[] = [...universities, ...seoulRealNext2027Universities, ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities, ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities];
 const rawDepartments: Department[] = [...departments, ...seoulRealNext2027Departments, ...seoulRealBatch2Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments, ...seoulRealBatch5Departments, ...seoulRealBatch6Departments, ...seoulRealBatch7Departments];
 const rawAdmissions: Admission[] = [...admissions, ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions, ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions];
@@ -35,6 +35,9 @@ export class MockAdmissionRepository implements AdmissionRepository {
     const departmentId = query.departmentId ? (departmentIdMap.get(query.departmentId) ?? query.departmentId) : undefined;
     const allowed = new Set(canonicalUniversities.filter((u) => scope.includes(u.region)).map((u) => u.id));
     return canonicalAdmissions.filter((a) => (!query.academicYear || a.academicYear === query.academicYear) && allowed.has(a.universityId) && (!universityId || a.universityId === universityId) && (!departmentId || a.departmentId === departmentId) && (!query.type || a.type === query.type));
+  }
+  async getAdmissionById(id: string) {
+    return canonicalAdmissions.find((a) => a.id === id) ?? null;
   }
 }
 export const admissionRepository = new MockAdmissionRepository();
