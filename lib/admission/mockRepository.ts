@@ -36,8 +36,8 @@ export class MockAdmissionRepository implements AdmissionRepository {
     const allowed = new Set(canonicalUniversities.filter((u) => scope.includes(u.region)).map((u) => u.id));
     return canonicalAdmissions.filter((a) => (!query.academicYear || a.academicYear === query.academicYear) && allowed.has(a.universityId) && (!universityId || a.universityId === universityId) && (!departmentId || a.departmentId === departmentId) && (!query.type || a.type === query.type));
   }
-  async getAdmissionById(id: string) {
-    return canonicalAdmissions.find((a) => a.id === id) ?? null;
+  async getAdmissionById(id: string): Promise<Admission | undefined> {
+    return canonicalAdmissions.find((a) => a.id === id);
   }
 }
 export const admissionRepository = new MockAdmissionRepository();
