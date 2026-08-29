@@ -14,6 +14,9 @@ export class Verified2027Repository implements AdmissionRepository {
       (!query.type || a.type === query.type)
     );
   }
+  async getAdmissionById(id: string): Promise<Admission | undefined> {
+    return verified2027Admissions.find((a) => a.id === id);
+  }
 }
 
 export const verified2027Repository = new Verified2027Repository();
