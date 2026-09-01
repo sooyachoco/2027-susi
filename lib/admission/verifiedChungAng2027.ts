@@ -13,19 +13,43 @@ const explorationNames = [
 
 const growthNames = [
   "간호학과", "건축학부", "에너지시스템공학부", "화학공학과", "기계공학부", "전자전기공학부", "융합공학부", "소프트웨어학부", "약학부", "의학부",
-  "국어국문학부", "영어영문학과", "정치국제학과", "심리학과", "공공인재학부", "미디어커뮤니케이션학부", "경제학부", "응용통계학과", "산업보안학과(인문)", "경영학부", "산업보안학과(자연)",
+  "국어국문학부", "영어영문학과", "정치국제학과", "심리학과", "공공인재학부", "미디어커뮤니케이션학부", "경제학부", "응용통계학과", "산업보안학과(인문)", "경영학부", "글로벌금융학부",
 ];
+
+const growthRecruitmentCounts: Record<string, number> = {
+  "간호학과": 8,
+  "건축학부": 4,
+  "에너지시스템공학부": 4,
+  "화학공학과": 4,
+  "기계공학부": 4,
+  "전자전기공학부": 6,
+  "융합공학부": 6,
+  "소프트웨어학부": 6,
+  "약학부": 6,
+  "의학부": 4,
+  "국어국문학부": 4,
+  "영어영문학과": 8,
+  "정치국제학과": 4,
+  "심리학과": 4,
+  "공공인재학부": 4,
+  "미디어커뮤니케이션학부": 4,
+  "경제학부": 6,
+  "응용통계학과": 4,
+  "산업보안학과(인문)": 4,
+  "경영학부": 10,
+  "글로벌금융학부": 4,
+};
 
 const source = {
   type: "university" as const,
   url: "https://admission.cau.ac.kr/detail.do?board_seq=3239",
   document: "중앙대학교 2027학년도 수시모집요강",
   academicYear: 2027,
-  confidence: 0.98,
+  confidence: 0.99,
 };
 
 const unique = (items: string[]) => [...new Set(items)];
-const allNames = unique([...explorationNames]);
+const allNames = unique([...explorationNames, ...growthNames]);
 
 export const verifiedChungAng2027Departments: Department[] = allNames.map((name, i) => ({
   id: `cau-2027-${i + 1}`,
@@ -44,7 +68,7 @@ export const verifiedChungAng2027Admissions: Admission[] = verifiedChungAng2027D
     },
     {
       id: `${department.id}-fusion`, universityId: "cau-2027", departmentId: department.id, academicYear: 2027,
-      name: "학생부종합(융합형인재)", type: "학종", documentWeight: 100,
+      name: "학생부종합(융합형인재)", type: "학종", documentWeight: 70,
       csatMinimum: { enabled: false }, source, isMock: false,
     },
     {
@@ -67,8 +91,8 @@ export const verifiedChungAng2027Admissions: Admission[] = verifiedChungAng2027D
   if (growthNames.includes(department.name)) {
     admissions.push({
       id: `${department.id}-growth`, universityId: "cau-2027", departmentId: department.id, academicYear: 2027,
-      name: "학생부종합(성장형인재)", type: "학종", documentWeight: 70, interview: true,
-      csatMinimum: { enabled: true, description: "서울캠퍼스 인문·자연·간호 3개 영역 등급 합 6 이내, 약학·의학 4개 영역 등급 합 5 이내" }, source, isMock: false,
+      name: "학생부종합(성장형인재)", type: "학종", recruitmentCount: growthRecruitmentCounts[department.name], documentWeight: 70, interview: true,
+      csatMinimum: { enabled: true, description: "서울·다빈치 캠퍼스 모집단위별 적용 기준: 일반 모집단위 3개 영역 등급 합 6 이내, 약학·의학 4개 영역 등급 합 5 이내" }, source, isMock: false,
     });
   }
   return admissions;
