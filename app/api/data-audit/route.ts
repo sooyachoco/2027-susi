@@ -34,6 +34,43 @@ export async function GET() {
     .filter((admission) => !admission.source?.type)
     .map((admission) => ({ id: admission.id, name: admission.name }));
 
+  const admissionsMissingRecruitmentCount = admissions
+    .filter((admission) => admission.recruitmentCount == null)
+    .map((admission) => ({
+      id: admission.id,
+      universityId: admission.universityId,
+      departmentId: admission.departmentId,
+      name: admission.name,
+      type: admission.type,
+    }));
+
+  const admissionsMissingMethodDetail = admissions
+    .filter((admission) =>
+      admission.studentRecordWeight == null &&
+      admission.documentWeight == null &&
+      admission.interview == null &&
+      admission.csatMinimum == null,
+    )
+    .map((admission) => ({
+      id: admission.id,
+      universityId: admission.universityId,
+      departmentId: admission.departmentId,
+      name: admission.name,
+      type: admission.type,
+    }));
+
+  const lowConfidenceAdmissions = admissions
+    .filter((admission) => (admission.source?.confidence ?? 0) < 0.9)
+    .map((admission) => ({
+      id: admission.id,
+      universityId: admission.universityId,
+      departmentId: admission.departmentId,
+      name: admission.name,
+      confidence: admission.source?.confidence ?? 0,
+      sourceType: admission.source?.type ?? "unknown",
+    }))
+    .sort((a, b) => a.confidence - b.confidence);
+
   const byRegion = universities.reduce<Record<string, number>>((acc, university) => {
     const region = university.region ?? "미지정";
     acc[region] = (acc[region] ?? 0) + 1;
@@ -108,6 +145,19 @@ export async function GET() {
     .filter((target) => !activeCoverageTargetIds.has(target.universityId))
     .sort((a, b) => a.priority - b.priority || a.name.localeCompare(b.name));
 
+  const coverageStatusSummary = coverageTargets2027.reduce<Record<string, number>>((acc, target) => {
+    acc[target.status] = (acc[target.status] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  const completeness = {
+    admissionsMissingSourceCount: admissionsMissingSource.length,
+    admissionsMissingRecruitmentCount: admissionsMissingRecruitmentCount.length,
+    admissionsMissingMethodDetailCount: admissionsMissingMethodDetail.length,
+    lowConfidenceAdmissionsCount: lowConfidenceAdmissions.length,
+    lowConfidenceThreshold: 0.9,
+  };
+
   const integrityErrors = orphanDepartments.length + orphanAdmissions.length + non2027Admissions.length;
 
   return Response.json({
@@ -128,6 +178,11 @@ export async function GET() {
     coveragePriorityCount: coveragePriority.length,
     coverageBacklog,
     coverageBacklogCount: coverageBacklog.length,
+    coverageStatusSummary,
+    completeness,
+    admissionsMissingRecruitmentCount,
+    admissionsMissingMethodDetail,
+    lowConfidenceAdmissions,
     universitiesDetail: universityDepartmentCounts,
     integrity: {
       errorCount: integrityErrors,
