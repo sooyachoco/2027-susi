@@ -66,7 +66,7 @@ export const seoultech2027Admissions: Admission[] = [
     ...(method.documentWeight !== undefined ? { documentWeight: method.documentWeight } : {}),
     ...(method.interview !== undefined ? { interview: method.interview } : {}),
     csatMinimum: method.csatMinimum, source, isMock: false,
-  })),
+  }))),
   ...methodDefinitions.map((method) => ({
     id: `seoultech-susi-overall-${method.key}-2027`, universityId: "seoultech", departmentId: "seoultech-susi-overall", academicYear: 2027,
     name: method.name, type: method.type, recruitmentCount: aggregateCounts[method.key as keyof typeof aggregateCounts],
