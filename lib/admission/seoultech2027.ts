@@ -25,19 +25,29 @@ export const seoultech2027Departments: Department[] = departmentNames.map((name,
   category: name.includes("경영") || name.includes("행정") || name.includes("영어") || name.includes("문예") || name.includes("벤처") ? "인문·사회" : name.includes("디자인") || name.includes("도예") || name.includes("조형") || name.includes("스포츠") || name.includes("문화예술") || name.includes("헬스피트니스") ? "예체능" : "공학·자연",
 }));
 
-const methodDefinitions = [
-  { key: "recommend", name: "고교추천전형", type: "교과" as const, studentRecordWeight: 100, csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 7, description: "국어·수학·영어·탐구(1과목) 중 2개 영역 합 7등급 이내" } },
-  { key: "school", name: "학교생활우수자전형", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "creative", name: "창의융합인재전형", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "essay", name: "논술전형", type: "논술" as const, studentRecordWeight: 30, csatMinimum: { enabled: false } },
-  { key: "national", name: "기회균형전형(국가보훈대상자)", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "equal", name: "기회균형전형(기회균등)", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "lifelong", name: "기회균형전형(평생학습자)", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "rural", name: "기회균형전형(농어촌학생)", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "worker", name: "기회균형전형(특성화고졸재직자)", type: "교과" as const, studentRecordWeight: 100, csatMinimum: { enabled: false } },
-  { key: "special", name: "기회균형전형(특수교육대상자)", type: "학종" as const, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "practical", name: "실기전형", type: "기타" as const, studentRecordWeight: 0, csatMinimum: { enabled: false } },
-] as const;
+type SeoulTechMethodDefinition = {
+  key: string;
+  name: string;
+  type: "교과" | "학종" | "논술" | "기타";
+  studentRecordWeight?: number;
+  documentWeight?: number;
+  interview?: boolean;
+  csatMinimum: { enabled: boolean; requiredSubjects?: number; gradeSum?: number; description?: string };
+};
+
+const methodDefinitions: SeoulTechMethodDefinition[] = [
+  { key: "recommend", name: "고교추천전형", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 7, description: "국어·수학·영어·탐구(1과목) 중 2개 영역 합 7등급 이내" } },
+  { key: "school", name: "학교생활우수자전형", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "creative", name: "창의융합인재전형", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "essay", name: "논술전형", type: "논술", studentRecordWeight: 30, csatMinimum: { enabled: false } },
+  { key: "national", name: "기회균형전형(국가보훈대상자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "equal", name: "기회균형전형(기회균등)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "lifelong", name: "기회균형전형(평생학습자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "rural", name: "기회균형전형(농어촌학생)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "worker", name: "기회균형전형(특성화고졸재직자)", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: false } },
+  { key: "special", name: "기회균형전형(특수교육대상자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "practical", name: "실기전형", type: "기타", studentRecordWeight: 0, csatMinimum: { enabled: false } },
+];
 
 const aggregateCounts = {
   recommend: 502,
