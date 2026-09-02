@@ -11,6 +11,7 @@ import { dankook2027Admissions, dankook2027Departments, dankook2027Universities 
 import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
 import { hyupsung2027Admissions, hyupsung2027Departments, hyupsung2027Universities } from "./hyupsung2027";
 import { kangnam2027Admissions, kangnam2027Departments, kangnam2027Universities } from "./kangnam2027";
+import { yongin2027Admissions, yongin2027Departments, yongin2027Universities } from "./yongin2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
@@ -29,6 +30,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSookmyung2027Admissions,
       ...hyupsung2027Admissions,
       ...kangnam2027Admissions,
+      ...yongin2027Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
 
@@ -47,6 +49,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSookmyung2027Universities,
       ...hyupsung2027Universities,
       ...kangnam2027Universities,
+      ...yongin2027Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
@@ -74,6 +77,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...verifiedSookmyung2027Departments,
       ...hyupsung2027Departments,
       ...kangnam2027Departments,
+      ...yongin2027Departments,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
@@ -82,12 +86,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
   async getAdmissions(query: AdmissionQuery = {}): Promise<Admission[]> {
     const allowed = new Set((await this.getUniversities(query.region)).map((u) => u.id));
     return this.getVerifiedAdmissions().filter(
-      (a) =>
-        allowed.has(a.universityId) &&
-        (!query.academicYear || a.academicYear === query.academicYear) &&
-        (!query.universityId || a.universityId === query.universityId) &&
-        (!query.departmentId || a.departmentId === query.departmentId) &&
-        (!query.type || a.type === query.type),
+      (a) => allowed.has(a.universityId) && (!query.academicYear || a.academicYear === query.academicYear) && (!query.universityId || a.universityId === query.universityId) && (!query.departmentId || a.departmentId === query.departmentId) && (!query.type || a.type === query.type),
     );
   }
 
