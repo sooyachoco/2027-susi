@@ -8,6 +8,7 @@ import { hanyang2027Admissions, hanyang2027Departments, hanyang2027Universities 
 import { soongsil2027Admissions, soongsil2027Departments, soongsil2027Universities } from "./soongsil2027";
 import { kookmin2027Admissions, kookmin2027Departments, kookmin2027Universities } from "./kookmin2027";
 import { dankook2027Admissions, dankook2027Departments, dankook2027Universities } from "./dankook2027";
+import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, verifiedSookmyung2027Universities } from "./verifiedSookmyung2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
@@ -23,6 +24,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...soongsil2027Admissions,
       ...kookmin2027Admissions,
       ...dankook2027Admissions,
+      ...verifiedSookmyung2027Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
 
@@ -38,6 +40,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...soongsil2027Universities,
       ...kookmin2027Universities,
       ...dankook2027Universities,
+      ...verifiedSookmyung2027Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
@@ -62,6 +65,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...soongsil2027Departments,
       ...kookmin2027Departments,
       ...dankook2027Departments,
+      ...verifiedSookmyung2027Departments,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
