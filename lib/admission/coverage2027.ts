@@ -89,7 +89,7 @@ export const coverageTargets2027: CoverageTarget[] = [
     status: "부분검증",
     priority: 1,
     source: adiga("https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000131"),
-    note: "2027 대입정보포털 평가기준에서 학생부교과·학생부종합 자료와 영암인재전형 확대를 확인. 핵심 모집단위별 실제 모집인원·전형방법을 공식 요강과 추가 대조한다.",
+    note: "2027 성결대 공식 입학처에서 신설·명칭변경 모집단위 12개를 확인해 verified 데이터에 편입했다. 한국어문화학과·영미언어문화학과·중국어문화학과·스마트관광항공학부 2개 전공·국제교류·개발협력학과·컴퓨터AI공학과·ICT공학과·산업시스템공학과·스마트도시공학과·화장품공학과·SK자율전공학부가 확인됐다. 다만 최종 모집요강 기준 학과별 모집인원/전형 배정은 별도 대조가 필요하므로 부분검증을 유지한다.",
   },
   {
     universityId: "hanshin",
