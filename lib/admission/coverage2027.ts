@@ -106,8 +106,8 @@ export const coverageTargets2027: CoverageTarget[] = [
     region: "경기",
     status: "부분검증",
     priority: 1,
-    source: { type: "university", url: "https://hiphak.uhs.ac.kr/ipsi/board/notice/list.do", academicYear: 2027, confidence: 0.95 },
-    note: "대학 입학처가 2026-07-01 최종 2027 수시 모집요강과 융합인재Ⅰ·Ⅱ 학생부종합 가이드북을 공지. 모집단위별 교과·학종·실기 세부를 공식 원문 기준으로 추가 편입한다.",
+    source: { type: "university", url: "https://iphak.uhs.ac.kr/ipsi/board/notice/detail.do?bbsNo=32484", academicYear: 2027, confidence: 0.95 },
+    note: "2027 최종 수시 모집요강과 학생부종합 융합인재Ⅰ·Ⅱ 가이드북을 공식 원문으로 확인했다. 수시 모집단위 카탈로그와 교과성적우수자·미래창의인재·융합인재Ⅰ·Ⅱ·기회균형·사회배려자 핵심 전형을 verified로 편입했다. 전형별 학과별 모집인원 및 음악·디자인·에이블아트·스포츠 실기 세부는 추가 대조한다.",
   },
   {
     universityId: "kangnam",
