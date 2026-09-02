@@ -12,7 +12,7 @@ import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, veri
 import { hyupsung2027Admissions, hyupsung2027Departments, hyupsung2027Universities } from "./hyupsung2027";
 import { kangnam2027Admissions, kangnam2027Departments, kangnam2027Universities } from "./kangnam2027";
 import { yongin2027Admissions, yongin2027Departments, yongin2027Universities } from "./yongin2027";
-import { hanshin2027Admissions, hanshin2027Departments, hanshin2027Universities } from "./hanshin2027";
+import { hanshin2027Admissions, hanshin2027DepartmentsWithAggregate, hanshin2027Universities } from "./hanshin2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
@@ -81,7 +81,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...hyupsung2027Departments,
       ...kangnam2027Departments,
       ...yongin2027Departments,
-      ...hanshin2027Departments,
+      ...hanshin2027DepartmentsWithAggregate,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
