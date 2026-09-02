@@ -13,6 +13,7 @@ import { hyupsung2027Admissions, hyupsung2027Departments, hyupsung2027Universiti
 import { kangnam2027Admissions, kangnam2027Departments, kangnam2027Universities } from "./kangnam2027";
 import { yongin2027Admissions, yongin2027Departments, yongin2027Universities } from "./yongin2027";
 import { hanshin2027Admissions, hanshin2027DepartmentsWithAggregate, hanshin2027Universities } from "./hanshin2027";
+import { seoultech2027Admissions, seoultech2027DepartmentsWithAggregate, seoultech2027Universities } from "./seoultech2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
@@ -20,7 +21,7 @@ import type { University as RootUniversity } from "../types";
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
     return dedupeByKey([
-      ...remainingMetro2027Admissions.filter((a) => a.universityId !== "hanshin"),
+      ...remainingMetro2027Admissions.filter((a) => a.universityId !== "hanshin" && a.universityId !== "seoultech"),
       ...sungkyul2027Admissions,
       ...uos2027Admissions,
       ...skku2027Admissions,
@@ -33,6 +34,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...kangnam2027Admissions,
       ...yongin2027Admissions,
       ...hanshin2027Admissions,
+      ...seoultech2027Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
 
@@ -53,6 +55,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...kangnam2027Universities,
       ...yongin2027Universities,
       ...hanshin2027Universities,
+      ...seoultech2027Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
@@ -69,7 +72,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
     const all = dedupeByKey([
       ...departments,
       ...expanded2027Departments,
-      ...remainingMetro2027Departments,
+      ...remainingMetro2027Departments.filter((d) => d.universityId !== "seoultech"),
       ...sungkyul2027Departments,
       ...uos2027Departments,
       ...skku2027Departments,
@@ -82,6 +85,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...kangnam2027Departments,
       ...yongin2027Departments,
       ...hanshin2027DepartmentsWithAggregate,
+      ...seoultech2027DepartmentsWithAggregate,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
