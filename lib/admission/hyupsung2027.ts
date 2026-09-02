@@ -1,0 +1,132 @@
+import type { Admission, Department, University } from "./types";
+
+const source = {
+  type: "university" as const,
+  academicYear: 2027,
+  url: "https://iphak.uhs.ac.kr/ipsi/board/notice/detail.do?bbsNo=32484",
+  confidence: 0.95,
+};
+
+export const hyupsung2027Universities: University[] = [
+  { id: "hyupsung", name: "협성대학교", region: "경기" },
+];
+
+// 2027 최종 수시 모집요강 및 대입정보포털에서 확인된 수시 모집단위.
+const catalog: Array<[string, string, string]> = [
+  ["open-major", "자율전공학부", "자유전공"],
+  ["theology", "신학과", "인문·사회"],
+  ["able-sports", "에이블아트·스포츠학과", "예체능"],
+  ["creative-writing", "문예창작학과", "인문·사회"],
+  ["social-welfare", "사회복지학과", "인문·사회"],
+  ["child-care", "아동보육학과", "인문·사회"],
+  ["chinese-culture", "중국어문화학과", "인문·사회"],
+  ["urban-administration", "도시행정학과", "인문·사회"],
+  ["media-advertising", "미디어영상광고학과", "인문·사회"],
+  ["business", "경영학과", "경영"],
+  ["finance-insurance", "금융보험학과", "경영"],
+  ["tax-accounting", "세무회계학과", "경영"],
+  ["hotel-tourism", "호텔관광경영학과", "경영"],
+  ["distribution-business", "유통경영학과", "경영"],
+  ["global-trade-culture", "글로벌통상·문화학과", "경영"],
+  ["computer-engineering", "컴퓨터공학과", "공학"],
+  ["software-engineering", "소프트웨어공학과", "공학"],
+  ["architecture-engineering", "건축공학과", "공학"],
+  ["urban-engineering", "도시공학과", "공학"],
+  ["health-management", "보건관리학과", "보건"],
+  ["biomedical-chemistry", "의생명화학과", "자연·공학"],
+  ["music-piano", "음악학부 피아노전공", "예체능"],
+  ["music-orchestral", "음악학부 관현악전공", "예체능"],
+  ["music-vocal", "음악학부 성악전공", "예체능"],
+  ["music-practical", "음악학부 실용음악전공", "예체능"],
+  ["interior-design", "실내디자인학과", "예체능"],
+  ["furniture-design", "가구디자인학과", "예체능"],
+  ["industrial-design", "산업디자인학과", "예체능"],
+  ["visual-design", "시각디자인학과", "예체능"],
+  ["design-open-major", "디자인 자율전공학부", "예체능"],
+];
+
+export const hyupsung2027Departments: Department[] = catalog.map(([id, name, category]) => ({
+  id: `hyupsung-${id}`,
+  universityId: "hyupsung",
+  name,
+  category,
+}));
+
+const admissionsFor = (department: Department): Admission[] => [
+  {
+    id: `${department.id}-subject-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "교과성적우수자",
+    type: "교과",
+    studentRecordWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-future-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "미래창의인재",
+    type: "교과",
+    studentRecordWeight: 50,
+    interview: true,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-convergence-1-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "융합인재Ⅰ",
+    type: "학종",
+    documentWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-convergence-2-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "융합인재Ⅱ",
+    type: "학종",
+    documentWeight: 50,
+    interview: true,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-opportunity-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "기회균형",
+    type: "교과",
+    studentRecordWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: `${department.id}-social-care-2027`,
+    universityId: "hyupsung",
+    departmentId: department.id,
+    academicYear: 2027,
+    name: "사회배려자",
+    type: "교과",
+    studentRecordWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+];
+
+export const hyupsung2027Admissions: Admission[] = hyupsung2027Departments.flatMap(admissionsFor);
