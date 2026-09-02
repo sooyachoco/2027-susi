@@ -12,6 +12,7 @@ import { verifiedSookmyung2027Admissions, verifiedSookmyung2027Departments, veri
 import { hyupsung2027Admissions, hyupsung2027Departments, hyupsung2027Universities } from "./hyupsung2027";
 import { kangnam2027Admissions, kangnam2027Departments, kangnam2027Universities } from "./kangnam2027";
 import { yongin2027Admissions, yongin2027Departments, yongin2027Universities } from "./yongin2027";
+import { hanshin2027Admissions, hanshin2027Departments, hanshin2027Universities } from "./hanshin2027";
 import { isTargetRegion } from "./regionScope";
 import type { Admission, AdmissionQuery, AdmissionRepository, Department, University, AdmissionRegion } from "./types";
 import type { University as RootUniversity } from "../types";
@@ -19,7 +20,7 @@ import type { University as RootUniversity } from "../types";
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
     return dedupeByKey([
-      ...remainingMetro2027Admissions,
+      ...remainingMetro2027Admissions.filter((a) => a.universityId !== "hanshin"),
       ...sungkyul2027Admissions,
       ...uos2027Admissions,
       ...skku2027Admissions,
@@ -31,6 +32,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...hyupsung2027Admissions,
       ...kangnam2027Admissions,
       ...yongin2027Admissions,
+      ...hanshin2027Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
 
@@ -50,6 +52,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...hyupsung2027Universities,
       ...kangnam2027Universities,
       ...yongin2027Universities,
+      ...hanshin2027Universities,
     ]);
     const scoped = all.filter((u) => isTargetRegion(u.region) && allowed.has(u.id));
     const map = new Map<string, RootUniversity>();
@@ -78,6 +81,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...hyupsung2027Departments,
       ...kangnam2027Departments,
       ...yongin2027Departments,
+      ...hanshin2027Departments,
     ]);
     const verifiedOnly = all.filter((d) => allowed.has(d.id));
     return universityId ? verifiedOnly.filter((d) => d.universityId === universityId) : verifiedOnly;
