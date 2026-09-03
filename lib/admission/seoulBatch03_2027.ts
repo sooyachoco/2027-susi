@@ -13,22 +13,32 @@ const rows: Array<[string,string,string]> = [
   ["catholic-sungshin", "성신교정 모집단위", "인문·신학"],
   ["catholic-seongui", "성의교정 모집단위", "의학·간호"],
   ["skuniv", "2027 수시 전체(모집단위 합계)", "전체"],
-  ["hansung", "2027 수시 전체(모집단위 합계)", "전체"],
+  ["hansung", "크리에이티브인문학부", "인문"],
+  ["hansung", "미래융합사회과학대학", "사회·경영"],
+  ["hansung", "글로벌패션산업학부", "디자인·패션"],
+  ["hansung", "문학문화콘텐츠학과", "인문·콘텐츠"],
+  ["hansung", "IT공과대학", "컴퓨터·공학"],
+  ["hansung", "AI응용학과", "AI·컴퓨터"],
+  ["hansung", "융합보안학과", "AI·보안"],
+  ["hansung", "AI기계로봇공학과", "AI·공학"],
+  ["hansung", "미래모빌리티학과", "AI·공학"],
+  ["hansung", "상상력인재학부", "자유전공"],
 ];
-export const seoulBatch03_2027Departments: Department[] = rows.map(([u,n,c]) => ({ id: `${u}-overall`, universityId: u, name: n, category: c }));
+export const seoulBatch03_2027Departments: Department[] = rows.map(([u,n,c], index) => ({ id: `${u}-overall-${index}`, universityId: u, name: n, category: c }));
 
-const methods: Array<[string,string,string,string]> = [
-  ["catholic-sungshin", "학교장추천전형", "교과", "가톨릭대 2027 수시"],
-  ["catholic-sungshin", "잠재능력우수자전형", "학종", "가톨릭대 2027 수시"],
-  ["catholic-seongui", "학교장추천전형", "교과", "가톨릭대 2027 수시"],
-  ["catholic-seongui", "가톨릭지도자추천전형", "학종", "가톨릭대 2027 수시"],
-  ["catholic-seongui", "논술전형", "논술", "가톨릭대 2027 수시"],
-  ["skuniv", "교과성적우수자전형", "교과", "서경대 2027 수시"],
-  ["skuniv", "SKU논술우수자전형", "논술", "서경대 2027 수시"],
-  ["skuniv", "실기우수자전형", "기타", "서경대 2027 수시"],
-  ["hansung", "한성인재전형", "학종", "한성대 2027 수시"],
-  ["hansung", "교과우수전형", "교과", "한성대 2027 수시"],
-  ["hansung", "논술우수전형", "논술", "한성대 2027 수시"],
+const methods: Array<[string,string,Admission["type"],number?,number?,boolean?,boolean?]> = [
+  ["catholic-sungshin", "학교장추천전형", "교과"],
+  ["catholic-sungshin", "잠재능력우수자전형", "학종"],
+  ["catholic-seongui", "학교장추천전형", "교과"],
+  ["catholic-seongui", "가톨릭지도자추천전형", "학종"],
+  ["catholic-seongui", "논술전형", "논술"],
+  ["skuniv", "교과성적우수자전형", "교과"],
+  ["skuniv", "SKU논술우수자전형", "논술"],
+  ["skuniv", "실기우수자전형", "기타"],
+  ["hansung", "한성인재전형", "학종", 310, 100, false, false],
+  ["hansung", "교과우수전형", "교과", 260, 100, false, true],
+  ["hansung", "지역균형전형", "교과", 188, 100, false, false],
+  ["hansung", "실기우수자전형", "기타", 128],
 ];
 
 const urls: Record<string,string> = {
@@ -38,13 +48,17 @@ const urls: Record<string,string> = {
   hansung: "https://enter.hansung.ac.kr/",
 };
 
-export const seoulBatch03_2027Admissions: Admission[] = methods.map(([u,name,type]) => ({
+export const seoulBatch03_2027Admissions: Admission[] = methods.map(([u,name,type,count,recordWeight,interview,csat]) => ({
   id: `${u}-2027-${name}`,
   universityId: u,
-  departmentId: `${u}-overall`,
+  departmentId: `${u}-overall-0`,
   academicYear: 2027,
   name,
-  type: type as Admission["type"],
+  type,
+  ...(count !== undefined ? { recruitmentCount: count } : {}),
+  ...(recordWeight !== undefined ? { studentRecordWeight: recordWeight } : {}),
+  ...(interview ? { interview: true } : {}),
+  ...(csat !== undefined ? { csatMinimum: { enabled: csat } } : {}),
   source: source(urls[u]),
   isMock: false,
 }));
