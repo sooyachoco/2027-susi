@@ -1,6 +1,6 @@
 import type { Admission, Department, University } from "./types";
 
-const source = { type: "university" as const, academicYear: 2027, url: "https://adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000126", confidence: "high" as const };
+const source = { type: "university" as const, academicYear: 2027, url: "https://adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000126", confidence: 0.99 };
 
 export const seoulwomen2027Universities: University[] = [
   { id: "swu", name: "서울여자대학교", region: "서울" },
@@ -31,7 +31,7 @@ const departmentsData = [
 ];
 
 export const seoulwomen2027Departments: Department[] = departmentsData.map(([id, name, field]) => ({
-  id: `swu-${id}`, universityId: "swu", name, field,
+  id: `swu-${id}`, universityId: "swu", name, category: field,
 }));
 
 const aggregate = (id: string, name: string, type: Admission["type"], count: number, extra: Partial<Admission> = {}): Admission => ({
@@ -39,6 +39,7 @@ const aggregate = (id: string, name: string, type: Admission["type"], count: num
   universityId: "swu",
   departmentId: `swu-${id}`,
   academicYear: 2027,
+  name,
   type,
   recruitmentCount: count,
   source,
@@ -62,7 +63,7 @@ export const seoulwomen2027Admissions: Admission[] = [
   aggregate("practical-art", "실기우수자(미술)", "기타", 65),
 ];
 
-export const seoulwomen2027DepartmentsWithAggregate = [
+export const seoulwomen2027DepartmentsWithAggregate: Department[] = [
   ...seoulwomen2027Departments,
-  ...seoulwomen2027Admissions.map((a) => ({ id: a.departmentId, universityId: a.universityId, name: a.id.replace("swu-2027-", ""), field: "전형별 모집단위" })),
+  ...seoulwomen2027Admissions.map((a) => ({ id: a.departmentId, universityId: a.universityId, name: a.name, category: "전형별 모집단위" })),
 ];
