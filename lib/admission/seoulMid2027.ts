@@ -58,16 +58,16 @@ const swuSpecs: Spec[] = [
 export const swuMidAdmissions = swuSpecs.map(s => make("swu", swuId, s, swuUrl));
 
 const hansungId = "hansung-susi-overall";
-const hansungDepartments = ["크리에이티브인문학부","미래융합사회과학대학","문학문화콘텐츠학과","AI패션학부","AI뷰티디자인학과","AI융합디자인학부","IT공과대학","AI응용학과","융합보안학과","미래모빌리티학과","AI기계로봇공학과","상상력인재학부","예술학부(동양화)","예술학부(서양화)","예술학부(한국무용)","예술학부(현대무용)","예술학부(발레)","크리에이티브인문학부(야)","미래융합사회과학대학(야)","AI패션학부(야)","AI뷰티디자인학과(야)"];
+const hansungDepartments = ["크리에이티브인문학부(주)","크리에이티브인문학부(야)","예술학부(동양화)","예술학부(서양화)","예술학부(한국무용)","예술학부(현대무용)","예술학부(발레)","미래융합사회과학대학(주)","미래융합사회과학대학(야)","AI패션학부(주)","AI패션학부(야)","AI융합디자인학부(주)","AI융합디자인학부(야)","AI뷰티디자인학과(주)","AI뷰티디자인학과(야)","IT공과대학(주)","IT공과대학(야)","상상력인재학부(주)","문학문화콘텐츠학과(주)","문학문화콘텐츠학과(야)","AI응용학과(주)","AI응용학과(야)","융합보안학과(주)","미래모빌리티학과(주)","융합행정학과(야)","호텔외식경영학과(야)","뷰티디자인학과(야)","비즈니스컨설팅학과(야)","ICT융합디자인학과(야)","AI·소프트웨어학과(야)"];
 export const hansungMidDepartments: Department[] = hansungDepartments.map((name, i) => ({ id: `${hansungId}-${i}`, universityId: "hansung", name, category: "전체" }));
-const hansungUrl = "https://www.hansung.ac.kr/futureplus/728/subview.do";
+const hansungUrl = "https://enter.hansung.ac.kr/api/file/get?ignoreDestFilename=1&path=board%2F%2Fd1e8bdc5-7815-4dd9-954a-6c4c90006c8a.pdf";
 const hansungSpecs: Spec[] = [
-  { id: "subject", name: "교과우수전형", type: "교과", count: 260, studentRecordWeight: 100, csat: true },
+  { id: "subject", name: "교과우수전형", type: "교과", count: 242, studentRecordWeight: 100, csat: true },
   { id: "regional", name: "지역균형전형", type: "교과", count: 188, studentRecordWeight: 100 },
   { id: "talent", name: "한성인재전형", type: "학종", count: 310, documentWeight: 100 },
   { id: "balanced", name: "고른기회전형", type: "학종", count: 45, documentWeight: 100 },
-  { id: "adult", name: "기회균형 성인학습자", type: "학종", count: 20, documentWeight: 100 },
-  { id: "practical", name: "실기우수자전형", type: "기타", count: 128, studentRecordWeight: 20 },
+  { id: "adult", name: "기회균형 성인학습자", type: "학종", count: 40, documentWeight: 100 },
+  { id: "practical", name: "실기우수자전형", type: "기타", count: 126, studentRecordWeight: 20 },
   { id: "rural", name: "농어촌학생", type: "교과", count: 58, studentRecordWeight: 100 },
   { id: "special", name: "특성화고교졸업자", type: "교과", count: 21, studentRecordWeight: 100 },
   { id: "worker", name: "특성화고교졸재직자", type: "교과", count: 80, studentRecordWeight: 100 },
