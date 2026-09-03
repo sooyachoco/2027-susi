@@ -26,6 +26,9 @@ const admissions: Array<[string, Admission["type"], number, number?, boolean?]> 
   ["실기 일반학생", "기타", 23],
   ["실기 사회통합", "기타", 2],
   ["자유전공", "교과", 45, 100, false],
+  ["농어촌학생", "교과", 5, 100, false],
+  ["기회균등", "교과", 10, 100, false],
+  ["특수교육대상자", "교과", 2, 100, false],
 ];
 
 export const gangseo2027Admissions: Admission[] = admissions.map(([name, type, count, studentRecordWeight, interview]) => ({
