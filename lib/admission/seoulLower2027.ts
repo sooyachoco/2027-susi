@@ -1,64 +1,28 @@
 import type { Admission, Department, University } from "./types";
 
 const source=(url:string,confidence=.95)=>({type:"university" as const,academicYear:2027,url,confidence});
-
 type U={id:string;name:string;region:"서울"};
 type D={id:string;name:string;category:string};
 type Method={name:string;type:Admission["type"];count:number;studentRecordWeight?:number;documentWeight?:number;interview?:boolean;csat?:boolean};
-const universities:U[]=[
- {id:"dongduk",name:"동덕여자대학교",region:"서울"},
- {id:"sahmyook",name:"삼육대학교",region:"서울"},
- {id:"skuniv",name:"서경대학교",region:"서울"},
-];
-
+const universities:U[]=[{id:"dongduk",name:"동덕여자대학교",region:"서울"},{id:"sahmyook",name:"삼육대학교",region:"서울"},{id:"skuniv",name:"서경대학교",region:"서울"}];
 const data:Record<string,{methods:Method[];departments:D[]}>= {
  dongduk:{methods:[
-  {name:"동덕창의리더",type:"학종",count:255,documentWeight:40,interview:true},
-  {name:"기회균형",type:"학종",count:12,documentWeight:100},
-  {name:"특성화고 등 고졸재직자",type:"학종",count:84,documentWeight:100},
-  {name:"학생부교과우수자",type:"교과",count:196,studentRecordWeight:100,csat:true},
-  {name:"논술우수자",type:"논술",count:266,csat:true},
-  {name:"실기우수자",type:"기타",count:361},
-  {name:"특기자",type:"기타",count:12}
+  {name:"동덕창의리더",type:"학종",count:255,documentWeight:40,interview:true},{name:"기회균형",type:"학종",count:12,documentWeight:100},{name:"특성화고 등 고졸재직자",type:"학종",count:84,documentWeight:100},{name:"학생부교과우수자",type:"교과",count:196,studentRecordWeight:100,csat:true},{name:"논술우수자",type:"논술",count:266,csat:true},{name:"실기우수자",type:"기타",count:361},{name:"특기자",type:"기타",count:12}
  ],departments:[
-  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},
-  {id:"business",name:"경영융합학부",category:"경영·경제"},{id:"computer",name:"컴퓨터학부",category:"컴퓨터·소프트웨어"},{id:"media",name:"커뮤니케이션콘텐츠전공",category:"미디어·콘텐츠"},{id:"economics",name:"금융회계학부",category:"경영·경제"}
+  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},{id:"korean",name:"국어국문학전공",category:"인문사회"},{id:"history",name:"국사학전공",category:"인문사회"},{id:"creative-writing",name:"문예창작전공",category:"인문사회"},{id:"english",name:"영어전공",category:"인문사회"},{id:"japanese",name:"일어일본학전공",category:"인문사회"},{id:"european",name:"유러피언스터디즈전공",category:"인문사회"},{id:"chinese",name:"중어중국학전공",category:"인문사회"},{id:"library",name:"문헌정보학전공",category:"인문사회"},{id:"social-welfare",name:"사회복지학전공",category:"인문사회"},{id:"child",name:"아동학전공",category:"인문사회"},{id:"business",name:"경영융합학부",category:"경영·경제"},{id:"curator",name:"큐레이터학전공",category:"인문사회"},{id:"mice",name:"글로벌MICE융합전공",category:"인문사회"},{id:"food",name:"식품영양학전공",category:"자연과학"},{id:"health",name:"보건관리학전공",category:"보건"},{id:"chemistry",name:"응용화학전공",category:"자연과학"},{id:"cosmetic",name:"화장품학전공",category:"자연과학"},{id:"computer",name:"컴퓨터학전공",category:"컴퓨터·소프트웨어"},{id:"statistics",name:"정보통계학전공",category:"자연과학"},{id:"hci",name:"HCI사이언스전공",category:"컴퓨터·소프트웨어"},{id:"data",name:"데이터사이언스전공",category:"컴퓨터·AI"},{id:"media",name:"커뮤니케이션콘텐츠전공",category:"미디어·콘텐츠"},{id:"culture",name:"문화예술경영전공",category:"예술·문화"},{id:"pharmacy",name:"약학과",category:"약학"}
  ]},
  sahmyook:{methods:[
-  {name:"학교장추천",type:"교과",count:131,studentRecordWeight:100,csat:true},
-  {name:"세움인재",type:"학종",count:228,documentWeight:60,interview:true},
-  {name:"재림교회목회자추천",type:"학종",count:117,documentWeight:60,interview:true},
-  {name:"S/W인재",type:"학종",count:30,documentWeight:60,interview:true},
-  {name:"기회균형Ⅰ",type:"학종",count:38,documentWeight:60,interview:true},
-  {name:"논술우수자",type:"논술",count:277,csat:true}
+  {name:"학교장추천",type:"교과",count:97,studentRecordWeight:100,csat:true},{name:"세움인재",type:"학종",count:231,documentWeight:60,interview:true},{name:"재림교회목회자추천",type:"학종",count:79,documentWeight:60,interview:true,csat:true},{name:"S/W인재",type:"학종",count:30,documentWeight:60,interview:true},{name:"기회균형Ⅰ",type:"학종",count:37,documentWeight:60,interview:true},{name:"기회균형Ⅱ",type:"학종",count:11,documentWeight:60,interview:true},{name:"특수교육대상자",type:"학종",count:9,documentWeight:60,interview:true},{name:"농어촌",type:"교과",count:39,studentRecordWeight:100},{name:"특성화고교",type:"교과",count:9,studentRecordWeight:100},{name:"서해5도",type:"교과",count:6,studentRecordWeight:100},{name:"논술우수자",type:"논술",count:277,csat:true}
  ],departments:[
-  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},
-  {id:"business",name:"경영학과",category:"경영·경제"},{id:"computer",name:"컴퓨터공학부",category:"컴퓨터·소프트웨어"},{id:"ai",name:"인공지능융합학부",category:"컴퓨터·AI"},{id:"nursing",name:"간호학과",category:"보건·간호"},{id:"pharmacy",name:"약학과",category:"약학"}
+  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},{id:"free1",name:"창의융합자유전공학부",category:"인문사회"},{id:"free2",name:"미래융합자유전공학부",category:"자연·공학"},{id:"business",name:"경영학과",category:"경영·경제"},{id:"education",name:"유아교육과",category:"교육"},{id:"english",name:"영어영문학과",category:"인문사회"},{id:"global",name:"항공관광외국어학부",category:"인문사회"},{id:"korean",name:"글로벌한국학과",category:"인문사회"},{id:"social",name:"사회복지학과",category:"인문사회"},{id:"counseling",name:"상담심리학과",category:"인문사회"},{id:"nursing",name:"간호학과",category:"보건·간호"},{id:"pt",name:"물리치료학과",category:"보건"},{id:"architecture",name:"건축학과(5년)",category:"건축"},{id:"health",name:"보건관리학과",category:"보건"},{id:"food",name:"식품영양학과",category:"자연과학"},{id:"computer",name:"컴퓨터공학부",category:"컴퓨터·소프트웨어"},{id:"ai",name:"인공지능융합학부",category:"컴퓨터·AI"},{id:"bio",name:"바이오융합공학과",category:"자연·공학"},{id:"chem-bio",name:"화학생명과학과",category:"자연과학"},{id:"animal",name:"동물자원과학과",category:"자연과학"},{id:"environment",name:"환경디자인원예학과",category:"자연과학"},{id:"data",name:"데이터클라우드공학과",category:"컴퓨터·AI"},{id:"pharmacy",name:"약학과",category:"약학"},{id:"physical",name:"체육학과",category:"체육"},{id:"art",name:"아트앤디자인학과",category:"예체능"},{id:"music",name:"음악학과",category:"예체능"}
  ]},
  skuniv:{methods:[
-  {name:"논술우수자",type:"논술",count:214},
-  {name:"교과우수자",type:"교과",count:112,studentRecordWeight:100},
-  {name:"교과균형",type:"교과",count:204,studentRecordWeight:100,csat:true},
-  {name:"사회기여자",type:"교과",count:12,studentRecordWeight:100},
-  {name:"실기우수자",type:"기타",count:419},
-  {name:"군사학과",type:"기타",count:30,studentRecordWeight:70,interview:true},
-  {name:"기회균형①",type:"교과",count:22,studentRecordWeight:100,csat:true}
+  {name:"논술우수자",type:"논술",count:214},{name:"교과우수자",type:"교과",count:112,studentRecordWeight:100},{name:"교과균형",type:"교과",count:204,studentRecordWeight:100,csat:true},{name:"사회기여자",type:"교과",count:12,studentRecordWeight:100},{name:"실기우수자",type:"기타",count:419},{name:"군사학과",type:"기타",count:30,studentRecordWeight:70,interview:true},{name:"기회균형①",type:"교과",count:22,studentRecordWeight:100,csat:true}
  ],departments:[
-  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},
-  {id:"business",name:"경영학부",category:"경영·경제"},{id:"software",name:"소프트웨어학과",category:"컴퓨터·소프트웨어"},{id:"ai",name:"AI빅데이터학과",category:"컴퓨터·AI"},{id:"advertising",name:"광고홍보영상학과",category:"미디어·콘텐츠"}
+  {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},{id:"liberal",name:"자유전공학부",category:"인문사회"},{id:"future1",name:"미래융합학부 1",category:"융합"},{id:"future2",name:"미래융합학부 2",category:"융합"},{id:"business",name:"경영학부",category:"경영·경제"},{id:"software",name:"소프트웨어학과",category:"컴퓨터·소프트웨어"},{id:"advertising",name:"광고홍보영상학과",category:"미디어·콘텐츠"},{id:"sports-tech",name:"스포츠앤테크놀로지학과",category:"체육"},{id:"hair",name:"헤어디자인학과",category:"뷰티"},{id:"makeup",name:"메이크업디자인학과",category:"뷰티"},{id:"cosmetic",name:"코스메틱뷰티매니지먼트학과",category:"뷰티"},{id:"stage",name:"무대기술전공",category:"예술"},{id:"model",name:"모델연기전공",category:"예술"},{id:"music",name:"실용음악학부",category:"예술"},{id:"dance",name:"실용무용전공",category:"예술"},{id:"film",name:"영화영상학과",category:"예술"},{id:"visual",name:"VD_비주얼디자인전공",category:"디자인"},{id:"lifestyle",name:"LF_라이프스타일디자인전공",category:"디자인"},{id:"piano",name:"음악학부(피아노)",category:"예술"},{id:"theater",name:"연출전공",category:"예술"},{id:"acting",name:"연기전공",category:"예술"},{id:"stage-fashion",name:"무대패션전공",category:"디자인"},{id:"korean-dance",name:"한국무용전공",category:"예술"},{id:"orchestra",name:"음악학부(관현악)",category:"예술"},{id:"musical",name:"뮤지컬전공",category:"예술"}
  ]}
 };
-
 export const seoulLower2027Universities:University[]=universities;
 export const seoulLower2027Departments:Department[]=universities.flatMap(u=>data[u.id].departments.map(d=>({id:`${u.id}-${d.id}`,universityId:u.id,name:d.name,category:d.category})));
-
-export const seoulLower2027Admissions:Admission[]=universities.flatMap(u=>data[u.id].methods.map(m=>({
- id:`${u.id}-2027-${m.name}`,universityId:u.id,departmentId:`${u.id}-overall`,academicYear:2027,name:m.name,type:m.type,recruitmentCount:m.count,
- ...(m.studentRecordWeight!==undefined?{studentRecordWeight:m.studentRecordWeight}:{}),
- ...(m.documentWeight!==undefined?{documentWeight:m.documentWeight}:{}),
- ...(m.interview?{interview:true}:{}),csatMinimum:{enabled:!!m.csat},source:source(
- u.id==="sahmyook"?"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000116":u.id==="dongduk"?"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000102":"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000121"
- ),isMock:false
-})));
-
+export const seoulLower2027Admissions:Admission[]=universities.flatMap(u=>data[u.id].methods.map(m=>({id:`${u.id}-2027-${m.name}`,universityId:u.id,departmentId:`${u.id}-overall`,academicYear:2027,name:m.name,type:m.type,recruitmentCount:m.count,...(m.studentRecordWeight!==undefined?{studentRecordWeight:m.studentRecordWeight}:{}),...(m.documentWeight!==undefined?{documentWeight:m.documentWeight}:{}),...(m.interview?{interview:true}:{}),csatMinimum:{enabled:!!m.csat},source:source(u.id==="sahmyook"?"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000116":u.id==="dongduk"?"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000102":"https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000121"),isMock:false})));
 export const seoulLower2027AggregateDepartments:Department[]=universities.map(u=>({id:`${u.id}-overall`,universityId:u.id,name:"2027 수시 전체(모집단위 합계)",category:"전체"}));
