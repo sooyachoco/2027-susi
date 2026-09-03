@@ -13,6 +13,8 @@ import { konkuk2027Admissions, konkuk2027Departments, konkuk2027Universities } f
 import { verifiedDongguk2027Admissions, verifiedDongguk2027Departments, verifiedDongguk2027Universities } from "@/lib/admission/verifiedDongguk2027";
 import { verifiedKwangwoon2027Admissions, verifiedKwangwoon2027Departments, verifiedKwangwoon2027Universities } from "@/lib/admission/verifiedKwangwoon2027";
 import { verifiedSangmyung2027Admissions, verifiedSangmyung2027Departments, verifiedSangmyung2027Universities } from "@/lib/admission/verifiedSangmyung2027";
+import { verifiedDongduk2027Admissions, verifiedDongduk2027Departments, verifiedDongduk2027Universities } from "@/lib/admission/verifiedDongduk2027";
+import { verifiedSamyook2027Admissions, verifiedSamyook2027Departments, verifiedSamyook2027Universities } from "@/lib/admission/verifiedSamyook2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -31,6 +33,8 @@ const verified: Admission[] = [
   ...verifiedDongguk2027Admissions,
   ...verifiedKwangwoon2027Admissions,
   ...verifiedSangmyung2027Admissions,
+  ...verifiedDongduk2027Admissions,
+  ...verifiedSamyook2027Admissions,
 ].map((a) => ({ ...a }));
 const verifiedUniversities: University[] = [
   ...verified2027Universities,
@@ -46,6 +50,8 @@ const verifiedUniversities: University[] = [
   ...verifiedDongguk2027Universities,
   ...verifiedKwangwoon2027Universities,
   ...verifiedSangmyung2027Universities,
+  ...verifiedDongduk2027Universities,
+  ...verifiedSamyook2027Universities,
 ];
 const verifiedDepartments: Department[] = [
   ...verified2027Departments,
@@ -61,6 +67,8 @@ const verifiedDepartments: Department[] = [
   ...verifiedDongguk2027Departments,
   ...verifiedKwangwoon2027Departments,
   ...verifiedSangmyung2027Departments,
+  ...verifiedDongduk2027Departments,
+  ...verifiedSamyook2027Departments,
 ];
 
 const mergedUniversities: University[] = [
