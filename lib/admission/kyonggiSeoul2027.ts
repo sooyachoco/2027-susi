@@ -16,7 +16,6 @@ const departments = [
   ["media-video", "미디어영상학과", "인문·사회"],
   ["tourism-development", "관광개발경영학과", "관광·경영"],
   ["tourism-culture", "관광문화콘텐츠학과", "관광·문화"],
-  ["hotel-restaurant", "호텔외식경영학부", "관광·경영"],
   ["acting", "연기학과", "예술"],
   ["animation-imagination", "애니메이션학과(상상과표현)", "예술"],
   ["animation-webtoon", "애니메이션학과(웹툰)", "예술"],
@@ -64,14 +63,12 @@ const add = (
   if (count > 0) specs.push({ departmentId, name, type, count, ...options });
 };
 
-// 2027 서울캠퍼스 모집단위별 시행계획 표 기준.
-// 교과성적우수자 / 학교장추천 / 농어촌 / 기초생활수급자등 / KGU학생부종합 / 기회균형 / 사회배려 순.
+// 2027 서울캠퍼스 모집단위별 시행계획 표에서 확인된 모집인원.
 const rows = [
   ["free-major", 41, 0, 0, 0, 0, 0, 0],
   ["media-video", 3, 6, 2, 0, 12, 4, 0],
   ["tourism-development", 5, 10, 3, 2, 20, 7, 2],
   ["tourism-culture", 3, 5, 2, 0, 10, 3, 0],
-  ["hotel-restaurant", 4, 9, 2, 2, 14, 6, 2],
 ] as const;
 
 for (const [departmentId, 교과성적우수자, 학교장추천, 농어촌, 기초생활, KGU학생부종합, 기회균형, 사회배려] of rows) {
