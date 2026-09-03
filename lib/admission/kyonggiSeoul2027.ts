@@ -42,27 +42,68 @@ export const kyonggiSeoul2027DepartmentsWithAggregate: Department[] = [
   aggregate,
 ];
 
-const admissions: Array<[string, Admission["type"], number, number?, boolean?]> = [
-  ["교과성적우수자", "교과", 15, 100, false],
-  ["학교장추천", "교과", 30, 100, false],
-  ["농어촌학생", "교과", 9, 100, false],
-  ["기초생활수급자등선발", "교과", 2, 100, false],
-  ["KGU학생부종합", "학종", 56, 100, true],
-  ["SW우수자", "학종", 7, 100, true],
-  ["기회균형선발", "학종", 11, 100, false],
-  ["논술우수자", "논술", 54, 10, false],
-  ["예능실기우수자", "기타", 55],
-];
+type AdmissionSpec = {
+  departmentId: string;
+  name: string;
+  type: Admission["type"];
+  count: number;
+  studentRecordWeight?: number;
+  documentWeight?: number;
+  interview?: boolean;
+};
 
-export const kyonggiSeoul2027Admissions: Admission[] = admissions.map(([name, type, count, studentRecordWeight, interview]) => ({
-  id: `kyonggi-seoul-2027-${name}`,
+const specs: AdmissionSpec[] = [];
+
+const add = (
+  departmentId: string,
+  name: string,
+  type: Admission["type"],
+  count: number,
+  options: Omit<AdmissionSpec, "departmentId" | "name" | "type" | "count"> = {},
+) => {
+  if (count > 0) specs.push({ departmentId, name, type, count, ...options });
+};
+
+// 2027 서울캠퍼스 모집단위별 시행계획 표 기준.
+// 교과성적우수자 / 학교장추천 / 농어촌 / 기초생활수급자등 / KGU학생부종합 / 기회균형 / 사회배려 순.
+const rows = [
+  ["free-major", 41, 0, 0, 0, 0, 0, 0],
+  ["media-video", 3, 6, 2, 0, 12, 4, 0],
+  ["tourism-development", 5, 10, 3, 2, 20, 7, 2],
+  ["tourism-culture", 3, 5, 2, 0, 10, 3, 0],
+  ["hotel-restaurant", 4, 9, 2, 2, 14, 6, 2],
+] as const;
+
+for (const [departmentId, 교과성적우수자, 학교장추천, 농어촌, 기초생활, KGU학생부종합, 기회균형, 사회배려] of rows) {
+  const id = `kyonggi-seoul-${departmentId}`;
+  add(id, "교과성적우수자", "교과", 교과성적우수자, { studentRecordWeight: 100 });
+  add(id, "학교장추천", "교과", 학교장추천, { studentRecordWeight: 100 });
+  add(id, "농어촌학생", "교과", 농어촌, { studentRecordWeight: 100 });
+  add(id, "기초생활수급자등선발", "교과", 기초생활, { studentRecordWeight: 100 });
+  add(id, "KGU학생부종합", "학종", KGU학생부종합, { documentWeight: 70, interview: true });
+  add(id, "기회균형선발", "학종", 기회균형, { documentWeight: 100 });
+  add(id, "사회배려대상자", "학종", 사회배려, { documentWeight: 100 });
+}
+
+// 자유전공학부(서울): 교과성적우수자 41명 + 논술 13명.
+add("kyonggi-seoul-free-major", "논술우수자", "논술", 13);
+
+// 예능실기우수자: 연기 17, 애니메이션 상상과표현 11, 웹툰 5, 실용음악 22.
+add("kyonggi-seoul-acting", "예능실기우수자", "기타", 17);
+add("kyonggi-seoul-animation-imagination", "예능실기우수자", "기타", 11);
+add("kyonggi-seoul-animation-webtoon", "예능실기우수자", "기타", 5);
+add("kyonggi-seoul-practical-music", "예능실기우수자", "기타", 22);
+
+export const kyonggiSeoul2027Admissions: Admission[] = specs.map(({ departmentId, name, type, count, studentRecordWeight, documentWeight, interview }) => ({
+  id: `kyonggi-seoul-2027-${departmentId}-${name}`,
   universityId: "kyonggi-seoul",
-  departmentId: aggregate.id,
+  departmentId,
   academicYear: 2027,
   name,
   type,
   recruitmentCount: count,
   ...(studentRecordWeight !== undefined ? { studentRecordWeight } : {}),
+  ...(documentWeight !== undefined ? { documentWeight } : {}),
   ...(interview ? { interview: true } : {}),
   csatMinimum: { enabled: false },
   source,
