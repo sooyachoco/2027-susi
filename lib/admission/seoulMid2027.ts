@@ -65,7 +65,7 @@ const hansungSpecs: Spec[] = [
   { id: "talent", name: "한성인재전형", type: "학종", count: 310, documentWeight: 100 },
   { id: "balanced", name: "고른기회전형", type: "학종", count: 45, documentWeight: 100 },
   { id: "adult", name: "기회균형 성인학습자", type: "학종", count: 20, documentWeight: 100 },
-  { id: "practical", name: "실기우수자전형", type: "기타", count: 128 },
+  { id: "practical", name: "실기우수자전형", type: "기타", count: 128, studentRecordWeight: 20 },
   { id: "rural", name: "농어촌학생", type: "교과", count: 58, studentRecordWeight: 100 },
   { id: "special", name: "특성화고교졸업자", type: "교과", count: 21, studentRecordWeight: 100 },
   { id: "worker", name: "특성화고교졸재직자", type: "교과", count: 80, studentRecordWeight: 100 },
