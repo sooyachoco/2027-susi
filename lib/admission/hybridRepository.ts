@@ -4,6 +4,7 @@ import { remainingMetro2027Admissions, remainingMetro2027Departments, remainingM
 import { seoulMid2027Admissions, seoulMid2027Departments, seoulMid2027Universities } from "./seoulMid2027";
 import { seoulLower2027Admissions, seoulLower2027Departments, seoulLower2027Universities } from "./seoulLower2027";
 import { gangseo2027Admissions, gangseo2027DepartmentsWithAggregate, gangseo2027Universities } from "./gangseo2027";
+import { skhu2027Admissions, skhu2027DepartmentsWithAggregate, skhu2027Universities } from "./skhu2027";
 import { sungkyul2027Admissions, sungkyul2027Departments } from "./sungkyul2027";
 import { uos2027Admissions, uos2027Departments, uos2027Universities } from "./uos2027";
 import { skku2027Admissions, skku2027Departments, skku2027Universities } from "./skku2027";
@@ -30,8 +31,8 @@ import type { University as RootUniversity } from "../types";
 export class HybridAdmissionRepository implements AdmissionRepository {
   private getVerifiedAdmissions(): Admission[] {
     return dedupeByKey([
-      ...remainingMetro2027Admissions.filter((a) => !["hanshin","seoultech","sejong","hongik","myeongji","sungshin","snue","dongduk","sahmyook","skuniv","gangseo"].includes(a.universityId)),
-      ...seoulMid2027Admissions, ...seoulLower2027Admissions, ...gangseo2027Admissions,
+      ...remainingMetro2027Admissions.filter((a) => !["hanshin","seoultech","sejong","hongik","myeongji","sungshin","snue","dongduk","sahmyook","skuniv","gangseo","skhu"].includes(a.universityId)),
+      ...seoulMid2027Admissions, ...seoulLower2027Admissions, ...gangseo2027Admissions, ...skhu2027Admissions,
       ...sungkyul2027Admissions, ...uos2027Admissions, ...skku2027Admissions, ...hanyang2027Admissions, ...soongsil2027Admissions,
       ...kookmin2027Admissions, ...dankook2027Admissions, ...verifiedSookmyung2027Admissions, ...hyupsung2027Admissions, ...kangnam2027Admissions,
       ...yongin2027Admissions, ...hanshin2027Admissions, ...seoultech2027Admissions, ...verifiedSejong2027Admissions, ...sejong2027AggregateAdmissions,
@@ -40,7 +41,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
   }
   async getUniversities(region?: AdmissionRegion): Promise<University[]> {
     const allowed = new Set(this.getVerifiedAdmissions().map((a) => a.universityId));
-    const all = dedupeByKey([...universities, ...expanded2027Universities, ...remainingMetro2027Universities, ...seoulMid2027Universities, ...seoulLower2027Universities, ...gangseo2027Universities,
+    const all = dedupeByKey([...universities, ...expanded2027Universities, ...remainingMetro2027Universities, ...seoulMid2027Universities, ...seoulLower2027Universities, ...gangseo2027Universities, ...skhu2027Universities,
       ...uos2027Universities, ...skku2027Universities, ...hanyang2027Universities, ...soongsil2027Universities, ...kookmin2027Universities,
       ...dankook2027Universities, ...verifiedSookmyung2027Universities, ...hyupsung2027Universities, ...kangnam2027Universities, ...yongin2027Universities,
       ...hanshin2027Universities, ...seoultech2027Universities, ...verifiedSejong2027Universities, ...hongik2027Universities, ...myeongji2027Universities,
@@ -51,8 +52,8 @@ export class HybridAdmissionRepository implements AdmissionRepository {
   }
   async getDepartments(universityId?: string): Promise<Department[]> {
     const allowed = new Set(this.getVerifiedAdmissions().map((a) => a.departmentId));
-    const all = dedupeByKey([...departments, ...expanded2027Departments, ...remainingMetro2027Departments.filter((d) => !["seoultech","sejong","hongik","myeongji","sungshin","snue","dongduk","sahmyook","skuniv","gangseo"].includes(d.universityId)),
-      ...seoulMid2027Departments, ...seoulLower2027Departments, ...gangseo2027DepartmentsWithAggregate, ...sungkyul2027Departments, ...uos2027Departments, ...skku2027Departments, ...hanyang2027Departments, ...soongsil2027Departments,
+    const all = dedupeByKey([...departments, ...expanded2027Departments, ...remainingMetro2027Departments.filter((d) => !["seoultech","sejong","hongik","myeongji","sungshin","snue","dongduk","sahmyook","skuniv","gangseo","skhu"].includes(d.universityId)),
+      ...seoulMid2027Departments, ...seoulLower2027Departments, ...gangseo2027DepartmentsWithAggregate, ...skhu2027DepartmentsWithAggregate, ...sungkyul2027Departments, ...uos2027Departments, ...skku2027Departments, ...hanyang2027Departments, ...soongsil2027Departments,
       ...kookmin2027Departments, ...dankook2027Departments, ...verifiedSookmyung2027Departments, ...hyupsung2027Departments, ...kangnam2027Departments,
       ...yongin2027Departments, ...hanshin2027DepartmentsWithAggregate, ...seoultech2027DepartmentsWithAggregate, ...verifiedSejong2027Departments,
       sejong2027AggregateDepartment, ...hongik2027DepartmentsWithAggregate, ...myeongji2027Departments, ...sungshin2027Departments, ...snue2027Departments]);
