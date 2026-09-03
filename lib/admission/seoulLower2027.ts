@@ -13,7 +13,7 @@ const universities:U[]=[
 
 const data:Record<string,{methods:Method[];departments:D[]}>= {
  dongduk:{methods:[
-  {name:"동덕창의리더",type:"학종",count:255,documentWeight:60,interview:true},
+  {name:"동덕창의리더",type:"학종",count:255,documentWeight:40,interview:true},
   {name:"기회균형",type:"학종",count:12,documentWeight:100},
   {name:"특성화고 등 고졸재직자",type:"학종",count:84,documentWeight:100},
   {name:"학생부교과우수자",type:"교과",count:196,studentRecordWeight:100,csat:true},
@@ -41,7 +41,7 @@ const data:Record<string,{methods:Method[];departments:D[]}>= {
   {name:"교과균형",type:"교과",count:204,studentRecordWeight:100,csat:true},
   {name:"사회기여자",type:"교과",count:12,studentRecordWeight:100},
   {name:"실기우수자",type:"기타",count:419},
-  {name:"군사학과",type:"기타",count:30},
+  {name:"군사학과",type:"기타",count:30,studentRecordWeight:70,interview:true},
   {name:"기회균형①",type:"교과",count:22,studentRecordWeight:100,csat:true}
  ],departments:[
   {id:"overall",name:"2027 수시 전체(모집단위 합계)",category:"전체"},
