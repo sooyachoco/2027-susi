@@ -57,8 +57,8 @@ export const seoulwomen2027Admissions: Admission[] = [
   aggregate("specialized-highschool", "기회균형_특성화고교졸업자", "학종", 23, { documentWeight: 100 }),
   aggregate("employee", "기회균형_특성화고등을졸업한재직자", "학종", 89, { documentWeight: 100 }),
   aggregate("subject", "교과우수자전형", "교과", 185, { studentRecordWeight: 100, csatMinimum: { enabled: true } }),
-  aggregate("subject-sports", "교과우수자전형(체육)", "교과", 10, { studentRecordWeight: 60, csatMinimum: { enabled: true } }),
-  aggregate("essay", "논술우수자전형", "논술", 120, { studentRecordWeight: 100 }),
+  aggregate("subject-sports", "교과우수자전형(체육)", "교과", 10, { studentRecordWeight: 60, interview: false, csatMinimum: { enabled: false } }),
+  aggregate("essay", "논술우수자전형", "논술", 120, { studentRecordWeight: 20, csatMinimum: { enabled: true } }),
   aggregate("practical-sports", "실기우수자(체육)", "기타", 8),
   aggregate("practical-art", "실기우수자(미술)", "기타", 65),
 ];
