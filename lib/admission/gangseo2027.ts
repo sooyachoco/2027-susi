@@ -22,11 +22,11 @@ const aggregate: Department = { id: "gangseo-overall", universityId: "gangseo", 
 export const gangseo2027DepartmentsWithAggregate: Department[] = [...gangseo2027Departments, aggregate];
 
 const admissions: Array<[string, Admission["type"], number, number?, number?]> = [
-  ["일반학생", "교과", 104, 80, 20],
-  ["교과우수자", "교과", 106, 100],
-  ["사회통합", "교과", 11, 80, 20],
-  ["실기 일반학생", "기타", 23, 20, 80],
-  ["실기 사회통합", "기타", 2, 20, 80],
+  ["일반학생", "교과", 102, 80, 20],
+  ["교과우수자", "교과", 100, 100],
+  ["사회통합", "교과", 10, 80, 20],
+  ["실기 일반학생", "기타", 23],
+  ["실기 사회통합", "기타", 2],
   ["자유전공", "교과", 45, 100],
 ];
 
@@ -38,7 +38,7 @@ export const gangseo2027Admissions: Admission[] = admissions.map(([name, type, c
   name,
   type,
   recruitmentCount: count,
-  studentRecordWeight,
+  ...(studentRecordWeight !== undefined ? { studentRecordWeight } : {}),
   ...(interviewWeight ? { interview: true } : {}),
   csatMinimum: { enabled: false },
   source,
