@@ -33,27 +33,19 @@ const departments: Array<[string, string, string]> = [
   ["orchestra", "음악학부(관현악전공)", "음악"],
 ];
 
-export const seokyeong2027Departments: Department[] = departments.map(([id, name, category]) => ({
-  id: `skuniv-${id}`,
-  universityId: "skuniv",
-  name,
-  category,
-}));
+export const seokyeong2027Departments: Department[] = departments.map(([id, name, category]) => ({ id: `skuniv-${id}`, universityId: "skuniv", name, category }));
 
 const aggregate: Department = { id: "skuniv-overall", universityId: "skuniv", name: "2027 수시 전체", category: "전체" };
 export const seokyeong2027DepartmentsWithAggregate: Department[] = [...seokyeong2027Departments, aggregate];
 
 const admissions: Array<{ name: string; type: Admission["type"]; count: number; studentRecordWeight?: number }> = [
-  { name: "논술우수자", type: "논술", count: 204 },
+  { name: "논술우수자", type: "논술", count: 214 },
   { name: "교과우수자", type: "교과", count: 112, studentRecordWeight: 100 },
   { name: "교과균형", type: "교과", count: 204, studentRecordWeight: 100 },
   { name: "사회기여자", type: "교과", count: 12, studentRecordWeight: 100 },
   { name: "군사학과", type: "교과", count: 30, studentRecordWeight: 100 },
-  { name: "실기우수자", type: "기타", count: 409, studentRecordWeight: 25 },
+  { name: "실기우수자", type: "기타", count: 419, studentRecordWeight: 20 },
   { name: "기회균형①", type: "교과", count: 22, studentRecordWeight: 100 },
-  { name: "기회균형②_농어촌학생", type: "교과", count: 47, studentRecordWeight: 100 },
-  { name: "기회균형②_서해5도", type: "교과", count: 12, studentRecordWeight: 100 },
-  { name: "기회균형②_특성화고교졸업자", type: "교과", count: 11, studentRecordWeight: 100 },
 ];
 
 export const seokyeong2027Admissions: Admission[] = admissions.map((m) => ({
@@ -65,7 +57,7 @@ export const seokyeong2027Admissions: Admission[] = admissions.map((m) => ({
   type: m.type,
   recruitmentCount: m.count,
   ...(m.studentRecordWeight !== undefined ? { studentRecordWeight: m.studentRecordWeight } : {}),
-  csatMinimum: { enabled: ["교과우수자", "논술우수자", "기회균형①"].includes(m.name) },
+  csatMinimum: { enabled: ["교과균형", "기회균형①"].includes(m.name) },
   source,
   isMock: false,
 }));
