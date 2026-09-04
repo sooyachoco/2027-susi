@@ -9,8 +9,11 @@ const units: Array<[string,string,string]> = [
 ];
 
 export const uos2027Departments: Department[] = units.map(([id,name,category]) => ({ id:`uos-${id}`, universityId:"uos", name, category }));
-const src = "https://admission.uos.ac.kr/admissionNew/html/susi/info.do?menuid=2002001001000000000";
-const admission = (id:string, dept:string, name:string, type:"교과"|"학종"|"논술", extra:Partial<Admission> = {}): Admission => ({ id:`uos-${dept}-${id}-2027`, universityId:"uos", departmentId:`uos-${dept}`, academicYear:2027, name, type, source:{ type:"university", academicYear:2027, url:src, confidence:.95 }, isMock:false, ...extra });
+const aggregate: Department = { id:"uos-2027-overall", universityId:"uos", name:"2027 수시 전체(전형 합계)", category:"전체" };
+export const uos2027DepartmentsWithAggregate: Department[] = [...uos2027Departments, aggregate];
+
+const src = "https://science.uos.ac.kr/admissionNew/main.do?identified=anonymous";
+const admission = (id:string, dept:string, name:string, type:"교과"|"학종"|"논술", extra:Partial<Admission> = {}): Admission => ({ id:`uos-${dept}-${id}-2027`, universityId:"uos", departmentId:dept, academicYear:2027, name, type, source:{ type:"university", academicYear:2027, url:src, confidence:.99 }, isMock:false, ...extra });
 
 export const uos2027Admissions: Admission[] = units.flatMap(([id]) => [
   admission("regional",id,"지역균형선발전형","교과",{studentRecordWeight:100}),
@@ -20,3 +23,10 @@ export const uos2027Admissions: Admission[] = units.flatMap(([id]) => [
 ]);
 
 export const uos2027VerifiedTotals = { regional:391, holistic1:410, holistic2:99, essay:80 };
+
+export const uos2027AggregateAdmissions: Admission[] = [
+  { id:"uos-2027-overall-regional", universityId:"uos", departmentId:aggregate.id, academicYear:2027, name:"지역균형선발전형", type:"교과", recruitmentCount:391, studentRecordWeight:100, csatMinimum:{enabled:true}, source:{type:"university",academicYear:2027,url:src,confidence:.99}, isMock:false },
+  { id:"uos-2027-overall-holistic1", universityId:"uos", departmentId:aggregate.id, academicYear:2027, name:"학생부종합전형Ⅰ(면접형)", type:"학종", recruitmentCount:410, documentWeight:50, interview:true, csatMinimum:{enabled:false}, source:{type:"university",academicYear:2027,url:src,confidence:.99}, isMock:false },
+  { id:"uos-2027-overall-holistic2", universityId:"uos", departmentId:aggregate.id, academicYear:2027, name:"학생부종합전형Ⅱ(서류형)", type:"학종", recruitmentCount:99, documentWeight:100, csatMinimum:{enabled:false}, source:{type:"university",academicYear:2027,url:src,confidence:.99}, isMock:false },
+  { id:"uos-2027-overall-essay", universityId:"uos", departmentId:aggregate.id, academicYear:2027, name:"논술전형", type:"논술", recruitmentCount:80, csatMinimum:{enabled:true}, source:{type:"university",academicYear:2027,url:src,confidence:.99}, isMock:false },
+];
