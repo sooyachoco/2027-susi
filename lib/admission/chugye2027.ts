@@ -7,7 +7,7 @@ const source = (url: string) => ({
   confidence: 0.99,
 });
 
-const url = "https://enter.chugye.ac.kr/ArticleList.do?categorySeq=504&dataSeq=494&menuSeq=16";
+const url = "https://enter.chugye.ac.kr/file/pdfView.do?seq=1682143878";
 
 export const chugye2027Universities: University[] = [
   { id: "chugye", name: "추계예술대학교", region: "서울" },
