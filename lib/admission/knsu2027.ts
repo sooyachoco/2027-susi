@@ -69,7 +69,7 @@ export const knsu2027Admissions: Admission[] = [
   admission(dept("game"), "경기입상실적우수자", "기타", 16, { studentRecordWeight: 40 }),
   admission(dept("taekwondo"), "경기입상실적우수자", "기타", 15, { studentRecordWeight: 35 }),
 
-  // 실기우수자: 모집요강상 정원 35명. 세부 실기종목은 공연예술/태권도로 구성.
+  // 실기우수자: 공연예술학과와 태권도학과를 분리하여 기록.
   admission(dept("performing"), "실기우수자", "기타", 30, { studentRecordWeight: 30 }),
   admission(dept("taekwondo"), "실기우수자", "기타", 5, { studentRecordWeight: 30 }),
 
@@ -101,20 +101,20 @@ export const knsu2027Admissions: Admission[] = [
     csatMinimum: csat("국어·수학·영어·탐구 중 상위 3개 영역 합 10등급 이내(탐구 1과목)"),
   }),
 
-  // 국가보훈대상자: 5명(각 1명).
+  // 국가보훈대상자: 사회1, 스포츠청소년1, 특수체육1, 운동건강1, 노인체육1 = 5명.
   admission(dept("social"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 100 }),
-  admission(dept("youth"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80, practicalWeight: 20 }),
-  admission(dept("special"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 60, interview: true, practicalWeight: 30 }),
-  admission(dept("health"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 70, practicalWeight: 30 }),
-  admission(dept("senior"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80, practicalWeight: 20 }),
+  admission(dept("youth"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80 }),
+  admission(dept("special"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 60, interview: true }),
+  admission(dept("health"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 70 }),
+  admission(dept("senior"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80 }),
 
-  // 특수교육대상자: 경기지도2, 특수체육3, 태권도8.
-  admission(dept("game"), "특수교육대상자", "기타", 2, { studentRecordWeight: 20, interview: true, practicalWeight: 60 }),
-  admission(dept("special"), "특수교육대상자", "기타", 3, { studentRecordWeight: 10, interview: true, practicalWeight: 70, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
-  admission(dept("taekwondo"), "특수교육대상자", "기타", 8, { studentRecordWeight: 10, practicalWeight: 90, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
+  // 특수교육대상자: 경기지도2, 특수체육3, 태권도8 = 13명.
+  admission(dept("game"), "특수교육대상자", "기타", 2, { studentRecordWeight: 20, interview: true }),
+  admission(dept("special"), "특수교육대상자", "기타", 3, { studentRecordWeight: 10, interview: true, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
+  admission(dept("taekwondo"), "특수교육대상자", "기타", 8, { studentRecordWeight: 10, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
 
   // 농어촌지역학생: 공연예술학과 2명.
-  admission(dept("performing"), "농어촌지역학생", "기타", 2, { studentRecordWeight: 30, practicalWeight: 70, csatMinimum: csat("국어·수학·영어·탐구 중 2개 영역 이상 4등급 이내(탐구 1과목)") }),
+  admission(dept("performing"), "농어촌지역학생", "기타", 2, { studentRecordWeight: 30, csatMinimum: csat("국어·수학·영어·탐구 중 2개 영역 이상 4등급 이내(탐구 1과목)") }),
 
   // 외국인군(북한이탈주민 포함): 경기지도학과 수시 2명.
   admission(dept("game"), "외국인군(북한이탈주민 포함)", "기타", 2),
