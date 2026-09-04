@@ -25,13 +25,13 @@ const rows: Row[] = [
   ["sogang", "서강대학교", "학생부종합(특성화고교졸업자)", "학종", 6, "https://admission.sogang.ac.kr/", "특성화고교졸업자 특별전형", false, false],
   ["sogang", "서강대학교", "논술(일반)", "논술", 171, "https://admission.sogang.ac.kr/", "논술 중심 전형; 수능최저 적용", false, true],
 
-  ["korea", "고려대학교", "학교추천전형", "교과", 648, "https://oku.korea.ac.kr/", "학생부교과90+서류10", false, true],
-  ["korea", "고려대학교", "학업우수전형", "학종", 901, "https://oku.korea.ac.kr/", "서류100; 인문·자연 4개 영역 합8 및 한국사4, 의과대학 합5", false, true],
-  ["korea", "고려대학교", "계열적합전형", "학종", 521, "https://oku.korea.ac.kr/", "1단계 서류100 5배수, 2단계 60+면접40; 수능최저 없음", true, false],
-  ["korea", "고려대학교", "고른기회전형", "학종", 199, "https://oku.korea.ac.kr/", "학생부종합 특별전형", false, false],
+  ["korea", "고려대학교", "학교추천전형", "교과", 650, "https://oku.korea.ac.kr/", "학생부교과90+서류10; 최종 모집인원 650명", false, true],
+  ["korea", "고려대학교", "학업우수전형", "학종", 903, "https://oku.korea.ac.kr/", "서류100; 인문·자연 4개 영역 합8 및 한국사4, 의과대학 합5", false, true],
+  ["korea", "고려대학교", "계열적합전형", "학종", 523, "https://oku.korea.ac.kr/", "1단계 서류100 5배수, 2단계 60+면접40; 수능최저 없음", true, false],
+  ["korea", "고려대학교", "고른기회전형", "학종", 201, "https://oku.korea.ac.kr/", "학생부종합 특별전형", false, false],
   ["korea", "고려대학교", "다문화전형", "학종", 20, "https://oku.korea.ac.kr/", "학생부종합 특별전형", false, false],
   ["korea", "고려대학교", "사이버국방전형", "기타", 10, "https://oku.korea.ac.kr/", "사이버국방 특별전형", true, false],
-  ["korea", "고려대학교", "논술전형", "논술", 349, "https://oku.korea.ac.kr/", "논술전형", false, false],
+  ["korea", "고려대학교", "논술전형", "논술", 351, "https://oku.korea.ac.kr/", "논술전형", false, true],
 
   ["cau", "중앙대학교", "학생부교과(지역균형)", "교과", 508, "https://admission.cau.ac.kr/", "학생부100(교과90+출결10); 서울캠퍼스 수능최저 적용", false, true],
   ["cau", "중앙대학교", "학생부종합(융합형인재)", "학종", 378, "https://admission.cau.ac.kr/", "서류100; 의학부는 2단계 면접 실시", false, false],
