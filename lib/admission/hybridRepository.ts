@@ -40,6 +40,7 @@ import { verifiedHansung2027Admissions, verifiedHansung2027Departments, verified
 import { redTop2027Admissions, redTop2027Departments, redTop2027Universities } from "./redTop2027";
 import { redTopDepartment2027Admissions, redTopDepartment2027Departments } from "./redTopDepartments2027";
 import { redTopYonsei2027Admissions, redTopYonsei2027Departments } from "./redTopYonseiDepartments2027";
+import { redTopYonsei2027SpecialAdmissions } from "./redTopYonseiSpecial2027";
 import { redKorea2027Admissions, redKorea2027Departments } from "./redKoreaDepartments2027";
 import { redKoreaSpecial2027Admissions, redKoreaSpecial2027Departments } from "./redKoreaSpecial2027";
 import { redCentral2027Admissions, redCentral2027Departments } from "./redCentralDepartments2027";
@@ -60,7 +61,7 @@ export class HybridAdmissionRepository implements AdmissionRepository {
       ...yongin2027Admissions, ...hanshin2027Admissions, ...seoultech2027Admissions, ...verifiedSejong2027Admissions, ...sejong2027AggregateAdmissions,
       ...hongik2027Admissions, ...myeongji2027Admissions, ...sungshin2027Admissions, ...snue2027Admissions, ...knsu2027Admissions, ...kyonggiSeoul2027Admissions,
       ...konkuk2027Admissions, ...seoulTier2Batch2027Admissions, ...seoulBatch03_2027Admissions, ...seoulSpecial2027Admissions, ...seokyeong2027Admissions, ...catholicSeongui2027Admissions, ...verifiedHansung2027Admissions,
-      ...redTop2027Admissions, ...redTopDepartment2027Admissions, ...redTopYonsei2027Admissions, ...redKorea2027Admissions, ...redKoreaSpecial2027Admissions, ...redCentral2027Admissions, ...redCentralArts2027Admissions, ...redCentralHarmony2027Admissions, ...redSecond2027Admissions,
+      ...redTop2027Admissions, ...redTopDepartment2027Admissions, ...redTopYonsei2027Admissions, ...redTopYonsei2027SpecialAdmissions, ...redKorea2027Admissions, ...redKoreaSpecial2027Admissions, ...redCentral2027Admissions, ...redCentralArts2027Admissions, ...redCentralHarmony2027Admissions, ...redSecond2027Admissions,
     ].filter((a) => a.academicYear === 2027 && !a.isMock));
   }
   async getUniversities(region?: AdmissionRegion): Promise<University[]> {
