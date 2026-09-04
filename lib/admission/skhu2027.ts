@@ -11,6 +11,7 @@ const departments = [
 ] as const;
 
 export const skhu2027Departments: Department[] = departments.map(([id, name, category]) => ({ id: `skhu-${id}`, universityId: "skhu", name, category }));
+export const skhu2027DepartmentsWithAggregate: Department[] = skhu2027Departments;
 
 const counts: Record<string, Record<string, number>> = {
   humanities: { 열린인재: 36, 교과성적: 14, 국가보훈대상자: 1, 사회기여자및배려대상자: 1, 기회균형선발: 3, 농어촌학생: 1, 북한이탈주민: 2 },
