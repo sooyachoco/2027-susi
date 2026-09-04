@@ -1,6 +1,6 @@
 import type { Admission, Department, University } from "./types";
 
-const source = { type: "university" as const, academicYear: 2027, url: "https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8", document: "2027학년도 삼육대학교 수시 모집요강", verifiedAt: "2026-09-03", confidence: 0.96 };
+const source = { type: "university" as const, academicYear: 2027, url: "https://ipsi.syu.ac.kr/2016_syu/pages/index.asp?mj=01&p=8", document: "2027학년도 수시 모집요강", verifiedAt: "2026-09-04", confidence: 0.99 };
 
 export const verifiedSamyook2027Universities: University[] = [
   { id: "samyook", name: "삼육대학교", region: "서울" },
@@ -26,3 +26,13 @@ export const verifiedSamyook2027Admissions: Admission[] = verifiedSamyook2027Dep
   if (practical.has(key)) out.push({ id: `${d.id}-practical-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "실기우수자", type: "기타", source, isMock: false });
   return out;
 });
+
+export const verifiedSamyook2027AggregateDepartment: Department = { id: "samyook-2027-overall", universityId: "samyook", name: "2027 수시 전체", category: "전체" };
+
+export const verifiedSamyook2027AggregateAdmissions: Admission[] = [
+  { id: "samyook-2027-overall-school-recommend", universityId: "samyook", departmentId: verifiedSamyook2027AggregateDepartment.id, academicYear: 2027, name: "학교장추천(전체)", type: "교과", recruitmentCount: 131, studentRecordWeight: 100, source, isMock: false },
+  { id: "samyook-2027-overall-seum", universityId: "samyook", departmentId: verifiedSamyook2027AggregateDepartment.id, academicYear: 2027, name: "세움인재(전체)", type: "학종", recruitmentCount: 228, documentWeight: 60, interview: true, csatMinimum: { enabled: true, description: "약학과만 해당: 국어·영어·수학(미적분 또는 기하)·과학탐구(1과목) 중 3개 영역 합 5등급 이내" }, source, isMock: false },
+  { id: "samyook-2027-overall-essay", universityId: "samyook", departmentId: verifiedSamyook2027AggregateDepartment.id, academicYear: 2027, name: "논술우수자(전체)", type: "논술", recruitmentCount: 277, csatMinimum: { enabled: true, description: "국어·영어·수학·탐구 중 1개 영역 3등급 이내; 약학과는 별도 기준" }, source, isMock: false },
+];
+
+export const verifiedSamyook2027DepartmentsWithAggregate: Department[] = [verifiedSamyook2027AggregateDepartment, ...verifiedSamyook2027Departments];
