@@ -1,6 +1,6 @@
 import type { Admission, Department, University } from "./types";
 
-const source = { type: "university" as const, academicYear: 2027, url: "https://enter.skhu.ac.kr/enter/3082/subview.do", confidence: 0.98 };
+const source = { type: "university" as const, academicYear: 2027, url: "https://enter.skhu.ac.kr/enter/3070/subview.do", confidence: 0.99 };
 
 export const skhu2027Universities: University[] = [
   { id: "skhu", name: "성공회대학교", region: "서울" },
@@ -13,6 +13,7 @@ const departments = [
   ["media", "미디어콘텐츠융합학부", "미디어·콘텐츠"],
   ["future", "미래융합학부", "컴퓨터·AI"],
   ["software", "소프트웨어융합학부", "컴퓨터·소프트웨어"],
+  ["free-major", "자유전공학부", "자유전공"],
 ] as const;
 
 export const skhu2027Departments: Department[] = departments.map(([id, name, category]) => ({
@@ -35,8 +36,8 @@ const admissions: Array<[string, Admission["type"], number, number, boolean]> = 
   ["열린인재", "학종", 196, 60, true],
   ["대안학교출신자", "학종", 15, 60, true],
   ["교과성적", "교과", 185, 100, false],
-  ["사회기여자 및 배려대상자", "교과", 10, 100, false],
-  ["국가보훈대상자", "교과", 8, 100, false],
+  ["사회기여자 및 배려대상자", "교과", 8, 100, false],
+  ["국가보훈대상자", "교과", 11, 100, false],
   ["특성화고교교과성적", "교과", 11, 100, false],
   ["기회균형선발", "교과", 15, 100, false],
   ["농어촌학생", "교과", 6, 100, false],
