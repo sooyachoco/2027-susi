@@ -1,13 +1,12 @@
 import type { Admission, Department, University } from "./types";
 
-const source = (url: string) => ({
+const source = {
   type: "university" as const,
   academicYear: 2027,
-  url,
+  url: "https://enter.chugye.ac.kr/ArticleList.do?categorySeq=504&dataSeq=494&menuSeq=16",
+  document: "2027학년도 신입학전형 수시 모집요강(최종 합본)",
   confidence: 0.99,
-});
-
-const url = "https://enter.chugye.ac.kr/file/pdfView.do?seq=1682143878";
+};
 
 export const chugye2027Universities: University[] = [
   { id: "chugye", name: "추계예술대학교", region: "서울" },
@@ -46,7 +45,7 @@ const admission = (
   type,
   recruitmentCount,
   csatMinimum: { enabled: false },
-  source: source(url),
+  source,
   isMock: false,
   ...options,
 });
