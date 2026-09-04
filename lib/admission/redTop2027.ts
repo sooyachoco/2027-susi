@@ -1,8 +1,8 @@
-import type { Admission, Department, University } from "./types";
+import type { Admission, AdmissionType, Department, University } from "./types";
 
 const source = { type: "university" as const, academicYear: 2027, collectedAt: "2026-09-04", verifiedAt: "2026-09-04", confidence: 0.98 };
 
-type Row = [string, string, string, string, number, string, string];
+type Row = [string, string, string, AdmissionType, number, string, string];
 
 const rows: Row[] = [
   ["snu", "서울대학교", "지역균형전형", "교과", 511, "https://admission.snu.ac.kr/undergraduate/early/guide", "학생부종합 1단계 서류평가 3배수, 2단계 70+면접30; 수능최저 적용"],
