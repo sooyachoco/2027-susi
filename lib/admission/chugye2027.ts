@@ -5,6 +5,7 @@ const source = {
   academicYear: 2027,
   url: "https://enter.chugye.ac.kr/ArticleList.do?categorySeq=504&dataSeq=494&menuSeq=16",
   document: "2027학년도 신입학전형 수시 모집요강(최종 합본)",
+  verifiedAt: "2026-09-04",
   confidence: 0.99,
 };
 
