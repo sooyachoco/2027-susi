@@ -50,6 +50,8 @@ export type Admission = {
   csatMinimum?: CsatMinimum;
   source?: DataSource;
   isMock?: boolean;
+  /** 대학 전체 전형 합계 행인지 여부. 추천 후보 계산에서는 제외한다. */
+  isAggregate?: boolean;
 };
 
 export type StudentProfile = {
