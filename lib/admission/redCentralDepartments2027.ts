@@ -1,38 +1,9 @@
 import type { Admission, Department, AdmissionType } from "./types";
-
 const source = { type: "university" as const, academicYear: 2027, collectedAt: "2026-09-04", verifiedAt: "2026-09-04", confidence: 0.99 };
-
-type Row = [string, string, number, number, number, number, number, number, number];
-// 중앙대 2027 수시 최종 모집요강 기준. [id, 모집단위, 지역균형, 융합형, 탐구형, 성장형, 논술일반, 논술창의, 비고]
+type Row = [string, string, number, number, number, number, number, number];
 const rows: Row[] = [
-  ["cau-2027-korean","국어국문학부",5,5,6,4,6,0], ["cau-2027-english","영어영문학과",10,10,20,8,6,4],
-  ["cau-2027-german","유럽문화학부(독일어문학)",0,0,14,0,8,0], ["cau-2027-french","유럽문화학부(프랑스어문학)",0,0,17,0,8,0], ["cau-2027-russian","유럽문화학부(러시아어문학)",0,0,13,0,8,0],
-  ["cau-2027-japanese","아시아문화학부(일본어문학)",0,0,8,0,6,0], ["cau-2027-chinese","아시아문화학부(중국어문학)",0,0,15,0,6,0], ["cau-2027-philosophy","철학과",8,8,0,0,6,0], ["cau-2027-history","역사학과",10,10,0,0,6,0],
-  ["cau-2027-politics","정치국제학과",10,6,8,4,4,4], ["cau-2027-psychology","심리학과",5,5,7,4,4,4], ["cau-2027-library","문헌정보학과",7,7,0,0,6,0], ["cau-2027-social-welfare","사회복지학부",6,6,8,0,6,0],
-  ["cau-2027-sociology","사회학과",9,9,0,0,6,0], ["cau-2027-urban","도시계획·부동산학과",8,8,8,0,6,0], ["cau-2027-public","공공인재학부",6,6,9,4,7,4], ["cau-2027-media","미디어커뮤니케이션학부",9,6,5,4,6,4],
-  ["cau-2027-education","교육학과",6,7,0,0,5,0], ["cau-2027-early-childhood","유아교육과",8,10,0,0,0,0], ["cau-2027-english-edu","영어교육과",10,12,0,0,6,0],
-  ["cau-2027-economics","경제학부",46,8,13,6,7,4], ["cau-2027-statistics","응용통계학과",0,6,0,4,6,0], ["cau-2027-advertising","광고홍보학부(광고홍보학)",0,6,7,0,6,0], ["cau-2027-logistics","국제물류학과",0,6,8,0,6,0], ["cau-2027-security-human","산업보안학과(인문)",0,0,6,4,0,0],
-  ["cau-2027-business","경영학부(경영학)",46,17,26,10,36,18], ["cau-2027-global-finance","경영학부(글로벌금융)",8,0,6,4,6,0], ["cau-2027-nursing","간호학과",30,15,15,8,26,0],
-  ["cau-2027-security-natural","산업보안학과(자연)",0,9,13,0,6,0], ["cau-2027-physics","물리학과",30,0,11,0,6,0], ["cau-2027-chemistry","화학과",0,0,8,0,6,0], ["cau-2027-life","생명과학과",0,0,12,0,6,0], ["cau-2027-math","수학과",0,0,12,0,6,0],
-  ["cau-2027-civil","사회기반시스템공학부(건설환경플랜트공학)",0,7,10,0,8,0], ["cau-2027-city","사회기반시스템공학부(도시시스템공학)",0,7,0,0,6,0], ["cau-2027-architecture","건축학부",0,7,13,4,10,0], ["cau-2027-energy","에너지시스템공학부",0,5,11,4,9,0],
-  ["cau-2027-chemical","화학공학과",10,5,8,4,6,4], ["cau-2027-mechanical","기계공학부",20,6,15,4,9,8], ["cau-2027-ee","전자전기공학부",18,6,20,6,10,8], ["cau-2027-convergence","융합공학부",23,6,18,6,7,4], ["cau-2027-semiconductor","지능형반도체공학과",0,5,8,0,5,0], ["cau-2027-software","소프트웨어학부",22,9,18,6,9,8], ["cau-2027-ai","AI학과",9,7,14,0,7,0], ["cau-2027-pharmacy","약학부",10,12,20,6,16,8], ["cau-2027-medicine","의학부",0,7,15,4,14,4],
-  ["cau-2027-animal","생명자원공학부(동물생명공학)",0,9,10,0,6,0], ["cau-2027-plant","생명자원공학부(식물생명공학)",0,6,7,0,6,0], ["cau-2027-food","식품공학부(식품공학)",0,12,10,0,7,0], ["cau-2027-food-nutrition","식품공학부(식품영양학)",0,10,0,0,6,0], ["cau-2027-system-bio","시스템생명공학과",0,6,10,0,6,0], ["cau-2027-advanced-materials","첨단소재공학과",8,10,15,0,7,0], ["cau-2027-art-engineering","예술공학부",22,19,15,0,10,0]
+["cau-2027-korean","국어국문학부",5,5,6,4,6,0],["cau-2027-english","영어영문학과",10,10,20,8,6,4],["cau-2027-german","유럽문화학부(독일어문학)",0,0,14,0,8,0],["cau-2027-french","유럽문화학부(프랑스어문학)",0,0,17,0,8,0],["cau-2027-russian","유럽문화학부(러시아어문학)",0,0,13,0,8,0],["cau-2027-japanese","아시아문화학부(일본어문학)",0,0,8,0,6,0],["cau-2027-chinese","아시아문화학부(중국어문학)",0,0,15,0,6,0],["cau-2027-philosophy","철학과",8,8,0,0,6,0],["cau-2027-history","역사학과",10,10,0,0,6,0],["cau-2027-politics","정치국제학과",10,6,8,4,4,4],["cau-2027-psychology","심리학과",5,5,7,4,4,4],["cau-2027-library","문헌정보학과",7,7,0,0,6,0],["cau-2027-social-welfare","사회복지학부",6,6,8,0,6,0],["cau-2027-sociology","사회학과",9,9,0,0,6,0],["cau-2027-urban","도시계획·부동산학과",8,8,8,0,6,0],["cau-2027-public","공공인재학부",6,6,9,4,7,4],["cau-2027-media","미디어커뮤니케이션학부",9,6,5,4,6,4],["cau-2027-education","교육학과",6,7,0,0,5,0],["cau-2027-early-childhood","유아교육과",8,10,0,0,0,0],["cau-2027-english-edu","영어교육과",10,12,0,0,6,0],["cau-2027-economics","경제학부",46,8,13,6,7,4],["cau-2027-statistics","응용통계학과",0,6,0,4,6,0],["cau-2027-advertising","광고홍보학부(광고홍보학)",0,6,7,0,6,0],["cau-2027-logistics","국제물류학과",0,6,8,0,6,0],["cau-2027-security-human","산업보안학과(인문)",0,0,6,4,0,0],["cau-2027-business","경영학부(경영학)",46,17,26,10,36,18],["cau-2027-global-finance","경영학부(글로벌금융)",8,0,6,4,6,0],["cau-2027-nursing","간호학과",30,15,15,8,26,0],["cau-2027-security-natural","산업보안학과(자연)",0,9,13,0,6,0],["cau-2027-physics","물리학과",30,0,11,0,6,0],["cau-2027-chemistry","화학과",0,0,8,0,6,0],["cau-2027-life","생명과학과",0,0,12,0,6,0],["cau-2027-math","수학과",0,0,12,0,6,0],["cau-2027-civil","사회기반시스템공학부(건설환경플랜트공학)",0,7,10,0,8,0],["cau-2027-city","사회기반시스템공학부(도시시스템공학)",0,7,0,0,6,0],["cau-2027-architecture","건축학부",0,7,13,4,10,0],["cau-2027-energy","에너지시스템공학부",0,5,11,4,9,0],["cau-2027-chemical","화학공학과",10,5,8,4,6,4],["cau-2027-mechanical","기계공학부",20,6,15,4,9,8],["cau-2027-ee","전자전기공학부",18,6,20,6,10,8],["cau-2027-convergence","융합공학부",23,6,18,6,7,4],["cau-2027-semiconductor","지능형반도체공학과",0,5,8,0,5,0],["cau-2027-software","소프트웨어학부",22,9,18,6,9,8],["cau-2027-ai","AI학과",9,7,14,0,7,0],["cau-2027-pharmacy","약학부",10,12,20,6,16,8],["cau-2027-medicine","의학부",0,7,15,4,14,4],["cau-2027-animal","생명자원공학부(동물생명공학)",0,9,10,0,6,0],["cau-2027-plant","생명자원공학부(식물생명공학)",0,6,7,0,6,0],["cau-2027-food","식품공학부(식품공학)",0,12,10,0,7,0],["cau-2027-food-nutrition","식품공학부(식품영양학)",0,10,0,0,6,0],["cau-2027-system-bio","시스템생명공학과",0,6,10,0,6,0],["cau-2027-advanced-materials","첨단소재공학과",8,10,15,0,7,0],["cau-2027-art-engineering","예술공학부",22,19,15,0,10,0]
 ];
-
-const defs: [number, string, AdmissionType][] = [
-  [2, "학생부교과(지역균형)", "교과"], [3, "학생부종합(융합형인재)", "학종"], [4, "학생부종합(탐구형인재)", "학종"], [5, "학생부종합(성장형인재)", "학종"], [6, "논술(일반형)", "논술"], [7, "논술(창의형)", "논술"]
-];
-
-export const redCentral2027Departments: Department[] = rows.map(([id, name]) => ({ id, universityId: "cau", name, category: "수시모집단위" }));
-
-export const redCentral2027Admissions: Admission[] = rows.flatMap(([departmentId, _name, ...counts]) => defs.flatMap(([idx, admissionName, type]) => {
-  const count = counts[idx - 2] ?? 0;
-  if (count <= 0) return [];
-  return [{ id: `cau-red-dept-${departmentId}-${idx}-2027`, universityId: "cau", departmentId, academicYear: 2027, name: admissionName, type, recruitmentCount: count, source: { ...source, url: "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90_2027%ED%95%99%EB%85%84%EB%8F%84+%EC%88%98%EC%8B%9C%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EB%8B%A8%EB%A9%B4%29_%EA%B3%B5%EA%B3%A0%EC%9A%A9.pdf&sfn=20260609111455769_c6144e06ef38475d8ce9563f87b7f3b4.pdf" }, isMock: false,
-    ...(type === "교과" ? { studentRecordWeight: 100 } : {}),
-    ...(type === "학종" && admissionName.includes("성장형") ? { interview: true } : {}),
-    ...(type === "학종" && admissionName.includes("탐구형") ? { interview: true } : {}),
-    ...(type === "학종" && admissionName.includes("융합형") && departmentId === "cau-2027-medicine" ? { interview: true } : {}),
-    ...(type === "교과" || admissionName === "논술(일반형)" || admissionName.includes("성장형") ? { csatMinimum: { enabled: true } } : {})
-  } as Admission];
-}));
+const defs: [number,string,AdmissionType][] = [[2,"학생부교과(지역균형)","교과"],[3,"학생부종합(융합형인재)","학종"],[4,"학생부종합(탐구형인재)","학종"],[5,"학생부종합(성장형인재)","학종"],[6,"논술(일반형)","논술"],[7,"논술(창의형)","논술"]];
+export const redCentral2027Departments: Department[] = rows.map(([id,name]) => ({id,universityId:"cau",name,category:"수시모집단위"}));
+export const redCentral2027Admissions: Admission[] = rows.flatMap(([departmentId,_name,...counts]) => defs.flatMap(([idx,admissionName,type]) => { const count=counts[idx-2]??0; if(count<=0)return[]; return [{id:`cau-red-dept-${departmentId}-${idx}-2027`,universityId:"cau",departmentId,academicYear:2027,name:admissionName,type,recruitmentCount:count,source:{...source,url:"https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90_2027%ED%95%99%EB%85%84%EB%8F%84+%EC%88%98%EC%8B%9C%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EB%8B%A8%EB%A9%B4%29_%EA%B3%B5%EA%B3%A0%EC%9A%A9.pdf&sfn=20260609111455769_c6144e06ef38475d8ce9563f87b7f3b4.pdf"},isMock:false,...(type==="교과"?{studentRecordWeight:100}:{}),...(type==="학종"&&(admissionName.includes("탐구형")||admissionName.includes("성장형"))?{interview:true}:{}),...(type==="학종"&&admissionName.includes("융합형")&&departmentId==="cau-2027-medicine"?{interview:true}:{}),...(type==="교과"||admissionName==="논술(일반형)"||admissionName.includes("성장형")?{csatMinimum:{enabled:true}}:{})} as Admission]; }));
