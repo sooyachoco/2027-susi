@@ -62,19 +62,11 @@ const admission = (
 const csat = (description: string) => ({ enabled: true, description });
 
 export const knsu2027Admissions: Admission[] = [
-  // 체육특기자: 2027 수시 총 164명. 세부 종목별 모집이며 체육학과 소속.
   admission(dept("physical"), "체육특기자", "기타", 164, { studentRecordWeight: 10 }),
-
-  // 경기입상실적우수자: 경기지도 16 + 태권도 15.
   admission(dept("game"), "경기입상실적우수자", "기타", 16, { studentRecordWeight: 40 }),
   admission(dept("taekwondo"), "경기입상실적우수자", "기타", 15, { studentRecordWeight: 35 }),
-
-  // 실기우수자: 공연예술학과와 태권도학과를 분리하여 기록.
   admission(dept("performing"), "실기우수자", "기타", 30, { studentRecordWeight: 30 }),
   admission(dept("taekwondo"), "실기우수자", "기타", 5, { studentRecordWeight: 30 }),
-
-  // 교과성적우수자: 사회4, 스포츠청소년5, 특수체육19, 스포츠산업10,
-  // 운동건강5, 노인체육7 = 총 50명.
   admission(dept("social"), "교과성적우수자", "교과", 4, {
     studentRecordWeight: 100,
     csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 6등급 이내이며 각 4등급 이내(탐구 1과목)"),
@@ -100,22 +92,14 @@ export const knsu2027Admissions: Admission[] = [
     studentRecordWeight: 80,
     csatMinimum: csat("국어·수학·영어·탐구 중 상위 3개 영역 합 10등급 이내(탐구 1과목)"),
   }),
-
-  // 국가보훈대상자: 사회1, 스포츠청소년1, 특수체육1, 운동건강1, 노인체육1 = 5명.
   admission(dept("social"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 100 }),
   admission(dept("youth"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80 }),
   admission(dept("special"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 60, interview: true }),
   admission(dept("health"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 70 }),
   admission(dept("senior"), "국가보훈대상자", "교과", 1, { studentRecordWeight: 80 }),
-
-  // 특수교육대상자: 경기지도2, 특수체육3, 태권도8 = 13명.
   admission(dept("game"), "특수교육대상자", "기타", 2, { studentRecordWeight: 20, interview: true }),
   admission(dept("special"), "특수교육대상자", "기타", 3, { studentRecordWeight: 10, interview: true, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
   admission(dept("taekwondo"), "특수교육대상자", "기타", 8, { studentRecordWeight: 10, csatMinimum: csat("국어·수학·영어·탐구 중 상위 2개 영역 합 12등급 이내(탐구 1과목)") }),
-
-  // 농어촌지역학생: 공연예술학과 2명.
   admission(dept("performing"), "농어촌지역학생", "기타", 2, { studentRecordWeight: 30, csatMinimum: csat("국어·수학·영어·탐구 중 2개 영역 이상 4등급 이내(탐구 1과목)") }),
-
-  // 외국인군(북한이탈주민 포함): 경기지도학과 수시 2명.
   admission(dept("game"), "외국인군(북한이탈주민 포함)", "기타", 2),
 ];
