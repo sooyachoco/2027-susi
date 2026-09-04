@@ -13,8 +13,7 @@ type Row = [string, string, string, number, number, number];
 // 연세대 서울캠퍼스 2027 수시 모집단위별 인원.
 // 공식 2027 최종 수시모집요강의 모집단위 표를 기준으로 하며,
 // 신과대학(신학과)은 프로젝트 범위에서 제외한다.
-// 계약학과(시스템반도체공학과, 디스플레이융합공학과)는 정원 외 별도 모집이므로
-// 일반 정원 내 추천형/활동우수형/기회균형 합계 감사에서는 별도로 관리한다.
+// 계약학과는 정원 외 별도 모집이므로 일반 정원 내 감사에서 별도로 관리한다.
 const rows: Row[] = [
   ["yonsei-korean", "국어국문학과", "인문", 7, 10, 3],
   ["yonsei-chinese", "중어중문학과", "인문", 5, 7, 2],
@@ -89,23 +88,23 @@ export const redTopYonsei2027Departments: Department[] = rows.map(([id, name, ca
   category: `수시모집단위-${category}`,
 }));
 
-export const redTopYonsei2027Admissions: Admission[] = rows.flatMap(([departmentId, name, , recommendation, activity, opportunity]) => {
+export const redTopYonsei2027Admissions: Admission[] = rows.flatMap(([departmentId, , , recommendation, activity, opportunity]) => {
   const admissions: Admission[] = [];
   if (recommendation > 0) admissions.push({
     id: `yonsei-dept-recommend-${departmentId}-2027`, universityId: "yonsei", departmentId,
-    academicYear: 2027, name: "학생부교과전형[추천형]", type: "교과", 모집인원: recommendation,
+    academicYear: 2027, name: "학생부교과전형[추천형]", type: "교과", recruitmentCount: recommendation,
     source: { ...source, url: "https://admission.yonsei.ac.kr/seoul/admission/html/rolling/guide.asp" },
     isMock: false, studentRecordWeight: 100, csatMinimum: { enabled: true },
   });
   if (activity > 0) admissions.push({
     id: `yonsei-dept-activity-${departmentId}-2027`, universityId: "yonsei", departmentId,
-    academicYear: 2027, name: "학생부종합전형[활동우수형]", type: "학종", 모집인원: activity,
+    academicYear: 2027, name: "학생부종합전형[활동우수형]", type: "학종", recruitmentCount: activity,
     source: { ...source, url: "https://admission.yonsei.ac.kr/seoul/admission/html/rolling/guide.asp" },
     isMock: false, interview: true, csatMinimum: { enabled: true },
   });
   if (opportunity > 0) admissions.push({
     id: `yonsei-dept-opportunity-${departmentId}-2027`, universityId: "yonsei", departmentId,
-    academicYear: 2027, name: "학생부종합전형[기회균형]", type: "학종", 모집인원: opportunity,
+    academicYear: 2027, name: "학생부종합전형[기회균형]", type: "학종", recruitmentCount: opportunity,
     source: { ...source, url: "https://admission.yonsei.ac.kr/seoul/admission/html/rolling/guide.asp" },
     isMock: false,
   });
