@@ -58,7 +58,6 @@ const recruitmentMaps: Record<string, Record<string, number>> = {
   "광운참빛인재전형Ⅰ-면접형": {
     "kwangwoon-electronics": 18, "kwangwoon-electronic-communication": 14, "kwangwoon-electronic-convergence": 10,
     "kwangwoon-electrical": 10, "kwangwoon-electronic-materials": 12, "kwangwoon-semiconductor": 14,
-    "kwangwoon-computer": 12, "kwangwoon-software": 12, "kwangwoon-information-convergence": 12, "kwangwoon-robot": 12,
     "kwangwoon-architecture": 6, "kwangwoon-architecture-engineering": 6, "kwangwoon-chemical": 12, "kwangwoon-environment": 6,
     "kwangwoon-math": 8, "kwangwoon-electronic-biophysics": 8, "kwangwoon-chemistry": 10,
     "kwangwoon-korean": 6, "kwangwoon-english": 6, "kwangwoon-media": 12, "kwangwoon-psychology": 8,
@@ -109,18 +108,11 @@ const typeMap: Record<string, Admission["type"]> = {
 const admissions: Admission[] = Object.entries(recruitmentMaps).flatMap(([name, counts]) =>
   Object.entries(counts).map(([departmentId, recruitmentCount]) => ({
     id: `${departmentId}-${name.replaceAll(" ", "-")}-2027`,
-    universityId: "kwangwoon",
-    departmentId,
-    academicYear: 2027,
-    name,
-    type: typeMap[name],
-    recruitmentCount,
+    universityId: "kwangwoon", departmentId, academicYear: 2027, name, type: typeMap[name], recruitmentCount,
     studentRecordWeight: name === "논술우수자전형" ? 20 : name === "체육특기자전형" ? 10 : name === "지역균형전형" ? 100 : undefined,
     documentWeight: name === "광운참빛인재전형Ⅰ-면접형" || name === "소프트웨어우수인재전형" ? 60 : name === "광운참빛인재전형Ⅱ-서류형" ? 100 : undefined,
     interview: name === "광운참빛인재전형Ⅰ-면접형" || name === "소프트웨어우수인재전형",
-    csatMinimum: { enabled: false },
-    source,
-    isMock: false,
+    csatMinimum: { enabled: false }, source, isMock: false,
   }))
 );
 
@@ -130,8 +122,8 @@ const employeeCounts: Record<string, number> = {
 
 const employeeAdmissions: Admission[] = Object.entries(employeeCounts).map(([departmentId, recruitmentCount]) => ({
   id: `${departmentId}-employee-2027`, universityId: "kwangwoon", departmentId, academicYear: 2027,
-  name: "특성화고등을졸업한재직자전형", type: "학종", recruitmentCount,
-  documentWeight: 100, interview: false, csatMinimum: { enabled: false }, source, isMock: false,
+  name: "특성화고등을졸업한재직자전형", type: "학종", recruitmentCount, documentWeight: 100,
+  interview: false, csatMinimum: { enabled: false }, source, isMock: false,
 }));
 
 export const verifiedKwangwoon2027Admissions: Admission[] = [...admissions, ...employeeAdmissions];
