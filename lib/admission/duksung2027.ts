@@ -53,10 +53,6 @@ const csatPharmacy = {
   gradeSum: 5,
 };
 
-const departmentById = Object.fromEntries(
-  duksung2027Departments.map((department) => [department.id, department]),
-);
-
 const rows: Array<{
   departmentId: string;
   name: string;
@@ -72,23 +68,36 @@ const rows: Array<{
   ["duksung-global", "덕성인재전형Ⅰ", "학종", 65, undefined, 100],
   ["duksung-global", "덕성인재전형Ⅱ", "학종", 74, undefined, 60, true],
   ["duksung-global", "논술전형", "논술", 65, undefined, undefined, false, csatGlobalScienceFuture],
+  ["duksung-global", "기회균형전형Ⅰ_특성화고교", "학종", 3, undefined, 100],
+  ["duksung-global", "기회균형전형Ⅰ_농어촌학생", "학종", 10, undefined, 100],
+  ["duksung-global", "기회균형전형Ⅰ_장애인 등 대상자", "학종", 5, undefined, 60, true],
+
+  ["duksung-early-childhood", "고교추천전형", "교과", 10, 100, undefined, false, csatGlobalScienceFuture],
+  ["duksung-early-childhood", "덕성인재전형Ⅱ", "학종", 12, undefined, 60, true],
 
   ["duksung-science", "고교추천전형", "교과", 10, 100, undefined, false, csatGlobalScienceFuture],
   ["duksung-science", "기회균형전형Ⅰ_사회통합", "교과", 10, 100],
   ["duksung-science", "덕성인재전형Ⅰ", "학종", 20, undefined, 100],
   ["duksung-science", "덕성인재전형Ⅱ", "학종", 20, undefined, 60, true],
   ["duksung-science", "논술전형", "논술", 50, undefined, undefined, false, csatGlobalScienceFuture],
+  ["duksung-science", "기회균형전형Ⅰ_농어촌학생", "학종", 14, undefined, 100],
+  ["duksung-science", "기회균형전형Ⅰ_기초생활수급자 등", "학종", 6, undefined, 100],
+  ["duksung-science", "기회균형전형Ⅰ_특성화고 등을 졸업한 재직자", "학종", 63, undefined, 100],
 
   ["duksung-pharmacy", "고교추천전형", "교과", 20, 100, undefined, false, csatPharmacy],
   ["duksung-pharmacy", "덕성인재전형Ⅱ", "학종", 25, undefined, 60, true],
   ["duksung-pharmacy", "논술전형", "논술", 5, undefined, undefined, false, csatPharmacy],
+  ["duksung-pharmacy", "기회균형전형Ⅰ_기초생활수급자 등", "학종", 6, undefined, 100],
 
   ["duksung-art-design", "미술실기전형", "기타", 71],
+  ["duksung-art-design", "기회균형전형Ⅰ_특성화고교", "학종", 3, undefined, 100],
 
   ["duksung-free", "고교추천전형", "교과", 50, 100, undefined, false, csatGlobalScienceFuture],
   ["duksung-free", "덕성인재전형Ⅰ", "학종", 30, undefined, 100],
   ["duksung-free", "덕성인재전형Ⅱ", "학종", 64, undefined, 60, true],
   ["duksung-free", "기회균형전형Ⅱ_사회통합", "학종", 15, undefined, 100],
+  ["duksung-free", "기회균형전형Ⅰ_농어촌학생", "학종", 13, undefined, 100],
+  ["duksung-free", "기회균형전형Ⅰ_기초생활수급자 등", "학종", 8, undefined, 100],
 
   ["duksung-vr", "고교추천전형", "교과", 10, 100, undefined, false, csatGlobalScienceFuture],
   ["duksung-vr", "덕성인재전형Ⅱ", "학종", 15, undefined, 60, true],
@@ -98,65 +107,22 @@ const rows: Array<{
 
   ["duksung-ai-drug", "고교추천전형", "교과", 10, 100, undefined, false, csatGlobalScienceFuture],
   ["duksung-ai-drug", "덕성인재전형Ⅱ", "학종", 15, undefined, 60, true],
-
-  ["duksung-early-childhood", "고교추천전형", "교과", 10, 100, undefined, false, csatGlobalScienceFuture],
-  ["duksung-early-childhood", "덕성인재전형Ⅱ", "학종", 12, undefined, 60, true],
 ];
 
-const outOfQuotaRows: Array<{ departmentId: string; name: string; count: number }> = [
-  ["duksung-global", "기회균형전형Ⅰ_특성화고교", 6],
-  ["duksung-science", "기회균형전형Ⅰ_특성화고교", 6],
-  ["duksung-pharmacy", "기회균형전형Ⅰ_농어촌학생", 6],
-  ["duksung-science", "기회균형전형Ⅰ_농어촌학생", 14],
-  ["duksung-global", "기회균형전형Ⅰ_농어촌학생", 17],
-  ["duksung-global", "기회균형전형Ⅰ_기초생활수급자 등", 6],
-  ["duksung-science", "기회균형전형Ⅰ_기초생활수급자 등", 6],
-  ["duksung-global", "기회균형전형Ⅰ_장애인 등 대상자", 1],
-  ["duksung-science", "기회균형전형Ⅰ_장애인 등 대상자", 3],
-  ["duksung-global", "기회균형전형Ⅰ_특성화고 등을 졸업한 재직자", 63],
-];
-
-const normalizedRows = rows.map((row) => ({
-  departmentId: row[0],
-  name: row[1],
-  type: row[2],
-  count: row[3],
-  studentRecordWeight: row[4],
-  documentWeight: row[5],
-  interview: row[6],
-  csatMinimum: row[7],
+export const duksung2027Admissions: Admission[] = rows.map((m) => ({
+  id: `duksung-2027-${m.departmentId}-${m.name}`,
+  universityId: "duksung",
+  departmentId: m.departmentId,
+  academicYear: 2027,
+  name: m.name,
+  type: m.type,
+  recruitmentCount: m.count,
+  ...(m.studentRecordWeight !== undefined ? { studentRecordWeight: m.studentRecordWeight } : {}),
+  ...(m.documentWeight !== undefined ? { documentWeight: m.documentWeight } : {}),
+  ...(m.interview ? { interview: true } : {}),
+  csatMinimum: m.csatMinimum ?? { enabled: false },
+  source,
+  isMock: false,
 }));
-
-export const duksung2027Admissions: Admission[] = [
-  ...normalizedRows.map((m) => ({
-    id: `duksung-2027-${m.departmentId}-${m.name}`,
-    universityId: "duksung",
-    departmentId: m.departmentId,
-    academicYear: 2027,
-    name: m.name,
-    type: m.type,
-    recruitmentCount: m.count,
-    ...(m.studentRecordWeight !== undefined ? { studentRecordWeight: m.studentRecordWeight } : {}),
-    ...(m.documentWeight !== undefined ? { documentWeight: m.documentWeight } : {}),
-    ...(m.interview ? { interview: true } : {}),
-    ...(m.csatMinimum ? { csatMinimum: m.csatMinimum } : { csatMinimum: { enabled: false } }),
-    source,
-    isMock: false,
-  })),
-  ...outOfQuotaRows.map(([departmentId, name, count]) => ({
-    id: `duksung-2027-${departmentId}-${name}`,
-    universityId: "duksung",
-    departmentId,
-    academicYear: 2027,
-    name,
-    type: "학종" as const,
-    recruitmentCount: count,
-    documentWeight: name.includes("장애인") ? 60 : 100,
-    ...(name.includes("장애인") ? { interview: true } : {}),
-    csatMinimum: { enabled: false },
-    source,
-    isMock: false,
-  })),
-];
 
 export const duksung2027AggregateDepartment = aggregate;
