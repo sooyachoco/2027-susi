@@ -31,6 +31,7 @@ const rows: Row[] = [
   ["korea", "고려대학교", "고른기회전형", "학종", 201, "https://oku.korea.ac.kr/", "학생부종합 특별전형", false, false],
   ["korea", "고려대학교", "다문화전형", "학종", 20, "https://oku.korea.ac.kr/", "학생부종합 특별전형", false, false],
   ["korea", "고려대학교", "사이버국방전형", "기타", 10, "https://oku.korea.ac.kr/", "사이버국방 특별전형", true, false],
+  ["korea", "고려대학교", "특기자전형", "기타", 55, "https://oku.korea.ac.kr/", "체육인재 40명 + 디자인조형 15명", false, false],
   ["korea", "고려대학교", "논술전형", "논술", 351, "https://oku.korea.ac.kr/", "논술전형", false, true],
 
   ["cau", "중앙대학교", "학생부교과(지역균형)", "교과", 508, "https://admission.cau.ac.kr/", "학생부100(교과90+출결10); 서울캠퍼스 수능최저 적용", false, true],
