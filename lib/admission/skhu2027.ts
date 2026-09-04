@@ -1,6 +1,6 @@
 import type { Admission, Department, University } from "./types";
 
-const source = { type: "university" as const, academicYear: 2027, url: "https://enter.skhu.ac.kr/enter/3065/subview.do", document: "2027학년도 수시 모집요강", confidence: 0.99 };
+const source = { type: "university" as const, academicYear: 2027, url: "https://enter.skhu.ac.kr/enter/3065/subview.do", document: "2027학년도 수시 모집요강", verifiedAt: "2026-09-04", confidence: 0.99 };
 
 export const skhu2027Universities: University[] = [{ id: "skhu", name: "성공회대학교", region: "서울" }];
 
@@ -36,3 +36,10 @@ export const skhu2027Admissions: Admission[] = Object.entries(counts).flatMap(([
   ...(meta[name].documentWeight ? { documentWeight: meta[name].documentWeight } : {}), ...(meta[name].interview ? { interview: true } : {}),
   csatMinimum: { enabled: false }, source, isMock: false,
 })));
+
+export const skhu2027AggregateDepartment: Department = { id: "skhu-2027-overall", universityId: "skhu", name: "2027 수시 전체", category: "전체" };
+export const skhu2027AggregateAdmissions: Admission[] = [
+  { id: "skhu-2027-overall-total", universityId: "skhu", departmentId: skhu2027AggregateDepartment.id, academicYear: 2027, name: "수시 전체", type: "기타", recruitmentCount: 452, source, isMock: false },
+  { id: "skhu-2027-overall-open", universityId: "skhu", departmentId: skhu2027AggregateDepartment.id, academicYear: 2027, name: "열린인재(전체)", type: "학종", recruitmentCount: 196, documentWeight: 60, interview: true, csatMinimum: { enabled: false }, source, isMock: false },
+  { id: "skhu-2027-overall-subject", universityId: "skhu", departmentId: skhu2027AggregateDepartment.id, academicYear: 2027, name: "교과성적(전체)", type: "교과", recruitmentCount: 185, studentRecordWeight: 100, csatMinimum: { enabled: false }, source, isMock: false },
+];
