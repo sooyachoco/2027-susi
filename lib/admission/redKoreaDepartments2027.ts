@@ -4,7 +4,8 @@ const source = { type: "university" as const, academicYear: 2027, collectedAt: "
 
 type Row = [string, string, number, number, number, number, number, number, number, number, number];
 
-// 고려대 서울캠퍼스 2027 수시 모집요강 p.4~5의 모집단위별 정원/전형별 인원을 그대로 연결.
+// 고려대 서울캠퍼스 2027 수시 모집요강 p.4~5의 모집단위별 정원/전형별 인원을 연결.
+// 공과대학 학업우수 34명과 재직자 18명은 모집단위별 고정 인원으로 임의 배분하지 않고 aggregate 행으로 별도 보존한다.
 const rows: Row[] = [
   ["korea-2027-business","경영학과",208,54,75,48,15,4,0,12,0],
   ["korea-2027-korean","국어국문학과",34,9,11,7,3,0,0,4,0], ["korea-2027-philosophy","철학과",25,11,5,3,2,0,0,4,0], ["korea-2027-korean-history","한국사학과",15,4,5,3,1,0,0,2,0], ["korea-2027-history","사학과",28,7,9,5,2,0,0,5,0], ["korea-2027-sociology","사회학과",46,12,15,9,4,0,0,6,0], ["korea-2027-classics","한문학과",15,4,5,3,1,0,0,2,0], ["korea-2027-english","영어영문학과",63,16,21,12,5,1,0,8,0], ["korea-2027-german","독어독문학과",22,6,7,4,2,0,0,3,0], ["korea-2027-french","불어불문학과",24,6,7,5,2,0,0,4,0], ["korea-2027-chinese","중어중문학과",32,8,10,6,2,0,0,6,0], ["korea-2027-russian","노어노문학과",22,6,7,4,2,0,0,3,0], ["korea-2027-japanese","일어일문학과",25,7,8,5,2,0,0,3,0], ["korea-2027-spanish","서어서문학과",30,7,10,6,2,0,0,5,0], ["korea-2027-linguistics","언어학과",18,4,6,3,1,0,0,4,0],
@@ -16,4 +17,17 @@ const rows: Row[] = [
 const types: [number, string, AdmissionType][] = [[3,"학생부교과(학교추천)","교과"],[4,"학생부종합(학업우수)","학종"],[5,"학생부종합(계열적합)","학종"],[6,"학생부종합(고른기회)","학종"],[7,"학생부종합(다문화)","학종"],[8,"학생부종합(재직자)","학종"],[9,"논술(논술전형)","논술"]];
 
 export const redKorea2027Departments: Department[] = rows.map(([id,name]) => ({ id, universityId:"korea", name, category:"수시모집단위" }));
-export const redKorea2027Admissions: Admission[] = rows.flatMap(([departmentId,name,_total,...counts]) => types.flatMap(([idx,admissionName,type]) => { const count = counts[idx-3] as number; return count > 0 ? [{ id:`korea-red-dept-${departmentId}-${idx}-2027`, universityId:"korea", departmentId, academicYear:2027, name:admissionName, type, recruitmentCount:count, source:{...source,url:"https://oku.korea.ac.kr/attach/202605/1780023076409_0.pdf"}, isMock:false, ...(type === "교과" ? {studentRecordWeight:90} : {}), ...(admissionName.includes("계열적합") ? {interview:true} : {}), ...(type === "교과" || admissionName.includes("학업우수") || type === "논술" ? {csatMinimum:{enabled:true}} : {}) } as Admission] : []; }));
+
+const admissions = rows.flatMap(([departmentId,name,_total,...counts]) => types.flatMap(([idx,admissionName,type]) => { const count = counts[idx-3] as number; return count > 0 ? [{ id:`korea-red-dept-${departmentId}-${idx}-2027`, universityId:"korea", departmentId, academicYear:2027, name:admissionName, type, recruitmentCount:count, source:{...source,url:"https://oku.korea.ac.kr/attach/202605/1780023076409_0.pdf"}, isMock:false, ...(type === "교과" ? {studentRecordWeight:90} : {}), ...(admissionName.includes("계열적합") ? {interview:true} : {}), ...(type === "교과" || admissionName.includes("학업우수") || type === "논술" ? {csatMinimum:{enabled:true}} : {}) } as Admission] : []; }));
+
+const aggregateAdmissions: Admission[] = [{
+  id: "korea-red-aggregate-engineering-academic-2027", universityId: "korea", departmentId: "korea-2027-engineering-college", academicYear: 2027,
+  name: "학생부종합(학업우수) - 공과대학", type: "학종", recruitmentCount: 34,
+  source: { ...source, url: "https://oku.korea.ac.kr/attach/202605/1780023076409_0.pdf" }, isMock: false, isAggregate: true, csatMinimum: { enabled: true },
+} as Admission, {
+  id: "korea-red-aggregate-incumbent-2027", universityId: "korea", departmentId: "korea-2027-incumbent", academicYear: 2027,
+  name: "학생부종합(재직자)", type: "학종", recruitmentCount: 18,
+  source: { ...source, url: "https://oku.korea.ac.kr/attach/202605/1780023076409_0.pdf" }, isMock: false, isAggregate: true,
+} as Admission];
+
+export const redKorea2027Admissions: Admission[] = [...admissions, ...aggregateAdmissions];
