@@ -1,10 +1,8 @@
 import type { Admission, Department, University } from "./types";
 
-const source = { type: "university" as const, academicYear: 2027, url: "https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000200", confidence: 0.94 };
+const source = { type: "university" as const, academicYear: 2027, url: "https://www.hansung.ac.kr/futureplus/728/subview.do", confidence: 0.98, verifiedAt: "2026-09-04" };
 
-export const verifiedHansung2027Universities: University[] = [
-  { id: "hansung", name: "한성대학교", region: "서울" },
-];
+export const verifiedHansung2027Universities: University[] = [{ id: "hansung", name: "한성대학교", region: "서울" }];
 
 export const verifiedHansung2027Departments: Department[] = [
   { id: "hansung-creative-humanities", universityId: "hansung", name: "크리에이티브인문학부", category: "인문사회" },
@@ -21,9 +19,7 @@ export const verifiedHansung2027Admissions: Admission[] = verifiedHansung2027Dep
   const schoolTrackIds = new Set(["hansung-creative-humanities", "hansung-future-social", "hansung-it-engineering", "hansung-ai-application", "hansung-future-mobility", "hansung-imagination"]);
   if (schoolTrackIds.has(d.id)) {
     admissions.push({ id: `${d.id}-local-balance-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "지역균형", type: "교과", studentRecordWeight: 100, source, isMock: false });
-    admissions.push({ id: `${d.id}-hanseong-talent-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "한성인재", type: "학종", documentWeight: 100, source, isMock: false });
-  }
-  if (["hansung-creative-humanities", "hansung-future-social", "hansung-it-engineering", "hansung-ai-application", "hansung-future-mobility", "hansung-imagination"].includes(d.id)) {
+    admissions.push({ id: `${d.id}-hanseong-talent-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "한성인재", type: "학종", documentWeight: 100, csatMinimum: { enabled: false }, source, isMock: false });
     admissions.push({ id: `${d.id}-subject-excellence-2027`, universityId: d.universityId, departmentId: d.id, academicYear: 2027, name: "교과우수", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: true, description: "주간 모집단위 수능 2개 영역 등급 합 7 이내" }, source, isMock: false });
   }
   return admissions;
