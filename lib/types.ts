@@ -39,6 +39,8 @@ export type Admission = {
   csatMinimum?: { enabled: boolean; description?: string };
   source?: AdmissionSource;
   isMock?: boolean;
+  /** 대학 전체 전형 합계/요약 행 여부. 추천 후보에서는 제외한다. */
+  isAggregate?: boolean;
   /** 희망전공과의 매칭에 사용하는 전공군 */
   majorGroup?: string;
 };
