@@ -54,7 +54,7 @@ export const redTop2027Departments: Department[] = redTop2027Universities.map((u
 export const redTop2027Admissions: Admission[] = rows.map(([universityId, , name, type, recruitmentCount, url, , interview, csat]) => ({
   id: `${universityId}-redtop-${name.replace(/[^가-힣A-Za-z0-9]/g, "-")}-2027`,
   universityId, departmentId: `${universityId}-2027-aggregate`, academicYear: 2027, name, type, recruitmentCount,
-  source: { ...source, url }, isMock: false,
+  source: { ...source, url }, isMock: false, isAggregate: true,
   ...(type === "교과" ? { studentRecordWeight: 100 } : {}),
   ...(interview ? { interview: true } : {}),
   ...(csat !== undefined ? { csatMinimum: { enabled: csat } } : {}),
