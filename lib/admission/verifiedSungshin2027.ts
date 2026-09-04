@@ -63,9 +63,10 @@ export const verifiedSungshin2027Departments: Department[] = departments.map((de
 
 const source = {
   type: "university" as const,
-  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=notice&bltn_seq=36251&ctg_cd=susi&mode=view",
-  document: "성신여자대학교 2027학년도 특성화고등을 졸업한 재직자전형 모집요강 및 안내책자",
+  url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view",
+  document: "성신여자대학교 2027학년도 수시 신입생 모집요강",
   academicYear: 2027,
+  verifiedAt: "2026-09-04",
   confidence: 0.99,
 };
 
@@ -95,7 +96,8 @@ const selfDirectedAdmissions: Admission[] = verifiedSungshin2027Departments
   .filter((department) => selfDirectedDepartmentIds.has(department.id))
   .map((department) => ({
     id: `${department.id}-self-directed-2027`, universityId: "sungshin-2027", departmentId: department.id,
-    academicYear: 2027, name: "자기주도인재", type: "학종", documentWeight: 60, interview: true, source, isMock: false,
+    academicYear: 2027, name: "자기주도인재", type: "학종", documentWeight: 60, interview: true,
+    csatMinimum: { enabled: false }, source, isMock: false,
   }));
 
 const regionalAdmissions: Admission[] = verifiedSungshin2027Departments
@@ -105,8 +107,6 @@ const regionalAdmissions: Admission[] = verifiedSungshin2027Departments
     academicYear: 2027, name: "지역균형", type: "교과", studentRecordWeight: 100, csatMinimum, source, isMock: false,
   }));
 
-// 2027 정원외 재직자전형: 경영학과 113명.
-// 2026-08-18 공식 안내책자와 2027 대입전형 기본계획에서 모집단위/인원을 교차 확인.
 const incumbentWorkerAdmissions: Admission[] = [
   {
     id: "sungshin-business-incumbent-worker-2027",
