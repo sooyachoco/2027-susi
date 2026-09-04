@@ -8,25 +8,24 @@ export function recommendSix(
   universities: University[] = [],
   departments: Department[] = [],
 ): Recommendation[] {
+  // 대학 전체 합계 행은 통계/요약용이며 실제 지원 후보가 아니므로 추천 풀에서 제외한다.
+  const candidatePool = admissions.filter((a) => !a.isAggregate);
   const desired = student.desiredMajor.trim();
-  const exactMatched = desired ? admissions.filter((a) => majorNameMatches(desired, a, departments)) : admissions;
+  const exactMatched = desired ? candidatePool.filter((a) => majorNameMatches(desired, a, departments)) : candidatePool;
   const exactIds = new Set(exactMatched.map((a) => a.id));
 
-  // 특정 세부전공의 2027 검증 데이터가 6장보다 적을 수 있다.
-  // 이 경우 바로 전체 풀로 점프하지 않고, 같은 전공군의 인접 전공을 먼저 보완한다.
   const relatedMatched = desired
-    ? admissions.filter((a) => !exactIds.has(a.id) && relatedMajorMatches(desired, a, departments))
+    ? candidatePool.filter((a) => !exactIds.has(a.id) && relatedMajorMatches(desired, a, departments))
     : [];
   const relatedIds = new Set(relatedMatched.map((a) => a.id));
 
   let candidateAdmissions = exactMatched;
   if (candidateAdmissions.length < 6) candidateAdmissions = [...candidateAdmissions, ...relatedMatched];
 
-  // 인접 전공까지 부족하면 마지막으로 검증된 전체 풀에서 보완해 항상 6장을 만들 수 있게 한다.
   if (candidateAdmissions.length < 6) {
     candidateAdmissions = [
       ...candidateAdmissions,
-      ...admissions.filter((a) => !exactIds.has(a.id) && !relatedIds.has(a.id)),
+      ...candidatePool.filter((a) => !exactIds.has(a.id) && !relatedIds.has(a.id)),
     ];
   }
 
