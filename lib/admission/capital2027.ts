@@ -30,13 +30,21 @@ export const capital2027Departments: Department[] = [
   { id: "inu-ai", universityId: "inu", name: "인공지능정보통신공학부", category: "컴퓨터·소프트웨어" },
 ];
 
+const kyungheeRecruitment: Record<string, { regional: number; neo: number; essay: number }> = {
+  "kyunghee-business": { regional: 23, neo: 43, essay: 21 },
+  "kyunghee-computer": { regional: 2, neo: 7, essay: 9 },
+  "kyunghee-economics": { regional: 12, neo: 20, essay: 7 },
+};
+
+const incheonRecruitment: Record<string, { grade: number; regional: number; self: number; opportunity: number }> = {
+  "inu-business": { grade: 19, regional: 9, self: 24, opportunity: 5 },
+  "inu-computer": { grade: 18, regional: 11, self: 29, opportunity: 5 },
+  "inu-ai": { grade: 15, regional: 9, self: 21, opportunity: 3 },
+};
+
 export const capital2027Admissions: Admission[] = [
   ...["kyunghee-business", "kyunghee-computer", "kyunghee-economics"].flatMap((departmentId) => {
-    const recruitment = {
-      "kyunghee-business": { regional: 23, neo: 43, essay: 21 },
-      "kyunghee-computer": { regional: 2, neo: 7, essay: 9 },
-      "kyunghee-economics": { regional: 12, neo: 20, essay: 7 },
-    }[departmentId];
+    const recruitment = kyungheeRecruitment[departmentId];
 
     return [
       { id: `kyunghee-regional-${departmentId}`, universityId: "kyunghee", departmentId, academicYear: 2027, name: "학생부교과(지역균형전형)", type: "교과" as const, recruitmentCount: recruitment.regional, source: sourceKyunghee, isMock: false },
@@ -45,11 +53,7 @@ export const capital2027Admissions: Admission[] = [
     ];
   }),
   ...["inu-business", "inu-computer", "inu-ai"].flatMap((departmentId) => {
-    const recruitment = {
-      "inu-business": { grade: 19, regional: 9, self: 24, opportunity: 5 },
-      "inu-computer": { grade: 18, regional: 11, self: 29, opportunity: 5 },
-      "inu-ai": { grade: 15, regional: 9, self: 21, opportunity: 3 },
-    }[departmentId];
+    const recruitment = incheonRecruitment[departmentId];
 
     return [
       { id: `inu-grade-${departmentId}`, universityId: "inu", departmentId, academicYear: 2027, name: "학생부교과(교과성적우수자전형)", type: "교과" as const, recruitmentCount: recruitment.grade, studentRecordWeight: 100, csatMinimum: { enabled: true }, source: sourceIncheon, isMock: false },
