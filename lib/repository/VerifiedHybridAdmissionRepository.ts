@@ -19,6 +19,7 @@ import { verifiedDuksung2027Admissions, verifiedDuksung2027Departments, verified
 import { verifiedSungshin2027Admissions, verifiedSungshin2027Departments, verifiedSungshin2027Universities } from "@/lib/admission/verifiedSungshin2027";
 import { verifiedSeoulWomen2027Admissions, verifiedSeoulWomen2027Departments, verifiedSeoulWomen2027Universities } from "@/lib/admission/verifiedSeoulWomen2027";
 import { verifiedUos2027Admissions, verifiedUos2027Departments, verifiedUos2027Universities } from "@/lib/admission/verifiedUos2027";
+import { verifiedHongik2027Admissions, verifiedHongik2027Departments, verifiedHongik2027Universities } from "@/lib/admission/verifiedHongik2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -31,6 +32,7 @@ const verified: Admission[] = [
   ...verifiedDongguk2027Admissions, ...verifiedKwangwoon2027Admissions, ...verifiedSangmyung2027Admissions,
   ...verifiedDongduk2027Admissions, ...verifiedSamyook2027Admissions, ...verifiedDuksung2027Admissions,
   ...verifiedSungshin2027Admissions, ...verifiedSeoulWomen2027Admissions, ...verifiedUos2027Admissions,
+  ...verifiedHongik2027Admissions,
 ].map((a) => ({ ...a }));
 
 const verifiedUniversities: University[] = [
@@ -40,6 +42,7 @@ const verifiedUniversities: University[] = [
   ...verifiedDongguk2027Universities, ...verifiedKwangwoon2027Universities, ...verifiedSangmyung2027Universities,
   ...verifiedDongduk2027Universities, ...verifiedSamyook2027Universities, ...verifiedDuksung2027Universities,
   ...verifiedSungshin2027Universities, ...verifiedSeoulWomen2027Universities, ...verifiedUos2027Universities,
+  ...verifiedHongik2027Universities,
 ];
 
 const verifiedDepartments: Department[] = [
@@ -49,6 +52,7 @@ const verifiedDepartments: Department[] = [
   ...verifiedDongguk2027Departments, ...verifiedKwangwoon2027Departments, ...verifiedSangmyung2027Departments,
   ...verifiedDongduk2027Departments, ...verifiedSamyook2027Departments, ...verifiedDuksung2027Departments,
   ...verifiedSungshin2027Departments, ...verifiedSeoulWomen2027Departments, ...verifiedUos2027Departments,
+  ...verifiedHongik2027Departments,
 ];
 
 const mergedUniversities: University[] = [
