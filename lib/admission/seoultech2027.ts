@@ -1,7 +1,7 @@
 import type { Admission, Department, University } from "./types";
 
 const sourceUrl = "https://admission.seoultech.ac.kr";
-const source = { type: "university" as const, url: sourceUrl, academicYear: 2027, confidence: 0.98 };
+const source = { type: "university" as const, url: sourceUrl, academicYear: 2027, collectedAt: "2026-09-05", verifiedAt: "2026-09-05", confidence: 0.99 };
 
 export const seoultech2027Universities: University[] = [
   { id: "seoultech", name: "서울과학기술대학교", region: "서울" },
@@ -28,7 +28,7 @@ export const seoultech2027Departments: Department[] = departmentNames.map((name,
 type SeoulTechMethodDefinition = {
   key: string;
   name: string;
-  type: "교과" | "학종" | "논술" | "기타";
+  type: Admission["type"];
   studentRecordWeight?: number;
   documentWeight?: number;
   interview?: boolean;
