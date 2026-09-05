@@ -1,7 +1,7 @@
 import type { Admission, Department, University } from "./types";
 
 export const hanshin2027Universities: University[] = [{ id: "hanshin", name: "한신대학교", region: "경기" }];
-const source = { type: "university" as const, academicYear: 2027, url: "https://ent.hs.ac.kr/ipsi/pages/?b=B_1_1&bn=22867&m=read&p=17", confidence: 0.98 };
+const source = { type: "university" as const, academicYear: 2027, url: "https://ent.hs.ac.kr/ipsi/pages/?b=B_1_1&bn=22867&m=read&p=17", confidence: 0.98, verifiedAt: "2026-09-05" };
 const units: Array<[string,string,string]> = [
   ["free","자유전공학부","자유전공"], ["theology-humanities","신학·인문융합계열","인문·사회"], ["culture","문화콘텐츠계열","문화·콘텐츠"], ["global","글로벌융합계열","인문·사회"], ["business","경영계열","경영·경제"], ["media","미디어계열","미디어·콘텐츠"], ["human-services","휴먼서비스계열","인문·사회"], ["special-physical","특수체육학계열","체육"], ["advanced","첨단융합계열","공학"], ["ai-sw","AI·SW계열","컴퓨터·AI"], ["ai-semiconductor","AI시스템반도체학","공학"],
 ];
