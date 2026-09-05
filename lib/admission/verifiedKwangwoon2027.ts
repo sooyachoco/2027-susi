@@ -116,8 +116,11 @@ const admissions: Admission[] = Object.entries(recruitmentMaps).flatMap(([name, 
   }))
 );
 
+// 2027 모집요강에서 재직자전형 정원 외 모집은 금융부동산법무학과·게임콘텐츠학과 각 30명이며,
+// 정원 내 모집은 두 학과 각 1명이다. 스마트전기전자학과·스포츠상담재활학과의 정원 내 표기는 '-':
+// 모집인원 0이므로 0명 Admission을 생성하지 않는다.
 const employeeCounts: Record<string, number> = {
-  "kwangwoon-finance": 1, "kwangwoon-game": 1, "kwangwoon-smart-electrical": 0, "kwangwoon-sports-rehab": 0,
+  "kwangwoon-finance": 1, "kwangwoon-game": 1,
 };
 
 const employeeAdmissions: Admission[] = Object.entries(employeeCounts).map(([departmentId, recruitmentCount]) => ({
