@@ -74,8 +74,19 @@ const minimum = { enabled: true, description: "국어·수학·영어·탐구(1�
 export const verifiedSeoulTech2027Admissions: Admission[] = verifiedSeoulTech2027Departments.flatMap((department) => {
   const c = counts[department.id] ?? {};
   const result: Admission[] = [];
-  const add = (key: string, name: string, type: Admission["type"], 모집인원: number, extra: Partial<Admission> = {}) => {
-    result.push({ id: `${department.id}-${key}-2027`, universityId: "seoultech", departmentId: department.id, academicYear: 2027, name, type, 모집인원, source, isMock: false, ...extra });
+  const add = (key: string, name: string, type: Admission["type"], recruitCount: number, extra: Partial<Admission> = {}) => {
+    result.push({
+      id: `${department.id}-${key}-2027`,
+      universityId: "seoultech",
+      departmentId: department.id,
+      academicYear: 2027,
+      name,
+      type,
+      ["모집인원"]: recruitCount,
+      source,
+      isMock: false,
+      ...extra,
+    });
   };
   if (c.추천) add("추천", "고교추천전형", "교과", c.추천, { studentRecordWeight: 100, csatMinimum: minimum });
   if (c.우수) add("우수", "학교생활우수자전형", "학종", c.우수, { documentWeight: 70, interview: true, csatMinimum: { enabled: false } });
