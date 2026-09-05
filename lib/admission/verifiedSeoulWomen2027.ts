@@ -161,4 +161,46 @@ admissions.push({
   csatMinimum: { enabled: false },
 });
 
+admissions.push(
+  {
+    id: "seoul-women-realcontent-incumbent-2027",
+    universityId: "seoul-women",
+    departmentId: byKey("realcontent"),
+    academicYear: 2027,
+    name: "기회균형전형_특성화고 등을 졸업한 재직자",
+    type: "학종",
+    recruitmentCount: 25,
+    documentWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: "seoul-women-newmedia-incumbent-2027",
+    universityId: "seoul-women",
+    departmentId: byKey("new-media"),
+    academicYear: 2027,
+    name: "기회균형전형_특성화고 등을 졸업한 재직자",
+    type: "학종",
+    recruitmentCount: 25,
+    documentWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+  {
+    id: "seoul-women-business-conv-incumbent-2027",
+    universityId: "seoul-women",
+    departmentId: byKey("business-conv"),
+    academicYear: 2027,
+    name: "기회균형전형_특성화고 등을 졸업한 재직자",
+    type: "학종",
+    recruitmentCount: 39,
+    documentWeight: 100,
+    csatMinimum: { enabled: false },
+    source,
+    isMock: false,
+  },
+);
+
 export const verifiedSeoulWomen2027Admissions: Admission[] = admissions;
