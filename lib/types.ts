@@ -43,6 +43,8 @@ export type Admission = {
   isAggregate?: boolean;
   /** 희망전공과의 매칭에 사용하는 전공군 */
   majorGroup?: string;
+  /** 기존 대학별 데이터와의 단계적 통합을 위한 호환 메타데이터 */
+  [key: string]: unknown;
 };
 
 export type Track = "자연계" | "인문계" | "예체능";
