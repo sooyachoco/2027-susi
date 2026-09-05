@@ -3,7 +3,7 @@ import type { Admission, Department, University } from "./types";
 export const sejong2027Universities: University[] = [{ id: "sejong", name: "세종대학교", region: "서울" }];
 
 const src = "https://ipsi.sejong.ac.kr/board/upload_file/pdf/20266159234314522.pdf";
-const source = { type: "university" as const, academicYear: 2027, collectedAt: "2026-09-05", verifiedAt: "2026-09-05", confidence: 0.99, url: src };
+const source = { type: "university" as const, academicYear: 2027, collectedAt: "2026-09-05", verifiedAt: "2026-09-05", confidence: 0.99, url: src, document: "2027학년도 세종대학교 수시모집요강" };
 
 type Row = [string, string, number, number, number, number, number];
 const rows: Row[] = [
@@ -14,12 +14,24 @@ export const sejong2027Departments: Department[] = rows.map(([id, name]) => ({ i
 
 const make = (departmentId: string, name: string, type: Admission["type"], recruitmentCount: number, extra: Partial<Admission> = {}): Admission => ({ id: `sejong-${departmentId}-${name}-${recruitmentCount}-2027`, universityId: "sejong", departmentId: `sejong-${departmentId}`, academicYear: 2027, name, type, recruitmentCount, source, isMock: false, ...extra });
 
-export const sejong2027Admissions: Admission[] = rows.flatMap(([id, _name, regional, interview, document, essay, practical]) => {
-  const out: Admission[] = [];
-  if (regional > 0) out.push(make(id, "지역균형전형", "교과", regional, { studentRecordWeight: 100 }));
-  if (interview > 0) out.push(make(id, "세종인재(면접형)", "학종", interview, { documentWeight: 100, interview: true }));
-  if (document > 0) out.push(make(id, "세종인재(서류형)", "학종", document, { documentWeight: 100 }));
-  if (essay > 0) out.push(make(id, "논술우수자전형", "논술", essay));
-  if (practical > 0) out.push(make(id, "실기우수자/예체능특기자", "기타", practical));
-  return out;
-});
+const aggregate = (name: string, type: Admission["type"], recruitmentCount: number, extra: Partial<Admission> = {}): Admission => ({ id: `sejong-aggregate-${name}-${recruitmentCount}-2027`, universityId: "sejong", departmentId: "sejong-aggregate", academicYear: 2027, name, type, recruitmentCount, source, isMock: false, isAggregate: true, ...extra });
+
+export const sejong2027Admissions: Admission[] = [
+  ...rows.flatMap(([id, _name, regional, interview, document, essay, practical]) => {
+    const out: Admission[] = [];
+    if (regional > 0) out.push(make(id, "지역균형전형", "교과", regional, { studentRecordWeight: 100 }));
+    if (interview > 0) out.push(make(id, "세종인재(면접형)", "학종", interview, { documentWeight: 60, interview: true, majorGroup: "면접 40%" }));
+    if (document > 0) out.push(make(id, "세종인재(서류형)", "학종", document, { documentWeight: 100 }));
+    if (essay > 0) out.push(make(id, "논술우수자전형", "논술", essay, { studentRecordWeight: 20, majorGroup: "논술 80%" }));
+    if (practical > 0) out.push(make(id, "실기우수자/예체능특기자", "기타", practical));
+    return out;
+  }),
+  aggregate("기회균형 전형", "학종", 99, { documentWeight: 100 }),
+  aggregate("사회기여 및 배려자 전형", "학종", 42, { documentWeight: 100 }),
+  aggregate("서해5도학생 특별전형", "학종", 3, { documentWeight: 100 }),
+  aggregate("특성화고교졸 재직자 특별전형", "기타", 120, { documentWeight: 100 }),
+  aggregate("항공시스템공학 특별전형", "교과", 23, { studentRecordWeight: 100, majorGroup: "공군전형 합/불" }),
+  aggregate("사이버국방 특별전형", "학종", 16, { documentWeight: 80, interview: true, majorGroup: "면접 10% + 체력검정 10% + 육군전형" }),
+  aggregate("국방AI융합시스템공학 특별전형", "학종", 32, { documentWeight: 80, interview: true, majorGroup: "면접 10% + 체력검정 10% + 해군전형" }),
+  aggregate("국방AI로봇융합공학 특별전형", "학종", 24, { documentWeight: 80, interview: true, majorGroup: "면접 10% + 체력검정 10% + 해병대전형" })
+];
