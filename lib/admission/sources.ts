@@ -27,4 +27,5 @@ export const admissionSources: Record<string, DataSource> = {
   anyang2027: { type: "university", url: "https://enter.anyang.ac.kr/10000012?bbs_seq=8824&mode=view", document: "2027학년도 안양대학교 수시 모집요강(최종본)", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
   sungkyul2027: { type: "university", url: "https://www.sungkyul.ac.kr/ipsi/101/subview.do", document: "2027학년도 성결대학교 수시모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
   dongduk2027: { type: "university", url: "https://ipsi.dongduk.ac.kr/ipsi/contents/nontime-notice.do?id=91994&schBdcode=_ipsi_noti01&schM=view", document: "2027학년도 동덕여자대학교 신입학 수시모집요강(2026-07-13 변경공고)", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
+  kwangwoon2027: { type: "university", url: "https://iphak.kw.ac.kr/mojib/mojib.php?m_type=SUSI", document: "2027학년도 신입학 수시 모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
 };
