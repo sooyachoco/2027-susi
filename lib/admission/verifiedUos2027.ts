@@ -2,117 +2,66 @@ import type { Admission, Department, University } from "./types";
 
 const source = {
   type: "university" as const,
-  url: "https://www.uos.ac.kr/admissionNew/main.do",
-  document: "2027학년도 서울시립대학교 입학전형 기본계획 및 전공안내",
+  url: "https://admission.uos.ac.kr/admissionNew/main.do",
+  document: "2027학년도 서울시립대학교 수시모집 신입생 모집요강",
   academicYear: 2027,
-  verifiedAt: "2026-08-28",
-  confidence: 0.98,
+  verifiedAt: "2026-09-05",
+  confidence: 0.99,
 };
 
 export const verifiedUos2027Universities: University[] = [
   { id: "uos", name: "서울시립대학교", region: "서울" },
 ];
 
-const rows = [
-  ["행정학과", "uos-admin", 14, 21], ["국제관계학과", "uos-ir", 6, 17],
-  ["경제학부", "uos-econ", 9, 10], ["사회복지학과", "uos-welfare", 5, 12],
-  ["세무학과", "uos-tax", 9, 7], ["영어영문학과", "uos-english", 4, 18],
-  ["국어국문학과", "uos-korean", 3, 11], ["국사학과", "uos-history", 3, 11],
-  ["철학과", "uos-philosophy", 3, 10], ["중국어문화학과", "uos-chinese", 3, 10],
-  ["도시행정학과", "uos-urban-admin", 5, 12], ["도시사회학과", "uos-urban-soc", 5, 12],
-  ["전자전기컴퓨터공학부", "uos-eece", 21, 25], ["화학공학과", "uos-chem-eng", 9, 15],
-  ["기계정보공학과", "uos-mech-info", 5, 10], ["신소재공학과", "uos-materials", 5, 10],
-  ["토목공학과", "uos-civil", 5, 9], ["컴퓨터과학부", "uos-cs", 8, 12],
-  ["인공지능학과", "uos-ai", 3, 6], ["수학과", "uos-math", 5, 7],
-  ["통계학과", "uos-stat", 3, 10], ["물리학과", "uos-physics", 3, 7],
-  ["생명과학과", "uos-life", 5, 10], ["환경원예학과", "uos-hort", 5, 10],
-  ["융합응용화학과", "uos-applied-chem", 3, 7], ["건축학부(건축공학전공)", "uos-arch-eng", 5, 11],
-  ["건축학부(건축학전공)", "uos-arch", 3, 20], ["도시공학과", "uos-urban-eng", 3, 12],
-  ["교통공학과", "uos-transport", 4, 7], ["조경학과", "uos-landscape", 3, 13],
-  ["환경공학부", "uos-env-eng", 10, 15], ["공간정보공학과", "uos-geo", 5, 11],
-  ["자유전공학부(인문)", "uos-free-human", 15, 0], ["자유전공학부(자연)", "uos-free-natural", 15, 0],
+type Row = [string, string, string, number, number, number, number, number, number, number];
+// [id, name, category, 논술, 고교추천, 종합Ⅰ, 종합Ⅱ, 기회균형Ⅰ, 사회공헌·통합, 실기]
+const rows: Row[] = [
+  ["admin", "행정학과", "사회과학", 0,14,21,0,5,2,0], ["ir", "국제관계학과", "사회과학", 0,6,17,0,3,2,0],
+  ["econ", "경제학부", "상경", 0,9,10,19,8,2,0], ["welfare", "사회복지학과", "사회과학", 0,5,12,0,3,2,0],
+  ["tax", "세무학과", "상경", 0,9,7,0,6,1,0], ["business", "경영학부", "상경", 0,23,0,80,20,2,0],
+  ["english", "영어영문학과", "인문", 0,4,18,0,2,1,0], ["korean", "국어국문학과", "인문", 0,3,11,0,1,1,0],
+  ["history", "국사학과", "인문", 0,3,11,0,1,1,0], ["philosophy", "철학과", "인문", 0,3,10,0,1,1,0],
+  ["chinese", "중국어문화학과", "인문", 0,3,10,0,1,1,0], ["urban-admin", "도시행정학과", "사회과학", 0,5,12,0,2,2,0],
+  ["urban-soc", "도시사회학과", "사회과학", 0,5,12,0,2,2,0], ["free-human", "자유전공학부(인문)", "자유전공", 0,15,0,0,8,2,0],
+  ["eece", "전자전기컴퓨터공학부", "공학", 18,21,25,0,12,2,0], ["chemical", "화학공학과", "공학", 0,9,16,0,4,1,0],
+  ["mech-info", "기계정보공학과", "공학", 4,5,11,0,3,1,0], ["materials", "신소재공학과", "공학", 10,7,12,0,3,1,0],
+  ["civil", "토목공학과", "공학", 5,5,9,0,3,1,0], ["math", "수학과", "자연과학", 8,5,7,0,3,1,0],
+  ["statistics", "통계학과", "자연과학", 3,3,10,0,2,1,0], ["physics", "물리학과", "자연과학", 6,3,7,0,2,1,0],
+  ["life", "생명과학과", "자연과학", 4,5,10,0,2,2,0], ["hort", "환경원예학과", "생명·환경", 0,5,10,0,2,1,0],
+  ["applied-chem", "융합응용화학과", "자연과학", 0,3,7,0,1,1,0], ["arch-eng", "건축학부(건축공학전공)", "건축·공학", 3,5,11,0,3,1,0],
+  ["arch", "건축학부(건축학전공)", "건축·공학", 0,3,20,0,3,1,0], ["urban-eng", "도시공학과", "공학", 0,3,12,0,2,1,0],
+  ["transport", "교통공학과", "공학", 4,4,7,0,1,1,0], ["landscape", "조경학과", "생명·환경", 0,3,13,0,2,1,0],
+  ["env-eng", "환경공학부", "공학", 10,10,15,0,6,1,0], ["geo", "공간정보공학과", "공학", 0,5,11,0,2,1,0],
+  ["free-natural", "자유전공학부(자연)", "자유전공", 0,15,0,0,8,2,0], ["biohealth", "첨단융합학부(융합바이오헬스전공)", "융합", 0,2,2,0,0,0,0],
+  ["ai", "첨단융합학부(첨단인공지능전공)", "융합·AI", 0,2,0,0,0,0,0], ["semiconductor", "첨단융합학부(지능형반도체전공)", "융합·반도체", 0,6,10,0,0,0,0],
+  ["cs", "컴퓨터과학부", "컴퓨터·소프트웨어", 8,8,12,0,4,1,0], ["ai-dept", "인공지능학과", "컴퓨터·AI", 5,10,14,0,1,1,0],
+  ["music", "음악학과", "예체능", 0,0,0,0,0,0,7], ["sports", "스포츠과학과", "체육", 0,0,8,0,0,0,0],
 ];
 
-export const verifiedUos2027Departments: Department[] = rows.map(([name, id]) => ({
-  id: id as string,
-  universityId: "uos",
-  name: name as string,
+export const verifiedUos2027Departments: Department[] = rows.map(([id, name, category]) => ({
+  id: `uos-${id}`, universityId: "uos", name, category,
 }));
 
-// 2027 모집요강 총괄표에 있는 경영학부를 기존 핵심 데이터셋에 추가.
-verifiedUos2027Departments.push({
-  id: "uos-business",
-  universityId: "uos",
-  name: "경영학부",
-});
+const admissions: Admission[] = [];
+const add = (id: string, name: string, type: Admission["type"], count: number, opts: Partial<Admission> = {}) => {
+  if (!count) return;
+  admissions.push({
+    id, universityId: "uos", academicYear: 2027, type, recruitmentCount: count,
+    source, isMock: false, ...opts,
+  } as Admission);
+};
 
-export const verifiedUos2027Admissions: Admission[] = rows.flatMap(([name, id, regional, interview]) => {
-  const departmentId = id as string;
-  const regionalCount = regional as number;
-  const interviewCount = interview as number;
-  const result: Admission[] = [];
-
-  if (regionalCount > 0) result.push({
-    id: `${departmentId}-highschool-recommendation`, universityId: "uos", departmentId,
-    academicYear: 2027, name: "고교추천전형", type: "교과", recruitmentCount: regionalCount,
-    studentRecordWeight: 80, source, isMock: false,
-    csatMinimum: { enabled: true, description: "국어·수학·영어·탐구(상위 1과목) 중 3개 영역 등급합 8 이내 및 한국사 4등급 이내" },
-  });
-
-  if (interviewCount > 0) result.push({
-    id: `${departmentId}-comprehensive-interview`, universityId: "uos", departmentId,
-    academicYear: 2027, name: "학생부종합전형Ⅰ(면접형)", type: "학종", recruitmentCount: interviewCount,
-    documentWeight: 50, interview: true, source, isMock: false,
-    csatMinimum: { enabled: false },
-  });
-
-  return result;
-});
-
-// 2027학년도 학생부종합전형Ⅱ(서류형)는 경제학부·경영학부에서만 선발.
-verifiedUos2027Admissions.push(
-  {
-    id: "uos-econ-comprehensive-document", universityId: "uos", departmentId: "uos-econ",
-    academicYear: 2027, name: "학생부종합전형Ⅱ(서류형)", type: "학종", recruitmentCount: 19,
-    documentWeight: 100, interview: false, source, isMock: false,
-    csatMinimum: { enabled: false },
-  },
-  {
-    id: "uos-business-comprehensive-document", universityId: "uos", departmentId: "uos-business",
-    academicYear: 2027, name: "학생부종합전형Ⅱ(서류형)", type: "학종", recruitmentCount: 20,
-    documentWeight: 100, interview: false, source, isMock: false,
-    csatMinimum: { enabled: false },
-  },
-);
-
-// 공식 2027 모집인원 총괄표 기준 누락되어 있던 논술·기회균형·사회공헌 전형.
-// [논술, 기회균형Ⅰ, 사회공헌·통합] 순서의 모집인원.
-const supplementRows: Array<[string, number, number, number]> = [
-  ["uos-admin", 0, 5, 2], ["uos-ir", 0, 3, 2], ["uos-econ", 0, 8, 2], ["uos-welfare", 0, 3, 2],
-  ["uos-tax", 0, 6, 1], ["uos-business", 0, 2, 0], ["uos-english", 0, 2, 1], ["uos-korean", 0, 1, 1],
-  ["uos-history", 0, 1, 1], ["uos-philosophy", 0, 1, 1], ["uos-chinese", 0, 1, 1], ["uos-urban-admin", 0, 2, 2],
-  ["uos-urban-soc", 0, 2, 2], ["uos-eece", 18, 12, 2], ["uos-chem-eng", 0, 4, 1], ["uos-mech-info", 4, 3, 1],
-  ["uos-materials", 4, 3, 1], ["uos-civil", 5, 3, 1], ["uos-cs", 8, 4, 1], ["uos-ai", 3, 1, 1],
-  ["uos-math", 8, 3, 1], ["uos-stat", 3, 2, 1], ["uos-physics", 6, 2, 1], ["uos-life", 4, 2, 2],
-  ["uos-hort", 0, 2, 1], ["uos-applied-chem", 0, 1, 1], ["uos-arch-eng", 3, 3, 1], ["uos-arch", 0, 3, 1],
-  ["uos-urban-eng", 0, 2, 1], ["uos-transport", 4, 1, 1], ["uos-landscape", 0, 2, 1], ["uos-env-eng", 10, 6, 1],
-  ["uos-geo", 0, 2, 1],
-];
-
-for (const [departmentId, essay, opportunity, social] of supplementRows) {
-  if (essay > 0) verifiedUos2027Admissions.push({
-    id: `${departmentId}-essay`, universityId: "uos", departmentId,
-    academicYear: 2027, name: "논술전형", type: "논술", recruitmentCount: essay,
-    source, isMock: false, csatMinimum: { enabled: false },
-  });
-  if (opportunity > 0) verifiedUos2027Admissions.push({
-    id: `${departmentId}-opportunity`, universityId: "uos", departmentId,
-    academicYear: 2027, name: "기회균형전형Ⅰ", type: "학종", recruitmentCount: opportunity,
-    documentWeight: 50, interview: true, source, isMock: false, csatMinimum: { enabled: false },
-  });
-  if (social > 0) verifiedUos2027Admissions.push({
-    id: `${departmentId}-social`, universityId: "uos", departmentId,
-    academicYear: 2027, name: "사회공헌·통합전형", type: "학종", recruitmentCount: social,
-    documentWeight: 50, interview: true, source, isMock: false, csatMinimum: { enabled: false },
-  });
+for (const [id, _name, _category, essay, school, interview, document, opportunity, social, practical] of rows) {
+  const departmentId = `uos-${id}`;
+  add(`${departmentId}-essay-2027`, "논술전형", "논술", essay, { departmentId, csatMinimum: { enabled: false } });
+  add(`${departmentId}-recommend-2027`, "고교추천전형", "교과", school, { departmentId, studentRecordWeight: 80, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구(상위 1과목) 중 3개 영역 등급합 8 이내 및 한국사 4등급 이내" } });
+  add(`${departmentId}-holistic-interview-2027`, "학생부종합전형Ⅰ(면접형)", "학종", interview, { departmentId, documentWeight: 50, interview: true, csatMinimum: { enabled: false } });
+  add(`${departmentId}-holistic-document-2027`, "학생부종합전형Ⅱ(서류형)", "학종", document, { departmentId, documentWeight: 100, interview: false, csatMinimum: { enabled: false } });
+  add(`${departmentId}-opportunity-2027`, "기회균형전형Ⅰ", "학종", opportunity, { departmentId, documentWeight: 50, interview: true, csatMinimum: { enabled: false } });
+  add(`${departmentId}-social-2027`, "사회공헌·통합전형", "학종", social, { departmentId, documentWeight: 50, interview: true, csatMinimum: { enabled: false } });
+  add(`${departmentId}-practical-2027`, "실기전형", "실기", practical, { departmentId, csatMinimum: { enabled: false } });
 }
+
+export const verifiedUos2027Admissions: Admission[] = admissions;
+
+// 2027 최종 정원내 수시: 논술 88 + 고교추천 254 + 종합Ⅰ 410 + 종합Ⅱ 99 + 기회균형Ⅰ 132 + 사회공헌·통합 46 + 실기 7 = 1,036명.
