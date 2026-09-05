@@ -22,7 +22,7 @@ import { verifiedUos2027Admissions, verifiedUos2027Departments, verifiedUos2027U
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
-const withoutUos = <T extends { universityId: string }>(items: T[]) => items.filter((item) => item.universityId !== "uos");
+const withoutUos = <T>(items: T[]) => items.filter((item) => !("universityId" in item) || item.universityId !== "uos");
 
 const verified: Admission[] = [
   ...withoutUos(verified2027Admissions), ...verifiedHanyang2027Admissions, ...verifiedMetroTop2027Admissions,
