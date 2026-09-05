@@ -75,18 +75,19 @@ export const verifiedSeoulTech2027Admissions: Admission[] = verifiedSeoulTech202
   const c = counts[department.id] ?? {};
   const result: Admission[] = [];
   const add = (key: string, name: string, type: Admission["type"], recruitCount: number, extra: Partial<Admission> = {}) => {
-    result.push({
+    const admission = {
       id: `${department.id}-${key}-2027`,
       universityId: "seoultech",
       departmentId: department.id,
       academicYear: 2027,
       name,
       type,
-      ["모집인원"]: recruitCount,
       source,
       isMock: false,
       ...extra,
-    });
+    } as Admission;
+    Object.assign(admission, { 모집인원: recruitCount });
+    result.push(admission);
   };
   if (c.추천) add("추천", "고교추천전형", "교과", c.추천, { studentRecordWeight: 100, csatMinimum: minimum });
   if (c.우수) add("우수", "학교생활우수자전형", "학종", c.우수, { documentWeight: 70, interview: true, csatMinimum: { enabled: false } });
