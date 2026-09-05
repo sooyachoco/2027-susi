@@ -27,11 +27,12 @@ export const admissionSources: Record<string, DataSource> = {
     confidence: 0.95,
   },
   uos2027: {
-    type: "adiga",
-    url: "https://www.adiga.kr/ucp/uvt/uni/univDetail.do?menuId=PCUVTINF2000&searchSyr=2027&searchUnvCodeAllYn=true&sortNm=&sortOrder=true&unvCd=0000040&unvLink=on",
-    document: "서울시립대학교 2027학년도 대학정보",
+    type: "university",
+    url: "https://admission.uos.ac.kr/admissionNew/main.do",
+    document: "2027학년도 서울시립대학교 수시모집 신입생 모집요강",
     academicYear: 2027,
-    confidence: 0.9,
+    confidence: 0.99,
+    verifiedAt: "2026-09-05",
   },
   snu2027: {
     type: "university",
