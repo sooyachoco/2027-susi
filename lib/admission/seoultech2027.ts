@@ -1,7 +1,7 @@
 import type { Admission, Department, University } from "./types";
 
-const sourceUrl = "https://admission.seoultech.ac.kr";
-const source = { type: "university" as const, url: sourceUrl, academicYear: 2027, collectedAt: "2026-09-05", verifiedAt: "2026-09-05", confidence: 0.99 };
+const sourceUrl = "https://www.adiga.kr/ucp/uvt/uni/univDetailSelection.do?menuId=PCUVTINF2000&searchSyr=2027&unvCd=0000036";
+const source = { type: "adiga" as const, url: sourceUrl, academicYear: 2027, collectedAt: "2026-09-05", verifiedAt: "2026-09-05", confidence: 0.99, document: "서울과학기술대학교 2027학년도 전형평가기준 및 결과공개" };
 
 export const seoultech2027Universities: University[] = [
   { id: "seoultech", name: "서울과학기술대학교", region: "서울" },
@@ -37,15 +37,15 @@ type SeoulTechMethodDefinition = {
 
 const methodDefinitions: SeoulTechMethodDefinition[] = [
   { key: "recommend", name: "고교추천전형", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 7, description: "국어·수학·영어·탐구(1과목) 중 2개 영역 합 7등급 이내" } },
-  { key: "school", name: "학교생활우수자전형", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "creative", name: "창의융합인재전형", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "essay", name: "논술전형", type: "논술", studentRecordWeight: 30, csatMinimum: { enabled: false } },
-  { key: "national", name: "기회균형전형(국가보훈대상자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "equal", name: "기회균형전형(기회균등)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "lifelong", name: "기회균형전형(평생학습자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { key: "rural", name: "기회균형전형(농어촌학생)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "school", name: "학교생활우수자전형", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
+  { key: "creative", name: "창의융합인재전형", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
+  { key: "essay", name: "논술전형", type: "논술", studentRecordWeight: 30, majorGroup: "논술 중심", csatMinimum: { enabled: false } },
+  { key: "national", name: "기회균형전형(국가보훈대상자)", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
+  { key: "equal", name: "기회균형전형(기회균등)", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
+  { key: "lifelong", name: "기회균형전형(평생학습자)", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
+  { key: "rural", name: "기회균형전형(농어촌학생)", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
   { key: "worker", name: "기회균형전형(특성화고졸재직자)", type: "교과", studentRecordWeight: 100, csatMinimum: { enabled: false } },
-  { key: "special", name: "기회균형전형(특수교육대상자)", type: "학종", documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
+  { key: "special", name: "기회균형전형(특수교육대상자)", type: "학종", documentWeight: 70, interview: true, majorGroup: "1단계 서류100% → 2단계 1단계70% + 면접30%", csatMinimum: { enabled: false } },
   { key: "practical", name: "실기전형", type: "기타", studentRecordWeight: 0, csatMinimum: { enabled: false } },
 ];
 
@@ -76,6 +76,7 @@ export const seoultech2027Admissions: Admission[] = [
       ...(method.studentRecordWeight !== undefined ? { studentRecordWeight: method.studentRecordWeight } : {}),
       ...(method.documentWeight !== undefined ? { documentWeight: method.documentWeight } : {}),
       ...(method.interview !== undefined ? { interview: method.interview } : {}),
+      ...(method.majorGroup !== undefined ? { majorGroup: method.majorGroup } : {}),
       csatMinimum: method.csatMinimum, source, isMock: false,
     }))
   ),
@@ -85,6 +86,7 @@ export const seoultech2027Admissions: Admission[] = [
     ...(method.studentRecordWeight !== undefined ? { studentRecordWeight: method.studentRecordWeight } : {}),
     ...(method.documentWeight !== undefined ? { documentWeight: method.documentWeight } : {}),
     ...(method.interview !== undefined ? { interview: method.interview } : {}),
+    ...(method.majorGroup !== undefined ? { majorGroup: method.majorGroup } : {}),
     csatMinimum: method.csatMinimum, source, isMock: false,
   })),
 ];
