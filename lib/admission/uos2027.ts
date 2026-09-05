@@ -92,7 +92,7 @@ const admission = (
 export const uos2027Admissions: Admission[] = rows.flatMap((row) => {
   const dept = `uos-${row.id}`;
   const result: Admission[] = [];
-  if (row.regional > 0) result.push(admission("regional", dept, "고교추천전형", "교과", row.regional, { studentRecordWeight: 80, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" } }));
+  if (row.regional > 0) result.push(admission("regional", dept, "고교추천전형", "교과", row.regional, { studentRecordWeight: 100, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" } }));
   if (row.holistic1 > 0) result.push(admission("holistic1", dept, "학생부종합전형Ⅰ(면접형)", "학종", row.holistic1, { documentWeight: 50, interview: true, csatMinimum: { enabled: false } }));
   if (row.holistic2 > 0) result.push(admission("holistic2", dept, "학생부종합전형Ⅱ(서류형)", "학종", row.holistic2, { documentWeight: 100, csatMinimum: { enabled: false } }));
   if (row.opportunity > 0) result.push(admission("opportunity", dept, "기회균형전형Ⅰ", "학종", row.opportunity, { documentWeight: 50, interview: true, csatMinimum: { enabled: false } }));
@@ -115,7 +115,7 @@ export const uos2027VerifiedTotals = {
 
 export const uos2027AggregateAdmissions: Admission[] = [
   { id: "uos-2027-overall-essay", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "논술전형", type: "논술", recruitmentCount: 88, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-regional", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "고교추천전형", type: "교과", recruitmentCount: 254, studentRecordWeight: 80, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-regional", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "고교추천전형", type: "교과", recruitmentCount: 254, studentRecordWeight: 100, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
   { id: "uos-2027-overall-holistic1", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅰ(면접형)", type: "학종", recruitmentCount: 410, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
   { id: "uos-2027-overall-holistic2", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅱ(서류형)", type: "학종", recruitmentCount: 99, documentWeight: 100, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
   { id: "uos-2027-overall-opportunity", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "기회균형전형Ⅰ", type: "학종", recruitmentCount: 132, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
