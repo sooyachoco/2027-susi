@@ -25,4 +25,5 @@ export const admissionSources: Record<string, DataSource> = {
   sungshin2027: { type: "university", url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view", document: "2027학년도 수시 성신여자대학교 신입생 모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
   myeongji2027: { type: "university", url: "https://iphak.mju.ac.kr/pages/?b=B_1_1&bn=30136&cate=%EC%88%98%EC%8B%9C&f=ALL&m=read&nPage=1&p=9", document: "2027학년도 신입학 수시 모집요강(수정 v2)", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
   anyang2027: { type: "university", url: "https://enter.anyang.ac.kr/10000012?bbs_seq=8824&mode=view", document: "2027학년도 안양대학교 수시 모집요강(최종본)", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
+  sungkyul2027: { type: "university", url: "https://www.sungkyul.ac.kr/ipsi/101/subview.do", document: "2027학년도 성결대학교 수시모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
 };
