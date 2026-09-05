@@ -59,7 +59,7 @@ for (const [id, _name, _category, essay, school, interview, document, opportunit
   add(`${departmentId}-holistic-document-2027`, "학생부종합전형Ⅱ(서류형)", "학종", document, { departmentId, documentWeight: 100, interview: false, csatMinimum: { enabled: false } });
   add(`${departmentId}-opportunity-2027`, "기회균형전형Ⅰ", "학종", opportunity, { departmentId, documentWeight: 50, interview: true, csatMinimum: { enabled: false } });
   add(`${departmentId}-social-2027`, "사회공헌·통합전형", "학종", social, { departmentId, documentWeight: 50, interview: true, csatMinimum: { enabled: false } });
-  add(`${departmentId}-practical-2027`, "실기전형", "실기", practical, { departmentId, csatMinimum: { enabled: false } });
+  add(`${departmentId}-practical-2027`, "실기전형", "논술", practical, { departmentId, csatMinimum: { enabled: false } });
 }
 
 export const verifiedUos2027Admissions: Admission[] = admissions;
