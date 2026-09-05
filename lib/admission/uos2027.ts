@@ -74,7 +74,7 @@ const admission = (
   dept: string,
   name: string,
   type: "교과" | "학종" | "논술" | "기타",
-  모집인원: number,
+  recruitmentCount: number,
   extra: Partial<Admission> = {},
 ): Admission => ({
   id: `uos-${dept}-${id}-2027`,
@@ -83,7 +83,7 @@ const admission = (
   academicYear: 2027,
   name,
   type,
-  모집인원,
+  recruitmentCount,
   source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 },
   isMock: false,
   ...extra,
@@ -114,11 +114,11 @@ export const uos2027VerifiedTotals = {
 };
 
 export const uos2027AggregateAdmissions: Admission[] = [
-  { id: "uos-2027-overall-essay", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "논술전형", type: "논술", 모집인원: 88, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-regional", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "고교추천전형", type: "교과", 모집인원: 254, studentRecordWeight: 80, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-holistic1", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅰ(면접형)", type: "학종", 모집인원: 410, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-holistic2", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅱ(서류형)", type: "학종", 모집인원: 99, documentWeight: 100, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-opportunity", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "기회균형전형Ⅰ", type: "학종", 모집인원: 132, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-social", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "사회공헌·통합전형", type: "학종", 모집인원: 46, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
-  { id: "uos-2027-overall-practical", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "실기전형", type: "기타", 모집인원: 7, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-essay", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "논술전형", type: "논술", recruitmentCount: 88, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-regional", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "고교추천전형", type: "교과", recruitmentCount: 254, studentRecordWeight: 80, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급합 8 이내 + 한국사 4등급 이내" }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-holistic1", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅰ(면접형)", type: "학종", recruitmentCount: 410, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-holistic2", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "학생부종합전형Ⅱ(서류형)", type: "학종", recruitmentCount: 99, documentWeight: 100, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-opportunity", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "기회균형전형Ⅰ", type: "학종", recruitmentCount: 132, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-social", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "사회공헌·통합전형", type: "학종", recruitmentCount: 46, documentWeight: 50, interview: true, csatMinimum: { enabled: false }, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
+  { id: "uos-2027-overall-practical", universityId: "uos", departmentId: aggregate.id, academicYear: 2027, name: "실기전형", type: "기타", recruitmentCount: 7, source: { type: "university", academicYear: 2027, url: src, confidence: 0.99 }, isMock: false, isAggregate: true },
 ];
