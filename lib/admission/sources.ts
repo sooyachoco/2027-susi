@@ -112,4 +112,12 @@ export const admissionSources: Record<string, DataSource> = {
     confidence: 0.99,
     verifiedAt: "2026-08-26",
   },
+  hongik2027: {
+    type: "university",
+    url: "https://www.hongik.ac.kr/kr/admission/recruitment.do?articleNo=152315",
+    document: "2027학년도 수시모집 모집요강",
+    academicYear: 2027,
+    confidence: 0.99,
+    verifiedAt: "2026-09-05",
+  },
 };
