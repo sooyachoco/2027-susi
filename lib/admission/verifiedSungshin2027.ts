@@ -42,8 +42,8 @@ const departmentRows: Array<[string, string, string]> = [
   ["creative-advanced", "창의융합학부(첨단분야전공)", "융합·첨단"],
 ];
 
-export const verifiedSungshin2027Departments: Department[] = departmentRows.map(([id, name, category]) => ({
-  id: `${universityId}-${id}`,
+export const verifiedSungshin2027Departments: Department[] = departmentRows.map(([key, name, category]) => ({
+  id: `${universityId}-${key}`,
   universityId,
   name,
   category,
@@ -80,7 +80,6 @@ const admission = (
   ...extra,
 });
 
-// 2027 정원내 모집인원 표(p.7~8) 기준. 지역균형은 전공선발과 무전공선발을 별도 모집단위로 반영.
 const selfDirectedCounts: Record<string, number> = {
   korean: 7, english: 12, german: 6, french: 5, japanese: 12, chinese: 12, history: 6, "arts-management": 5,
   politics: 7, psychology: 8, geography: 7, economics: 14, media: 12, business: 27, "social-welfare": 9, law: 30,
@@ -97,8 +96,7 @@ const regionalCounts: Record<string, number> = {
   education: 4, "social-education": 4, "ethics-education": 4, "chinese-education": 4, "early-childhood": 5,
 };
 
-// 공식 모집요강 표에 인쇄된 논술 모집인원. 총계 표기(159명)와 개별 행 합계 사이에 5명 산술 불일치가 있어,
-// 임의로 어느 모집단위의 인원을 조정하지 않고 원문 행 숫자를 그대로 보존한다.
+// 모집요강 표에 인쇄된 논술 개별 모집인원. 표의 총계 159명과 개별 행 합계가 5명 차이 나는 원문 산술 불일치는 임의 보정하지 않는다.
 const essayCounts: Record<string, number> = {
   korean: 4, english: 4, german: 3, french: 3, japanese: 5, chinese: 5, history: 3, "arts-management": 3,
   politics: 3, psychology: 5, geography: 4, economics: 4, media: 4, business: 6, "social-welfare": 5, law: 8,
@@ -108,22 +106,28 @@ const essayCounts: Record<string, number> = {
 };
 
 const admissions: Admission[] = [];
+
 for (const [key, count] of Object.entries(selfDirectedCounts)) {
   admissions.push(admission(id(key), "자기주도인재전형", "학종", count, { documentWeight: 60, interview: true }));
 }
+
 for (const [key, count] of Object.entries(regionalCounts)) {
   admissions.push(admission(id(key), "지역균형전형", "교과", count, { studentRecordWeight: 100, csatMinimum }));
 }
+
 for (const [key, count] of Object.entries(essayCounts)) {
-  const departmentId = key === "nursing-humanities" ? id("nursing") : key === "nursing-natural" ? id("nursing") : id(key);
-  admissions.push(admission(departmentId, "논술우수자전형", "논술", count, { csatMinimum }));
+  if (key === "nursing-humanities") {
+    admissions.push(admission(id("nursing"), "논술우수자전형(인문)", "논술", count, { csatMinimum }));
+  } else if (key === "nursing-natural") {
+    admissions.push(admission(id("nursing"), "논술우수자전형(자연)", "논술", count, { csatMinimum }));
+  } else {
+    admissions.push(admission(id(key), "논술우수자전형", "논술", count, { csatMinimum }));
+  }
 }
 
-// 지역균형 무전공: 자유전공 54명 + 첨단분야전공 73명.
 admissions.push(admission(id("creative-free"), "지역균형전형", "교과", 54, { studentRecordWeight: 100, csatMinimum }));
 admissions.push(admission(id("creative-advanced"), "지역균형전형", "교과", 73, { studentRecordWeight: 100, csatMinimum }));
 
-// 실기/실적 일반학생(p.8): 모집단위별 총 모집인원.
 const practicalCounts: Record<string, number> = {
   "media-acting": 13, "practical-music": 11, dance: 18, beauty: 13, "oriental-painting": 21, "western-painting": 22,
   sculpture: 24, craft: 31, design: 16, vocal: 13, instrument: 31, composition: 13,
@@ -132,7 +136,6 @@ for (const [key, count] of Object.entries(practicalCounts)) {
   admissions.push(admission(id(key), "일반학생전형", "기타", count, { studentRecordWeight: 30 }));
 }
 
-// 정원외 재직자: 경영학과 경영학전공 70명 + 세무회계전공 43명.
 admissions.push(admission(id("business"), "특성화고 등을 졸업한 재직자전형(경영학전공)", "학종", 70));
 admissions.push(admission(id("business"), "특성화고 등을 졸업한 재직자전형(세무회계전공)", "학종", 43));
 
