@@ -80,7 +80,6 @@ export const kwangwoon2027Admissions: Admission[] = [
   aggregate("kwangwoon-seohae5", "서해5도출신자", "학종", 6, { documentWeight: 100 }),
   aggregate("kwangwoon-essay", "논술우수자", "논술", 187, { studentRecordWeight: 20, majorGroup: "논술 80% + 학생부교과 20%" }),
   aggregate("kwangwoon-athlete", "체육특기자", "기타", 15, { majorGroup: "경기실적 60% + 실기 30% + 학생부 10%" }),
-  { ...aggregate("kwangwoon-pharmacy-placeholder", "광운대학교 수시 모집단위 전체", "기타", 0), isAggregate: true },
 
   // 공식 모집요강의 모집단위별 논술 모집인원 확인분
   { ...aggregate("kwangwoon-essay-computer", "논술우수자", "논술", 20), departmentId: dept("computer"), isAggregate: false },
