@@ -6,10 +6,12 @@ const units: Array<[string,string,string]> = [
 ];
 export const soongsil2027Departments: Department[] = units.map(([id,name,category])=>({id:`soongsil-${id}`,universityId:"soongsil",name,category}));
 const src="https://admission.ssu.ac.kr/";
-const admission=(id:string,dept:string,name:string,type:"교과"|"학종"|"논술",extra:Partial<Admission>={})=>({id:`soongsil-${dept}-${id}-2027`,universityId:"soongsil",departmentId:`soongsil-${dept}`,academicYear:2027,name,type,source:{type:"university",academicYear:2027,url:src,confidence:.97},isMock:false,...extra} as Admission);
+const source={type:"university" as const,academicYear:2027,url:src,confidence:.99,verifiedAt:"2026-09-05"};
+const generalCsat={enabled:true,description:"국어·수학·영어·사회/과학탐구(1과목) 중 2개 영역 등급 합 6 이내"};
+const admission=(id:string,dept:string,name:string,type:"교과"|"학종"|"논술",extra:Partial<Admission>={})=>({id:`soongsil-${dept}-${id}-2027`,universityId:"soongsil",departmentId:`soongsil-${dept}`,academicYear:2027,name,type,source,isMock:false,...extra} as Admission);
 export const soongsil2027Admissions: Admission[] = units.flatMap(([id])=>[
- admission("school",""+id,"학생부교과(학생부우수자전형)","교과",{studentRecordWeight:100}),
- admission("future-doc",id,"SSU미래인재전형(서류형)","학종",{documentWeight:100}),
- admission("future-interview",id,"SSU미래인재전형(면접형)","학종",{documentWeight:50,interview:true}),
- admission("essay",id,"논술우수자전형","논술")
+ admission("school",id,"학생부교과(학생부우수자전형)","교과",{studentRecordWeight:100,csatMinimum:generalCsat}),
+ admission("future-doc",id,"SSU미래인재전형(서류형)","학종",{documentWeight:100,csatMinimum:{enabled:false}}),
+ admission("future-interview",id,"SSU미래인재전형(면접형)","학종",{documentWeight:50,interview:true,csatMinimum:{enabled:false}}),
+ admission("essay",id,"논술우수자전형","논술",{studentRecordWeight:10,csatMinimum:generalCsat})
 ]);
