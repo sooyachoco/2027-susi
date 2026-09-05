@@ -1,4 +1,4 @@
-import type { Admission, Department, University } from "./types";
+import type { Admission, AdmissionType, Department, University } from "./types";
 
 export const sungshin2027Universities: University[] = [{ id: "sungshin", name: "성신여자대학교", region: "서울" }];
 
@@ -71,7 +71,7 @@ export const sungshin2027Departments: Department[] = [
   ...rows.map(([id, name, category]) => ({ id: `sungshin-${id}`, universityId: "sungshin", name, category })),
 ];
 
-const makeAdmission = (departmentId: string, name: string, type: string, recruitmentCount: number, studentRecordWeight?: number, documentWeight?: number, interview = false): Admission => ({
+const makeAdmission = (departmentId: string, name: string, type: AdmissionType, recruitmentCount: number, studentRecordWeight?: number, documentWeight?: number, interview = false): Admission => ({
   id: `${departmentId}-${name}-2027`,
   universityId: "sungshin",
   departmentId,
