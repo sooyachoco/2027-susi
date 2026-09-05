@@ -22,4 +22,6 @@ export const admissionSources: Record<string, DataSource> = {
   hanshin2027: { type: "university", url: "https://ent.hs.ac.kr/ipsi/pages/?b=B_1_1&bn=22867&m=read&p=17", document: "2027학년도 한신대학교 신입학 수시모집요강_최종", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-08-26" },
   hongik2027: { type: "university", url: "https://www.hongik.ac.kr/kr/admission/recruitment.do?articleNo=152315", document: "2027학년도 수시모집 모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
   sookmyung2027: { type: "university", url: "https://www.sookmyung.ac.kr/kr/admission/admission-guide.do", document: "2027학년도 숙명여자대학교 수시모집 모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
+  sungshin2027: { type: "university", url: "https://ipsi.sungshin.ac.kr/guide/dataroom.htm?bbsid=dataroom&bltn_seq=36049&ctg_cd=susi&mode=view", document: "2027학년도 수시 성신여자대학교 신입생 모집요강", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
+  myeongji2027: { type: "university", url: "https://iphak.mju.ac.kr/pages/?b=B_1_1&bn=30136&cate=%EC%88%98%EC%8B%9C&f=ALL&m=read&nPage=1&p=9", document: "2027학년도 신입학 수시 모집요강(수정 v2)", academicYear: 2027, confidence: 0.99, verifiedAt: "2026-09-05" },
 };
