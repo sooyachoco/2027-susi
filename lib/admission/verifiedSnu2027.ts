@@ -8,6 +8,7 @@ const source = {
   type: "university" as const,
   url: "https://admission.snu.ac.kr/webdata/admission/files/2027susi.pdf",
   document: "2027학년도 대학 신입학생 수시모집 안내",
+  academicYear: 2027,
   verifiedAt: "2026-09-06",
   confidence: 1,
 };
