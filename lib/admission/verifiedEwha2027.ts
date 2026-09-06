@@ -32,11 +32,12 @@ for (const [name, [recommendation, document, interview, essay]] of Object.entrie
 }
 
 // 공식 수시 모집 총 2,092명 중 위 모집단위별 표 외 전형은 공식 전형별 총원을 aggregate로 보존한다.
+const aggregateDepartmentId = departments[0].id;
 admissions.push(
-  { id: `${universityId}-고른기회전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(고른기회전형)", type: "학종", recruitmentCount: 164, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
-  { id: `${universityId}-사회기여자전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(사회기여자전형)", type: "학종", recruitmentCount: 16, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
-  { id: `${universityId}-예체능실기전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "실기/실적(예체능실기전형)", type: "기타", recruitmentCount: 81, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
-  { id: `${universityId}-예체능서류전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(예체능서류전형)", type: "학종", recruitmentCount: 39, source, isMock: false, isAggregate: true, csatMinimum: { enabled: true, description: "모집단위별 수능최저학력기준 적용" } },
+  { id: `${universityId}-고른기회전형`, universityId, departmentId: aggregateDepartmentId, academicYear: 2027, name: "학생부종합(고른기회전형)", type: "학종", recruitmentCount: 164, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-사회기여자전형`, universityId, departmentId: aggregateDepartmentId, academicYear: 2027, name: "학생부종합(사회기여자전형)", type: "학종", recruitmentCount: 16, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-예체능실기전형`, universityId, departmentId: aggregateDepartmentId, academicYear: 2027, name: "실기/실적(예체능실기전형)", type: "기타", recruitmentCount: 81, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-예체능서류전형`, universityId, departmentId: aggregateDepartmentId, academicYear: 2027, name: "학생부종합(예체능서류전형)", type: "학종", recruitmentCount: 39, source, isMock: false, isAggregate: true, csatMinimum: { enabled: true, description: "모집단위별 수능최저학력기준 적용" } },
 );
 
 export const verifiedEwha2027Admissions: Admission[] = admissions;
