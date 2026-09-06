@@ -31,7 +31,6 @@ const growthRecruitmentCounts: Record<string, number> = {
   "경영학부": 10, "글로벌금융학부": 4,
 };
 
-// 중앙대 최종 모집요강의 논술(일반형) 서울캠퍼스 모집단위별 인원.
 const essayGeneralRecruitment: Record<string, number> = {
   "국어국문학부": 6, "영어영문학과": 6,
   "유럽문화학부": 24, "아시아문화학부": 12, "철학과": 6, "역사학과": 6,
@@ -52,8 +51,6 @@ export const verifiedChungAng2027Departments: Department[] = seoulNames.map((nam
   universityId: "cau-2027",
   name,
 }));
-
-const byName = new Map(verifiedChungAng2027Departments.map((d) => [d.name, d]));
 
 const admission = (
   department: Department,
@@ -127,16 +124,18 @@ const aggregateDepartment: Department = {
 
 export const verifiedChungAng2027AggregateAdmissions: Admission[] = [
   admission(aggregateDepartment, "regional-total", "학생부교과(지역균형) 전체", "교과", { recruitmentCount: 508, isAggregate: true, studentRecordWeight: 90, csatMinimum: { enabled: true, description: "서울캠퍼스 적용" } }),
-  admission(aggregateDepartment, "growth-total", "학생부종합(성장형인재) 전체", "학종", { recruitmentCount: 108, isAggregate: true, documentWeight: 70, interview: true, csatMinimum: { enabled: true } }),
-  admission(aggregateDepartment, "fusion-total", "학생부종합(융합형인재) 전체", "학종", { recruitmentCount: 378, isAggregate: true, documentWeight: 70, csatMinimum: { enabled: false } }),
+  admission(aggregateDepartment, "growth-total", "학생부종합(성장형인재) 전체", "학종", { recruitmentCount: 108, isAggregate: true, documentWeight: 70, interview: true, csatMinimum: { enabled: true, description: "서울 인문·자연·간호 3개 영역 등급 합 6 이내 / 약학·의학 4개 영역 등급 합 5 이내" } }),
+  admission(aggregateDepartment, "fusion-total", "학생부종합(융합형인재) 전체", "학종", { recruitmentCount: 378, isAggregate: true, documentWeight: 100, csatMinimum: { enabled: false } }),
   admission(aggregateDepartment, "exploration-total", "학생부종합(탐구형인재) 전체", "학종", { recruitmentCount: 512, isAggregate: true, documentWeight: 70, interview: true, csatMinimum: { enabled: false } }),
   admission(aggregateDepartment, "harmony-total", "학생부종합(어울림) 전체", "학종", { recruitmentCount: 20, isAggregate: true, documentWeight: 100, csatMinimum: { enabled: false } }),
   admission(aggregateDepartment, "essay-general-total", "논술(일반형) 전체", "논술", { recruitmentCount: 403, isAggregate: true, studentRecordWeight: 30, csatMinimum: { enabled: true, description: "서울캠퍼스 적용, 다빈치 미적용" } }),
-  admission(aggregateDepartment, "essay-creative-total", "논술(창의형) 전체", "논술", { recruitmentCount: 86, isAggregate: true, studentRecordWeight: 30, csatMinimum: { enabled: false, description: "국내 고교 졸업예정자 지원" } }),
+  admission(aggregateDepartment, "essay-creative-total", "논술(창의형) 전체", "논술", { recruitmentCount: 86, isAggregate: true, csatMinimum: { enabled: false, description: "2027년 국내 고교 졸업예정자 지원" } }),
   admission(aggregateDepartment, "farmland-total", "학생부종합(기회균형-농어촌학생) 전체", "기타", { recruitmentCount: 142, isAggregate: true, documentWeight: 100 }),
   admission(aggregateDepartment, "basic-total", "학생부종합(기회균형-기초생활수급자 및 차상위계층) 전체", "기타", { recruitmentCount: 74, isAggregate: true, documentWeight: 100 }),
   admission(aggregateDepartment, "disability-total", "학생부종합(기회균형-장애인 등 대상자) 전체", "기타", { recruitmentCount: 10, isAggregate: true, documentWeight: 100 }),
   admission(aggregateDepartment, "employee-total", "학생부종합(기회균형-특성화고졸재직자) 전체", "기타", { recruitmentCount: 234, isAggregate: true, documentWeight: 100 }),
+  admission(aggregateDepartment, "practical-total", "실기/실적(실기형) 전체", "기타", { recruitmentCount: 313, isAggregate: true }),
+  admission(aggregateDepartment, "special-talent-total", "실기/실적(특기형) 전체", "기타", { recruitmentCount: 74, isAggregate: true }),
 ];
 
 export const verifiedChungAng2027Summary = {
@@ -153,21 +152,26 @@ export const verifiedChungAng2027Summary = {
     essayGeneral: 403,
     essayCreative: 86,
     essayTotal: 489,
-    practical: 387,
+    practical: 313,
+    specialTalent: 74,
+    practicalAndTalent: 387,
     susiTotal: 2862,
   },
   selection: {
     regional: "학생부 100(교과 90 + 비교과 출결 10)",
-    growth: "1단계 서류100 → 2단계 1단계70 + 면접30, 수능최저 적용",
+    growth: "1단계 서류100(5배수) → 2단계 1단계70 + 면접30, 수능최저 적용",
     fusion: "서류100, 의학부는 2단계 면접 실시",
     exploration: "1단계 서류100 → 2단계 1단계70 + 면접30",
     essayGeneral: "논술70 + 학생부30(교과20 + 비교과 출결10), 서울캠퍼스 수능최저",
-    essayCreative: "논술70 + 학생부30, 수능최저 미적용",
+    essayCreative: "논술 창의형 86명, 수능최저 미적용, 2027년 국내 고교 졸업예정자 지원",
+    practical: "실기 + 학생부(모집단위별 비율 상이)",
+    specialTalent: "수상실적 + 적성실기 + 학생부(체육특기만 학생부 반영)",
   },
   notes: [
     "중앙대 공식 2027 수시모집요강 최종본(2026-05-29)을 기준으로 구조 보정",
     "2027 논술 일반형 403명, 창의형 86명 신설",
     "2027 성장형인재 108명 신설",
+    "실기형 313명, 특기형 74명은 대학 전체 공식 수시 모집인원이며 서울/다빈치 모집단위별 배정은 별도 표에서 확인 필요",
     "다빈치캠퍼스(경기) 모집단위는 프로젝트 범위에서 제외",
   ],
 };
