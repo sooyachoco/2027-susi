@@ -96,11 +96,11 @@ const regionalCounts: Record<string, number> = {
   education: 4, "social-education": 4, "ethics-education": 4, "chinese-education": 4, "early-childhood": 5,
 };
 
-// 모집요강 표에 인쇄된 논술 개별 모집인원. 표의 총계 159명과 개별 행 합계가 5명 차이 나는 원문 산술 불일치는 임의 보정하지 않는다.
+// 모집요강 표에 인쇄된 논술 개별 모집인원. 수리통계데이터사이언스학부는 수학/핀테크 5명 + 통계/빅데이터사이언스 6명으로 합산해 11명이다.
 const essayCounts: Record<string, number> = {
   korean: 4, english: 4, german: 3, french: 3, japanese: 5, chinese: 5, history: 3, "arts-management": 3,
   politics: 3, psychology: 5, geography: 4, economics: 4, media: 4, business: 6, "social-welfare": 5, law: 8,
-  statistics: 5, "chem-energy": 6, biohealth: 4, "clean-materials": 5, biofood: 4, biodrug: 8, ai: 6,
+  statistics: 11, "chem-energy": 6, biohealth: 4, "clean-materials": 5, biofood: 4, biodrug: 8, ai: 6,
   "ai-semiconductor": 5, computer: 5, security: 10, "service-design": 5, "nursing-humanities": 5, "nursing-natural": 6,
   clothing: 5, consumer: 5,
 };
