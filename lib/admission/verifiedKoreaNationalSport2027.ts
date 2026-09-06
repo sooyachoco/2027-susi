@@ -32,7 +32,7 @@ const add = (departmentId: string, name: string, type: Admission["type"], count:
 };
 
 // 최종 수시 모집요강에서 수시 모집인원이 명확히 확인되는 대학독자전형.
-add("knsu-3", "실기우수자전형", "기타", 35, { studentRecordWeight: 30, documentWeight: 70 });
+add("knsu-3", "실기우수자전형", "기타", 35, { studentRecordWeight: 30 });
 add("knsu-5", "교과성적우수자전형", "교과", 50, { studentRecordWeight: 100 });
 
 // 경기입상실적우수자 수시: 경기지도학과 16명 + 태권도학과 15명.
