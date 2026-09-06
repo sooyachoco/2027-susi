@@ -21,8 +21,8 @@ const byName = new Map(departments.map(d => [d.name, d.id]));
 const admissions: Admission[] = [];
 const add = (name: string, track: string, type: Admission["type"], count: number, extra: Partial<Admission> = {}) => {
   const departmentId = byName.get(name); if (!departmentId || count <= 0) return;
-  const admission = { id: `${departmentId}-${track}`, universityId, departmentId, academicYear: 2027, name: track, type, source, isMock: false, ...extra } as Admission;
-  Object.assign(admission, { 모집인원: count }); admissions.push(admission);
+  const admission = { id: `${departmentId}-${track}`, universityId, departmentId, academicYear: 2027, name: track, type, recruitmentCount: count, source, isMock: false, ...extra } as Admission;
+  admissions.push(admission);
 };
 for (const [name, [recommendation, document, interview, essay]] of Object.entries(data)) {
   if (recommendation) add(name, "학생부교과(고교추천전형)", "교과", recommendation, { studentRecordWeight: 100, csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 2개 영역 등급 합 5 이내" } });
@@ -30,4 +30,13 @@ for (const [name, [recommendation, document, interview, essay]] of Object.entrie
   if (interview) add(name, "학생부종합(미래인재전형-면접형)", "학종", interview, { documentWeight: 70, interview: true, csatMinimum: { enabled: false } });
   if (essay) add(name, "논술(논술전형)", "논술", essay, { csatMinimum: { enabled: true, description: "국어·수학·영어·탐구 중 3개 영역 등급 합 6 이내" } });
 }
+
+// 공식 수시 모집 총 2,092명 중 위 모집단위별 표 외 전형은 공식 전형별 총원을 aggregate로 보존한다.
+admissions.push(
+  { id: `${universityId}-고른기회전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(고른기회전형)", type: "학종", recruitmentCount: 164, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-사회기여자전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(사회기여자전형)", type: "학종", recruitmentCount: 16, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-예체능실기전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "실기/실적(예체능실기전형)", type: "기타", recruitmentCount: 81, source, isMock: false, isAggregate: true, csatMinimum: { enabled: false } },
+  { id: `${universityId}-예체능서류전형`, universityId, departmentId: `${universityId}-aggregate`, academicYear: 2027, name: "학생부종합(예체능서류전형)", type: "학종", recruitmentCount: 39, source, isMock: false, isAggregate: true, csatMinimum: { enabled: true, description: "모집단위별 수능최저학력기준 적용" } },
+);
+
 export const verifiedEwha2027Admissions: Admission[] = admissions;
