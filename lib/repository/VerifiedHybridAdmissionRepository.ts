@@ -27,7 +27,7 @@ import { verifiedSnu2027Admissions, verifiedSnu2027Departments, verifiedSnu2027U
 import { verifiedSungkyunkwan2027Admissions, verifiedSungkyunkwan2027Departments, verifiedSungkyunkwan2027Universities } from "@/lib/admission/verifiedSungkyunkwan2027";
 import { verifiedYonsei2027Admissions, verifiedYonsei2027Departments, verifiedYonsei2027Universities } from "@/lib/admission/verifiedYonsei2027";
 import { verifiedEwha2027Admissions, verifiedEwha2027Departments, verifiedEwha2027Universities } from "@/lib/admission/verifiedEwha2027";
-import { verifiedKyunghee2027Admissions, verifiedKyunghee2027Departments, verifiedKyunghee2027Universities } from "@/lib/admission/verifiedKyunghee2027";
+import { verifiedKyunghee2027Admissions, verifiedKyunghee2027Departments, verifiedKyunghee2027Universities } from "@/lib/admission/verifiedKyungHee2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
