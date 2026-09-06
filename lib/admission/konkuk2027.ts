@@ -33,7 +33,7 @@ const add = (name: string, track: string, type: Admission["type"], count: number
   admissions.push(admission);
 };
 
-// 최종 모집요강 모집단위별 표를 기준으로 재작성: [KU지역균형, KU자기추천, 기회균형, KU논술우수자]
+// 2027 최종 수시모집요강의 모집단위별 모집인원 표를 그대로 반영
 const rows: Array<[string, number, number, number, number]> = [
   ["국어국문학과",9,15,1,5],["영어영문학과",10,30,2,3],["중어중문학과",8,16,2,3],["철학과",6,15,1,3],["사학과",7,14,1,3],["지리학과",4,17,1,3],["미디어커뮤니케이션학과",6,13,1,6],["문화콘텐츠학과",4,14,1,3],["문과대학자유전공학부",15,0,0,14],
   ["수학과",5,7,1,4],["물리학과",8,13,1,7],["화학과",3,8,1,4],["이과대학자유전공학부",0,0,0,11],
@@ -50,6 +50,7 @@ for (const [name, regional, self, opportunity, essay] of rows) {
   add(name, "KU논술우수자-2027", "논술", essay, { csatMinimum: { enabled: true, description: "인문·자연·KU자유전공: 국어·수학·영어·탐구(1) 중 2개 합 5, 한국사 5 / 수의예과: 3개 합 4, 한국사 5" } });
 }
 
+// 최종 모집요강의 특성화고교졸업자 22명
 for (const name of ["건축학부","사회환경공학부","기계·로봇·자동차공학부","전기전자공학부","화공·생명·에너지공학부","인공지능학과","컴퓨터공학과","재료공학과","항공우주·모빌리티공학과","생물공학과","식품융합학부","환경생태과학부","동물자원과학과","정치외교학과","경제학과","행정학과","국제무역학과","응용통계학과","경영학과","기술경영학과","부동산학과","식량자원과학과"]) add(name, "특성화고교졸업자-2027", "기타", 1, { documentWeight: 70, studentRecordWeight: 30 });
 
 const aggregateDepartment: Department = { id: "konkuk-aggregate", universityId: "konkuk", name: "건국대학교 수시 전체" };
