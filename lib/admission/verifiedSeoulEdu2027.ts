@@ -8,15 +8,22 @@ const source = {
   confidence: 0.99,
 };
 
+const csat = (gradeSum: number) => ({
+  enabled: true,
+  description: `국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 ${gradeSum}등급 이내, 한국사 4등급 이내`,
+});
+
 export const verifiedSeoulEdu2027Universities: University[] = [
   { id: "seoul-edu-2027", name: "서울교육대학교", region: "서울" },
 ];
 
 export const verifiedSeoulEdu2027Departments: Department[] = [
   { id: "seoul-edu-elementary-2027", universityId: "seoul-edu-2027", name: "초등교육학과", category: "교육" },
+  { id: "seoul-edu-2027-aggregate", universityId: "seoul-edu-2027", name: "서울교육대학교 수시 전체" },
 ];
 
 const aggregateDepartmentId = "seoul-edu-2027-aggregate";
+
 export const verifiedSeoulEdu2027Admissions: Admission[] = [
   {
     id: "seoul-edu-school-recommendation-2027",
@@ -28,7 +35,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 40,
     studentRecordWeight: 80,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 6, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 6등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(6),
     source,
     isMock: false,
     isAggregate: true,
@@ -43,7 +50,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 150,
     documentWeight: 50,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 6, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 6등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(6),
     source,
     isMock: false,
     isAggregate: true,
@@ -58,7 +65,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 5,
     documentWeight: 50,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 8, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 8등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(8),
     source,
     isMock: false,
     isAggregate: true,
@@ -73,7 +80,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 10,
     documentWeight: 50,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 8, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 8등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(8),
     source,
     isMock: false,
     isAggregate: true,
@@ -88,7 +95,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 19,
     documentWeight: 50,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 8, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 8등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(8),
     source,
     isMock: false,
     isAggregate: true,
@@ -103,7 +110,7 @@ export const verifiedSeoulEdu2027Admissions: Admission[] = [
     recruitmentCount: 11,
     documentWeight: 50,
     interview: true,
-    csatMinimum: { enabled: true, requiredSubjects: 2, gradeSum: 8, description: "국어·수학·영어·탐구(사회/과학) 중 2개 영역 합 8등급 이내, 한국사 4등급 이내" },
+    csatMinimum: csat(8),
     source,
     isMock: false,
     isAggregate: true,
