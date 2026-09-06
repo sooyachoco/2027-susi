@@ -57,6 +57,6 @@ const mergedDepartments: Department[] = [...MOCK_DEPARTMENTS.filter((m) => metro
 export class VerifiedHybridAdmissionRepository implements AdmissionRepository {
   async getUniversities(): Promise<University[]> { return mergedUniversities.filter((u) => METRO_REGIONS.has(u.region ?? "")); }
   async getDepartments(universityId?: string): Promise<Department[]> { return universityId ? mergedDepartments.filter((d) => d.universityId === universityId) : mergedDepartments; }
-  async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> { return mergedAdmissions.filter((a) => (!params?.academicYear || a.academicYear === 2027 || a.academicYear === params.academicYear) && (!params?.universityId || a.universityId === params.universityId) && (!params?.departmentId || a.departmentId === params.departmentId) && (!params?.type || a.type === params.type)); }
+  async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> { return mergedAdmissions.filter((a) => (!params?.academicYear || a.academicYear === params.academicYear) && (!params?.universityId || a.universityId === params.universityId) && (!params?.departmentId || a.departmentId === params.departmentId) && (!params?.type || a.type === params.type)); }
 }
 export const admissionRepository: AdmissionRepository = new VerifiedHybridAdmissionRepository();
