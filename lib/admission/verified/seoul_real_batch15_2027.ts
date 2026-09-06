@@ -20,7 +20,7 @@ const source = {
 };
 
 export const seoulRealBatch15Admissions: Admission[] = [
-  { id: "korea-2027-school-recommend", universityId: "korea-seoul-2027", departmentId: "korea-seoul-all-2027", academicYear: 2027, name: "학교추천전형", type: "교과", recruitmentCount: 648, studentRecordWeight: 90, csatMinimum: { enabled: true }, source, isMock: false, isAggregate: true },
+  { id: "korea-2027-school-recommend", universityId: "korea-seoul-2027", departmentId: "korea-seoul-all-2027", academicYear: 2027, name: "학교추천전형", type: "교과", recruitmentCount: 650, studentRecordWeight: 90, csatMinimum: { enabled: true }, source, isMock: false, isAggregate: true },
   { id: "korea-2027-academic-excellence", universityId: "korea-seoul-2027", departmentId: "korea-seoul-all-2027", academicYear: 2027, name: "학업우수전형", type: "학종", recruitmentCount: 903, documentWeight: 100, csatMinimum: { enabled: true }, source, isMock: false, isAggregate: true },
   { id: "korea-2027-department-fit", universityId: "korea-seoul-2027", departmentId: "korea-seoul-all-2027", academicYear: 2027, name: "계열적합전형", type: "학종", recruitmentCount: 523, documentWeight: 100, source, isMock: false, isAggregate: true },
   { id: "korea-2027-opportunity", universityId: "korea-seoul-2027", departmentId: "korea-seoul-all-2027", academicYear: 2027, name: "고른기회전형", type: "학종", recruitmentCount: 201, documentWeight: 100, source, isMock: false, isAggregate: true },
