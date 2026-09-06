@@ -1,15 +1,14 @@
 import { admissions, departments, universities } from "./mockData";
 import { seoulRealNext2027Admissions, seoulRealNext2027Departments, seoulRealNext2027Universities } from "./verified/seoul_real_next2027";
-import { seoulRealBatch2Admissions, seoulRealBatch2Departments, seoulRealBatch2Universities } from "./verified/seoul_real_batch2_2027";
 import { seoulRealBatch3Admissions, seoulRealBatch3Departments, seoulRealBatch3Universities } from "./verified/seoul_real_batch3_2027";
 import { seoulRealBatch4Admissions, seoulRealBatch4Departments, seoulRealBatch4Universities } from "./verified/seoul_real_batch4_2027";
 import { seoulRealBatch5Admissions, seoulRealBatch5Departments, seoulRealBatch5Universities } from "./verified/seoul_real_batch5_2027";
 import type { Admission, AdmissionQuery, AdmissionRegion, AdmissionRepository, Department, University } from "./types";
 
 const TARGET_REGIONS: AdmissionRegion[] = ["서울", "경기", "인천", "충남"];
-const rawUniversities: University[] = [...universities, ...seoulRealNext2027Universities, ...seoulRealBatch2Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities, ...seoulRealBatch5Universities];
-const rawDepartments: Department[] = [...departments, ...seoulRealNext2027Departments, ...seoulRealBatch2Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments, ...seoulRealBatch5Departments];
-const rawAdmissions: Admission[] = [...admissions, ...seoulRealNext2027Admissions, ...seoulRealBatch2Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions, ...seoulRealBatch5Admissions];
+const rawUniversities: University[] = [...universities, ...seoulRealNext2027Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities, ...seoulRealBatch5Universities];
+const rawDepartments: Department[] = [...departments, ...seoulRealNext2027Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments, ...seoulRealBatch5Departments];
+const rawAdmissions: Admission[] = [...admissions, ...seoulRealNext2027Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions, ...seoulRealBatch5Admissions];
 
 const normalize = (value: string) => value.replace(/\s+/g, "").replace(/[()·,.-]/g, "").toLowerCase();
 const canonicalUniversities = Array.from(new Map(rawUniversities.map((u) => [`${normalize(u.name)}|${u.region}`, u])).values());
