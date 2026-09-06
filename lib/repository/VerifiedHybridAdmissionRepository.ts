@@ -24,6 +24,7 @@ import { verifiedSeoulTech2027Admissions, verifiedSeoulTech2027Departments, veri
 import { verifiedKorea2027Admissions, verifiedKorea2027Departments, verifiedKorea2027Universities } from "@/lib/admission/verifiedKorea2027";
 import { verifiedSogang2027Admissions, verifiedSogang2027Departments, verifiedSogang2027Universities } from "@/lib/admission/verifiedSogang2027";
 import { verifiedSnu2027Admissions, verifiedSnu2027Departments, verifiedSnu2027Universities } from "@/lib/admission/verifiedSnu2027";
+import { verifiedSungkyunkwan2027Admissions, verifiedSungkyunkwan2027Departments, verifiedSungkyunkwan2027Universities } from "@/lib/admission/verifiedSungkyunkwan2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -37,7 +38,7 @@ const verified: Admission[] = [
   ...verifiedDongduk2027Admissions, ...verifiedSamyook2027Admissions, ...verifiedDuksung2027Admissions,
   ...verifiedSungshin2027Admissions, ...verifiedSeoulWomen2027Admissions, ...verifiedUos2027Admissions,
   ...verifiedHongik2027Admissions, ...verifiedSeoulTech2027Admissions, ...verifiedKorea2027Admissions,
-  ...verifiedSogang2027Admissions, ...verifiedSnu2027Admissions,
+  ...verifiedSogang2027Admissions, ...verifiedSnu2027Admissions, ...verifiedSungkyunkwan2027Admissions,
 ].map((a) => ({ ...a }));
 
 const verifiedUniversities: University[] = [
@@ -48,7 +49,7 @@ const verifiedUniversities: University[] = [
   ...verifiedDongduk2027Universities, ...verifiedSamyook2027Universities, ...verifiedDuksung2027Universities,
   ...verifiedSungshin2027Universities, ...verifiedSeoulWomen2027Universities, ...verifiedUos2027Universities,
   ...verifiedHongik2027Universities, ...verifiedSeoulTech2027Universities, ...verifiedKorea2027Universities,
-  ...verifiedSogang2027Universities, ...verifiedSnu2027Universities,
+  ...verifiedSogang2027Universities, ...verifiedSnu2027Universities, ...verifiedSungkyunkwan2027Universities,
 ];
 
 const verifiedDepartments: Department[] = [
@@ -59,7 +60,7 @@ const verifiedDepartments: Department[] = [
   ...verifiedDongduk2027Departments, ...verifiedSamyook2027Departments, ...verifiedDuksung2027Departments,
   ...verifiedSungshin2027Departments, ...verifiedSeoulWomen2027Departments, ...verifiedUos2027Departments,
   ...verifiedHongik2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedKorea2027Departments,
-  ...verifiedSogang2027Departments, ...verifiedSnu2027Departments,
+  ...verifiedSogang2027Departments, ...verifiedSnu2027Departments, ...verifiedSungkyunkwan2027Departments,
 ];
 
 const mergedUniversities: University[] = [
