@@ -8,12 +8,13 @@ import { seoulRealBatch7Admissions, seoulRealBatch7Departments, seoulRealBatch7U
 import { seoulRealBatch8Admissions, seoulRealBatch8Departments, seoulRealBatch8Universities } from "./verified/seoul_real_batch8_2027";
 import { seoulRealBatch9Admissions, seoulRealBatch9Departments, seoulRealBatch9Universities } from "./verified/seoul_real_batch9_2027";
 import { seoulRealBatch10Admissions, seoulRealBatch10Departments, seoulRealBatch10Universities } from "./verified/seoul_real_batch10_2027";
+import { seoulRealBatch11Admissions, seoulRealBatch11Departments, seoulRealBatch11Universities } from "./verified/seoul_real_batch11_2027";
 import type { Admission, AdmissionQuery, AdmissionRegion, AdmissionRepository, Department, University } from "./types";
 
 const TARGET_REGIONS: AdmissionRegion[] = ["서울", "경기", "인천", "충남"];
-const rawUniversities: University[] = [...universities, ...seoulRealNext2027Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities, ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities, ...seoulRealBatch9Universities, ...seoulRealBatch10Universities];
-const rawDepartments: Department[] = [...departments, ...seoulRealNext2027Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments, ...seoulRealBatch5Departments, ...seoulRealBatch6Departments, ...seoulRealBatch7Departments, ...seoulRealBatch8Departments, ...seoulRealBatch9Departments, ...seoulRealBatch10Departments];
-const rawAdmissions: Admission[] = [...admissions, ...seoulRealNext2027Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions, ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions, ...seoulRealBatch9Admissions, ...seoulRealBatch10Admissions];
+const rawUniversities: University[] = [...universities, ...seoulRealNext2027Universities, ...seoulRealBatch3Universities, ...seoulRealBatch4Universities, ...seoulRealBatch5Universities, ...seoulRealBatch6Universities, ...seoulRealBatch7Universities, ...seoulRealBatch8Universities, ...seoulRealBatch9Universities, ...seoulRealBatch10Universities, ...seoulRealBatch11Universities];
+const rawDepartments: Department[] = [...departments, ...seoulRealNext2027Departments, ...seoulRealBatch3Departments, ...seoulRealBatch4Departments, ...seoulRealBatch5Departments, ...seoulRealBatch6Departments, ...seoulRealBatch7Departments, ...seoulRealBatch8Departments, ...seoulRealBatch9Departments, ...seoulRealBatch10Departments, ...seoulRealBatch11Departments];
+const rawAdmissions: Admission[] = [...admissions, ...seoulRealNext2027Admissions, ...seoulRealBatch3Admissions, ...seoulRealBatch4Admissions, ...seoulRealBatch5Admissions, ...seoulRealBatch6Admissions, ...seoulRealBatch7Admissions, ...seoulRealBatch8Admissions, ...seoulRealBatch9Admissions, ...seoulRealBatch10Admissions, ...seoulRealBatch11Admissions];
 
 const normalize = (value: string) => value.replace(/\s+/g, "").replace(/[()·,.-]/g, "").toLowerCase();
 const canonicalUniversities = Array.from(new Map(rawUniversities.map((u) => [`${normalize(u.name)}|${u.region}`, u])).values());
