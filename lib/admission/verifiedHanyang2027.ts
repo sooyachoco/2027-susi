@@ -27,45 +27,36 @@ type Spec = {
   studentRecordWeight?: number;
   documentWeight?: number;
   interview?: boolean;
-  csatMinimum?: Admission["csatMinimum"];
+  csatDescription?: string;
 };
 
 const specs: Spec[] = [
-  {
-    id: "recommend",
-    name: "학생부교과(추천형)",
-    type: "교과",
-    count: 346,
-    studentRecordWeight: 100,
-    csatMinimum: {
-      enabled: true,
-      requiredSubjects: 3,
-      gradeSum: 7,
-      description: "국어·수학·영어·탐구 중 3개 영역 등급합 7 이내",
-    },
-  },
-  { id: "holistic-recommend", name: "학생부종합(추천형)", type: "학종", count: 300, documentWeight: 100, csatMinimum: { enabled: false } },
-  { id: "holistic-document", name: "학생부종합(서류형)", type: "학종", count: 518, documentWeight: 100, csatMinimum: { enabled: false } },
-  { id: "holistic-interview", name: "학생부종합(면접형)", type: "학종", count: 138, documentWeight: 70, interview: true, csatMinimum: { enabled: false } },
-  { id: "opportunity", name: "학생부종합(고른기회)", type: "학종", count: 113, documentWeight: 70, csatMinimum: { enabled: false } },
-  { id: "social", name: "학생부종합(사회통합)", type: "학종", count: 5, documentWeight: 70, csatMinimum: { enabled: false } },
-  { id: "employee", name: "학생부종합(특성화고졸재직자)", type: "학종", count: 158, documentWeight: 100, csatMinimum: { enabled: false } },
-  { id: "essay", name: "논술", type: "논술", count: 233, csatMinimum: { enabled: false } },
-  { id: "practical", name: "실기/실적", type: "기타", count: 110, csatMinimum: { enabled: false } },
+  { id: "recommend", name: "학생부교과(추천형)", type: "교과", count: 346, studentRecordWeight: 100, csatDescription: "국어·수학·영어·탐구 중 3개 영역 등급합 7 이내" },
+  { id: "holistic-recommend", name: "학생부종합(추천형)", type: "학종", count: 300, documentWeight: 100 },
+  { id: "holistic-document", name: "학생부종합(서류형)", type: "학종", count: 518, documentWeight: 100 },
+  { id: "holistic-interview", name: "학생부종합(면접형)", type: "학종", count: 138, documentWeight: 70, interview: true },
+  { id: "opportunity", name: "학생부종합(고른기회)", type: "학종", count: 113, documentWeight: 70 },
+  { id: "social", name: "학생부종합(사회통합)", type: "학종", count: 5, documentWeight: 70 },
+  { id: "employee", name: "학생부종합(특성화고졸재직자)", type: "학종", count: 158, documentWeight: 100 },
+  { id: "essay", name: "논술", type: "논술", count: 233 },
+  { id: "practical", name: "실기/실적", type: "기타", count: 110 },
 ];
 
-export const verifiedHanyang2027Admissions: Admission[] = specs.map((s) => ({
-  id: `hanyang-2027-${s.id}`,
-  universityId: "hanyang",
-  departmentId: aggregate.id,
-  academicYear: 2027,
-  name: s.name,
-  type: s.type,
-  recruitmentCount: s.count,
-  ...(s.studentRecordWeight !== undefined ? { studentRecordWeight: s.studentRecordWeight } : {}),
-  ...(s.documentWeight !== undefined ? { documentWeight: s.documentWeight } : {}),
-  ...(s.interview ? { interview: true } : {}),
-  csatMinimum: s.csatMinimum ?? { enabled: false },
-  source,
-  isMock: false,
-}));
+export const verifiedHanyang2027Admissions: Admission[] = specs.map((s) => {
+  const admission = {
+    id: `hanyang-2027-${s.id}`,
+    universityId: "hanyang",
+    departmentId: aggregate.id,
+    academicYear: 2027,
+    name: s.name,
+    type: s.type,
+    ...(s.studentRecordWeight !== undefined ? { studentRecordWeight: s.studentRecordWeight } : {}),
+    ...(s.documentWeight !== undefined ? { documentWeight: s.documentWeight } : {}),
+    ...(s.interview ? { interview: true } : {}),
+    csatMinimum: s.csatDescription ? { enabled: true, description: s.csatDescription } : { enabled: false },
+    source,
+    isMock: false,
+  } as Admission;
+  Object.assign(admission, { 모집인원: s.count });
+  return admission;
+});
