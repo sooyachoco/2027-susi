@@ -25,70 +25,27 @@ import { verifiedKorea2027Admissions, verifiedKorea2027Departments, verifiedKore
 import { verifiedSogang2027Admissions, verifiedSogang2027Departments, verifiedSogang2027Universities } from "@/lib/admission/verifiedSogang2027";
 import { verifiedSnu2027Admissions, verifiedSnu2027Departments, verifiedSnu2027Universities } from "@/lib/admission/verifiedSnu2027";
 import { verifiedSungkyunkwan2027Admissions, verifiedSungkyunkwan2027Departments, verifiedSungkyunkwan2027Universities } from "@/lib/admission/verifiedSungkyunkwan2027";
+import { verifiedYonsei2027Admissions, verifiedYonsei2027Departments, verifiedYonsei2027Universities } from "@/lib/admission/verifiedYonsei2027";
 import type { AdmissionRepository } from "./AdmissionRepository";
 
 const METRO_REGIONS = new Set(["서울", "경기", "인천"]);
 const withoutUos = <T extends object>(items: T[]) => items.filter((item) => !("universityId" in item) || item.universityId !== "uos");
-
 const verified: Admission[] = [
-  ...withoutUos(verified2027Admissions), ...verifiedHanyang2027Admissions, ...verifiedMetroTop2027Admissions,
-  ...verifiedMajorMetro2027Admissions, ...verifiedSejong2027Admissions, ...expanded2027Admissions,
-  ...remainingMetro2027Admissions, ...capital2027Admissions, ...seoulNext2027Admissions, ...konkuk2027Admissions,
-  ...verifiedDongguk2027Admissions, ...verifiedKwangwoon2027Admissions, ...verifiedSangmyung2027Admissions,
-  ...verifiedDongduk2027Admissions, ...verifiedSamyook2027Admissions, ...verifiedDuksung2027Admissions,
-  ...verifiedSungshin2027Admissions, ...verifiedSeoulWomen2027Admissions, ...verifiedUos2027Admissions,
-  ...verifiedHongik2027Admissions, ...verifiedSeoulTech2027Admissions, ...verifiedKorea2027Admissions,
-  ...verifiedSogang2027Admissions, ...verifiedSnu2027Admissions, ...verifiedSungkyunkwan2027Admissions,
+  ...withoutUos(verified2027Admissions), ...verifiedHanyang2027Admissions, ...verifiedMetroTop2027Admissions, ...verifiedMajorMetro2027Admissions, ...verifiedSejong2027Admissions, ...expanded2027Admissions, ...remainingMetro2027Admissions, ...capital2027Admissions, ...seoulNext2027Admissions, ...konkuk2027Admissions, ...verifiedDongguk2027Admissions, ...verifiedKwangwoon2027Admissions, ...verifiedSangmyung2027Admissions, ...verifiedDongduk2027Admissions, ...verifiedSamyook2027Admissions, ...verifiedDuksung2027Admissions, ...verifiedSungshin2027Admissions, ...verifiedSeoulWomen2027Admissions, ...verifiedUos2027Admissions, ...verifiedHongik2027Admissions, ...verifiedSeoulTech2027Admissions, ...verifiedKorea2027Admissions, ...verifiedSogang2027Admissions, ...verifiedSnu2027Admissions, ...verifiedSungkyunkwan2027Admissions, ...verifiedYonsei2027Admissions
 ].map((a) => ({ ...a }));
-
 const verifiedUniversities: University[] = [
-  ...withoutUos(verified2027Universities), ...verifiedHanyang2027Universities, ...verifiedMetroTop2027Universities,
-  ...verifiedMajorMetro2027Universities, ...verifiedSejong2027Universities, ...expanded2027Universities,
-  ...remainingMetro2027Universities, ...capital2027Universities, ...seoulNext2027Universities, ...konkuk2027Universities,
-  ...verifiedDongguk2027Universities, ...verifiedKwangwoon2027Universities, ...verifiedSangmyung2027Universities,
-  ...verifiedDongduk2027Universities, ...verifiedSamyook2027Universities, ...verifiedDuksung2027Universities,
-  ...verifiedSungshin2027Universities, ...verifiedSeoulWomen2027Universities, ...verifiedUos2027Universities,
-  ...verifiedHongik2027Universities, ...verifiedSeoulTech2027Universities, ...verifiedKorea2027Universities,
-  ...verifiedSogang2027Universities, ...verifiedSnu2027Universities, ...verifiedSungkyunkwan2027Universities,
+  ...withoutUos(verified2027Universities), ...verifiedHanyang2027Universities, ...verifiedMetroTop2027Universities, ...verifiedMajorMetro2027Universities, ...verifiedSejong2027Universities, ...expanded2027Universities, ...remainingMetro2027Universities, ...capital2027Universities, ...seoulNext2027Universities, ...konkuk2027Universities, ...verifiedDongguk2027Universities, ...verifiedKwangwoon2027Universities, ...verifiedSangmyung2027Universities, ...verifiedDongduk2027Universities, ...verifiedSamyook2027Universities, ...verifiedDuksung2027Universities, ...verifiedSungshin2027Universities, ...verifiedSeoulWomen2027Universities, ...verifiedUos2027Universities, ...verifiedHongik2027Universities, ...verifiedSeoulTech2027Universities, ...verifiedKorea2027Universities, ...verifiedSogang2027Universities, ...verifiedSnu2027Universities, ...verifiedSungkyunkwan2027Universities, ...verifiedYonsei2027Universities
 ];
-
 const verifiedDepartments: Department[] = [
-  ...withoutUos(verified2027Departments), ...verifiedHanyang2027Departments, ...verifiedMetroTop2027Departments,
-  ...verifiedMajorMetro2027Departments, ...verifiedSejong2027Departments, ...expanded2027Departments,
-  ...remainingMetro2027Departments, ...capital2027Departments, ...seoulNext2027Departments, ...konkuk2027Departments,
-  ...verifiedDongguk2027Departments, ...verifiedKwangwoon2027Departments, ...verifiedSangmyung2027Departments,
-  ...verifiedDongduk2027Departments, ...verifiedSamyook2027Departments, ...verifiedDuksung2027Departments,
-  ...verifiedSungshin2027Departments, ...verifiedSeoulWomen2027Departments, ...verifiedUos2027Departments,
-  ...verifiedHongik2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedKorea2027Departments,
-  ...verifiedSogang2027Departments, ...verifiedSnu2027Departments, ...verifiedSungkyunkwan2027Departments,
+  ...withoutUos(verified2027Departments), ...verifiedHanyang2027Departments, ...verifiedMetroTop2027Departments, ...verifiedMajorMetro2027Departments, ...verifiedSejong2027Departments, ...expanded2027Departments, ...remainingMetro2027Departments, ...capital2027Departments, ...seoulNext2027Departments, ...konkuk2027Departments, ...verifiedDongguk2027Departments, ...verifiedKwangwoon2027Departments, ...verifiedSangmyung2027Departments, ...verifiedDongduk2027Departments, ...verifiedSamyook2027Departments, ...verifiedDuksung2027Departments, ...verifiedSungshin2027Departments, ...verifiedSeoulWomen2027Departments, ...verifiedUos2027Departments, ...verifiedHongik2027Departments, ...verifiedSeoulTech2027Departments, ...verifiedKorea2027Departments, ...verifiedSogang2027Departments, ...verifiedSnu2027Departments, ...verifiedSungkyunkwan2027Departments, ...verifiedYonsei2027Departments
 ];
-
-const mergedUniversities: University[] = [
-  ...MOCK_UNIVERSITIES.filter((mock) => !verifiedUniversities.some((real) => real.id === mock.id)),
-  ...verifiedUniversities.filter((university, index, all) => all.findIndex((item) => item.id === university.id) === index),
-];
-const metroUniversityIds = new Set(mergedUniversities.filter((university) => METRO_REGIONS.has(university.region ?? "")).map((university) => university.id));
-const mergedAdmissions: Admission[] = [
-  ...MOCK_ADMISSIONS.filter((mock) => metroUniversityIds.has(mock.universityId) && !verified.some((real) => real.universityId === mock.universityId && real.departmentId === mock.departmentId)),
-  ...verified.filter((admission) => metroUniversityIds.has(admission.universityId)),
-];
-const mergedDepartments: Department[] = [
-  ...MOCK_DEPARTMENTS.filter((mock) => metroUniversityIds.has(mock.universityId) && !verifiedDepartments.some((real) => real.id === mock.id)),
-  ...verifiedDepartments.filter((department, index, all) => metroUniversityIds.has(department.universityId) && all.findIndex((item) => item.id === department.id) === index),
-];
-
+const mergedUniversities: University[] = [...MOCK_UNIVERSITIES.filter((m) => !verifiedUniversities.some((r) => r.id === m.id)), ...verifiedUniversities.filter((u,i,a) => a.findIndex((x) => x.id === u.id) === i)];
+const metroUniversityIds = new Set(mergedUniversities.filter((u) => METRO_REGIONS.has(u.region ?? "")).map((u) => u.id));
+const mergedAdmissions: Admission[] = [...MOCK_ADMISSIONS.filter((m) => metroUniversityIds.has(m.universityId) && !verified.some((r) => r.universityId === m.universityId && r.departmentId === m.departmentId)), ...verified.filter((a) => metroUniversityIds.has(a.universityId))];
+const mergedDepartments: Department[] = [...MOCK_DEPARTMENTS.filter((m) => metroUniversityIds.has(m.universityId) && !verifiedDepartments.some((r) => r.id === m.id)), ...verifiedDepartments.filter((d,i,a) => metroUniversityIds.has(d.universityId) && a.findIndex((x) => x.id === d.id) === i)];
 export class VerifiedHybridAdmissionRepository implements AdmissionRepository {
-  async getUniversities(): Promise<University[]> { return mergedUniversities.filter((university) => METRO_REGIONS.has(university.region ?? "")); }
+  async getUniversities(): Promise<University[]> { return mergedUniversities.filter((u) => METRO_REGIONS.has(u.region ?? "")); }
   async getDepartments(universityId?: string): Promise<Department[]> { return universityId ? mergedDepartments.filter((d) => d.universityId === universityId) : mergedDepartments; }
-  async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> {
-    return mergedAdmissions.filter((a) => {
-      if (params?.academicYear && a.academicYear !== params.academicYear) return false;
-      if (params?.universityId && a.universityId !== params.universityId) return false;
-      if (params?.departmentId && a.departmentId !== params.departmentId) return false;
-      if (params?.type && a.type !== params.type) return false;
-      return true;
-    });
-  }
+  async getAdmissions(params?: { academicYear?: number; universityId?: string; departmentId?: string; type?: Admission["type"] }): Promise<Admission[]> { return mergedAdmissions.filter((a) => (!params?.academicYear || a.academicYear === params.academicYear) && (!params?.universityId || a.universityId === params.universityId) && (!params?.departmentId || a.departmentId === params.departmentId) && (!params?.type || a.type === params.type)); }
 }
-
 export const admissionRepository: AdmissionRepository = new VerifiedHybridAdmissionRepository();
