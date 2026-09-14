@@ -1,5 +1,6 @@
 export type AdmissionGroup = "가" | "나" | "다";
 export type ScoreMetric = "백분위" | "표준점수";
+export type RegularTier = "상향" | "소신" | "적정" | "안정";
 
 export type RegularStudentProfile = {
   desiredMajor: string;
@@ -42,7 +43,7 @@ export type RegularRecommendation = {
   department: string;
   group: AdmissionGroup;
   score: number;
-  tier: "상향" | "적정" | "안정";
+  tier: RegularTier;
   reason: string;
 };
 
