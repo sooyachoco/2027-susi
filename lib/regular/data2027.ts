@@ -1,8 +1,14 @@
 import type { RegularAdmission } from "./types";
 
-const HANYANG_SOURCE = "https://go.hanyang.ac.kr/main.do";
+const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
+const SNU_SOURCE = "https://admission.snu.ac.kr/undergraduate/regular/guide";
+const YONSEI_SOURCE = "https://admission.yonsei.ac.kr/seoul/admission/html/main/main.asp";
+const KOREA_SOURCE = "https://oku.korea.ac.kr/";
+const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
+const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
 
-// 2027 정시 확인 데이터. 한양대는 계열별 반영비율이 달라 계열 단위 후보로 분리한다.
+// 2027 정시 확인 데이터. 9월 공개 최종 모집요강/입학처 자료를 기준으로 순차 검증한다.
+// 현재 엔진은 모의지원 지수 단계이며, 대학별 변환표준점수·영어/한국사 세부 환산식은 별도 엔진으로 확장한다.
 export const regularAdmissions2027: RegularAdmission[] = [
   ...(["가", "나"] as const).flatMap((group) => [
     {
@@ -24,7 +30,36 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "hanyang-seoul-da-intercollege", universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
     department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 35, englishWeight: 10, inquiryWeight: 20,
-    inquirySubjects: 2, studentRecordWeight: 10, recruitmentCount: 60, note: "수능 90% + 학생부종합평가 10%. 상경계열과 동일한 수능 반영비율", sourceUrl: HANYANG_SOURCE,
-    verifiedAt: "2026-09-14",
+    inquirySubjects: 2, studentRecordWeight: 10, recruitmentCount: 60, note: "수능 90% + 학생부종합평가 10%", sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-09-14",
+  },
+  {
+    id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
+    department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 33.3, mathWeight: 40, englishWeight: 0, inquiryWeight: 26.7,
+    inquirySubjects: 2, note: "수능 표준점수 기반. 영어는 등급별 가산, 한국사는 감점. 모집단위별 지원조건 확인 필요.", sourceUrl: SNU_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "yonsei-seoul-ga-general", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
+    department: "일반전형 모집단위", majorGroup: "전체", group: "가", scoreMetric: "표준점수", koreanWeight: 22.2, mathWeight: 33.3, englishWeight: 11.1, inquiryWeight: 33.3,
+    inquirySubjects: 2, note: "일반전형 기준. 모집단위별 가산점·지원조건은 최종 요강 확인.", sourceUrl: YONSEI_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "korea-seoul-ga-general", universityId: "korea-seoul", universityName: "고려대학교", region: "서울",
+    department: "일반전형 모집단위", majorGroup: "전체", group: "가", scoreMetric: "표준점수", koreanWeight: 31.25, mathWeight: 37.5, englishWeight: 0, inquiryWeight: 31.25,
+    inquirySubjects: 2, note: "수능 100% 일반전형 기준. 영어·한국사 등급별 감점 별도.", sourceUrl: KOREA_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "uos-seoul-ga-humanities", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
+    department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 20, inquiryWeight: 20,
+    inquirySubjects: 2, note: "인문계열 적용 비율. 모집단위별 인문Ⅰ·Ⅱ 구분과 지원조건 확인.", sourceUrl: UOS_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "uos-seoul-ga-natural", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
+    department: "자연계열", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, note: "자연계열 적용 비율. 과탐 2과목 선택 시 탐구 가산점 별도.", sourceUrl: UOS_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "hufs-seoul-ga-humanities", universityId: "hufs-seoul", universityName: "한국외국어대학교", region: "서울",
+    department: "인문A", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
+    inquirySubjects: 2, note: "인문A 기준. 모집단위별 인문A/B 등 세부 적용 확인.", sourceUrl: HUFS_SOURCE, verifiedAt: "2026-09-21",
   },
 ];
