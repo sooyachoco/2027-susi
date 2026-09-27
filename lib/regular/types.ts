@@ -8,6 +8,8 @@ export type RegularStudentProfile = {
   koreanPercentile: number | null;
   mathStandard: number | null;
   mathPercentile: number | null;
+  inquiry1Standard: number | null;
+  inquiry2Standard: number | null;
   inquiry1Percentile: number | null;
   inquiry2Percentile: number | null;
   englishGrade: number | null;
@@ -53,6 +55,8 @@ export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
   koreanPercentile: null,
   mathStandard: null,
   mathPercentile: null,
+  inquiry1Standard: null,
+  inquiry2Standard: null,
   inquiry1Percentile: null,
   inquiry2Percentile: null,
   englishGrade: null,
