@@ -10,6 +10,12 @@ function majorFit(query: string, majorGroup: string): number {
   return -2;
 }
 
+function normalizeMathType(value: RegularStudentProfile["mathChoice"]): RegularStudentScore["mathType"] {
+  if (value === "미적분" || value === "기하" || value === "확률과통계") return value;
+  if (value === "확통") return "확률과통계";
+  return undefined;
+}
+
 function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmission): RegularStudentScore {
   const useStandard = admission.scoreMetric === "표준점수";
   return {
@@ -19,7 +25,7 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
     inquiry2: (useStandard ? profile.inquiry2Standard : profile.inquiry2Percentile) ?? 0,
     englishGrade: profile.englishGrade ?? 9,
     koreanHistoryGrade: profile.koreanHistoryGrade ?? 9,
-    mathType: profile.mathChoice === "미선택" ? undefined : profile.mathChoice,
+    mathType: normalizeMathType(profile.mathChoice),
     inquiryType: profile.inquiryType === "사탐" || profile.inquiryType === "과탐" ? profile.inquiryType : undefined,
   };
 }
