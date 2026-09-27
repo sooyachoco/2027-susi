@@ -6,9 +6,12 @@ function majorFit(query: string, majorGroup: string): number {
   const q = query.replace(/\s+/g, "");
   if (!q || majorGroup === "전체") return 0;
   if ((q.includes("경영") || q.includes("경제") || q.includes("회계") || q.includes("금융")) && majorGroup === "경영·경제") return 7;
-  if ((q.includes("컴퓨터") || q.includes("소프트웨어") || q.includes("인공지능") || q.includes("공학")) && (majorGroup === "자연·공학" || majorGroup === "컴퓨터·소프트웨어")) return 7;
-  if ((q.includes("국어") || q.includes("영어") || q.includes("사학") || q.includes("철학") || q.includes("어문") || q.includes("교육")) && majorGroup === "인문·어문") return 7;
-  return -2;
+  if ((q.includes("컴퓨터") || q.includes("소프트웨어") || q.includes("인공지능") || q.includes("AI") || q.includes("공학")) && (majorGroup === "자연·공학" || majorGroup === "컴퓨터·소프트웨어")) return 7;
+  if ((q.includes("국어") || q.includes("영어") || q.includes("사학") || q.includes("역사") || q.includes("철학") || q.includes("어문") || q.includes("교육")) && majorGroup === "인문·어문") return 7;
+  if ((q.includes("간호") || q.includes("의료") || q.includes("보건")) && (majorGroup === "의약·보건" || majorGroup === "자연·공학")) return 7;
+  if ((q.includes("심리") || q.includes("사회복지") || q.includes("사회학") || q.includes("행정") || q.includes("정치")) && majorGroup === "사회·법") return 7;
+  if ((q.includes("디자인") || q.includes("미술") || q.includes("시각") || q.includes("산업디자인")) && majorGroup === "예체능·디자인") return 7;
+  return 0;
 }
 
 function normalizeMathType(value: RegularStudentProfile["mathChoice"]): RegularStudentScore["mathType"] {
@@ -92,7 +95,9 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
     const reference = getCutline(admission);
     const gap = reference == null ? null : result.totalScore - reference;
-    const score = Math.round(result.totalScore + fit);
+    // 추천용 적합도 보정값과 실제 환산점수를 분리한다.
+    // UI의 score는 대학별 전형 환산점수 자체를 보여줘야 한다.
+    const score = Math.round(result.totalScore * 10) / 10;
     const tier = gap == null ? ("적정" as const) : classifyRegularGap(gap);
     return { admission, result, score, fit, reference, gap, tier };
   });
@@ -130,6 +135,6 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit >= 0 ? "높음" : "낮음"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 데이터 미확보"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 데이터 미확보"}`,
   }));
 }
