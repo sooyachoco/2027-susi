@@ -34,6 +34,9 @@ export type RegularAdmission = {
   inquiryWeight: number;
   inquirySubjects: 1 | 2;
   studentRecordWeight?: number;
+  expectedCutline?: number;
+  expectedCutline95?: number;
+  expectedCutline70?: number;
   note?: string;
   sourceUrl: string;
   verifiedAt: string;
