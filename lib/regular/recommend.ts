@@ -11,7 +11,7 @@ function majorFit(query: string, majorGroup: string): number {
 }
 
 function normalizeMathType(value: RegularStudentProfile["mathChoice"]): RegularStudentScore["mathType"] {
-  if (value === "미적분" || value === "기하" || value === "확률과통계") return value;
+  if (value === "미적분" || value === "기하") return value;
   if (value === "확통") return "확률과통계";
   return undefined;
 }
