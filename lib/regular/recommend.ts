@@ -1,5 +1,6 @@
 import type { RegularAdmission, RegularRecommendation, RegularStudentProfile } from "./types";
 import { calculateRegularAdmission, type RegularStudentScore } from "./engine2027";
+import { classifyRegularGap } from "./strategy2027";
 
 function majorFit(query: string, majorGroup: string): number {
   const q = query.replace(/\s+/g, "");
@@ -30,6 +31,10 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
   };
 }
 
+function getCutline(admission: RegularAdmission): number | undefined {
+  return admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+}
+
 export function isRegularProfileComplete(profile: RegularStudentProfile): boolean {
   return Boolean(
     profile.desiredMajor.trim() &&
@@ -48,11 +53,29 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
   const scored = admissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
+    const reference = getCutline(admission);
+    const gap = reference == null ? null : result.totalScore - reference;
+
+    // 기준점이 확보된 대학은 실제 환산점수와 기준점의 차이로 안정/적정/소신/상향을 판단한다.
+    // 기준점이 없는 대학은 기존 환산점수 순위를 유지하되, 임의의 합격선은 만들지 않는다.
     const score = Math.round(result.totalScore + fit);
-    return { admission, result, score };
+    const tier = gap == null
+      ? ("적정" as const)
+      : classifyRegularGap(gap);
+
+    return { admission, result, score, fit, reference, gap, tier };
   });
 
-  const ranked = [...scored].sort((a, b) => b.score - a.score || a.admission.id.localeCompare(b.admission.id));
+  // 서로 다른 환산체계는 대학별 환산점수 자체가 직접 비교 가능한 값이 아니다.
+  // 현재 데이터처럼 동일 지표 내에서는 환산점수 + 전공 적합도로 정렬하고,
+  // 기준점이 있는 데이터가 추가되면 gap을 우선적으로 활용한다.
+  const ranked = [...scored].sort((a, b) => {
+    if (a.gap != null && b.gap != null && a.admission.scoreMetric === b.admission.scoreMetric) {
+      return b.gap - a.gap || b.score - a.score || a.admission.id.localeCompare(b.admission.id);
+    }
+    return b.score - a.score || a.admission.id.localeCompare(b.admission.id);
+  });
+
   const selected: typeof ranked = [];
   const groups = new Set<string>();
   for (const item of ranked) {
@@ -67,13 +90,13 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     if (!selected.some((x) => x.admission.id === item.admission.id)) selected.push(item);
   }
 
-  return selected.map(({ admission, result, score }) => ({
+  return selected.map(({ admission, result, score, fit, reference, tier }) => ({
     admissionId: admission.id,
     universityName: admission.universityName,
     department: admission.department,
     group: admission.group,
     score,
-    tier: score >= 90 ? "안정" : score >= 78 ? "적정" : score >= 65 ? "소신" : "상향",
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${majorFit(profile.desiredMajor, admission.majorGroup) >= 0 ? "높음" : "낮음"}`,
+    tier,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit >= 0 ? "높음" : "낮음"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 참고 기준점 미확보"}`,
   }));
 }
