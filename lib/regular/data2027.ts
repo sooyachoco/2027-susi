@@ -6,6 +6,13 @@ const YONSEI_SOURCE = "https://admission.yonsei.ac.kr/seoul/admission/html/main/
 const KOREA_SOURCE = "https://oku.korea.ac.kr/";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
+const CAU_SOURCE = "https://admission.cau.ac.kr/";
+const KHU_SOURCE = "https://iphak.khu.ac.kr/";
+const EWHA_SOURCE = "https://admission.ewha.ac.kr/admission/html/regular/guide.asp";
+const KONKUK_SOURCE = "https://enter.konkuk.ac.kr/";
+const DONGGUK_SOURCE = "https://ipsi.dongguk.edu/";
+const SOOKMYUNG_SOURCE = "https://admission.sookmyung.ac.kr/";
+const KOOKMIN_SOURCE = "https://admission.kookmin.ac.kr/";
 
 // 2027 정시 확인 데이터. 9월 공개 최종 모집요강/입학처 자료를 기준으로 순차 검증한다.
 // 현재 엔진은 모의지원 지수 단계이며, 대학별 변환표준점수·영어/한국사 세부 환산식은 별도 엔진으로 확장한다.
@@ -61,5 +68,60 @@ export const regularAdmissions2027: RegularAdmission[] = [
     id: "hufs-seoul-ga-humanities", universityId: "hufs-seoul", universityName: "한국외국어대학교", region: "서울",
     department: "인문A", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
     inquirySubjects: 2, note: "인문A 기준. 모집단위별 인문A/B 등 세부 적용 확인.", sourceUrl: HUFS_SOURCE, verifiedAt: "2026-09-21",
+  },
+  {
+    id: "cau-seoul-da-changict", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
+    department: "창의ICT공과대학", majorGroup: "컴퓨터·소프트웨어", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 35, englishWeight: 0, inquiryWeight: 35,
+    inquirySubjects: 2, recruitmentCount: 150, note: "수능 100%. 국어 30 / 수학 35 / 탐구 35. 영어·한국사는 등급별 가산점. 탐구 변환표준점수 및 가산점 적용.", sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "khu-seoul-ga-humanities", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
+    department: "인문계열 대표", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25,
+    inquirySubjects: 2, note: "대표 인문계열 기준. 모집단위별 세부 반영식은 최종 요강 확인.", sourceUrl: KHU_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "khu-international-na-natural", universityId: "khu-international", universityName: "경희대학교(국제)", region: "경기",
+    department: "자연계열 대표", majorGroup: "자연·공학", group: "나", scoreMetric: "표준점수", koreanWeight: 25, mathWeight: 40, englishWeight: 0, inquiryWeight: 35,
+    inquirySubjects: 2, note: "수능 100%. 국어 25 / 수학 40 / 탐구 35. 영어는 등급별 가산, 한국사는 감점. 탐구 과목당 가산점 적용.", sourceUrl: KHU_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "ewha-seoul-ga-humanities", universityId: "ewha-seoul", universityName: "이화여자대학교", region: "서울",
+    department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
+    inquirySubjects: 2, note: "수능전형 인문계열. 국어 30 / 수학 30 / 영어 20 / 탐구 20. 한국사 등급별 점수.", sourceUrl: EWHA_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "ewha-seoul-na-natural", universityId: "ewha-seoul", universityName: "이화여자대학교", region: "서울",
+    department: "자연계열", majorGroup: "자연·공학", group: "나", scoreMetric: "표준점수", koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25,
+    inquirySubjects: 2, note: "수능전형 자연계열. 국어 25 / 수학 30 / 영어 20 / 탐구 25. 한국사 등급별 점수.", sourceUrl: EWHA_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "konkuk-seoul-ga-natural", universityId: "konkuk-seoul", universityName: "건국대학교", region: "서울",
+    department: "자연계열 대표", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, note: "수리중심(B) 적용 모집단위 대표. 국어 30 / 수학 40 / 영어 10 / 탐구 20. 한국사 감점.", sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "dongguk-seoul-ga-humanities", universityId: "dongguk-seoul", universityName: "동국대학교", region: "서울",
+    department: "인문계열 대표", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25,
+    inquirySubjects: 2, note: "인문계열 전 모집단위 적용 기준. 영어 등급환산, 한국사 등급별 감점.", sourceUrl: DONGGUK_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "sookmyung-seoul-ga-humanities", universityId: "sookmyung-seoul", universityName: "숙명여자대학교", region: "서울",
+    department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25,
+    inquirySubjects: 2, note: "인문계열 대표. 국어 35 / 수학 25 / 영어 15 / 탐구 25. 한국사 가점.", sourceUrl: SOOKMYUNG_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "sookmyung-seoul-ga-natural", universityId: "sookmyung-seoul", universityName: "숙명여자대학교", region: "서울",
+    department: "자연계열", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25,
+    inquirySubjects: 2, note: "자연계열 대표. 국어 25 / 수학 35 / 영어 15 / 탐구 25. 과탐 가산점, 한국사 가점.", sourceUrl: SOOKMYUNG_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "kookmin-seoul-da-humanities", universityId: "kookmin-seoul", universityName: "국민대학교", region: "서울",
+    department: "인문계열", majorGroup: "인문·어문", group: "다", scoreMetric: "표준점수", koreanWeight: 40, mathWeight: 30, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, note: "인문계 전체 일반학생전형. 국어 40 / 수학 30 / 영어 10 / 탐구 20. 한국사 감점.", sourceUrl: KOOKMIN_SOURCE, verifiedAt: "2026-09-27",
+  },
+  {
+    id: "kookmin-seoul-da-natural", universityId: "kookmin-seoul", universityName: "국민대학교", region: "서울",
+    department: "자연계열", majorGroup: "자연·공학", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, note: "자연계 전체 일반학생전형. 국어 30 / 수학 40 / 영어 10 / 탐구 20. 과목별 표준점수 가산점 및 한국사 감점.", sourceUrl: KOOKMIN_SOURCE, verifiedAt: "2026-09-27",
   },
 ];
