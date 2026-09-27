@@ -15,9 +15,9 @@ const MAJOR_GROUPS: MajorGroup[] = [
   { label: "기계·로봇", options: ["기계공학", "자동차", "로봇", "메카트로닉스", "스마트모빌리티", "항공우주", "기타 기계·로봇"] },
   { label: "화학·신소재", options: ["화학공학", "신소재", "재료공학", "고분자", "에너지공학", "기타 화학·신소재"] },
   { label: "생명·바이오", options: ["생명공학", "바이오", "식품공학", "유전공학", "환경생명", "기타 생명·바이오"] },
-  { label: "건축·도시·환경", options: ["건축학", "건축공학", "토목", "도시공학", "환경공학", "조경", "건설·인프라", "기타 건축·도시·환경"] },
-  { label: "의료·보건", options: ["간호", "의예", "치의예", "약학", "한의예", "보건", "물리치료", "작업치료", "임상병리", "치위생", "방사선", "응급구조", "기타 의료·보건"] },
-  { label: "예체능", options: ["미술", "디자인", "음악", "체육", "연극·영화", "무용", "애니메이션", "콘텐츠", "사진", "기타 예체능"] },
+  { label: "건축·도시·환경", options: ["건축학", "건축공학", "토목", "도시공학", "환경공학", "조경", "건설·인프라"] },
+  { label: "의료·보건", options: ["간호", "의예", "치의예", "약학", "한의예", "보건", "물리치료", "작업치료", "임상병리", "치위생", "방사선", "응급구조"] },
+  { label: "예체능", options: ["미술", "디자인", "음악", "체육", "연극·영화", "무용", "애니메이션", "콘텐츠", "사진"] },
 ];
 
 const numberField = (id: string, label: string, value: number | null, onChange: (value: number | null) => void, min: number, max: number, placeholder: string) => (
@@ -34,6 +34,8 @@ export function RegularProfileForm({ profile, onChange }: Props) {
     {numberField("kor-percentile", "국어 백분위", profile.koreanPercentile, (v) => onChange({ koreanPercentile: v }), 0, 100, "예: 96")}
     {numberField("math-standard", "수학 표준점수", profile.mathStandard, (v) => onChange({ mathStandard: v }), 0, 200, "예: 140")}
     {numberField("math-percentile", "수학 백분위", profile.mathPercentile, (v) => onChange({ mathPercentile: v }), 0, 100, "예: 98")}
+    {numberField("inq1-standard", "탐구 1 표준점수", profile.inquiry1Standard, (v) => onChange({ inquiry1Standard: v }), 0, 100, "예: 65")}
+    {numberField("inq2-standard", "탐구 2 표준점수", profile.inquiry2Standard, (v) => onChange({ inquiry2Standard: v }), 0, 100, "예: 64")}
     {numberField("inq1", "탐구 1 백분위", profile.inquiry1Percentile, (v) => onChange({ inquiry1Percentile: v }), 0, 100, "예: 95")}
     {numberField("inq2", "탐구 2 백분위", profile.inquiry2Percentile, (v) => onChange({ inquiry2Percentile: v }), 0, 100, "예: 93")}
     <div className="field"><label htmlFor="english-grade">영어 등급</label><select id="english-grade" value={profile.englishGrade ?? ""} onChange={(e) => onChange({ englishGrade: e.target.value ? Number(e.target.value) : null })}><option value="">선택하세요</option>{Array.from({ length: 9 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}등급</option>)}</select></div>
