@@ -34,7 +34,6 @@ function metricValue(value: number, metric: ScoreMetric) {
 }
 
 export function calculateRegularAdmission(admission: RegularAdmission, score: RegularStudentScore): RegularCalculation {
-  // 대학이 탐구 1과목만 반영하면 2번째 탐구 점수를 섞지 않는다.
   const inquiry1 = metricValue(score.inquiry1, admission.scoreMetric);
   const inquiry2 = metricValue(score.inquiry2, admission.scoreMetric);
   const inquiry = admission.inquirySubjects === 1 ? inquiry1 : (inquiry1 + inquiry2) / 2;
@@ -46,14 +45,18 @@ export function calculateRegularAdmission(admission: RegularAdmission, score: Re
     ? (korean * admission.koreanWeight + math * admission.mathWeight + inquiry * admission.inquiryWeight) / academicWeight
     : 0;
 
-  // 학생부 반영 전형은 입력 데이터가 없는 학생부 점수를 임의로 100점으로 가정하지 않고,
-  // 수능 반영 비율만큼만 현재 계산값에 반영한다.
+  // 학생부 반영 전형에서는 학생부 점수를 임의로 채우지 않는다.
+  // 수능 영역별 비율은 전형 총점에서 학생부 비율을 제외한 만큼만 기여하도록
+  // 학업영역을 재비례하고, 영어는 입력된 영어 반영비율을 그대로 적용한다.
   const studentRecordWeight = Math.max(0, Math.min(100, admission.studentRecordWeight ?? 0));
   const testWeight = 100 - studentRecordWeight;
+  const englishWeight = Math.min(Math.max(0, admission.englishWeight), testWeight);
+  const academicContributionWeight = Math.max(0, testWeight - englishWeight);
   const base = (
-    academic * Math.max(0, testWeight - admission.englishWeight) / 100 +
-    englishScore(score.englishGrade, Math.min(admission.englishWeight, testWeight))
-  );
+    academicWeight > 0
+      ? academic * (academicContributionWeight / academicWeight)
+      : 0
+  ) + englishScore(score.englishGrade, englishWeight);
 
   const bonus = historyBonus(score.koreanHistoryGrade);
   return { admissionId: admission.id, baseScore: base, bonus, totalScore: base + bonus, metric: admission.scoreMetric };
