@@ -35,7 +35,7 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
-  return admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+  return admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
 }
 
 function isTargetRegion(admission: RegularAdmission): boolean {
