@@ -23,7 +23,7 @@ export function recommendByGroup(admissions: RegularAdmission[], score: RegularS
       admission,
       ...result,
       gap,
-      tier: reference == null ? ("판정 보류" as const) : classifyRegularGap(gap),
+      tier: gap == null ? ("판정 보류" as const) : classifyRegularGap(gap),
       hasReferenceCutline: reference != null,
     };
   });
