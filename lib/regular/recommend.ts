@@ -66,7 +66,7 @@ type ScoredAdmission = {
   fit: number;
   reference: number | undefined;
   gap: number | null;
-  tier: ReturnType<typeof classifyRegularGap> | "적정";
+  tier: ReturnType<typeof classifyRegularGap> | "판정 보류";
 };
 
 function candidateQuality(item: ScoredAdmission): number {
@@ -95,10 +95,8 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
     const reference = getCutline(admission);
     const gap = reference == null ? null : result.totalScore - reference;
-    // 추천용 적합도 보정값과 실제 환산점수를 분리한다.
-    // UI의 score는 대학별 전형 환산점수 자체를 보여줘야 한다.
     const score = Math.round(result.totalScore * 10) / 10;
-    const tier = gap == null ? ("적정" as const) : classifyRegularGap(gap);
+    const tier = gap == null ? ("판정 보류" as const) : classifyRegularGap(gap);
     return { admission, result, score, fit, reference, gap, tier };
   });
 
