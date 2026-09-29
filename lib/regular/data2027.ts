@@ -97,7 +97,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "konkuk-seoul-ga-natural", universityId: "konkuk-seoul", universityName: "건국대학교", region: "서울",
     department: "자연계열 대표", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
-    inquirySubjects: 2, note: "수리중심(B) 적용 모집단위 대표. 국어 30 / 수학 40 / 영어 10 / 탐구 20. 한국사 감점.", sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-09-27",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 662.57, benchmarkTotalScore: 1000, benchmarkDepartment: "건축학부", recruitmentCount: 39, note: "자연계 대표. 2025학년도 건축학부 정시 70%컷 662.57/1,000 벤치마크. 수리중심(B) 적용 모집단위 대표. 한국사 감점.", sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "dongguk-seoul-ga-humanities", universityId: "dongguk-seoul", universityName: "동국대학교", region: "서울",
