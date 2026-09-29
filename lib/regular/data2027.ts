@@ -42,7 +42,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
     department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 33.3, mathWeight: 40, englishWeight: 0, inquiryWeight: 26.7,
-    inquirySubjects: 2, note: "수능 표준점수 기반. 영어는 등급별 가산, 한국사는 감점. 모집단위별 지원조건 확인 필요.", sourceUrl: SNU_SOURCE, verifiedAt: "2026-09-21",
+    inquirySubjects: 2, studentRecordWeight: 20, note: "일반전형 2단계 기준 수능 80% + 교과평가 20%. 수능 표준점수 기반, 영어·한국사 반영은 별도. 모집단위별 지원조건 확인 필요.", sourceUrl: SNU_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "yonsei-seoul-ga-general", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
