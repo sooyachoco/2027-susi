@@ -37,6 +37,10 @@ export type RegularAdmission = {
   expectedCutline?: number;
   expectedCutline95?: number;
   expectedCutline70?: number;
+  benchmarkYear?: number;
+  benchmarkCutline70?: number;
+  benchmarkCutline95?: number;
+  benchmarkTotalScore?: number;
   note?: string;
   sourceUrl: string;
   verifiedAt: string;
