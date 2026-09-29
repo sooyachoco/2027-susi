@@ -67,7 +67,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "hufs-seoul-ga-humanities", universityId: "hufs-seoul", universityName: "한국외국어대학교", region: "서울",
     department: "인문A", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
-    inquirySubjects: 2, note: "인문A 기준. 모집단위별 인문A/B 등 세부 적용 확인.", sourceUrl: HUFS_SOURCE, verifiedAt: "2026-09-21",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 651.1, benchmarkTotalScore: 710, benchmarkDepartment: "ELLT학과", recruitmentCount: 21, note: "인문A 기준. 2025학년도 ELLT학과 정시 70%컷 651.1/710 벤치마크. 모집단위별 인문A/B 등 세부 적용 확인.", sourceUrl: HUFS_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "cau-seoul-da-changict", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
