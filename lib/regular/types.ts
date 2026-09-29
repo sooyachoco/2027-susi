@@ -41,6 +41,7 @@ export type RegularAdmission = {
   benchmarkCutline70?: number;
   benchmarkCutline95?: number;
   benchmarkTotalScore?: number;
+  benchmarkDepartment?: string;
   note?: string;
   sourceUrl: string;
   verifiedAt: string;
