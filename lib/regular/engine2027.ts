@@ -59,7 +59,14 @@ export function calculateRegularAdmission(admission: RegularAdmission, score: Re
   ) + englishScore(score.englishGrade, englishWeight);
 
   const bonus = historyBonus(score.koreanHistoryGrade);
-  return { admissionId: admission.id, baseScore: base, bonus, totalScore: base + bonus, metric: admission.scoreMetric };
+  const scale = 10;
+  return {
+    admissionId: admission.id,
+    baseScore: base * scale,
+    bonus: bonus * scale,
+    totalScore: (base + bonus) * scale,
+    metric: admission.scoreMetric,
+  };
 }
 
 export function normalizeScoreForComparison(score: number, metric: ScoreMetric) {
