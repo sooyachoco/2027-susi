@@ -120,6 +120,18 @@ export const regularAdmissions2027: RegularAdmission[] = [
     inquirySubjects: 2, note: "인문계 전체 일반학생전형. 국어 40 / 수학 30 / 영어 10 / 탐구 20. 한국사 감점.", sourceUrl: KOOKMIN_SOURCE, verifiedAt: "2026-09-27",
   },
   {
+    id: "kwangwoon-seoul-ga-electronics", universityId: "kwangwoon-seoul", universityName: "광운대학교", region: "서울",
+    department: "전자공학과", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, recruitmentCount: 17, benchmarkYear: 2025, benchmarkCutline70: 694.30, benchmarkTotalScore: 1000, benchmarkDepartment: "전자공학과",
+    note: "2025학년도 정시 전자공학과 70%컷 694.30/1,000. 2027학년도 정시 모집단위·반영방법은 최종 모집요강 기준으로 확인.", sourceUrl: "https://iphak.kw.ac.kr/", verifiedAt: "2026-09-29",
+  },
+  {
+    id: "kwangwoon-seoul-ga-computer", universityId: "kwangwoon-seoul", universityName: "광운대학교", region: "서울",
+    department: "컴퓨터정보공학부", majorGroup: "컴퓨터·소프트웨어", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+    inquirySubjects: 2, recruitmentCount: 11, benchmarkYear: 2025, benchmarkCutline70: 687.29, benchmarkTotalScore: 1000, benchmarkDepartment: "컴퓨터정보공학부",
+    note: "2025학년도 정시 컴퓨터정보공학부 70%컷 687.29/1,000. 2027학년도 정시 모집단위·반영방법은 최종 모집요강 기준으로 확인.", sourceUrl: "https://iphak.kw.ac.kr/", verifiedAt: "2026-09-29",
+  },
+  {
     id: "kookmin-seoul-da-natural", universityId: "kookmin-seoul", universityName: "국민대학교", region: "서울",
     department: "자연계열", majorGroup: "자연·공학", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
     inquirySubjects: 2, note: "자연계 전체 일반학생전형. 국어 30 / 수학 40 / 영어 10 / 탐구 20. 과목별 표준점수 가산점 및 한국사 감점.", sourceUrl: KOOKMIN_SOURCE, verifiedAt: "2026-09-27",
