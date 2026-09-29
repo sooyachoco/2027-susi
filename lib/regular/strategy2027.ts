@@ -1,7 +1,7 @@
-import type { RegularAdmission } from "./types";
+import type { RegularAdmission, RegularTier } from "./types";
 import { calculateRegularAdmission, type RegularStudentScore } from "./engine2027";
 
-export type RegularTier = "상향" | "소신" | "적정" | "안정";
+export type { RegularTier };
 
 export function classifyRegularGap(gap: number): RegularTier {
   if (gap < -6) return "상향";
@@ -11,24 +11,19 @@ export function classifyRegularGap(gap: number): RegularTier {
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
-  const item = admission as RegularAdmission & {
-    expectedCutline?: number;
-    expectedCutline95?: number;
-    expectedCutline70?: number;
-  };
-  return item.expectedCutline ?? item.expectedCutline95 ?? item.expectedCutline70;
+  return admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
 }
 
 export function recommendByGroup(admissions: RegularAdmission[], score: RegularStudentScore) {
   const calculated = admissions.map((admission) => {
     const result = calculateRegularAdmission(admission, score);
     const reference = getCutline(admission);
-    const gap = reference == null ? 0 : result.totalScore - reference;
+    const gap = reference == null ? null : result.totalScore - reference;
     return {
       admission,
       ...result,
       gap,
-      tier: reference == null ? ("적정" as const) : classifyRegularGap(gap),
+      tier: reference == null ? ("판정 보류" as const) : classifyRegularGap(gap),
       hasReferenceCutline: reference != null,
     };
   });
@@ -39,7 +34,12 @@ export function recommendByGroup(admissions: RegularAdmission[], score: RegularS
       group,
       calculated
         .filter((x) => x.admission.group === group)
-        .sort((a, b) => b.gap - a.gap),
+        .sort((a, b) => {
+          if (a.gap == null && b.gap == null) return b.totalScore - a.totalScore;
+          if (a.gap == null) return 1;
+          if (b.gap == null) return -1;
+          return b.gap - a.gap;
+        }),
     ]),
   ) as Record<typeof groups[number], typeof calculated>;
 }
