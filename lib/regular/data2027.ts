@@ -77,7 +77,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "khu-seoul-ga-humanities", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
     department: "인문계열 대표", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25,
-    inquirySubjects: 2, note: "대표 인문계열 기준. 모집단위별 세부 반영식은 최종 요강 확인.", sourceUrl: KHU_SOURCE, verifiedAt: "2026-09-27",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 547.50, benchmarkTotalScore: 800, benchmarkDepartment: "경영학과", recruitmentCount: 79, note: "대표 인문계열 기준. 2025학년도 경영학과 정시 70%컷 547.50/800 벤치마크. 모집단위별 세부 반영식은 최종 요강 확인.", sourceUrl: KHU_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "khu-international-na-natural", universityId: "khu-international", universityName: "경희대학교(국제)", region: "경기",
