@@ -69,7 +69,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "uos-seoul-ga-humanities", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
     department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 20, inquiryWeight: 20,
-    inquirySubjects: 2, note: "인문계열 적용 비율. 모집단위별 인문Ⅰ·Ⅱ 구분과 지원조건 확인.", sourceUrl: UOS_SOURCE, verifiedAt: "2026-09-21",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 896.41, benchmarkTotalScore: 1000, benchmarkDepartment: "국어국문학과", recruitmentCount: 9, note: "인문계열 적용 비율. 2025학년도 국어국문학과 정시 70%컷 896.41/1,000 벤치마크. 모집단위별 인문Ⅰ·Ⅱ 구분과 지원조건 확인.", sourceUrl: UOS_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "uos-seoul-ga-natural", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
