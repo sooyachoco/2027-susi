@@ -35,6 +35,18 @@ export const regularAdmissions2027: RegularAdmission[] = [
     },
   ]),
   {
+    id: "skku-seoul-na-business", universityId: "skku-seoul", universityName: "성균관대학교", region: "서울",
+    department: "경영학과", majorGroup: "경영·경제", group: "나", scoreMetric: "백분위", koreanWeight: 45, mathWeight: 30, englishWeight: 10, inquiryWeight: 15,
+    inquirySubjects: 2, languageMathMode: "고득점 우선", benchmarkYear: 2025, benchmarkCutline70: 646.77, benchmarkTotalScore: 1000, benchmarkDepartment: "경영학과", recruitmentCount: 91,
+    note: "2027 일반전형 기준 우수 영역 순 국어·수학 45/30 + 탐구 15 + 영어 10. 2025학년도 경영학과 70%컷 646.77/1,000 벤치마크.", sourceUrl: "https://admission.skku.edu/admission/html/regular/notice.html", verifiedAt: "2026-09-29",
+  },
+  {
+    id: "sogang-seoul-na-humanities", universityId: "sogang-seoul", universityName: "서강대학교", region: "서울",
+    department: "인문학부", majorGroup: "인문·어문", group: "나", scoreMetric: "표준점수", koreanWeight: 36.7, mathWeight: 43.3, englishWeight: 0, inquiryWeight: 20,
+    inquirySubjects: 2, languageMathMode: "고득점 우선", benchmarkYear: 2025, benchmarkCutline70: 498.53, benchmarkTotalScore: 528.77, benchmarkDepartment: "인문학부", recruitmentCount: 47,
+    note: "2027 일반전형 A/B 유형 중 유리한 점수 반영. 국어·수학 36.7/43.3 + 탐구 20, 영어·한국사 가산. 2025학년도 인문학부 70%컷 498.53/528.77 벤치마크.", sourceUrl: "https://admission.sogang.ac.kr/", verifiedAt: "2026-09-29",
+  },
+  {
     id: "hanyang-seoul-da-intercollege", universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
     department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 35, englishWeight: 10, inquiryWeight: 20,
     inquirySubjects: 2, studentRecordWeight: 10, recruitmentCount: 60, note: "수능 90% + 학생부종합평가 10%", sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-09-14",
