@@ -40,9 +40,15 @@ export function calculateRegularAdmission(admission: RegularAdmission, score: Re
   const korean = metricValue(score.korean, admission.scoreMetric);
   const math = metricValue(score.math, admission.scoreMetric);
 
+  const languageMathScore = admission.languageMathMode === "고득점 우선"
+    ? Math.max(
+        korean * admission.koreanWeight + math * admission.mathWeight,
+        korean * admission.mathWeight + math * admission.koreanWeight,
+      )
+    : korean * admission.koreanWeight + math * admission.mathWeight;
   const academicWeight = admission.koreanWeight + admission.mathWeight + admission.inquiryWeight;
   const academic = academicWeight > 0
-    ? (korean * admission.koreanWeight + math * admission.mathWeight + inquiry * admission.inquiryWeight) / academicWeight
+    ? (languageMathScore + inquiry * admission.inquiryWeight) / academicWeight
     : 0;
 
   // 학생부 반영 전형에서는 학생부 점수를 임의로 채우지 않는다.
