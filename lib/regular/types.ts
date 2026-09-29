@@ -1,6 +1,6 @@
 export type AdmissionGroup = "가" | "나" | "다";
 export type ScoreMetric = "백분위" | "표준점수";
-export type RegularTier = "상향" | "소신" | "적정" | "안정";
+export type RegularTier = "상향" | "소신" | "적정" | "안정" | "판정 보류";
 
 export type RegularStudentProfile = {
   desiredMajor: string;
