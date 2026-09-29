@@ -11,7 +11,7 @@ export function classifyRegularGap(gap: number): RegularTier {
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
-  return admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+  return admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
 }
 
 export function recommendByGroup(admissions: RegularAdmission[], score: RegularStudentScore) {
