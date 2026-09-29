@@ -11,7 +11,12 @@ export function classifyRegularGap(gap: number): RegularTier {
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
-  return admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+  const raw = admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+  if (raw == null) return undefined;
+  if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) {
+    return (raw / admission.benchmarkTotalScore) * 1000;
+  }
+  return raw;
 }
 
 export function recommendByGroup(admissions: RegularAdmission[], score: RegularStudentScore) {
