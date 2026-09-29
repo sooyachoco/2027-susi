@@ -47,7 +47,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "yonsei-seoul-ga-general", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
     department: "일반전형 모집단위", majorGroup: "전체", group: "가", scoreMetric: "표준점수", koreanWeight: 22.2, mathWeight: 33.3, englishWeight: 11.1, inquiryWeight: 33.3,
-    inquirySubjects: 2, note: "일반전형 기준. 모집단위별 가산점·지원조건은 최종 요강 확인.", sourceUrl: YONSEI_SOURCE, verifiedAt: "2026-09-21",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 695.0553, benchmarkTotalScore: 1000, benchmarkDepartment: "사학과", recruitmentCount: 22, note: "일반전형 기준. 2025학년도 사학과 정시 70%컷 695.0553/1,000 벤치마크. 모집단위별 가산점·지원조건은 최종 요강 확인.", sourceUrl: YONSEI_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "korea-seoul-ga-general", universityId: "korea-seoul", universityName: "고려대학교", region: "서울",
