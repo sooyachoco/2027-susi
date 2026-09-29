@@ -102,7 +102,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "dongguk-seoul-ga-humanities", universityId: "dongguk-seoul", universityName: "동국대학교", region: "서울",
     department: "인문계열 대표", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25,
-    inquirySubjects: 2, note: "인문계열 전 모집단위 적용 기준. 영어 등급환산, 한국사 등급별 감점.", sourceUrl: DONGGUK_SOURCE, verifiedAt: "2026-09-27",
+    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 681.175, benchmarkTotalScore: 1000, benchmarkDepartment: "미디어커뮤니케이션학전공", recruitmentCount: 19, note: "인문계열 대표. 2025학년도 미디어커뮤니케이션학전공 정시 70%컷 681.175/1,000 벤치마크. 영어 등급환산, 한국사 등급별 감점.", sourceUrl: DONGGUK_SOURCE, verifiedAt: "2026-09-29",
   },
   {
     id: "sookmyung-seoul-ga-humanities", universityId: "sookmyung-seoul", universityName: "숙명여자대학교", region: "서울",
