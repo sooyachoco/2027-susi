@@ -26,7 +26,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     {
       id: `hanyang-seoul-${group}-natural`, universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
       department: "자연계열", majorGroup: "자연·공학", group, scoreMetric: "표준점수" as const, koreanWeight: 25, mathWeight: 40, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2 as const,
-      note: "수능 100%. 국어 25 / 수학 40 / 영어 10 / 탐구 25", sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-09-14",
+      recruitmentCount: 18, benchmarkYear: 2025, benchmarkCutline70: 941.99, benchmarkDepartment: "건축학부", note: "수능 100%. 국어 25 / 수학 40 / 영어 10 / 탐구 25. 전년도 건축학부 70%컷 941.99/1,000 벤치마크.", sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-09-29",
     },
     {
       id: `hanyang-seoul-${group}-business`, universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
