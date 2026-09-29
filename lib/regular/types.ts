@@ -33,6 +33,7 @@ export type RegularAdmission = {
   englishWeight: number;
   inquiryWeight: number;
   inquirySubjects: 1 | 2;
+  languageMathMode?: "고득점 우선";
   studentRecordWeight?: number;
   expectedCutline?: number;
   expectedCutline95?: number;
