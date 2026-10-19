@@ -1,4 +1,4 @@
-import type { RegularAdmission, RegularRecommendation, RegularStudentProfile } from "./types";
+import type { RegularAdmission, RegularRecommendation, RegularStudentProfile, RegularTier, AdmissionGroup } from "./types";
 import { calculateRegularAdmission, type RegularStudentScore } from "./engine2027";
 import { classifyRegularGap } from "./strategy2027";
 
@@ -37,9 +37,7 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
 function getCutline(admission: RegularAdmission): number | undefined {
   const raw = admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
   if (raw == null) return undefined;
-  if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) {
-    return (raw / admission.benchmarkTotalScore) * 1000;
-  }
+  if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) return (raw / admission.benchmarkTotalScore) * 1000;
   return raw;
 }
 
@@ -71,26 +69,18 @@ type ScoredAdmission = {
   fit: number;
   reference: number | undefined;
   gap: number | null;
-  tier: ReturnType<typeof classifyRegularGap> | "판정 보류";
+  tier: RegularTier | "판정 보류";
 };
 
-/**
- * 추천 품질은 단순히 기준점과 가까운 대학을 고르는 방식이 아니다.
- * 정시 포트폴리오에서는 합격 가능성이 지나치게 낮은 상향을 억제하고,
- * 적정·안정 후보를 우선하되 전공 적합도를 추가 점수로 반영한다.
- */
 function candidateQuality(item: ScoredAdmission): number {
   const fitBonus = item.fit * 2;
   if (item.gap == null) return fitBonus - 20;
-
   const gap = item.gap;
   let tierBase: number;
-  if (gap < -6) tierBase = 0;       // 상향: 포트폴리오에서 가장 낮은 우선순위
-  else if (gap < -2) tierBase = 14; // 소신
-  else if (gap <= 3) tierBase = 30; // 적정: 기본 추천 중심
-  else tierBase = 22;              // 안정: 안전성은 높지만 과도한 하향은 방지
-
-  // 같은 판정 구간에서는 기준점에서 너무 멀어질수록 소폭 감점한다.
+  if (gap < -6) tierBase = 0;
+  else if (gap < -2) tierBase = 14;
+  else if (gap <= 3) tierBase = 30;
+  else tierBase = 22;
   const distance = Math.min(Math.abs(gap), 20);
   const proximity = Math.max(0, 8 - distance * 0.25);
   return tierBase + proximity + fitBonus;
@@ -104,11 +94,43 @@ function rankWithinGroup(items: ScoredAdmission[]): ScoredAdmission[] {
   });
 }
 
+function scoreAdmissionSet(items: ScoredAdmission[]): number {
+  if (items.length !== 3) return -Infinity;
+  const tiers = items.map((item) => item.tier);
+  if (tiers.includes("판정 보류")) return -1000;
+
+  const base = items.reduce((sum, item) => sum + candidateQuality(item), 0);
+  const tierSet = new Set(tiers);
+  const hasStable = tierSet.has("안정");
+  const hasTarget = tierSet.has("적정");
+  const hasBold = tierSet.has("소신") || tierSet.has("상향");
+
+  // 3장 전체의 균형을 평가한다. 적정+안정 기반에 소신/상향 한 장을 허용한다.
+  let balance = 0;
+  if (hasStable) balance += 12;
+  if (hasTarget) balance += 16;
+  if (hasBold) balance += 5;
+  if (tiers.every((tier) => tier === "상향")) balance -= 35;
+  if (!hasStable) balance -= 10;
+  if (!hasTarget) balance -= 8;
+
+  const fit = items.reduce((sum, item) => sum + item.fit, 0) * 1.5;
+  return base + balance + fit;
+}
+
+export type RegularPortfolioRecommendation = {
+  admissions: [RegularRecommendation, RegularRecommendation, RegularRecommendation];
+  portfolioScore: number;
+  stabilityScore: number;
+  fitScore: number;
+  strategy: "안정형" | "균형형" | "도전형";
+  summary: string;
+};
+
 export function recommendRegular(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularRecommendation[] {
   if (!isRegularProfileComplete(profile)) return [];
 
   const eligibleAdmissions = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
-
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
@@ -119,18 +141,14 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     return { admission, result, score, fit, reference, gap, tier };
   });
 
-  const rankedByGroup = new Map<string, ScoredAdmission[]>();
+  const rankedByGroup = new Map<AdmissionGroup, ScoredAdmission[]>();
   for (const item of scored) {
     const current = rankedByGroup.get(item.admission.group) ?? [];
     current.push(item);
     rankedByGroup.set(item.admission.group, current);
   }
-  for (const [group, items] of rankedByGroup) {
-    rankedByGroup.set(group, rankWithinGroup(items));
-  }
+  for (const [group, items] of rankedByGroup) rankedByGroup.set(group, rankWithinGroup(items));
 
-  // 정시는 모집군별 1개 선택 구조를 전제로 한다.
-  // 데이터가 부족한 모집군을 다른 군의 대학으로 억지로 채우지 않는다.
   const selected: ScoredAdmission[] = [];
   for (const group of ["가", "나", "다"] as const) {
     const candidate = rankedByGroup.get(group)?.[0];
@@ -146,4 +164,70 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     tier,
     reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 전년도/예상 기준점 데이터 미확보 → 판정 보류"}`,
   }));
+}
+
+export function recommendRegularPortfolio(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularPortfolioRecommendation | null {
+  if (!isRegularProfileComplete(profile)) return null;
+
+  const eligible = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
+  const scored: ScoredAdmission[] = eligible.map((admission) => {
+    const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
+    const fit = majorFit(profile.desiredMajor, admission.majorGroup);
+    const reference = getCutline(admission);
+    const gap = reference == null ? null : result.totalScore - reference;
+    const score = Math.round(result.totalScore * 10) / 10;
+    const tier = gap == null ? ("판정 보류" as const) : classifyRegularGap(gap);
+    return { admission, result, score, fit, reference, gap, tier };
+  });
+
+  const byGroup = new Map<AdmissionGroup, ScoredAdmission[]>();
+  for (const item of scored) {
+    const list = byGroup.get(item.admission.group) ?? [];
+    list.push(item);
+    byGroup.set(item.admission.group, list);
+  }
+
+  const candidates = (["가", "나", "다"] as const).map((group) => {
+    const ranked = rankWithinGroup(byGroup.get(group) ?? []);
+    return ranked.slice(0, 8);
+  });
+  if (candidates.some((list) => list.length === 0)) return null;
+
+  let best: { items: [ScoredAdmission, ScoredAdmission, ScoredAdmission]; score: number } | null = null;
+  for (const a of candidates[0]) {
+    for (const n of candidates[1]) {
+      for (const d of candidates[2]) {
+        const items: [ScoredAdmission, ScoredAdmission, ScoredAdmission] = [a, n, d];
+        const score = scoreAdmissionSet(items);
+        if (!best || score > best.score) best = { items, score };
+      }
+    }
+  }
+  if (!best) return null;
+
+  const recommendations = best.items.map(({ admission, result, score, fit, reference, tier }) => ({
+    admissionId: admission.id,
+    universityName: admission.universityName,
+    department: admission.department,
+    group: admission.group,
+    score,
+    tier,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 데이터 미확보 → 판정 보류"}`,
+  })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];
+
+  const stabilityValues = best.items.map((item) => item.tier === "안정" ? 100 : item.tier === "적정" ? 75 : item.tier === "소신" ? 45 : 20);
+  const stabilityScore = Math.round(stabilityValues.reduce((a, b) => a + b, 0) / 3);
+  const fitScore = Math.round(best.items.reduce((sum, item) => sum + item.fit, 0) / 21 * 100);
+  const hasStable = best.items.some((item) => item.tier === "안정");
+  const hasBold = best.items.some((item) => item.tier === "소신" || item.tier === "상향");
+  const strategy = hasStable && hasBold ? "균형형" : hasStable ? "안정형" : "도전형";
+
+  return {
+    admissions: recommendations,
+    portfolioScore: Math.round(best.score * 10) / 10,
+    stabilityScore,
+    fitScore,
+    strategy,
+    summary: `가·나·다군을 개별 순위가 아니라 하나의 지원 포트폴리오로 평가했습니다. ${strategy} 조합이며 합격 안정성 ${stabilityScore}점, 전공 적합도 ${fitScore}점입니다.`,
+  };
 }
