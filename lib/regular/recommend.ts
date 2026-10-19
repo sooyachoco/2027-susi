@@ -74,12 +74,19 @@ type ScoredAdmission = {
   tier: ReturnType<typeof classifyRegularGap> | "판정 보류";
 };
 
+/**
+ * 추천 품질은 전공 적합도보다 먼저 실제 환산점수와 기준점의 관계를 본다.
+ * 기준점이 없는 대학은 합격 가능성을 추정할 근거가 부족하므로 순위에서 불리하게 처리한다.
+ */
 function candidateQuality(item: ScoredAdmission): number {
-  const fitBonus = item.fit * 12;
-  if (item.gap == null) return fitBonus + 2;
-  const distance = Math.min(Math.abs(item.gap), 15);
-  const proximity = 30 - distance * 1.5;
-  return fitBonus + proximity;
+  const fitBonus = item.fit * 2;
+  if (item.gap == null) return fitBonus - 10;
+
+  // 기준점과 가까울수록 대표적인 모의지원 후보로 본다.
+  // 점수 단위는 엔진에서 1,000점 기준으로 정규화된다.
+  const distance = Math.min(Math.abs(item.gap), 20);
+  const proximity = 30 - distance * 1.2;
+  return proximity + fitBonus;
 }
 
 function rankWithinGroup(items: ScoredAdmission[]): ScoredAdmission[] {
@@ -115,29 +122,21 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     rankedByGroup.set(group, rankWithinGroup(items));
   }
 
+  // 정시는 모집군별 1개 선택 구조를 전제로 한다.
+  // 데이터가 부족한 모집군을 다른 군의 대학으로 억지로 채우지 않는다.
   const selected: ScoredAdmission[] = [];
   for (const group of ["가", "나", "다"] as const) {
     const candidate = rankedByGroup.get(group)?.[0];
     if (candidate) selected.push(candidate);
   }
 
-  if (selected.length < 3) {
-    const fallback = [...scored]
-      .filter((item) => !selected.some((x) => x.admission.id === item.admission.id))
-      .sort((a, b) => candidateQuality(b) - candidateQuality(a) || b.score - a.score);
-    for (const item of fallback) {
-      if (selected.length >= 3) break;
-      selected.push(item);
-    }
-  }
-
-  return selected.slice(0, 3).map(({ admission, result, score, fit, reference, tier }) => ({
+  return selected.map(({ admission, result, score, fit, reference, tier }) => ({
     admissionId: admission.id,
     universityName: admission.universityName,
     department: admission.department,
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 데이터 미확보"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 전년도/예상 기준점 데이터 미확보 → 판정 보류"}`,
   }));
 }
