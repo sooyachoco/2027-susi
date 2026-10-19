@@ -75,18 +75,25 @@ type ScoredAdmission = {
 };
 
 /**
- * 추천 품질은 전공 적합도보다 먼저 실제 환산점수와 기준점의 관계를 본다.
- * 기준점이 없는 대학은 합격 가능성을 추정할 근거가 부족하므로 순위에서 불리하게 처리한다.
+ * 추천 품질은 단순히 기준점과 가까운 대학을 고르는 방식이 아니다.
+ * 정시 포트폴리오에서는 합격 가능성이 지나치게 낮은 상향을 억제하고,
+ * 적정·안정 후보를 우선하되 전공 적합도를 추가 점수로 반영한다.
  */
 function candidateQuality(item: ScoredAdmission): number {
   const fitBonus = item.fit * 2;
-  if (item.gap == null) return fitBonus - 10;
+  if (item.gap == null) return fitBonus - 20;
 
-  // 기준점과 가까울수록 대표적인 모의지원 후보로 본다.
-  // 점수 단위는 엔진에서 1,000점 기준으로 정규화된다.
-  const distance = Math.min(Math.abs(item.gap), 20);
-  const proximity = 30 - distance * 1.2;
-  return proximity + fitBonus;
+  const gap = item.gap;
+  let tierBase: number;
+  if (gap < -6) tierBase = 0;       // 상향: 포트폴리오에서 가장 낮은 우선순위
+  else if (gap < -2) tierBase = 14; // 소신
+  else if (gap <= 3) tierBase = 30; // 적정: 기본 추천 중심
+  else tierBase = 22;              // 안정: 안전성은 높지만 과도한 하향은 방지
+
+  // 같은 판정 구간에서는 기준점에서 너무 멀어질수록 소폭 감점한다.
+  const distance = Math.min(Math.abs(gap), 20);
+  const proximity = Math.max(0, 8 - distance * 0.25);
+  return tierBase + proximity + fitBonus;
 }
 
 function rankWithinGroup(items: ScoredAdmission[]): ScoredAdmission[] {
