@@ -54,11 +54,16 @@ function isExcludedMajor(admission: RegularAdmission): boolean {
 export function isRegularProfileComplete(profile: RegularStudentProfile): boolean {
   return Boolean(
     profile.desiredMajor.trim() &&
-    profile.koreanStandard !== null && profile.koreanPercentile !== null &&
-    profile.mathStandard !== null && profile.mathPercentile !== null &&
-    profile.inquiry1Standard !== null && profile.inquiry2Standard !== null &&
-    profile.inquiry1Percentile !== null && profile.inquiry2Percentile !== null &&
-    profile.englishGrade !== null && profile.koreanHistoryGrade !== null &&
+    profile.koreanStandard !== null && profile.koreanStandard >= 0 && profile.koreanStandard <= 200 &&
+    profile.koreanPercentile !== null && profile.koreanPercentile >= 0 && profile.koreanPercentile <= 100 &&
+    profile.mathStandard !== null && profile.mathStandard >= 0 && profile.mathStandard <= 200 &&
+    profile.mathPercentile !== null && profile.mathPercentile >= 0 && profile.mathPercentile <= 100 &&
+    profile.inquiry1Standard !== null && profile.inquiry1Standard >= 0 && profile.inquiry1Standard <= 100 &&
+    profile.inquiry2Standard !== null && profile.inquiry2Standard >= 0 && profile.inquiry2Standard <= 100 &&
+    profile.inquiry1Percentile !== null && profile.inquiry1Percentile >= 0 && profile.inquiry1Percentile <= 100 &&
+    profile.inquiry2Percentile !== null && profile.inquiry2Percentile >= 0 && profile.inquiry2Percentile <= 100 &&
+    profile.englishGrade !== null && profile.englishGrade >= 1 && profile.englishGrade <= 9 &&
+    profile.koreanHistoryGrade !== null && profile.koreanHistoryGrade >= 1 && profile.koreanHistoryGrade <= 9 &&
     profile.mathChoice !== "미선택" && profile.inquiryType !== "미선택",
   );
 }
