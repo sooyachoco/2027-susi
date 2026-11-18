@@ -46,6 +46,10 @@ export function RegularProfileForm({ profile, onChange }: Props) {
       <div className="field"><label htmlFor="inquiry1-type">탐구 1 과목 유형</label><select id="inquiry1-type" value={profile.inquiry1Type} onChange={(e) => onChange({ inquiry1Type: e.target.value as RegularStudentProfile["inquiry1Type"] })}><option value="미선택">선택하세요</option><option value="사탐">사회탐구</option><option value="과탐">과학탐구</option><option value="직탐">직업탐구</option></select></div>
       <div className="field"><label htmlFor="inquiry2-type">탐구 2 과목 유형</label><select id="inquiry2-type" value={profile.inquiry2Type} onChange={(e) => onChange({ inquiry2Type: e.target.value as RegularStudentProfile["inquiry2Type"] })}><option value="미선택">선택하세요</option><option value="사탐">사회탐구</option><option value="과탐">과학탐구</option><option value="직탐">직업탐구</option></select></div>
     </>}
+    {(profile.inquiryType === "과탐" || profile.inquiry1Type === "과탐" || profile.inquiry2Type === "과탐") && <>
+      <div className="field"><label htmlFor="inquiry1-science-level">탐구 1 과학 선택</label><select id="inquiry1-science-level" value={profile.inquiry1ScienceLevel} onChange={(e) => onChange({ inquiry1ScienceLevel: e.target.value as RegularStudentProfile["inquiry1ScienceLevel"] })}><option value="미선택">선택하세요</option><option value="I">과탐Ⅰ</option><option value="II">과탐Ⅱ</option></select></div>
+      <div className="field"><label htmlFor="inquiry2-science-level">탐구 2 과학 선택</label><select id="inquiry2-science-level" value={profile.inquiry2ScienceLevel} onChange={(e) => onChange({ inquiry2ScienceLevel: e.target.value as RegularStudentProfile["inquiry2ScienceLevel"] })}><option value="미선택">선택하세요</option><option value="I">과탐Ⅰ</option><option value="II">과탐Ⅱ</option></select></div>
+    </>}
     {numberField("absence-days", "미인정 결석 일수 (해당 대학만)", profile.unexcusedAbsenceDays, (v) => onChange({ unexcusedAbsenceDays: v }), 0, 365, "선택 입력")}
   </div>;
 }
