@@ -162,6 +162,9 @@ export function calculateRegularAdmission(
     if (admission.englishWeight > 0) {
       missingRules.push("가산점형 산식에서 영어 반영비율 설정 확인 필요");
     }
+    if ((admission.studentRecordWeight ?? 0) > 0) {
+      missingRules.push("학생부·출결 반영 점수 미입력");
+    }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
       missingRules.push("대학별 영어 등급 가산점표 미등록");
