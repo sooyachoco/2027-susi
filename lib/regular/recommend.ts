@@ -34,6 +34,9 @@ function toEngineScore(profile: RegularStudentProfile): RegularStudentScore {
     koreanHistoryGrade: profile.koreanHistoryGrade ?? 9,
     mathType: normalizeMathType(profile.mathChoice),
     inquiryType: profile.inquiryType === "미선택" ? undefined : profile.inquiryType,
+    inquiry1Type: profile.inquiry1Type === "미선택" ? undefined : profile.inquiry1Type,
+    inquiry2Type: profile.inquiry2Type === "미선택" ? undefined : profile.inquiry2Type,
+    unexcusedAbsenceDays: profile.unexcusedAbsenceDays ?? undefined,
   };
 }
 
