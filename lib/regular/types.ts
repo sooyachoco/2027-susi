@@ -42,6 +42,10 @@ export type RegularAdmission = {
   benchmarkCutline70?: number;
   benchmarkCutline95?: number;
   benchmarkTotalScore?: number;
+  /** True only when benchmark and current calculation use the same official scoring scale. */
+  benchmarkComparable?: boolean;
+  /** True only after every subject conversion and bonus has been checked against the 2027 guide. */
+  calculationVerified?: boolean;
   benchmarkDepartment?: string;
   note?: string;
   sourceUrl: string;
