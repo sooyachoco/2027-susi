@@ -20,7 +20,7 @@ function normalizeMathType(value: RegularStudentProfile["mathChoice"]): RegularS
   return undefined;
 }
 
-function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmission): RegularStudentScore {
+function toEngineScore(profile: RegularStudentProfile): RegularStudentScore {
   return {
     korean: profile.koreanStandard ?? 0,
     koreanPercentile: profile.koreanPercentile ?? 0,
@@ -140,7 +140,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
 
   const eligibleAdmissions = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
-    const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
+    const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
     const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
@@ -170,7 +170,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
   }));
 }
 
