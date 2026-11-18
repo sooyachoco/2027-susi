@@ -179,7 +179,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
 
   const eligible = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
-    const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
+    const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
     const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
