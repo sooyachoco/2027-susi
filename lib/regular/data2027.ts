@@ -84,7 +84,17 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "cau-seoul-da-changict", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
     department: "창의ICT공과대학", majorGroup: "컴퓨터·소프트웨어", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 35, englishWeight: 0, inquiryWeight: 35,
-    inquirySubjects: 2, recruitmentCount: 150, note: "2027 공식 요강 기준 국어 30 / 수학 35 / 탐구 35. 탐구는 백분위 기반 변환표준점수이며 자연계 과탐 과목별 5% 가산. 영어·한국사 가산점 별도. 탐구 변환표준점수표 후속 공지 전까지 최종 환산·합격등급 판정 보류.", sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
+    inquirySubjects: 2, inquiryAggregation: "sum", recruitmentCount: 150,
+    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
+    calculationMode: "weighted-sum-with-additive-bonuses", subjectScoreMultiplier: 5, finalScoreMultiplier: 0.9,
+    inquiryConversionRequired: true, inquiryTypeBonusRequired: true,
+    inquiryTypeBonusRate: { "사탐": 0.05, "과탐": 0.05 },
+    englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 92, 5: 86, 6: 75, 7: 64, 8: 58, 9: 50 },
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.6, 6: 9.2, 7: 8.8, 8: 8.4, 9: 8 },
+    studentRecordWeight: 10,
+    note: "2027 공식 요강의 산식 구조 반영: (국어 표준점수×비율×5 + 수학 표준점수×비율×5 + 탐구 변환표준점수 합×비율×5 + 영어·한국사 등급별 가산점)×0.9. 탐구 변환표준점수는 후속 공지 전이며, 탐구 과목별 5% 가산·출결 10% 입력이 남아 있어 최종 환산 및 합격판정은 보류.",
+    sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
   },
   {
     id: "khu-seoul-ga-humanities", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
