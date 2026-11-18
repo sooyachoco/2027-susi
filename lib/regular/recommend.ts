@@ -35,6 +35,7 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
+  if (admission.benchmarkComparable !== true || admission.calculationVerified !== true) return undefined;
   const raw = admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
   if (raw == null) return undefined;
   if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) return (raw / admission.benchmarkTotalScore) * 1000;
@@ -90,7 +91,8 @@ function rankWithinGroup(items: ScoredAdmission[]): ScoredAdmission[] {
   return [...items].sort((a, b) => {
     const qualityDiff = candidateQuality(b) - candidateQuality(a);
     if (qualityDiff !== 0) return qualityDiff;
-    return b.score - a.score || a.admission.id.localeCompare(b.admission.id);
+    if (a.admission.scoreMetric === b.admission.scoreMetric) return b.score - a.score || a.admission.id.localeCompare(b.admission.id);
+    return a.admission.id.localeCompare(b.admission.id);
   });
 }
 
