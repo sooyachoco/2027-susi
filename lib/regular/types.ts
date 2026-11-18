@@ -18,6 +18,8 @@ export type RegularStudentProfile = {
   inquiryType: "사탐" | "과탐" | "혼합" | "미선택";
   inquiry1Type: "사탐" | "과탐" | "직탐" | "미선택";
   inquiry2Type: "사탐" | "과탐" | "직탐" | "미선택";
+  inquiry1ScienceLevel: "I" | "II" | "미선택";
+  inquiry2ScienceLevel: "I" | "II" | "미선택";
   unexcusedAbsenceDays: number | null;
 };
 
@@ -51,6 +53,7 @@ export type RegularAdmission = {
   cohortNormalizationRequired?: boolean;
   curriculumEvaluationRequired?: boolean;
   scienceCombinationAdjustmentRequired?: boolean;
+  scienceCombinationBonusPoints?: Partial<Record<"I+I" | "I+II" | "II+II", number>>;
   /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
   inquiryConversionTable?: Record<string, number>;
   inquiryConversionRequired?: boolean;
@@ -112,5 +115,7 @@ export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
   inquiryType: "미선택",
   inquiry1Type: "미선택",
   inquiry2Type: "미선택",
+  inquiry1ScienceLevel: "미선택",
+  inquiry2ScienceLevel: "미선택",
   unexcusedAbsenceDays: null,
 };
