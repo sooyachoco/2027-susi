@@ -48,6 +48,9 @@ export type RegularAdmission = {
   calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses";
   subjectScoreMultiplier?: number;
   finalScoreMultiplier?: number;
+  cohortNormalizationRequired?: boolean;
+  curriculumEvaluationRequired?: boolean;
+  scienceCombinationAdjustmentRequired?: boolean;
   /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
   inquiryConversionTable?: Record<string, number>;
   inquiryConversionRequired?: boolean;
