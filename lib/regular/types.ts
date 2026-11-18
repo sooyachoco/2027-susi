@@ -41,6 +41,10 @@ export type RegularAdmission = {
   englishWeight: number;
   inquiryWeight: number;
   inquirySubjects: 1 | 2;
+  inquiryAggregation?: "mean" | "sum" | "best";
+  calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses";
+  subjectScoreMultiplier?: number;
+  finalScoreMultiplier?: number;
   /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
   inquiryConversionTable?: Record<string, number>;
   inquiryConversionRequired?: boolean;
@@ -49,6 +53,8 @@ export type RegularAdmission = {
   inquiryTypeBonusRequired?: boolean;
   mathChoiceBonusPoints?: Partial<Record<"미적분" | "기하" | "확률과통계", number>>;
   inquiryTypeBonusPoints?: Partial<Record<"사탐" | "과탐" | "혼합", number>>;
+  /** Multiplicative bonus rate applied to each converted inquiry subject, e.g. 0.05 for 5%. */
+  inquiryTypeBonusRate?: Partial<Record<"사탐" | "과탐", number>>;
   /** Official grade-to-score table, on the same 0-100 subject-score scale as the weighted calculation. */
   englishGradeTable?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
   /** Official Korean-history additive points on the final 100-point pre-scale. */
