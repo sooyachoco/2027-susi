@@ -118,6 +118,7 @@ const snuGeneral = {
   curriculumEvaluationRequired: true,
   cohortNormalizationRequired: true,
   scienceCombinationAdjustmentRequired: true,
+  scienceCombinationBonusPoints: { "I+I": 0, "I+II": 3, "II+II": 5 },
 };
 const snuResult = calculateRegularAdmission(snuGeneral, sampleScore);
 assert.ok(Math.abs(snuResult.baseScore - 402.0) < 0.000001);
