@@ -102,6 +102,7 @@ const snuGeneral = {
   mathWeight: 120,
   inquiryWeight: 80,
   inquiryAggregation: "sum",
+  subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "표준점수" },
   calculationMode: "weighted-sum-with-additive-bonuses",
   subjectScoreMultiplier: 1,
   finalScoreMultiplier: 1,
@@ -119,7 +120,7 @@ const snuGeneral = {
   scienceCombinationAdjustmentRequired: true,
 };
 const snuResult = calculateRegularAdmission(snuGeneral, sampleScore);
-assert.ok(Math.abs(snuResult.baseScore - 402.4) < 0.000001);
+assert.ok(Math.abs(snuResult.baseScore - 402.0) < 0.000001);
 assert.equal(snuResult.calculationVerified, false);
 assert.ok(snuResult.missingRules.some((rule) => rule.includes("최고·최저점")));
 assert.ok(snuResult.missingRules.some((rule) => rule.includes("교과평가")));
