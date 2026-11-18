@@ -33,7 +33,7 @@ function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmissi
     englishGrade: profile.englishGrade ?? 9,
     koreanHistoryGrade: profile.koreanHistoryGrade ?? 9,
     mathType: normalizeMathType(profile.mathChoice),
-    inquiryType: profile.inquiryType,
+    inquiryType: profile.inquiryType === "미선택" ? undefined : profile.inquiryType,
   };
 }
 
