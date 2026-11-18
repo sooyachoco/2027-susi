@@ -57,7 +57,7 @@ export default function Page() {
             <div className="eyebrow">{rec.group}군 · {rec.tier}</div>
             <h3 style={{margin:"8px 0 4px"}}>{rec.universityName}</h3>
             <div className="muted">{rec.department}</div>
-            <div style={{fontSize:32,fontWeight:800,marginTop:16}}>{rec.score}<small style={{fontSize:14,fontWeight:500}}> 환산점수</small></div>
+            <div style={{fontSize:32,fontWeight:800,marginTop:16}}>{rec.score}<small style={{fontSize:14,fontWeight:500}}> 참고 계산값</small></div>
             <div className="balanceText" style={{marginTop:10}}>{rec.reason}</div>
             <a className="secondary" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer" style={{display:"inline-block",marginTop:14}}>모집요강 확인 ↗</a>
           </article>)}
