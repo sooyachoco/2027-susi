@@ -166,6 +166,7 @@ const yonseiType1 = {
   mathWeight: 100,
   inquiryWeight: 100,
   finalScoreMultiplier: 950 / 800,
+  gradeAdjustmentsAfterFinalMultiplier: false,
   inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
   englishGradeTable: { 1: 100, 2: 95, 3: 87.5, 4: 75, 5: 60, 6: 40, 7: 25, 8: 12.5, 9: 5 },
   koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
