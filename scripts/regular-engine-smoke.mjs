@@ -136,4 +136,51 @@ assert.ok(Math.abs(snuWithScienceLevels.totalScore - 403.7) < 0.000001);
 assert.ok(snuWithScienceLevels.appliedComponents.includes("과학탐구 조합별 조정점수"));
 assert.ok(!snuWithScienceLevels.missingRules.some((rule) => rule.includes("과학탐구")));
 
-console.log("Regular scoring smoke tests passed: Central formula sample, SNU raw formula, and missing-rule guards.");
+
+const koreaNatural = {
+  ...cauNatural,
+  id: "korea-natural-smoke",
+  koreanWeight: 100,
+  mathWeight: 120,
+  inquiryWeight: 100,
+  subjectScoreMultiplier: 1,
+  finalScoreMultiplier: 1000 / 640,
+  englishGradeTable: { 1: 0, 2: -3, 3: -6, 4: -9, 5: -12, 6: -15, 7: -18, 8: -21, 9: -24 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -2 },
+  gradeAdjustmentsAfterFinalMultiplier: true,
+  studentRecordWeight: undefined,
+  curriculumEvaluationRequired: false,
+  scienceCombinationAdjustmentRequired: false,
+  inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+};
+const koreaResult = calculateRegularAdmission(koreaNatural, sampleScore);
+const koreaExpectedBase = (134 + 136 * 1.2 + (65.34 + 67.24) * 1.03) * (1000 / 640);
+assert.ok(Math.abs(koreaResult.baseScore - koreaExpectedBase) < 0.000001);
+assert.ok(Math.abs(koreaResult.totalScore - (koreaExpectedBase - 3.2)) < 0.000001);
+assert.ok(koreaResult.appliedComponents.includes("영어 등급 가산점"));
+
+const yonseiType1 = {
+  ...koreaNatural,
+  id: "yonsei-type1-smoke",
+  koreanWeight: 150,
+  mathWeight: 100,
+  inquiryWeight: 100,
+  finalScoreMultiplier: 950 / 800,
+  inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 95, 3: 87.5, 4: 75, 5: 60, 6: 40, 7: 25, 8: 12.5, 9: 5 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
+  curriculumEvaluationRequired: true,
+  studentRecordWeight: 50,
+  scienceCombinationAdjustmentRequired: false,
+};
+const yonseiResult = calculateRegularAdmission(yonseiType1, {
+  ...sampleScore,
+  inquiry1Type: "사탐",
+  inquiry2Type: "사탐",
+});
+const yonseiExpectedRaw = 134 * 1.5 + 136 + (65.34 + 67.24) * 1.03 + 95 - 0.8;
+assert.ok(Math.abs(yonseiResult.totalScore - yonseiExpectedRaw * (950 / 800)) < 0.000001);
+assert.ok(yonseiResult.missingRules.some((rule) => rule.includes("교과평가")));
+assert.equal(yonseiResult.calculationVerified, false);
+
+console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei formula samples, and missing-rule guards.");
