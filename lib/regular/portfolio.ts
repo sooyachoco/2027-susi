@@ -1,7 +1,7 @@
 import type { RegularAdmission, RegularRecommendation, RegularStudentProfile } from "./types";
-import { recommendRegular } from "./recommend";
+import { recommendRegular, recommendRegularPortfolio as optimizeRegularPortfolio } from "./recommend";
 
-export type RegularPortfolioStyle = "균형형";
+export type RegularPortfolioStyle = "안정형" | "균형형" | "도전형" | "기초 후보형";
 
 export type RegularPortfolioRecommendation = {
   style: RegularPortfolioStyle;
@@ -11,22 +11,32 @@ export type RegularPortfolioRecommendation = {
 };
 
 /**
- * 현재 데이터 계층에서는 가·나·다군별 최우선 후보를 먼저 확정한다.
- * 다중 후보 조합 탐색은 전년도 컷·충원·모집인원 데이터가 충분히 쌓인 뒤
- * 별도 단계에서 연결한다. 후보가 부족한데 안정형/도전형을 꾸며내지 않는다.
+ * 검증된 기준점이 충분하면 가·나·다군 상위 후보 조합을 함께 평가한다.
+ * 아직 기준점이 부족하면 기존 모집군별 후보를 보여주되,
+ * 이를 최적 포트폴리오나 합격 가능성 점수로 오인하지 않도록 구분한다.
  */
 export function recommendRegularPortfolio(
   profile: RegularStudentProfile,
   admissions: RegularAdmission[],
 ): RegularPortfolioRecommendation[] {
+  const optimized = optimizeRegularPortfolio(profile, admissions);
+
+  if (optimized) {
+    return [{
+      style: optimized.strategy,
+      score: Math.round((optimized.stabilityScore + optimized.fitScore) / 2),
+      recommendations: optimized.admissions,
+      summary: optimized.summary,
+    }];
+  }
+
   const recommendations = recommendRegular(profile, admissions);
   if (!recommendations.length) return [];
 
-  const hasAllGroups = recommendations.length === 3;
-  const score = hasAllGroups ? 78 : 52;
-  const summary = hasAllGroups
-    ? "현재 데이터에서 가·나·다군 후보를 하나씩 확보했습니다. 다음 단계에서는 여러 후보를 비교해 안정·균형·도전 조합까지 확장합니다."
-    : "가·나·다군 중 일부 후보만 확보됐습니다. 데이터가 없는 모집군을 억지로 추천하지 않았습니다.";
-
-  return [{ style: "균형형", score, recommendations, summary }];
+  return [{
+    style: "기초 후보형",
+    score: 0,
+    recommendations,
+    summary: "현재 데이터에는 가·나·다군 전체를 비교할 만큼 검증된 전년도 기준점이 충분하지 않습니다. 아래는 모집군별 참고 후보이며, 최적 조합이나 합격 가능성 판정으로 해석하면 안 됩니다.",
+  }];
 }
