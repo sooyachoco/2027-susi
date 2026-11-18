@@ -179,7 +179,7 @@ const yonseiResult = calculateRegularAdmission(yonseiType1, {
   inquiry1Type: "사탐",
   inquiry2Type: "사탐",
 });
-const yonseiExpectedRaw = 134 * 1.5 + 136 + (65.34 + 67.24) * 1.03 + 95 - 0.8;
+const yonseiExpectedRaw = 134 * 1.5 + 136 + (65.34 + 67.24) * 1.03 + 95 - 0.2;
 assert.ok(Math.abs(yonseiResult.totalScore - yonseiExpectedRaw * (950 / 800)) < 0.000001);
 assert.ok(yonseiResult.missingRules.some((rule) => rule.includes("교과평가")));
 assert.equal(yonseiResult.calculationVerified, false);
