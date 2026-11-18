@@ -19,9 +19,13 @@ function isExcludedAdmission(item: RegularAdmission) {
 }
 
 export function getRegularAdmissions(): RegularAdmission[] {
-  return ALL_REGULAR_ADMISSIONS_2027.filter(
-    (item) => TARGET_REGIONS.has(item.region) && !isExcludedAdmission(item),
-  );
+  const seen = new Set<string>();
+  return ALL_REGULAR_ADMISSIONS_2027.filter((item) => {
+    if (!TARGET_REGIONS.has(item.region) || isExcludedAdmission(item)) return false;
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
 }
 
 export function findRegularAdmission(id: string): RegularAdmission | undefined {
