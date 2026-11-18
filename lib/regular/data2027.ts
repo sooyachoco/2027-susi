@@ -56,7 +56,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 80,
     inquirySubjects: 2, inquiryAggregation: "sum", calculationMode: "weighted-sum-with-additive-bonuses",
     subjectScoreMultiplier: 1, finalScoreMultiplier: 1, studentRecordWeight: 20,
-    curriculumEvaluationRequired: true, cohortNormalizationRequired: true, scienceCombinationAdjustmentRequired: true,
+    curriculumEvaluationRequired: true, cohortNormalizationRequired: true, scienceCombinationAdjustmentRequired: true, scienceCombinationBonusPoints: { "I+I": 0, "I+II": 3, "II+II": 5 },
     englishGradeTable: { 1: 0, 2: -0.5, 3: -2, 4: -4, 5: -6, 6: -8, 7: -10, 8: -12, 9: -14 },
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.4, 5: -0.8, 6: -1.2, 7: -1.6, 8: -2, 9: -2.4 },
