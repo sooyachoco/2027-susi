@@ -105,7 +105,6 @@ function scoreAdmissionSet(items: ScoredAdmission[]): number {
   const hasTarget = tierSet.has("적정");
   const hasBold = tierSet.has("소신") || tierSet.has("상향");
 
-  // 3장 전체의 균형을 평가한다. 적정+안정 기반에 소신/상향 한 장을 허용한다.
   let balance = 0;
   if (hasStable) balance += 12;
   if (hasTarget) balance += 16;
@@ -114,8 +113,7 @@ function scoreAdmissionSet(items: ScoredAdmission[]): number {
   if (!hasStable) balance -= 10;
   if (!hasTarget) balance -= 8;
 
-  const fit = items.reduce((sum, item) => sum + item.fit, 0) * 1.5;
-  return base + balance + fit;
+  return base + balance;
 }
 
 export type RegularPortfolioRecommendation = {
@@ -187,10 +185,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     byGroup.set(item.admission.group, list);
   }
 
-  const candidates = (["가", "나", "다"] as const).map((group) => {
-    const ranked = rankWithinGroup(byGroup.get(group) ?? []);
-    return ranked.slice(0, 8);
-  });
+  const candidates = (["가", "나", "다"] as const).map((group) => rankWithinGroup(byGroup.get(group) ?? []).slice(0, 8));
   if (candidates.some((list) => list.length === 0)) return null;
 
   let best: { items: [ScoredAdmission, ScoredAdmission, ScoredAdmission]; score: number } | null = null;
@@ -203,7 +198,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
       }
     }
   }
-  if (!best) return null;
+  if (!best || best.items.some((item) => item.tier === "판정 보류")) return null;
 
   const recommendations = best.items.map(({ admission, result, score, fit, reference, tier }) => ({
     admissionId: admission.id,
@@ -228,6 +223,6 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     stabilityScore,
     fitScore,
     strategy,
-    summary: `가·나·다군을 개별 순위가 아니라 하나의 지원 포트폴리오로 평가했습니다. ${strategy} 조합이며 합격 안정성 ${stabilityScore}점, 전공 적합도 ${fitScore}점입니다.`,
+    summary: `가·나·다군 상위 후보 조합을 함께 비교했습니다. ${strategy} 조합이며 합격 안정성 지수 ${stabilityScore}점, 전공 적합도 지수 ${fitScore}점입니다. 이는 과거 기준점에 기반한 참고 지수이며 합격 확률은 아닙니다.`,
   };
 }
