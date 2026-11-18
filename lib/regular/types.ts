@@ -16,6 +16,9 @@ export type RegularStudentProfile = {
   koreanHistoryGrade: number | null;
   mathChoice: "확통" | "미적분" | "기하" | "미선택";
   inquiryType: "사탐" | "과탐" | "혼합" | "미선택";
+  inquiry1Type: "사탐" | "과탐" | "직탐" | "미선택";
+  inquiry2Type: "사탐" | "과탐" | "직탐" | "미선택";
+  unexcusedAbsenceDays: number | null;
 };
 
 export type RegularSubjectMetrics = {
@@ -54,7 +57,9 @@ export type RegularAdmission = {
   mathChoiceBonusPoints?: Partial<Record<"미적분" | "기하" | "확률과통계", number>>;
   inquiryTypeBonusPoints?: Partial<Record<"사탐" | "과탐" | "혼합", number>>;
   /** Multiplicative bonus rate applied to each converted inquiry subject, e.g. 0.05 for 5%. */
-  inquiryTypeBonusRate?: Partial<Record<"사탐" | "과탐", number>>;
+  inquiryTypeBonusRate?: Partial<Record<"사탐" | "과탐" | "직탐", number>>;
+  /** Attendance score added after the weighted CSAT score; sorted by maxDays ascending. */
+  attendanceScoreByAbsenceDays?: Array<{ maxDays: number; score: number }>;
   /** Official grade-to-score table, on the same 0-100 subject-score scale as the weighted calculation. */
   englishGradeTable?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
   /** Official Korean-history additive points on the final 100-point pre-scale. */
@@ -102,4 +107,7 @@ export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
   koreanHistoryGrade: null,
   mathChoice: "미선택",
   inquiryType: "미선택",
+  inquiry1Type: "미선택",
+  inquiry2Type: "미선택",
+  unexcusedAbsenceDays: null,
 };
