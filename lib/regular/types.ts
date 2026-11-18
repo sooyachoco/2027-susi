@@ -18,6 +18,12 @@ export type RegularStudentProfile = {
   inquiryType: "사탐" | "과탐" | "혼합" | "미선택";
 };
 
+export type RegularSubjectMetrics = {
+  korean?: ScoreMetric;
+  math?: ScoreMetric;
+  inquiry?: ScoreMetric;
+};
+
 export type RegularAdmission = {
   id: string;
   universityId: string;
@@ -27,12 +33,20 @@ export type RegularAdmission = {
   majorGroup: string;
   group: AdmissionGroup;
   recruitmentCount?: number;
+  /** Legacy fallback only. Prefer subjectMetrics for independently selected subject scales. */
   scoreMetric: ScoreMetric;
+  subjectMetrics?: RegularSubjectMetrics;
   koreanWeight: number;
   mathWeight: number;
   englishWeight: number;
   inquiryWeight: number;
   inquirySubjects: 1 | 2;
+  /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
+  inquiryConversionTable?: Record<string, number>;
+  /** Official grade-to-score table, on the same 0-100 subject-score scale as the weighted calculation. */
+  englishGradeTable?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
+  /** Official Korean-history additive points on the final 100-point pre-scale. */
+  koreanHistoryGradePoints?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
   languageMathMode?: "고득점 우선";
   studentRecordWeight?: number;
   expectedCutline?: number;
