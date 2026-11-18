@@ -171,7 +171,12 @@ export function calculateRegularAdmission(
     if (admission.englishWeight > 0) {
       missingRules.push("가산점형 산식에서 영어 반영비율 설정 확인 필요");
     }
-    if ((admission.studentRecordWeight ?? 0) > 0) {
+    if (admission.cohortNormalizationRequired) {
+      missingRules.push("모집단위별 수능 최고·최저점 기반 상대 환산 자료 미확보");
+    }
+    if (admission.curriculumEvaluationRequired) {
+      missingRules.push("대학별 교과평가 점수 미입력");
+    } else if ((admission.studentRecordWeight ?? 0) > 0) {
       const days = score.unexcusedAbsenceDays;
       const attendanceTable = admission.attendanceScoreByAbsenceDays;
       const attendance = days == null || !attendanceTable
@@ -185,6 +190,9 @@ export function calculateRegularAdmission(
         postMultiplierBonus += attendance;
         appliedComponents.push("미인정 결석 일수 출결 환산");
       }
+    }
+    if (admission.scienceCombinationAdjustmentRequired) {
+      missingRules.push("과학탐구 과목 조합별 조정점수 입력 필요");
     }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
