@@ -82,10 +82,9 @@ function gradePoints(
 }
 
 /**
- * 대학별 공식 산식 설정이 존재하는 항목만 반영한다.
- * 설정이 없는 환산표/가산점은 임의의 공통값으로 대체하지 않는다.
- * 반환 점수는 참고지수이며, 합격선 비교에는 calculationVerified와
- * benchmarkComparable이 모두 true인 데이터만 사용한다.
+ * Supports both normalized weighted-average rules and official weighted-sum
+ * formulas with additive grade bonuses. Missing official conversion data is
+ * never replaced with an invented common table.
  */
 export function calculateRegularAdmission(
   admission: RegularAdmission,
@@ -98,12 +97,46 @@ export function calculateRegularAdmission(
   const mathMetric = admission.subjectMetrics?.math ?? admission.scoreMetric;
   const korean = metricValue(score.korean, score.koreanPercentile, koreanMetric, 200);
   const math = metricValue(score.math, score.mathPercentile, mathMetric, 200);
-  const inquiry1 = inquiryValue(admission, score.inquiry1, score.inquiry1Percentile);
-  const inquiry2 = inquiryValue(admission, score.inquiry2, score.inquiry2Percentile);
-  const inquiryComplete = inquiry1 != null && (admission.inquirySubjects === 1 || inquiry2 != null);
-  const inquiry = inquiryComplete
-    ? admission.inquirySubjects === 1 ? inquiry1! : (inquiry1! + inquiry2!) / 2
+
+  let inquiry1 = inquiryValue(admission, score.inquiry1, score.inquiry1Percentile);
+  let inquiry2 = admission.inquirySubjects === 2
+    ? inquiryValue(admission, score.inquiry2, score.inquiry2Percentile)
     : undefined;
+
+  if (admission.inquiryTypeBonusRequired) {
+    const rate = score.inquiryType && score.inquiryType !== "혼합"
+      ? admission.inquiryTypeBonusRate?.[score.inquiryType]
+      : undefined;
+    if (typeof rate !== "number") {
+      missingRules.push(
+        score.inquiryType === "혼합"
+          ? "혼합 탐구의 과목별 선택유형 정보 미입력"
+          : "탐구 선택유형 가산점 규칙 미등록",
+      );
+      inquiry1 = undefined;
+      inquiry2 = admission.inquirySubjects === 2 ? undefined : inquiry2;
+    } else {
+      if (inquiry1 != null) inquiry1 *= 1 + rate;
+      if (inquiry2 != null) inquiry2 *= 1 + rate;
+      appliedComponents.push("탐구 선택유형 가산율");
+    }
+  }
+
+  const inquiryComplete = inquiry1 != null && (admission.inquirySubjects === 1 || inquiry2 != null);
+  let inquiry: number | undefined;
+  if (inquiryComplete) {
+    if (admission.inquirySubjects === 1) inquiry = inquiry1;
+    else if (admission.inquiryAggregation === "sum") inquiry = inquiry1! + inquiry2!;
+    else if (admission.inquiryAggregation === "best") inquiry = Math.max(inquiry1!, inquiry2!);
+    else inquiry = (inquiry1! + inquiry2!) / 2;
+    appliedComponents.push(admission.inquiryConversionTable ? "탐구 변환표준점수표" : "탐구 점수");
+  } else if (admission.inquiryWeight > 0 && !missingRules.some((rule) => rule.includes("탐구 선택유형"))) {
+    missingRules.push(
+      admission.inquiryConversionRequired
+        ? "탐구 변환표준점수표 미등록 또는 백분위 매칭 실패"
+        : "탐구 점수 입력·환산값 확인 필요",
+    );
+  }
 
   const languageMathScore = admission.languageMathMode === "고득점 우선"
     ? Math.max(
@@ -112,63 +145,79 @@ export function calculateRegularAdmission(
       )
     : korean * admission.koreanWeight + math * admission.mathWeight;
 
-  // 변환표가 필요한 탐구 점수는 표가 없거나 입력 백분위가 매칭되지 않으면
-  // 평균 계산에서 제외하고, 미반영 사유를 명시한다.
-  let academicWeightedTotal = languageMathScore;
-  let academicWeight = admission.koreanWeight + admission.mathWeight;
-  if (inquiry != null) {
-    academicWeightedTotal += inquiry * admission.inquiryWeight;
-    academicWeight += admission.inquiryWeight;
-    appliedComponents.push(admission.inquiryConversionTable ? "탐구 변환표준점수표" : "탐구 점수");
-  } else if (admission.inquiryWeight > 0) {
-    missingRules.push(
-      admission.inquiryConversionRequired
-        ? "탐구 변환표준점수표 미등록 또는 백분위 매칭 실패"
-        : "탐구 점수 입력·환산값 확인 필요",
-    );
-  }
+  const calculationMode = admission.calculationMode ?? "weighted-average";
+  const multiplier = admission.subjectScoreMultiplier ?? 1;
+  const finalMultiplier = admission.finalScoreMultiplier ?? 1;
 
-  const academicAverage = academicWeight > 0 ? academicWeightedTotal / academicWeight : 0;
-  if (academicWeight <= 0) missingRules.push("국어·수학·탐구 반영비율 미설정");
-  else appliedComponents.push("국어·수학");
+  let baseScore = 0;
+  let bonusScore = 0;
 
-  const studentRecordWeight = clamp(admission.studentRecordWeight ?? 0, 0, 100);
-  const testWeight = 100 - studentRecordWeight;
-  const englishWeight = clamp(admission.englishWeight, 0, testWeight);
-  const academicContributionWeight = Math.max(0, testWeight - englishWeight);
+  if (calculationMode === "weighted-sum-with-additive-bonuses") {
+    const weightedSubjects =
+      (korean * admission.koreanWeight / 100) +
+      (math * admission.mathWeight / 100) +
+      (inquiry != null ? inquiry * admission.inquiryWeight / 100 : 0);
+    baseScore = weightedSubjects * multiplier;
 
-  let weightedTotal = academicAverage * academicContributionWeight;
-  let includedWeight = academicContributionWeight;
-
-  if (englishWeight > 0) {
+    if (admission.englishWeight > 0) {
+      missingRules.push("가산점형 산식에서 영어 반영비율 설정 확인 필요");
+    }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
-      missingRules.push("대학별 영어 등급 환산표 미등록");
+      missingRules.push("대학별 영어 등급 가산점표 미등록");
     } else {
-      weightedTotal += english * englishWeight;
-      includedWeight += englishWeight;
-      appliedComponents.push("영어 등급 환산");
+      bonusScore += english;
+      appliedComponents.push("영어 등급 가산점");
     }
-  }
 
-  if (studentRecordWeight > 0) {
-    missingRules.push("학생부 성적 미입력");
-  }
-
-  let bonus = 0;
-  if (admission.koreanHistoryRequired) {
-    const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
-    if (history == null) {
-      missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
-    } else {
-      bonus += history;
-      appliedComponents.push("한국사 등급 반영");
+    if (admission.koreanHistoryRequired) {
+      const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
+      if (history == null) {
+        missingRules.push("대학별 한국사 등급 가산점표 미등록");
+      } else {
+        bonusScore += history;
+        appliedComponents.push("한국사 등급 가산점");
+      }
     }
-  } else if (admission.koreanHistoryGradePoints) {
-    const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
-    if (history != null) {
-      bonus += history;
-      appliedComponents.push("한국사 등급 반영");
+  } else {
+    const studentRecordWeight = clamp(admission.studentRecordWeight ?? 0, 0, 100);
+    const testWeight = 100 - studentRecordWeight;
+    const englishWeight = clamp(admission.englishWeight, 0, testWeight);
+    const academicContributionWeight = Math.max(0, testWeight - englishWeight);
+    const academicWeight = admission.koreanWeight + admission.mathWeight + (inquiry != null ? admission.inquiryWeight : 0);
+    const academicWeightedTotal = languageMathScore + (inquiry != null ? inquiry * admission.inquiryWeight : 0);
+    const academicAverage = academicWeight > 0 ? academicWeightedTotal / academicWeight : 0;
+
+    let weightedTotal = academicAverage * academicContributionWeight;
+    let includedWeight = academicContributionWeight;
+    if (englishWeight > 0) {
+      const english = gradePoints(admission.englishGradeTable, score.englishGrade);
+      if (english == null) {
+        missingRules.push("대학별 영어 등급 환산표 미등록");
+      } else {
+        weightedTotal += english * englishWeight;
+        includedWeight += englishWeight;
+        appliedComponents.push("영어 등급 환산");
+      }
+    }
+    baseScore = includedWeight > 0 ? (weightedTotal / includedWeight) * 10 : academicAverage * 10;
+
+    if (studentRecordWeight > 0) missingRules.push("학생부 성적 미입력");
+
+    if (admission.koreanHistoryRequired) {
+      const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
+      if (history == null) {
+        missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
+      } else {
+        bonusScore += history * 10;
+        appliedComponents.push("한국사 등급 반영");
+      }
+    } else if (admission.koreanHistoryGradePoints) {
+      const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
+      if (history != null) {
+        bonusScore += history * 10;
+        appliedComponents.push("한국사 등급 반영");
+      }
     }
   }
 
@@ -176,49 +225,38 @@ export function calculateRegularAdmission(
     const points = score.mathType ? admission.mathChoiceBonusPoints?.[score.mathType] : undefined;
     if (typeof points !== "number") missingRules.push("수학 선택과목 가산점 규칙 미등록");
     else {
-      bonus += points;
+      bonusScore += points * 10;
       appliedComponents.push("수학 선택과목 가산점");
     }
   } else if (score.mathType && admission.mathChoiceBonusPoints) {
     const points = admission.mathChoiceBonusPoints[score.mathType];
     if (typeof points === "number") {
-      bonus += points;
+      bonusScore += points * 10;
       appliedComponents.push("수학 선택과목 가산점");
     }
   }
 
-  if (admission.inquiryTypeBonusRequired) {
-    const points = score.inquiryType ? admission.inquiryTypeBonusPoints?.[score.inquiryType] : undefined;
-    if (typeof points !== "number") missingRules.push("탐구 선택유형 가산점 규칙 미등록");
-    else {
-      bonus += points;
-      appliedComponents.push("탐구 선택유형 가산점");
-    }
-  } else if (score.inquiryType && admission.inquiryTypeBonusPoints) {
-    const points = admission.inquiryTypeBonusPoints[score.inquiryType];
+  if (admission.inquiryTypeBonusPoints) {
+    const points = score.inquiryType ? admission.inquiryTypeBonusPoints[score.inquiryType] : undefined;
     if (typeof points === "number") {
-      bonus += points;
+      bonusScore += points * 10;
       appliedComponents.push("탐구 선택유형 가산점");
     }
   }
 
-  // 계산 가능한 영역만으로 1,000점 기준 참고지수를 만든다.
-  // 미등록 영역을 0점으로 처리하지 않으며, 미적용 항목은 missingRules에 명시한다.
-  const base = includedWeight > 0 ? weightedTotal / includedWeight : academicAverage;
-  const scale = 10;
-  const baseScore = base * scale;
-  const bonusScore = bonus * scale;
-
+  baseScore *= finalMultiplier;
+  bonusScore *= finalMultiplier;
+  const totalScore = baseScore + bonusScore;
   const calculationVerified =
     admission.calculationVerified === true &&
     missingRules.length === 0 &&
-    includedWeight > 0;
+    Number.isFinite(totalScore);
 
   return {
     admissionId: admission.id,
     baseScore,
     bonus: bonusScore,
-    totalScore: baseScore + bonusScore,
+    totalScore,
     metric: admission.scoreMetric,
     calculationVerified,
     missingRules,
