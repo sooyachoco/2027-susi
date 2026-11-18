@@ -11,6 +11,7 @@ export function classifyRegularGap(gap: number): RegularTier {
 }
 
 function getCutline(admission: RegularAdmission): number | undefined {
+  if (admission.benchmarkComparable !== true || admission.calculationVerified !== true) return undefined;
   const raw = admission.benchmarkCutline70
     ?? admission.benchmarkCutline95
     ?? admission.expectedCutline
