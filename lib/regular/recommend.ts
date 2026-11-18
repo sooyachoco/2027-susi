@@ -36,6 +36,8 @@ function toEngineScore(profile: RegularStudentProfile): RegularStudentScore {
     inquiryType: profile.inquiryType === "미선택" ? undefined : profile.inquiryType,
     inquiry1Type: profile.inquiry1Type === "미선택" ? undefined : profile.inquiry1Type,
     inquiry2Type: profile.inquiry2Type === "미선택" ? undefined : profile.inquiry2Type,
+    inquiry1ScienceLevel: profile.inquiry1ScienceLevel === "미선택" ? undefined : profile.inquiry1ScienceLevel,
+    inquiry2ScienceLevel: profile.inquiry2ScienceLevel === "미선택" ? undefined : profile.inquiry2ScienceLevel,
     unexcusedAbsenceDays: profile.unexcusedAbsenceDays ?? undefined,
   };
 }
