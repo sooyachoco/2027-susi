@@ -19,9 +19,10 @@ export type RegularCalculation = {
   metric: ScoreMetric;
 };
 
-function englishScore(grade: number, weight: number) {
+function englishScore(grade: number) {
+  // 임시 참고 환산표. 대학별 공식 등급환산표가 등록되기 전에는 합격판정에 사용하지 않는다.
   const table: Record<number, number> = { 1: 100, 2: 96, 3: 92, 4: 86, 5: 80, 6: 70, 7: 60, 8: 50, 9: 40 };
-  return ((table[grade] ?? 0) / 100) * weight;
+  return table[grade] ?? 0;
 }
 
 function historyBonus(grade: number | undefined) {
@@ -51,20 +52,24 @@ export function calculateRegularAdmission(admission: RegularAdmission, score: Re
     ? (languageMathScore + inquiry * admission.inquiryWeight) / academicWeight
     : 0;
 
-  // 학생부 반영 전형에서는 학생부 점수를 임의로 채우지 않는다.
-  // 수능 영역별 비율은 전형 총점에서 학생부 비율을 제외한 만큼만 기여하도록
-  // 학업영역을 재비례하고, 영어는 입력된 영어 반영비율을 그대로 적용한다.
+  // 영역별 가중치를 먼저 전체 수능 반영비율에 맞춰 재배분한다.
+  // 학생부 점수는 입력되지 않으므로 학생부 반영분은 계산하지 않는다.
+  // 이 결과는 임시 참고지수이며, 대학별 공식 환산식 검증 전에는 합격등급에 쓰지 않는다.
   const studentRecordWeight = Math.max(0, Math.min(100, admission.studentRecordWeight ?? 0));
   const testWeight = 100 - studentRecordWeight;
   const englishWeight = Math.min(Math.max(0, admission.englishWeight), testWeight);
   const academicContributionWeight = Math.max(0, testWeight - englishWeight);
-  const base = (
-    academicWeight > 0
-      ? academic * (academicContributionWeight / academicWeight)
-      : 0
-  ) + englishScore(score.englishGrade, englishWeight);
+  const normalizedAcademicWeight = academicWeight > 0 ? academicContributionWeight / academicWeight : 0;
+  const academicContribution = (
+    korean * admission.koreanWeight +
+    math * admission.mathWeight +
+    inquiry * admission.inquiryWeight
+  ) / 100 * normalizedAcademicWeight;
+  const englishContribution = englishScore(score.englishGrade) * englishWeight / 100;
+  const base = academicContribution + englishContribution;
 
-  const bonus = historyBonus(score.koreanHistoryGrade);
+  // 대학별 한국사 환산표가 없으므로 공통 감점을 임의 적용하지 않는다.
+  const bonus = 0;
   const scale = 10;
   return {
     admissionId: admission.id,
