@@ -6,7 +6,7 @@ const YONSEI_SOURCE = "https://admission.yonsei.ac.kr/seoul/admission/html/main/
 const KOREA_SOURCE = "https://oku.korea.ac.kr/";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
-const CAU_SOURCE = "https://admission.cau.ac.kr/";
+const CAU_SOURCE = "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=cau2027.pdf&sfn=20260901055935966_c1b3b13829d64e208b27824d73e5eee2.pdf";
 const KHU_SOURCE = "https://iphak.khu.ac.kr/";
 const EWHA_SOURCE = "https://admission.ewha.ac.kr/admission/html/regular/guide.asp";
 const KONKUK_SOURCE = "https://enter.konkuk.ac.kr/";
@@ -84,7 +84,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   {
     id: "cau-seoul-da-changict", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
     department: "창의ICT공과대학", majorGroup: "컴퓨터·소프트웨어", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 35, englishWeight: 0, inquiryWeight: 35,
-    inquirySubjects: 2, recruitmentCount: 150, note: "수능 100%. 국어 30 / 수학 35 / 탐구 35. 영어·한국사는 등급별 가산점. 탐구 변환표준점수 및 가산점 적용.", sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
+    inquirySubjects: 2, recruitmentCount: 150, note: "2027 공식 요강 기준 국어 30 / 수학 35 / 탐구 35. 탐구는 백분위 기반 변환표준점수이며 자연계 과탐 과목별 5% 가산. 영어·한국사 가산점 별도. 탐구 변환표준점수표 후속 공지 전까지 최종 환산·합격등급 판정 보류.", sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
   },
   {
     id: "khu-seoul-ga-humanities", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
