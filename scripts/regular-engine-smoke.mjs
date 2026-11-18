@@ -126,4 +126,13 @@ assert.ok(snuResult.missingRules.some((rule) => rule.includes("최고·최저점
 assert.ok(snuResult.missingRules.some((rule) => rule.includes("교과평가")));
 assert.ok(snuResult.missingRules.some((rule) => rule.includes("과학탐구")));
 
+const snuWithScienceLevels = calculateRegularAdmission(snuGeneral, {
+  ...sampleScore,
+  inquiry1ScienceLevel: "I",
+  inquiry2ScienceLevel: "II",
+});
+assert.ok(Math.abs(snuWithScienceLevels.totalScore - 403.7) < 0.000001);
+assert.ok(snuWithScienceLevels.appliedComponents.includes("과학탐구 조합별 조정점수"));
+assert.ok(!snuWithScienceLevels.missingRules.some((rule) => rule.includes("과학탐구")));
+
 console.log("Regular scoring smoke tests passed: Central formula sample, SNU raw formula, and missing-rule guards.");
