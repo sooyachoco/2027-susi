@@ -10,7 +10,8 @@
     "preview": "npx @opennextjs/cloudflare@1.20.17 preview",
     "start": "next start",
     "lint": "next lint",
-    "check:majors": "node scripts/major-match-check.mjs"
+    "check:majors": "node scripts/major-match-check.mjs",
+    "test:regular": "node scripts/regular-engine-smoke.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",
