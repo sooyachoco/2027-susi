@@ -53,8 +53,15 @@ export const regularAdmissions2027: RegularAdmission[] = [
   },
   {
     id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
-    department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 33.3, mathWeight: 40, englishWeight: 0, inquiryWeight: 26.7,
-    inquirySubjects: 2, studentRecordWeight: 20, note: "일반전형 2단계 기준 수능 80% + 교과평가 20%. 수능 표준점수 기반, 영어·한국사 반영은 별도. 모집단위별 지원조건 확인 필요.", sourceUrl: SNU_SOURCE, verifiedAt: "2026-09-29",
+    department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 80,
+    inquirySubjects: 2, inquiryAggregation: "sum", calculationMode: "weighted-sum-with-additive-bonuses",
+    subjectScoreMultiplier: 1, finalScoreMultiplier: 1, studentRecordWeight: 20,
+    curriculumEvaluationRequired: true, cohortNormalizationRequired: true, scienceCombinationAdjustmentRequired: true,
+    englishGradeTable: { 1: 0, 2: -0.5, 3: -2, 4: -4, 5: -6, 6: -8, 7: -10, 8: -12, 9: -14 },
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.4, 5: -0.8, 6: -1.2, 7: -1.6, 8: -2, 9: -2.4 },
+    note: "2027 공식 요강의 수능 원점수 구조 반영: 국어 표준점수 + 수학 표준점수×1.2 + 탐구 표준점수 합×0.8, 영어·한국사 감점. 과탐 조정점수, 모집단위별 1단계 최고·최저점 기반 상대 환산, 2단계 교과평가 20점이 남아 있어 최종 환산·합격판정은 보류.",
+    sourceUrl: SNU_SOURCE, verifiedAt: "2026-11-18",
   },
   {
     id: "yonsei-seoul-ga-general", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
