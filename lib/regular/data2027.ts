@@ -88,7 +88,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
     calculationMode: "weighted-sum-with-additive-bonuses", subjectScoreMultiplier: 5, finalScoreMultiplier: 0.9,
     inquiryConversionRequired: true, inquiryTypeBonusRequired: true,
-    inquiryTypeBonusRate: { "사탐": 0.05, "과탐": 0.05 },
+    inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05 },
     englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 92, 5: 86, 6: 75, 7: 64, 8: 58, 9: 50 },
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.6, 6: 9.2, 7: 8.8, 8: 8.4, 9: 8 },
