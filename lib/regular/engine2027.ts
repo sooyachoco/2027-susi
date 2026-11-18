@@ -59,7 +59,6 @@ export function calculateRegularAdmission(admission: RegularAdmission, score: Re
   const testWeight = 100 - studentRecordWeight;
   const englishWeight = Math.min(Math.max(0, admission.englishWeight), testWeight);
   const academicContributionWeight = Math.max(0, testWeight - englishWeight);
-  const normalizedAcademicWeight = academicWeight > 0 ? academicContributionWeight / academicWeight : 0;
   const academicContribution = academic * (academicContributionWeight / 100);
   const englishContribution = englishScore(score.englishGrade) * englishWeight / 100;
   const base = academicContribution + englishContribution;
