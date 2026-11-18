@@ -167,7 +167,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 전년도/예상 기준점 데이터 미확보 → 판정 보류"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 환산식 비교 검증 전 → 판정 보류"}`,
   }));
 }
 
@@ -214,7 +214,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 데이터 미확보 → 판정 보류"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 환산식 비교 검증 전 → 판정 보류"}`,
   })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];
 
   const stabilityValues = best.items.map((item) => item.tier === "안정" ? 100 : item.tier === "적정" ? 75 : item.tier === "소신" ? 45 : 20);
