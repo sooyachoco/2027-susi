@@ -46,7 +46,7 @@ export default function Page() {
       </section>
 
       {started && portfolio && <section className="section" id="results">
-        <div className="sectionHead"><div><h2>🎯 나의 정시 3장</h2><div className="muted">가·나·다군을 하나의 지원 포트폴리오로 봅니다.</div></div></div>
+        <div className="sectionHead"><div><h2>🎯 나의 정시 지원 후보</h2><div className="muted">가·나·다군별 확인 가능한 후보를 표시합니다.</div></div></div>
         <div className="panel balance" style={{marginBottom:16}}>
           <div className="eyebrow">{portfolio.style}{portfolio.style === "기초 후보형" ? " · 최적 조합 점수 산출 보류" : ` · 안정·전공 적합도 지수 ${portfolio.score}`}</div>
           <h3 style={{margin:"8px 0 4px"}}>{portfolio.style === "기초 후보형" ? "모집군별 참고 후보" : "가·나·다군 통합 지원 조합"}</h3>
