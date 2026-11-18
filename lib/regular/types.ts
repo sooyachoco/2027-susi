@@ -50,6 +50,8 @@ export type RegularAdmission = {
   calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses";
   subjectScoreMultiplier?: number;
   finalScoreMultiplier?: number;
+  /** Some universities subtract English/history deductions after scaling the raw CSAT subtotal. */
+  gradeAdjustmentsAfterFinalMultiplier?: boolean;
   cohortNormalizationRequired?: boolean;
   curriculumEvaluationRequired?: boolean;
   scienceCombinationAdjustmentRequired?: boolean;
