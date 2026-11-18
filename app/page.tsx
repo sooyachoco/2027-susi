@@ -48,8 +48,8 @@ export default function Page() {
       {started && portfolio && <section className="section" id="results">
         <div className="sectionHead"><div><h2>🎯 나의 정시 3장</h2><div className="muted">가·나·다군을 하나의 지원 포트폴리오로 봅니다.</div></div></div>
         <div className="panel balance" style={{marginBottom:16}}>
-          <div className="eyebrow">{portfolio.style} · 포트폴리오 지수 {portfolio.score}</div>
-          <h3 style={{margin:"8px 0 4px"}}>현재 확인된 데이터 기준 지원 조합</h3>
+          <div className="eyebrow">{portfolio.style}{portfolio.style === "기초 후보형" ? " · 최적 조합 점수 산출 보류" : ` · 안정·전공 적합도 지수 ${portfolio.score}`}</div>
+          <h3 style={{margin:"8px 0 4px"}}>{portfolio.style === "기초 후보형" ? "모집군별 참고 후보" : "가·나·다군 통합 지원 조합"}</h3>
           <div className="balanceText">{portfolio.summary}</div>
         </div>
         <div className="six">
@@ -62,12 +62,12 @@ export default function Page() {
             <a className="secondary" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer" style={{display:"inline-block",marginTop:14}}>모집요강 확인 ↗</a>
           </article>)}
         </div>
-        <div className="alert" style={{marginTop:16}}>⚠️ 환산점수는 실제 합격선이 아니라 대학 반영방식을 적용한 모의지수입니다. 다음 단계에서는 후보군을 더 넓혀 전년도 70%컷·충원·모집인원 변화를 함께 비교합니다.</div>
+        <div className="alert" style={{marginTop:16}}>⚠️ 환산점수는 실제 합격선이나 합격 확률이 아닙니다. 대학별 세부 환산식·선택과목 가산점·학생부 반영은 최종 모집요강과 대조해야 합니다.</div>
       </section>}
 
-      {started && !portfolio && <section className="section"><div className="alert">현재 입력값과 일치하는 검증 후보가 없습니다. 다른 성적 입력값이나 희망전공을 확인해주세요.</div></section>}
+      {started && !portfolio && <section className="section"><div className="alert">현재 입력값과 일치하는 후보가 없습니다. 성적 입력값이나 희망전공을 확인해주세요.</div></section>}
 
-      <section className="section"><div className="panel balance"><div className="muted">정시 앱의 다음 핵심 작업</div><h3>후보군 확장 → 조합 최적화 → 실제 데이터 검증</h3><div className="balanceText">현재는 가·나·다군별 1순위 후보를 안정적으로 연결한 단계입니다. 다음에는 각 모집군의 후보를 여러 개 확보하고 전년도 70%컷·충원·모집인원 변화까지 결합해 실제 3장 조합을 비교하도록 발전시키겠습니다.</div></div></section>
+      <section className="section"><div className="panel balance"><div className="muted">정시 분석의 다음 핵심 작업</div><h3>대학별 공식 환산식 검증 → 학과별 입결 보강 → 충원·모집인원 반영</h3><div className="balanceText">현재 공개 데이터는 대표 계열 중심입니다. 실제 원서 조합에 쓰기 전에는 대학·모집단위별 세부 환산식과 전년도 입결을 확인해야 합니다.</div></div></section>
       <div className="footer">정시합격 v1 · 2027 정시 대비 · 실제 합격을 보장하지 않습니다.</div>
     </main>
   </div>;
