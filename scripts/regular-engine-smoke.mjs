@@ -93,4 +93,36 @@ const mixedInquiry = calculateRegularAdmission(
 assert.equal(mixedInquiry.calculationVerified, false);
 assert.ok(mixedInquiry.missingRules.some((rule) => rule.includes("과목별")));
 
-console.log("Regular scoring smoke tests passed: official formula sample, missing conversion, attendance, mixed inquiry.");
+
+const snuGeneral = {
+  ...cauNatural,
+  id: "snu-engine-smoke",
+  universityName: "서울대학교",
+  koreanWeight: 100,
+  mathWeight: 120,
+  inquiryWeight: 80,
+  inquiryAggregation: "sum",
+  calculationMode: "weighted-sum-with-additive-bonuses",
+  subjectScoreMultiplier: 1,
+  finalScoreMultiplier: 1,
+  englishGradeTable: { 1: 0, 2: -0.5, 3: -2, 4: -4, 5: -6, 6: -8, 7: -10, 8: -12, 9: -14 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.4, 5: -0.8, 6: -1.2, 7: -1.6, 8: -2, 9: -2.4 },
+  inquiryConversionRequired: false,
+  inquiryConversionTable: undefined,
+  inquiryTypeBonusRequired: false,
+  inquiryTypeBonusRate: undefined,
+  koreanHistoryRequired: true,
+  attendanceScoreByAbsenceDays: undefined,
+  studentRecordWeight: 20,
+  curriculumEvaluationRequired: true,
+  cohortNormalizationRequired: true,
+  scienceCombinationAdjustmentRequired: true,
+};
+const snuResult = calculateRegularAdmission(snuGeneral, sampleScore);
+assert.ok(Math.abs(snuResult.baseScore - 402.4) < 0.000001);
+assert.equal(snuResult.calculationVerified, false);
+assert.ok(snuResult.missingRules.some((rule) => rule.includes("최고·최저점")));
+assert.ok(snuResult.missingRules.some((rule) => rule.includes("교과평가")));
+assert.ok(snuResult.missingRules.some((rule) => rule.includes("과학탐구")));
+
+console.log("Regular scoring smoke tests passed: Central formula sample, SNU raw formula, and missing-rule guards.");
