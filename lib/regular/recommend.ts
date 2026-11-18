@@ -21,16 +21,19 @@ function normalizeMathType(value: RegularStudentProfile["mathChoice"]): RegularS
 }
 
 function toEngineScore(profile: RegularStudentProfile, admission: RegularAdmission): RegularStudentScore {
-  const useStandard = admission.scoreMetric === "표준점수";
   return {
-    korean: (useStandard ? profile.koreanStandard : profile.koreanPercentile) ?? 0,
-    math: (useStandard ? profile.mathStandard : profile.mathPercentile) ?? 0,
-    inquiry1: (useStandard ? profile.inquiry1Standard : profile.inquiry1Percentile) ?? 0,
-    inquiry2: (useStandard ? profile.inquiry2Standard : profile.inquiry2Percentile) ?? 0,
+    korean: profile.koreanStandard ?? 0,
+    koreanPercentile: profile.koreanPercentile ?? 0,
+    math: profile.mathStandard ?? 0,
+    mathPercentile: profile.mathPercentile ?? 0,
+    inquiry1: profile.inquiry1Standard ?? 0,
+    inquiry1Percentile: profile.inquiry1Percentile ?? 0,
+    inquiry2: profile.inquiry2Standard ?? 0,
+    inquiry2Percentile: profile.inquiry2Percentile ?? 0,
     englishGrade: profile.englishGrade ?? 9,
     koreanHistoryGrade: profile.koreanHistoryGrade ?? 9,
     mathType: normalizeMathType(profile.mathChoice),
-    inquiryType: profile.inquiryType === "사탐" || profile.inquiryType === "과탐" ? profile.inquiryType : undefined,
+    inquiryType: profile.inquiryType,
   };
 }
 
@@ -139,7 +142,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
-    const reference = getCutline(admission);
+    const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
     const score = Math.round(result.totalScore * 10) / 10;
     const tier = gap == null ? ("판정 보류" as const) : classifyRegularGap(gap);
@@ -167,7 +170,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 환산식 비교 검증 전 → 판정 보류"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
   }));
 }
 
@@ -178,7 +181,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile, admission));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
-    const reference = getCutline(admission);
+    const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
     const score = Math.round(result.totalScore * 10) / 10;
     const tier = gap == null ? ("판정 보류" as const) : classifyRegularGap(gap);
@@ -214,7 +217,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     group: admission.group,
     score,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : " · 기준점 환산식 비교 검증 전 → 판정 보류"}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
   })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];
 
   const stabilityValues = best.items.map((item) => item.tier === "안정" ? 100 : item.tier === "적정" ? 75 : item.tier === "소신" ? 45 : 20);
