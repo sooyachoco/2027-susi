@@ -15,6 +15,8 @@ export type RegularStudentScore = {
   inquiryType?: "사탐" | "과탐" | "혼합";
   inquiry1Type?: "사탐" | "과탐" | "직탐";
   inquiry2Type?: "사탐" | "과탐" | "직탐";
+  inquiry1ScienceLevel?: "I" | "II";
+  inquiry2ScienceLevel?: "I" | "II";
   unexcusedAbsenceDays?: number;
 };
 
@@ -192,7 +194,29 @@ export function calculateRegularAdmission(
       }
     }
     if (admission.scienceCombinationAdjustmentRequired) {
-      missingRules.push("과학탐구 과목 조합별 조정점수 입력 필요");
+      const fallbackType = score.inquiryType && score.inquiryType !== "혼합"
+        ? score.inquiryType
+        : undefined;
+      const type1 = score.inquiry1Type ?? fallbackType;
+      const type2 = score.inquiry2Type ?? fallbackType;
+      if (!type1 || !type2) {
+        missingRules.push("탐구 과목별 유형 입력 필요");
+      } else if (type1 === "과탐" && type2 === "과탐") {
+        const level1 = score.inquiry1ScienceLevel;
+        const level2 = score.inquiry2ScienceLevel;
+        if (!level1 || !level2) {
+          missingRules.push("과학탐구 과목별 I/II 선택 입력 필요");
+        } else {
+          const combination = [level1, level2].sort().join("+") as "I+I" | "I+II" | "II+II";
+          const adjustment = admission.scienceCombinationBonusPoints?.[combination];
+          if (typeof adjustment !== "number") {
+            missingRules.push("과학탐구 과목 조합별 조정점수표 미등록");
+          } else {
+            bonusScore += adjustment;
+            appliedComponents.push("과학탐구 조합별 조정점수");
+          }
+        }
+      }
     }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
