@@ -13,6 +13,9 @@ export type RegularStudentScore = {
   koreanHistoryGrade?: number;
   mathType?: "미적분" | "기하" | "확률과통계";
   inquiryType?: "사탐" | "과탐" | "혼합";
+  inquiry1Type?: "사탐" | "과탐" | "직탐";
+  inquiry2Type?: "사탐" | "과탐" | "직탐";
+  unexcusedAbsenceDays?: number;
 };
 
 export type RegularCalculation = {
@@ -104,21 +107,26 @@ export function calculateRegularAdmission(
     : undefined;
 
   if (admission.inquiryTypeBonusRequired) {
-    const rate = score.inquiryType && score.inquiryType !== "혼합"
-      ? admission.inquiryTypeBonusRate?.[score.inquiryType]
+    const fallbackType = score.inquiryType && score.inquiryType !== "혼합"
+      ? score.inquiryType
       : undefined;
-    if (typeof rate !== "number") {
-      missingRules.push(
-        score.inquiryType === "혼합"
-          ? "혼합 탐구의 과목별 선택유형 정보 미입력"
-          : "탐구 선택유형 가산점 규칙 미등록",
-      );
+    const type1 = score.inquiry1Type ?? fallbackType;
+    const type2 = score.inquiry2Type ?? fallbackType;
+    const rate1 = type1 ? admission.inquiryTypeBonusRate?.[type1] : undefined;
+    const rate2 = admission.inquirySubjects === 2 && type2
+      ? admission.inquiryTypeBonusRate?.[type2]
+      : undefined;
+    const valid1 = typeof rate1 === "number";
+    const valid2 = admission.inquirySubjects === 1 || typeof rate2 === "number";
+
+    if (!valid1 || !valid2) {
+      missingRules.push("탐구 과목별 선택유형 또는 가산율 규칙 미입력");
       inquiry1 = undefined;
       inquiry2 = admission.inquirySubjects === 2 ? undefined : inquiry2;
     } else {
-      if (inquiry1 != null) inquiry1 *= 1 + rate;
-      if (inquiry2 != null) inquiry2 *= 1 + rate;
-      appliedComponents.push("탐구 선택유형 가산율");
+      if (inquiry1 != null) inquiry1 *= 1 + rate1!;
+      if (inquiry2 != null && rate2 != null) inquiry2 *= 1 + rate2;
+      appliedComponents.push("탐구 과목별 선택유형 가산율");
     }
   }
 
@@ -151,6 +159,7 @@ export function calculateRegularAdmission(
 
   let baseScore = 0;
   let bonusScore = 0;
+  let postMultiplierBonus = 0;
 
   if (calculationMode === "weighted-sum-with-additive-bonuses") {
     const weightedSubjects =
@@ -163,7 +172,19 @@ export function calculateRegularAdmission(
       missingRules.push("가산점형 산식에서 영어 반영비율 설정 확인 필요");
     }
     if ((admission.studentRecordWeight ?? 0) > 0) {
-      missingRules.push("학생부·출결 반영 점수 미입력");
+      const days = score.unexcusedAbsenceDays;
+      const attendanceTable = admission.attendanceScoreByAbsenceDays;
+      const attendance = days == null || !attendanceTable
+        ? undefined
+        : [...attendanceTable]
+            .sort((a, b) => a.maxDays - b.maxDays)
+            .find((row) => days <= row.maxDays)?.score;
+      if (attendance == null) {
+        missingRules.push("출결 반영 점수 미입력 또는 환산표 미등록");
+      } else {
+        postMultiplierBonus += attendance;
+        appliedComponents.push("미인정 결석 일수 출결 환산");
+      }
     }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
@@ -249,7 +270,7 @@ export function calculateRegularAdmission(
 
   baseScore *= finalMultiplier;
   bonusScore *= finalMultiplier;
-  const totalScore = baseScore + bonusScore;
+  const totalScore = baseScore + bonusScore + postMultiplierBonus;
   const calculationVerified =
     admission.calculationVerified === true &&
     missingRules.length === 0 &&
@@ -258,7 +279,7 @@ export function calculateRegularAdmission(
   return {
     admissionId: admission.id,
     baseScore,
-    bonus: bonusScore,
+    bonus: bonusScore + postMultiplierBonus,
     totalScore,
     metric: admission.scoreMetric,
     calculationVerified,
