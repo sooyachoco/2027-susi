@@ -44,6 +44,9 @@ export type RegularAdmission = {
   /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
   inquiryConversionTable?: Record<string, number>;
   inquiryConversionRequired?: boolean;
+  koreanHistoryRequired?: boolean;
+  mathChoiceBonusRequired?: boolean;
+  inquiryTypeBonusRequired?: boolean;
   mathChoiceBonusPoints?: Partial<Record<"미적분" | "기하" | "확률과통계", number>>;
   inquiryTypeBonusPoints?: Partial<Record<"사탐" | "과탐" | "혼합", number>>;
   /** Official grade-to-score table, on the same 0-100 subject-score scale as the weighted calculation. */
