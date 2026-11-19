@@ -65,6 +65,8 @@ export type RegularAdmission = {
   mathChoiceBonusRequired?: boolean;
   inquiryTypeBonusRequired?: boolean;
   mathChoiceBonusPoints?: Partial<Record<"미적분" | "기하" | "확률과통계", number>>;
+  /** Multiplicative bonus applied to the math standard score before weighting. */
+  mathChoiceBonusRate?: Partial<Record<"미적분" | "기하" | "확률과통계", number>>;
   inquiryTypeBonusPoints?: Partial<Record<"사탐" | "과탐" | "혼합", number>>;
   /** Multiplicative bonus rate applied to each converted inquiry subject, e.g. 0.05 for 5%. */
   inquiryTypeBonusRate?: Partial<Record<"사탐" | "과탐" | "직탐", number>>;
