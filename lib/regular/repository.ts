@@ -4,6 +4,8 @@ import { regularAdmissions2027SeoulExtra } from "./data2027-extra-seoul";
 import { regularAdmissions2027Gyeonggi } from "./data2027-gyeonggi";
 import type { RegularAdmission } from "./types";
 
+const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
+
 const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027,
   ...regularAdmissions2027Batch2,
@@ -19,7 +21,7 @@ function isExcludedAdmission(item: RegularAdmission) {
 export function getRegularAdmissions(): RegularAdmission[] {
   const seen = new Set<string>();
   return ALL_REGULAR_ADMISSIONS_2027.filter((item) => {
-    if (isExcludedAdmission(item)) return false;
+    if (!TARGET_REGIONS.has(item.region) || isExcludedAdmission(item)) return false;
     if (seen.has(item.id)) return false;
     seen.add(item.id);
     return true;
