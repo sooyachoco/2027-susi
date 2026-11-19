@@ -13,6 +13,7 @@ export default function Page() {
   const [started, setStarted] = useState(false);
   const admissions = getRegularAdmissions();
   const complete = isRegularProfileComplete(profile);
+  const universityCount = new Set(admissions.map((item) => item.universityId)).size;
   const portfolios = useMemo(() => started ? recommendRegularPortfolio(profile, admissions) : [], [started, profile, admissions]);
   const portfolio = portfolios[0];
 
@@ -33,6 +34,7 @@ export default function Page() {
           <div className="eyebrow">2027학년도 정시 대비</div>
           <h1>수능 성적으로<br /><span>가·나·다군</span>을 설계합니다.</h1>
           <p>수능 성적을 입력하면 전국 대학의 계열별 반영비율과 기준점을 적용해 모집군별 지원 후보를 골라봅니다.</p>
+          <div className="muted" style={{marginTop:12}}>전국 {universityCount}개 대학 · {admissions.length}개 모집단위 데이터</div>
           <div className="notice">현재는 대학별 공식 환산식 검증 전 단계입니다. 검증되지 않은 전형은 합격등급을 산출하지 않고 참고 후보로만 표시합니다.</div>
         </div>
         <div className="panel scoreHero"><div className="muted">현재 분석 상태</div><div className="bigScore">{started ? (portfolio?.recommendations.length ?? 0) : "—"}</div><div>{started ? "추천 모집군" : "점수 입력 후 분석"}</div></div>
