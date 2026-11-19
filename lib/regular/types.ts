@@ -83,6 +83,7 @@ export type RegularAdmission = {
   languageMathMode?: "고득점 우선";
   englishInquiryMode?: "고득점 우선";
   mathInquiryMode?: "고득점 우선";
+  alternateWeighting?: { koreanWeight: number; mathWeight: number; englishWeight: number; inquiryWeight: number };
   studentRecordWeight?: number;
   expectedCutline?: number;
   expectedCutline95?: number;
