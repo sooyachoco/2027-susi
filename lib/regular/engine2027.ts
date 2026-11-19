@@ -200,14 +200,29 @@ export function calculateRegularAdmission(
         normalized += math / mathMax * admission.mathWeight / 100;
       }
     }
-    if (inquiry != null && typeof inquiryMax === "number" && inquiryMax > 0) normalized += inquiry / inquiryMax * admission.inquiryWeight / 100;
+    const inquiryNormalized = inquiry != null && typeof inquiryMax === "number" && inquiryMax > 0
+      ? inquiry / inquiryMax
+      : undefined;
+    if (admission.inquiryWeight > 0 && inquiryNormalized == null && !missingRules.some((rule) => rule.includes("탐구"))) {
+      missingRules.push("탐구 영역 기준점수 미확보");
+    }
+    let englishNormalized: number | undefined;
     if (admission.englishWeight > 0) {
       const english = gradePoints(admission.englishGradeTable, score.englishGrade);
       if (english == null) missingRules.push("대학별 영어 등급 환산표 미등록");
       else {
-        normalized += english / 100 * admission.englishWeight / 100;
+        englishNormalized = english / 100;
         appliedComponents.push("영어 등급 환산");
       }
+    }
+    if (admission.englishInquiryMode === "고득점 우선" && englishNormalized != null && inquiryNormalized != null) {
+      const a = englishNormalized * admission.englishWeight + inquiryNormalized * admission.inquiryWeight;
+      const b = englishNormalized * admission.inquiryWeight + inquiryNormalized * admission.englishWeight;
+      normalized += Math.max(a, b) / 100;
+      appliedComponents.push("영어·탐구 고득점 영역 가중치 선택");
+    } else {
+      if (inquiryNormalized != null) normalized += inquiryNormalized * admission.inquiryWeight / 100;
+      if (englishNormalized != null) normalized += englishNormalized * admission.englishWeight / 100;
     }
     baseScore = normalized;
     if (admission.koreanHistoryRequired) {
