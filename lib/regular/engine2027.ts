@@ -129,9 +129,10 @@ export function calculateRegularAdmission(
     const flat1 = type1 ? admission.inquiryTypeBonusPerSubject?.[type1] ?? 0 : undefined;
     const flat2 = type2 ? admission.inquiryTypeBonusPerSubject?.[type2] ?? 0 : undefined;
     const sameTypeRequired = admission.inquiryBonusRequiresSameType;
-    const sameTypeMatched = !sameTypeRequired || (type1 === sameTypeRequired && type2 === sameTypeRequired);
-    const effectiveRate1 = sameTypeMatched ? rate1 : 0;
-    const effectiveRate2 = sameTypeMatched ? rate2 : 0;
+    const sameTypeKnown = !sameTypeRequired || Boolean(type1 && type2);
+    const sameTypeMatched = !sameTypeRequired || (sameTypeKnown && type1 === sameTypeRequired && type2 === sameTypeRequired);
+    const effectiveRate1 = !sameTypeKnown ? undefined : sameTypeMatched ? rate1 : 0;
+    const effectiveRate2 = !sameTypeKnown ? undefined : sameTypeMatched ? rate2 : 0;
     const valid1 = typeof effectiveRate1 === "number";
     const valid2 = admission.inquirySubjects === 1 || typeof effectiveRate2 === "number";
 
