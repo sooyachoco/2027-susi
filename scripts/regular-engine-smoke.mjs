@@ -569,4 +569,46 @@ const chungnamExpectedBase = 134 * 0.675 + 136 * 0.375 + (64 + 67) * 0.225;
 assert.ok(Math.abs(chungnamExact.baseScore - chungnamExpectedBase) < 0.000001);
 assert.equal(chungnamExact.missingRules.length, 0);
 
+
+// 2027 Jeonbuk, Jeju, Kangwon and Chungbuk formulas.
+const jeonbukPending = calculateRegularAdmission({
+  ...normFixture, calculationMode: "weighted-sum-with-additive-bonuses",
+  koreanWeight: 100, mathWeight: 75, englishWeight: 0, inquiryWeight: 150,
+  subjectScoreMultiplier: 1, finalScoreMultiplier: 1, inquiryAggregation: "mean",
+  inquiryConversionRequired: true, inquiryConversionTable: undefined,
+  englishGradeTable: { 1: 30, 2: 27, 3: 24, 4: 18, 5: 12, 6: 9, 7: 6, 8: 3, 9: 0 },
+  koreanHistoryGradePoints: { 1: 5, 2: 5, 3: 5, 4: 5, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(jeonbukPending.calculationVerified, false);
+
+const jejuExact = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 30, mathWeight: 20, englishWeight: 20, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "mean",
+  finalScoreMultiplier: 1000, englishGradeTable: { 1: 100, 2: 95, 3: 90, 4: 85, 5: 80, 6: 70, 7: 60, 8: 50, 9: 30 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
+  calculationVerified: true,
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(jejuExact.calculationVerified, true);
+
+const kangwonExact = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 20, mathWeight: 30, englishWeight: 20, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "mean",
+  finalScoreMultiplier: 500, mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.1, 기하: 0.1, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.1, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 97, 3: 94, 4: 91, 5: 81, 6: 78, 7: 75, 8: 72, 9: 0 },
+  koreanHistoryGradePoints: { 1: 1.5, 2: 1, 3: 0.5, 4: 0, 5: -0.5, 6: -1, 7: -1.5, 8: -2, 9: -2.5 },
+  calculationVerified: true,
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 4 });
+assert.equal(kangwonExact.calculationVerified, true);
+
+const chungbukPending = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 30, mathWeight: 20, englishWeight: 20, inquiryWeight: 30,
+  finalScoreMultiplier: 200, fixedBaseScore: 800, inquiryConversionRequired: false,
+  englishGradeTable: { 1: 100, 2: 95, 3: 90, 4: 85, 5: 80, 6: 75, 7: 70, 8: 40, 9: 0 },
+}, sampleScore);
+assert.equal(chungbukPending.calculationVerified, false);
+assert.equal(chungbukPending.baseScore, 800);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
