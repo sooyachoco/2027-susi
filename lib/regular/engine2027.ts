@@ -236,6 +236,14 @@ export function calculateRegularAdmission(
       if (inquiryNormalized != null && !inquiryContributionAdded) normalized += inquiryNormalized * admission.inquiryWeight / 100;
       if (englishNormalized != null) normalized += englishNormalized * admission.englishWeight / 100;
     }
+    if (admission.alternateWeighting && typeof koreanMax === "number" && typeof mathMax === "number" && inquiryNormalized != null && englishNormalized != null) {
+      const alternate = (korean / koreanMax) * admission.alternateWeighting.koreanWeight
+        + (math / mathMax) * admission.alternateWeighting.mathWeight
+        + englishNormalized * admission.alternateWeighting.englishWeight
+        + inquiryNormalized * admission.alternateWeighting.inquiryWeight;
+      normalized = Math.max(normalized, alternate / 100);
+      appliedComponents.push("A/B 유형 고득점 환산 선택");
+    }
     baseScore = normalized;
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
@@ -257,7 +265,12 @@ export function calculateRegularAdmission(
     baseScore = weightedSubjects * multiplier;
 
     if (admission.englishWeight > 0) {
-      missingRules.push("가산점형 산식에서 영어 반영비율 설정 확인 필요");
+      const english = gradePoints(admission.englishGradeTable, score.englishGrade);
+      if (english == null) missingRules.push("대학별 영어 등급 환산표 미등록");
+      else {
+        baseScore += english * admission.englishWeight / 100 * multiplier;
+        appliedComponents.push("영어 등급별 반영점수");
+      }
     }
     if (admission.cohortNormalizationRequired) {
       missingRules.push("모집단위별 수능 최고·최저점 기반 상대 환산 자료 미확보");
