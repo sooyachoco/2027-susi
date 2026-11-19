@@ -379,4 +379,45 @@ const uosUnknown = calculateRegularAdmission({
 }, { ...sampleScore, inquiryType: "혼합", englishGrade: 2, koreanHistoryGrade: 5 });
 assert.equal(uosUnknown.calculationVerified, false);
 
+
+// 2027 Sejong, Kwangwoon, Soongsil and Dankook formula fixtures.
+const sejongNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.05, 기하: 0.05, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 99, 3: 98, 4: 97, 5: 85, 6: 75, 7: 60, 8: 50, 9: 0 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 9.8, 5: 9.6, 6: 9.4, 7: 9.2, 8: 9, 9: 8.8 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(sejongNatural.calculationVerified, true);
+
+const kwangwoonNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.03, 기하: 0.03, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 99, 3: 97.5, 4: 95, 5: 91, 6: 85, 7: 79, 8: 73, 9: 0 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
+}, { ...sampleScore, mathType: "기하", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(kwangwoonNatural.calculationVerified, true);
+
+const soongsilNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 20, mathWeight: 35, englishWeight: 15, inquiryWeight: 30,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.07, 기하: 0.07, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 100, 3: 98.6667, 4: 96.6667, 5: 80, 6: 72, 7: 60, 8: 36, 9: 0 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -2.5, 7: -3, 8: -3.5, 9: -4 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(soongsilNatural.calculationVerified, true);
+
+const dankookNatural = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25,
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 }, inquiryConversionRequired: false,
+  inquiryAggregation: "mean",
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.05, 기하: 0.05, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 },
+  koreanHistoryGradePoints: { 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(dankookNatural.calculationVerified, true);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
