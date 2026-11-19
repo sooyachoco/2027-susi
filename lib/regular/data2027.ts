@@ -411,7 +411,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
     note: "2027 자연계·자율전공(자연): 국어20·수학35·영어20·탐구25. 미적분·기하 수학 표준점수 3%, 과탐 변환표준점수 3% 가산(일부 모집단위 제외). 탐구 변환표 미공개로 최종 환산 보류.",
     sourceUrl: KWANGWOON_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "kwangwoon-seoul-ga-humanities", universityId: "kwangwoon-seoul", universityName: "광운대학교", region: "서울",
     department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
@@ -422,7 +422,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
     note: "2027 인문계열: 국어30·수학25·영어20·탐구25. 탐구 2과목 변환표준점수 합, 영어 200점 기준 등급점수, 한국사 가산점. 탐구 변환표 미공개로 최종 환산 보류.",
     sourceUrl: KWANGWOON_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "kwangwoon-seoul-ga-business", universityId: "kwangwoon-seoul", universityName: "광운대학교", region: "서울",
     department: "경영학부·국제통상학부", majorGroup: "경영·경제", group: "가", scoreMetric: "표준점수",
