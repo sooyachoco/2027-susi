@@ -490,4 +490,42 @@ const hongikRaw = calculateRegularAdmission({
 assert.ok(hongikRaw.totalScore > hongikRaw.baseScore);
 assert.equal(hongikRaw.missingRules.length, 0);
 
+
+// 2027 SeoulTech standard-score, Seoul Women's/Duksung ranked-area, Sungshin inquiry bonus.
+const seoultechNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25,
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.07, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 97.7778, 3: 94.8148, 4: 88.8889, 5: 74.0741, 6: 59.2593, 7: 44.4444, 8: 22.2222, 9: 0 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -1, 5: -2, 6: -3, 7: -4, 8: -5, 9: -10 },
+}, { ...sampleScore, inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(seoultechNatural.calculationVerified, true);
+
+const swuRanked = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 }, rankedAreaWeights: [35, 30, 20, 15],
+  koreanWeight: 35, mathWeight: 30, englishWeight: 20, inquiryWeight: 15, inquirySubjects: 1, inquiryAggregation: "best",
+  finalScoreMultiplier: 4, englishGradeTable: { 1: 100, 2: 97, 3: 93, 4: 85, 5: 70, 6: 50, 7: 35, 8: 20, 9: 0 },
+  koreanHistoryGradePoints: { 1: 5, 2: 5, 3: 5, 4: 4.95, 5: 4.8, 6: 4.5, 7: 4, 8: 2, 9: 0 },
+}, { ...sampleScore, koreanPercentile: 99, mathPercentile: 97, inquiry1Percentile: 90, englishGrade: 2, koreanHistoryGrade: 4 });
+assert.ok(swuRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
+
+const sungshinBonus = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 20, mathWeight: 30, englishWeight: 20, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "mean",
+  finalScoreMultiplier: 5, inquiryTopSubjectBonusRate: 0.1, inquiryTopSubjectBonusType: "과탐",
+  englishGradeTable: { 1: 100, 2: 97, 3: 94, 4: 85, 5: 60, 6: 40, 7: 25, 8: 10, 9: 0 },
+  koreanHistoryGradePoints: { 1: 2, 2: 1.5, 3: 1, 4: 0.5, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
+}, { ...sampleScore, inquiry1Percentile: 94, inquiry2Percentile: 99, inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 3 });
+assert.ok(sungshinBonus.bonus >= 9.9);
+
+const duksungRanked = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 }, rankedAreaWeights: [30, 25, 25, 20],
+  koreanWeight: 30, mathWeight: 25, englishWeight: 25, inquiryWeight: 20, inquirySubjects: 1, inquiryAggregation: "best",
+  finalScoreMultiplier: 10, englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 80, 5: 70, 6: 60, 7: 50, 8: 40, 9: 0 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 8, 7: 7, 8: 6, 9: 0 },
+}, { ...sampleScore, koreanPercentile: 99, mathPercentile: 97, inquiry1Percentile: 92, englishGrade: 2, koreanHistoryGrade: 2 });
+assert.ok(duksungRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
