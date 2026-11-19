@@ -168,6 +168,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     department: "인문계열Ⅰ", majorGroup: "경영·경제", group: "가", scoreMetric: "표준점수",
     koreanWeight: 35, mathWeight: 35, englishWeight: 15, inquiryWeight: 15, inquirySubjects: 2, inquiryAggregation: "sum",
     calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
+    inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0.03, "과탐": 0, "직탐": 0 }, inquiryBonusRequiresSameType: "사탐",
     englishGradeTable: { 1: 100, 2: 97.3333, 3: 90, 4: 80, 5: 63.3333, 6: 50, 7: 30, 8: 10, 9: 0 },
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -4, 7: -6, 8: -8, 9: -10 },
     benchmarkYear: 2025, benchmarkCutline70: 896.41, benchmarkTotalScore: 1000, benchmarkDepartment: "국어국문학과", recruitmentCount: 9,
@@ -189,6 +190,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     department: "자연계열", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
     koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
     calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
+    inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 }, inquiryBonusRequiresSameType: "과탐",
     englishGradeTable: { 1: 100, 2: 97, 3: 90, 4: 80, 5: 65, 6: 50, 7: 30, 8: 10, 9: 0 },
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -4, 7: -6, 8: -8, 9: -10 },
     note: "2027 자연계열: 국어30·수학40·영어10·탐구20. 국어·수학 당해 연도 표준점수 최고점 기준, 탐구 변환표준점수, 영어 100점 기준 등급표. 과탐 2과목 선택 시 3% 가산. 최고점·탐구 변환표 미확보로 최종 환산 보류.",
@@ -289,6 +291,17 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 KU일반학생 수리중심(B): 국어30·수학40·탐구20·영어10. 국어/수학 표준점수, 탐구 백분위별 변환표준점수, 영어 200점 환산표를 200 기준으로 반영하고 한국사 감점. 탐구 변환표 미공개 상태이므로 최종 환산 보류.",
     sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-11-19",
   }
+  {
+    id: "konkuk-seoul-ga-free-major", universityId: "konkuk-seoul", universityName: "건국대학교", region: "서울",
+    department: "KU자유전공학부", majorGroup: "전체", group: "가", scoreMetric: "표준점수",
+    koreanWeight: 40, mathWeight: 30, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
+    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 },
+    languageMathMode: "고득점 우선", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
+    englishGradeTable: { 1: 100, 2: 98.5, 3: 97, 4: 95, 5: 92.5, 6: 90, 7: 85, 8: 80, 9: 75 },
+    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -1, 6: -1.75, 7: -3, 8: -4.25, 9: -5 },
+    note: "KU자유전공학부: 언어중심(A)과 수리중심(B)를 각각 계산해 높은 점수 적용. 탐구 변환표 미공개로 최종 환산 보류.",
+    sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-11-19",
+  },
   {
     id: "dongguk-seoul-ga-humanities", universityId: "dongguk-seoul", universityName: "동국대학교", region: "서울",
     department: "인문계열 대표", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
