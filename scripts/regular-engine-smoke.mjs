@@ -226,4 +226,36 @@ assert.equal(ewhaPending.calculationVerified, false);
 assert.ok(ewhaPending.missingRules.some((rule) => rule.includes("최고점")));
 assert.ok(ewhaPending.missingRules.some((rule) => rule.includes("탐구 변환표준점수표")));
 
+
+const ewhaComplete = calculateRegularAdmission({
+  ...sogang,
+  id: "ewha-normalized-complete-smoke",
+  calculationMode: "normalized-standard-sum",
+  koreanWeight: 30,
+  mathWeight: 30,
+  englishWeight: 20,
+  inquiryWeight: 20,
+  inquiryConversionRequired: true,
+  inquiryConversionTable: { "96": 64.3, "99": 67.4 },
+  inquiryTypeBonusRequired: false,
+  subjectMaximumScores: { korean: 150, math: 150, inquiry: 140 },
+  finalScoreMultiplier: 1000,
+  gradeAdjustmentsAfterFinalMultiplier: true,
+  englishGradeTable: { 1: 100, 2: 98, 3: 94, 4: 88, 5: 84, 6: 80, 7: 76, 8: 72, 9: 68 },
+  koreanHistoryRequired: true,
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 9.8, 5: 9.6, 6: 9.4, 7: 9.2, 8: 9, 9: 8.5 },
+  studentRecordWeight: 0,
+  curriculumEvaluationRequired: false,
+  calculationVerified: true,
+}, sampleScore);
+const ewhaExpectedBase = (
+  (134 / 150 * 30) +
+  (136 / 150 * 30) +
+  ((64.3 + 67.4) / 140 * 20) +
+  (99.5 / 100 * 20)
+) * 10;
+assert.ok(Math.abs(ewhaComplete.baseScore - ewhaExpectedBase) < 0.000001);
+assert.ok(Math.abs(ewhaComplete.totalScore - (ewhaExpectedBase + 9.6)) < 0.000001);
+assert.equal(ewhaComplete.calculationVerified, true);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang formula samples, and missing-rule guards.");
