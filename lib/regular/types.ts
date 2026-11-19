@@ -41,13 +41,15 @@ export type RegularAdmission = {
   /** Legacy fallback only. Prefer subjectMetrics for independently selected subject scales. */
   scoreMetric: ScoreMetric;
   subjectMetrics?: RegularSubjectMetrics;
+  /** Published maximum standard/conversion score for each domain; never substitute prior-year maxima. */
+  subjectMaximumScores?: { korean?: number; math?: number; inquiry?: number };
   koreanWeight: number;
   mathWeight: number;
   englishWeight: number;
   inquiryWeight: number;
   inquirySubjects: 1 | 2;
   inquiryAggregation?: "mean" | "sum" | "best";
-  calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses";
+  calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses" | "normalized-standard-sum";
   subjectScoreMultiplier?: number;
   finalScoreMultiplier?: number;
   /** Some universities subtract English/history deductions after scaling the raw CSAT subtotal. */
