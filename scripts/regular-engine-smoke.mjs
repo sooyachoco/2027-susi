@@ -420,4 +420,47 @@ const dankookNatural = calculateRegularAdmission({
 }, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
 assert.equal(dankookNatural.calculationVerified, true);
 
+
+// 2027 Gachon, Kyonggi, Myongji and Sangmyung percentiles and bonus fixtures.
+const gachonGeneral = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 40, mathWeight: 30, englishWeight: 20, inquiryWeight: 10, inquirySubjects: 1,
+  languageMathMode: "고득점 우선", englishInquiryMode: "고득점 우선",
+  englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
+  koreanHistoryRequired: false,
+}, { ...sampleScore, englishGrade: 2 });
+assert.equal(gachonGeneral.calculationVerified, true);
+assert.ok(gachonGeneral.appliedComponents.includes("영어·탐구 고득점 영역 가중치 선택"));
+
+const kyonggiHumanities = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 35, mathWeight: 30, englishWeight: 20, inquiryWeight: 15, inquirySubjects: 1,
+  englishGradeTable: { 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: -0.5, 7: -0.5, 8: -1, 9: -1 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 6 });
+assert.equal(kyonggiHumanities.calculationVerified, true);
+
+const myongjiNatural = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 25, mathWeight: 35, englishWeight: 20, inquiryWeight: 20, inquirySubjects: 1,
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.1, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 90, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 },
+  koreanHistoryGradePoints: { 1: 3, 2: 2.8, 3: 2.6, 4: 2.4, 5: 2.2, 6: 2, 7: 1.8, 8: 1.6, 9: 1.4 },
+}, { ...sampleScore, inquiry1Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(myongjiNatural.calculationVerified, true);
+
+const sangmyungNatural = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 25, mathWeight: 35, englishWeight: 20, inquiryWeight: 20, inquirySubjects: 1,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.1, 기하: 0.1, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 94, 5: 90, 6: 80, 7: 60, 8: 40, 9: 0 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(sangmyungNatural.calculationVerified, true);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
