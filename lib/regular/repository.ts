@@ -11,8 +11,6 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027Gyeonggi,
 ];
 
-const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
-
 function isExcludedAdmission(item: RegularAdmission) {
   const text = `${item.universityName} ${item.department} ${item.majorGroup}`.replace(/\s+/g, "");
   return text.includes("신학") || text.includes("신학대");
@@ -21,7 +19,7 @@ function isExcludedAdmission(item: RegularAdmission) {
 export function getRegularAdmissions(): RegularAdmission[] {
   const seen = new Set<string>();
   return ALL_REGULAR_ADMISSIONS_2027.filter((item) => {
-    if (!TARGET_REGIONS.has(item.region) || isExcludedAdmission(item)) return false;
+    if (isExcludedAdmission(item)) return false;
     if (seen.has(item.id)) return false;
     seen.add(item.id);
     return true;
