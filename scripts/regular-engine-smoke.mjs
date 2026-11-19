@@ -611,4 +611,33 @@ const chungbukPending = calculateRegularAdmission({
 assert.equal(chungbukPending.calculationVerified, false);
 assert.equal(chungbukPending.baseScore, 838);
 
+
+// 2027 Gyeongsang, Incheon and KMOU.
+const gnuPending = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25,
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+  inquiryBonusRequiresSameType: "과탐",
+  englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 94, 5: 92, 6: 90, 7: 88, 8: 86, 9: 84 },
+}, { ...sampleScore, inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2 });
+assert.equal(gnuPending.calculationVerified, false);
+
+const inuExact = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 35, mathWeight: 30, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
+  finalScoreMultiplier: 1000, englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
+  calculationVerified: true,
+}, { ...sampleScore, englishGrade: 2 });
+assert.equal(inuExact.calculationVerified, true);
+
+const kmouExact = calculateRegularAdmission({
+  ...normFixture, calculationMode: "weighted-sum-with-additive-bonuses",
+  koreanWeight: 130, mathWeight: 90, englishWeight: 0, inquiryWeight: 80, inquirySubjects: 2, inquiryAggregation: "sum",
+  subjectScoreMultiplier: 1, finalScoreMultiplier: 1, gradeAdjustmentsAfterFinalMultiplier: true,
+  englishGradeTable: { 1: 200, 2: 196, 3: 190, 4: 180, 5: 160, 6: 140, 7: 120, 8: 100, 9: 80 },
+  koreanHistoryGradePoints: { 1: 3, 2: 2.5, 3: 2, 4: 1.5, 5: 1, 6: 0.5, 7: 0, 8: 0, 9: 0 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 4 });
+assert.equal(kmouExact.missingRules.length, 0);
+assert.ok(kmouExact.totalScore > kmouExact.baseScore);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
