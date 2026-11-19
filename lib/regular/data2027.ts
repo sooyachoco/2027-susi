@@ -73,7 +73,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     recruitmentCount: 623,
     note: "2027 최종 정시요강: 전 계열 공통 A형(국어×1.1+수학×1.3+탐구 변환점수 합×0.6)과 B형(국어×1.3+수학×1.1+탐구 변환점수 합×0.6)을 각각 계산해 높은 점수 반영. 영어·한국사 등급 가산점 반영. 탐구 변환표준점수는 수능 성적 발표 후 공개 예정이므로 최종 환산은 보류.",
     sourceUrl: "https://admission.sogang.ac.kr/", verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "hanyang-seoul-da-intercollege", universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
     department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수",
@@ -84,7 +84,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     studentRecordWeight: 10, curriculumEvaluationRequired: true, recruitmentCount: 50,
     note: "2027 정시 한양인터칼리지학부: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 당해 연도 최고점·탐구 변환표·학생부 평가 미입력으로 최종 환산 보류.",
     sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
     department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 80,
@@ -202,7 +202,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     benchmarkYear: 2025, benchmarkCutline70: 547.50, benchmarkTotalScore: 800, benchmarkDepartment: "경영학과", recruitmentCount: 79,
     note: "2027 정시 인문계열: 국어 40%·수학 25%·탐구 35%, 수능 반영 총점 600점. 탐구 대학 자체 변환표준점수, 영어·한국사 감점표의 세부 환산값 확인 전 최종 점수 산출 보류. 과거 70%컷은 별도 벤치마크.",
     sourceUrl: "https://iphak.khu.ac.kr/detail.do?board_seq=19434", verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "khu-seoul-ga-social", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
     department: "사회계열", majorGroup: "사회·상경", group: "가", scoreMetric: "표준점수",
@@ -235,7 +235,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 9.8, 5: 9.6, 6: 9.4, 7: 9.2, 8: 9, 9: 8.5 },
     note: "2027 정시 수능전형 인문: 국어 30·수학 30·탐구 20·영어 20. 각 영역 표준점수를 당해 연도 영역별 최고점으로 나누어 반영하고, 한국사 등급점수를 10점 만점으로 추가. 탐구 변환표 및 당해 연도 영역별 최고점 미확보로 최종 환산 보류.",
     sourceUrl: EWHA_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "ewha-seoul-na-natural", universityId: "ewha-seoul", universityName: "이화여자대학교", region: "서울",
     department: "자연계열(미래산업약학 제외)", majorGroup: "자연·공학", group: "나", scoreMetric: "표준점수",
@@ -246,7 +246,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 8.5 },
     note: "2027 정시 자연: 국어 25·수학 30·탐구 25·영어 20. 과탐 과목별 변환표준점수 6% 가산(미래산업약학전공 제외). 한국사 등급점수 추가. 당해 연도 영역별 최고점 및 탐구 변환표 미확보로 최종 환산 보류.",
     sourceUrl: EWHA_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "konkuk-seoul-ga-natural", universityId: "konkuk-seoul", universityName: "건국대학교", region: "서울",
     department: "자연계열 대표", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
