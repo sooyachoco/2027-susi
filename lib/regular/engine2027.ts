@@ -185,7 +185,7 @@ export function calculateRegularAdmission(
         appliedComponents.push("영어 등급 환산");
       }
     }
-    baseScore = normalized * (admission.finalScoreMultiplier ?? 1000);
+    baseScore = normalized;
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
       if (history == null) missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
