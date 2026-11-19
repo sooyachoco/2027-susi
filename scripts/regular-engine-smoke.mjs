@@ -258,4 +258,31 @@ assert.ok(Math.abs(ewhaComplete.baseScore - ewhaExpectedBase) < 0.000001);
 assert.ok(Math.abs(ewhaComplete.totalScore - (ewhaExpectedBase + 9.6)) < 0.000001);
 assert.equal(ewhaComplete.calculationVerified, true);
 
-console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang formula samples, and missing-rule guards.");
+
+const khuNatural = {
+  ...cauNatural,
+  id: "khu-natural-smoke",
+  koreanWeight: 25,
+  mathWeight: 40,
+  inquiryWeight: 35,
+  inquiryAggregation: "sum",
+  subjectScoreMultiplier: 3,
+  finalScoreMultiplier: 1,
+  gradeAdjustmentsAfterFinalMultiplier: true,
+  inquiryConversionTable: { "96": 65.34, "99": 67.24 },
+  inquiryTypeBonusRequired: true,
+  inquiryTypeBonusRate: { 사탐: 0, 과탐: 0, 직탐: 0 },
+  inquiryTypeBonusPerSubject: { 과탐: 4 },
+  englishGradeTable: { 1: 0, 2: 0, 3: -2, 4: -4, 5: -8, 6: -12, 7: -18, 8: -24, 9: -30 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -4, 7: -8, 8: -14, 9: -20 },
+  studentRecordWeight: 0,
+  curriculumEvaluationRequired: false,
+  scienceCombinationAdjustmentRequired: false,
+};
+const khuResult = calculateRegularAdmission(khuNatural, sampleScore);
+const khuExpected = (134 * 0.25 + 136 * 0.4 + (65.34 + 4 + 67.24 + 4) * 0.35) * 3 - 2;
+assert.ok(Math.abs(khuResult.totalScore - khuExpected) < 0.000001);
+assert.equal(khuResult.calculationVerified, true);
+assert.ok(khuResult.appliedComponents.includes("탐구 과목별 선택유형 가산율·과목별 고정 가산점"));
+
+console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
