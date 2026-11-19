@@ -614,7 +614,7 @@ assert.equal(chungbukPending.baseScore, 838);
 
 // 2027 Gyeongsang, Incheon and KMOU.
 const gnuPending = calculateRegularAdmission({
-  ...normFixture, koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25,
+  ...normFixture, subjectMaximumScores: {}, koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25,
   inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
   inquiryBonusRequiresSameType: "과탐",
   englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 94, 5: 92, 6: 90, 7: 88, 8: 86, 9: 84 },
