@@ -128,16 +128,20 @@ export function calculateRegularAdmission(
       : undefined;
     const flat1 = type1 ? admission.inquiryTypeBonusPerSubject?.[type1] ?? 0 : undefined;
     const flat2 = type2 ? admission.inquiryTypeBonusPerSubject?.[type2] ?? 0 : undefined;
-    const valid1 = typeof rate1 === "number";
-    const valid2 = admission.inquirySubjects === 1 || typeof rate2 === "number";
+    const sameTypeRequired = admission.inquiryBonusRequiresSameType;
+    const sameTypeMatched = !sameTypeRequired || (type1 === sameTypeRequired && type2 === sameTypeRequired);
+    const effectiveRate1 = sameTypeMatched ? rate1 : 0;
+    const effectiveRate2 = sameTypeMatched ? rate2 : 0;
+    const valid1 = typeof effectiveRate1 === "number";
+    const valid2 = admission.inquirySubjects === 1 || typeof effectiveRate2 === "number";
 
     if (!valid1 || !valid2) {
       missingRules.push("탐구 과목별 선택유형 또는 가산율 규칙 미입력");
       inquiry1 = undefined;
       inquiry2 = admission.inquirySubjects === 2 ? undefined : inquiry2;
     } else {
-      if (inquiry1 != null) inquiry1 = inquiry1 * (1 + rate1!) + (flat1 ?? 0);
-      if (inquiry2 != null && rate2 != null) inquiry2 = inquiry2 * (1 + rate2) + (flat2 ?? 0);
+      if (inquiry1 != null) inquiry1 = inquiry1 * (1 + effectiveRate1!) + (flat1 ?? 0);
+      if (inquiry2 != null && effectiveRate2 != null) inquiry2 = inquiry2 * (1 + effectiveRate2) + (flat2 ?? 0);
       appliedComponents.push("탐구 과목별 선택유형 가산율·과목별 고정 가산점");
     }
   }
@@ -331,14 +335,14 @@ export function calculateRegularAdmission(
     }
   }
 
-  if (admission.mathChoiceBonusRequired) {
+  if (admission.mathChoiceBonusRequired && !admission.mathChoiceBonusRate) {
     const points = score.mathType ? admission.mathChoiceBonusPoints?.[score.mathType] : undefined;
     if (typeof points !== "number") missingRules.push("수학 선택과목 가산점 규칙 미등록");
     else {
       bonusScore += points * 10;
       appliedComponents.push("수학 선택과목 가산점");
     }
-  } else if (score.mathType && admission.mathChoiceBonusPoints) {
+  } else if (!admission.mathChoiceBonusRate && score.mathType && admission.mathChoiceBonusPoints) {
     const points = admission.mathChoiceBonusPoints[score.mathType];
     if (typeof points === "number") {
       bonusScore += points * 10;
