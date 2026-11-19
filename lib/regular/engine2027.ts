@@ -247,6 +247,20 @@ export function calculateRegularAdmission(
       normalized = Math.max(normalized, alternate / 100);
       appliedComponents.push("A/B 유형 고득점 환산 선택");
     }
+    if (admission.rankedAreaWeights?.length) {
+      if (typeof koreanMax === "number" && typeof mathMax === "number" && inquiryNormalized != null && englishNormalized != null) {
+        const ranked = [
+          korean / koreanMax,
+          math / mathMax,
+          englishNormalized,
+          inquiryNormalized,
+        ].sort((a, b) => b - a);
+        normalized = admission.rankedAreaWeights.reduce((sum, weight, index) => sum + (ranked[index] ?? 0) * weight / 100, 0);
+        appliedComponents.push("4개 영역 성적순 가중치 배정");
+      } else {
+        missingRules.push("성적순 영역 가중치 계산에 필요한 4개 영역 점수 미입력");
+      }
+    }
     baseScore = normalized;
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
@@ -254,6 +268,22 @@ export function calculateRegularAdmission(
       else {
         bonusScore += history;
         appliedComponents.push("한국사 등급 반영");
+      }
+    }
+    if (admission.inquiryTopSubjectBonusRate != null) {
+      const requiredType = admission.inquiryTopSubjectBonusType;
+      const fallbackType = score.inquiryType && score.inquiryType !== "혼합" ? score.inquiryType : undefined;
+      const type1 = score.inquiry1Type ?? fallbackType;
+      const type2 = score.inquiry2Type ?? fallbackType;
+      const candidates = [
+        type1 === requiredType ? score.inquiry1Percentile : undefined,
+        type2 === requiredType ? score.inquiry2Percentile : undefined,
+      ].filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+      if (candidates.length === 0) {
+        if (!type1 && !type2) missingRules.push("탐구 과목별 유형 입력 필요");
+      } else {
+        postMultiplierBonus += Math.max(...candidates) * admission.inquiryTopSubjectBonusRate;
+        appliedComponents.push("탐구 상위 과목 가산점");
       }
     }
     if (admission.curriculumEvaluationRequired) missingRules.push("대학별 교과평가 점수 미입력");
