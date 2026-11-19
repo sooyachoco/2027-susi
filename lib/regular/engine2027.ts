@@ -433,6 +433,7 @@ export function calculateRegularAdmission(
   }
 
   baseScore *= finalMultiplier;
+  baseScore += admission.fixedBaseScore ?? 0;
   if (!admission.gradeAdjustmentsAfterFinalMultiplier) bonusScore *= finalMultiplier;
   const totalScore = baseScore + bonusScore + postMultiplierBonus;
   const calculationVerified =
