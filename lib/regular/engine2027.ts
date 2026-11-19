@@ -101,7 +101,15 @@ export function calculateRegularAdmission(
   const koreanMetric = admission.subjectMetrics?.korean ?? admission.scoreMetric;
   const mathMetric = admission.subjectMetrics?.math ?? admission.scoreMetric;
   const korean = metricValue(score.korean, score.koreanPercentile, koreanMetric, 200);
-  const math = metricValue(score.math, score.mathPercentile, mathMetric, 200);
+  let math = metricValue(score.math, score.mathPercentile, mathMetric, 200);
+  if (admission.mathChoiceBonusRequired) {
+    const rate = score.mathType ? admission.mathChoiceBonusRate?.[score.mathType] : undefined;
+    if (typeof rate !== "number") missingRules.push("수학 선택과목 가산율 규칙 미입력");
+    else { math *= 1 + rate; appliedComponents.push("수학 선택과목 표준점수 가산율"); }
+  } else if (score.mathType && admission.mathChoiceBonusRate) {
+    const rate = admission.mathChoiceBonusRate[score.mathType];
+    if (typeof rate === "number") { math *= 1 + rate; appliedComponents.push("수학 선택과목 표준점수 가산율"); }
+  }
 
   let inquiry1 = inquiryValue(admission, score.inquiry1, score.inquiry1Percentile);
   let inquiry2 = admission.inquirySubjects === 2
@@ -176,8 +184,17 @@ export function calculateRegularAdmission(
       missingRules.push("당해 연도 탐구 변환표준점수 최고점 미확보");
     }
     let normalized = 0;
-    if (typeof koreanMax === "number" && koreanMax > 0) normalized += korean / koreanMax * admission.koreanWeight / 100;
-    if (typeof mathMax === "number" && mathMax > 0) normalized += math / mathMax * admission.mathWeight / 100;
+    if (typeof koreanMax === "number" && koreanMax > 0 && typeof mathMax === "number" && mathMax > 0) {
+      if (admission.languageMathMode === "고득점 우선") {
+        const a = korean / koreanMax * admission.koreanWeight + math / mathMax * admission.mathWeight;
+        const b = korean / koreanMax * admission.mathWeight + math / mathMax * admission.koreanWeight;
+        normalized += Math.max(a, b) / 100;
+        appliedComponents.push("국어·수학 A/B 고득점 조합 선택");
+      } else {
+        normalized += korean / koreanMax * admission.koreanWeight / 100;
+        normalized += math / mathMax * admission.mathWeight / 100;
+      }
+    }
     if (inquiry != null && typeof inquiryMax === "number" && inquiryMax > 0) normalized += inquiry / inquiryMax * admission.inquiryWeight / 100;
     if (admission.englishWeight > 0) {
       const english = gradePoints(admission.englishGradeTable, score.englishGrade);
