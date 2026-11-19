@@ -178,7 +178,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
 export function recommendRegularPortfolio(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularPortfolioRecommendation | null {
   if (!isRegularProfileComplete(profile)) return null;
 
-  const eligible = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
+  const eligible = admissions.filter((admission) => !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
