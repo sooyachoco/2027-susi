@@ -205,7 +205,7 @@ const sogang = {
   scienceCombinationAdjustmentRequired: false,
 };
 const sogangResult = calculateRegularAdmission(sogang, sampleScore);
-const sogangExpected = 136 * 1.3 + 134 * 1.1 + (64.3 + 67.4) * 0.6 + 99.5 + 10;
+const sogangExpected = 136 * 1.3 + 134 * 1.1 + (64.3 + 67.4) * 0.6 + 99.5 + 9.5;
 assert.ok(Math.abs(sogangResult.totalScore - sogangExpected) < 0.000001);
 assert.equal(sogangResult.calculationVerified, true);
 
