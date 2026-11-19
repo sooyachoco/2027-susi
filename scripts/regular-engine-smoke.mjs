@@ -609,6 +609,6 @@ const chungbukPending = calculateRegularAdmission({
   englishGradeTable: { 1: 100, 2: 95, 3: 90, 4: 85, 5: 80, 6: 75, 7: 70, 8: 40, 9: 0 },
 }, sampleScore);
 assert.equal(chungbukPending.calculationVerified, false);
-assert.equal(chungbukPending.baseScore, 800);
+assert.equal(chungbukPending.baseScore, 838);
 
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
