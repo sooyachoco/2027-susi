@@ -76,9 +76,15 @@ export const regularAdmissions2027: RegularAdmission[] = [
   }
   {
     id: "hanyang-seoul-da-intercollege", universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
-    department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수", koreanWeight: 35, mathWeight: 35, englishWeight: 10, inquiryWeight: 20,
-    inquirySubjects: 2, studentRecordWeight: 10, recruitmentCount: 60, note: "수능 90% + 학생부종합평가 10%", sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-09-14",
-  },
+    department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수",
+    koreanWeight: 35, mathWeight: 35, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
+    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 900, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
+    englishGradeTable: { 1: 100, 2: 96, 3: 90, 4: 82, 5: 72, 6: 60, 7: 46, 8: 30, 9: 12 },
+    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.1, 5: -0.2, 6: -0.3, 7: -0.4, 8: -0.5, 9: -0.6 },
+    studentRecordWeight: 10, curriculumEvaluationRequired: true, recruitmentCount: 50,
+    note: "2027 정시 한양인터칼리지학부: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 당해 연도 최고점·탐구 변환표·학생부 평가 미입력으로 최종 환산 보류.",
+    sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
+  }
   {
     id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
     department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 80,
