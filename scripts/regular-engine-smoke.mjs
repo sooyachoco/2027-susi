@@ -288,8 +288,12 @@ assert.ok(khuResult.appliedComponents.includes("탐구 과목별 선택유형 �
 
 // Sookmyung 2027 normalized formula, subject-level inquiry bonus, and official history points.
 const sookmyung = {
-  ...ewhaComplete,
   id: "sookmyung-humanities-smoke",
+  universityName: "숙명여자대학교",
+  scoreMetric: "표준점수",
+  calculationMode: "normalized-standard-sum",
+  subjectScoreMultiplier: 1,
+  calculationVerified: true,
   koreanWeight: 35,
   mathWeight: 25,
   englishWeight: 15,
@@ -315,7 +319,6 @@ const sookmyungExpected = (
   (98 / 100 * 15) +
   ((64.3 * 1.03 + 67.4 * 1.03) / 140 * 25)
 ) * 10 + 2;
-console.log("Sookmyung debug", sookmyungResult, sookmyungExpected);
 assert.ok(Math.abs(sookmyungResult.totalScore - sookmyungExpected) < 0.000001);
 assert.equal(sookmyungResult.calculationVerified, true);
 const sookmyungNatural = calculateRegularAdmission({
