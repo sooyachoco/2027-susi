@@ -68,6 +68,8 @@ export type RegularAdmission = {
   inquiryTypeBonusPoints?: Partial<Record<"사탐" | "과탐" | "혼합", number>>;
   /** Multiplicative bonus rate applied to each converted inquiry subject, e.g. 0.05 for 5%. */
   inquiryTypeBonusRate?: Partial<Record<"사탐" | "과탐" | "직탐", number>>;
+  /** Flat additive points applied to each inquiry subject before aggregation. */
+  inquiryTypeBonusPerSubject?: Partial<Record<"사탐" | "과탐" | "직탐", number>>;
   /** Attendance score added after the weighted CSAT score; sorted by maxDays ascending. */
   attendanceScoreByAbsenceDays?: Array<{ maxDays: number; score: number }>;
   /** Official grade-to-score table, on the same 0-100 subject-score scale as the weighted calculation. */
