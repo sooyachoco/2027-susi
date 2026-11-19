@@ -180,9 +180,11 @@ export function calculateRegularAdmission(
 
   if (calculationMode === "normalized-standard-sum") {
     const maxima = admission.subjectMaximumScores;
-    const koreanMax = maxima?.korean;
-    const mathMax = maxima?.math;
-    const inquiryMax = maxima?.inquiry;
+    const koreanMetricForMax = admission.subjectMetrics?.korean ?? admission.scoreMetric;
+    const mathMetricForMax = admission.subjectMetrics?.math ?? admission.scoreMetric;
+    const koreanMax = koreanMetricForMax === "백분위" ? 100 : maxima?.korean;
+    const mathMax = mathMetricForMax === "백분위" ? 100 : maxima?.math;
+    const inquiryMax = (admission.subjectMetrics?.inquiry ?? admission.scoreMetric) === "백분위" ? 100 : maxima?.inquiry;
     if (!(typeof koreanMax === "number" && koreanMax > 0)) missingRules.push("당해 연도 국어 표준점수 최고점 미확보");
     if (!(typeof mathMax === "number" && mathMax > 0)) missingRules.push("당해 연도 수학 표준점수 최고점 미확보");
     if (admission.inquiryWeight > 0 && !(typeof inquiryMax === "number" && inquiryMax > 0)) {
@@ -215,13 +217,23 @@ export function calculateRegularAdmission(
         appliedComponents.push("영어 등급 환산");
       }
     }
+    let inquiryContributionAdded = false;
+    if (admission.mathInquiryMode === "고득점 우선" && inquiryNormalized != null && typeof mathMax === "number" && mathMax > 0) {
+      const mathNormalized = math / mathMax;
+      const a = mathNormalized * admission.mathWeight + inquiryNormalized * admission.inquiryWeight;
+      const b = mathNormalized * admission.inquiryWeight + inquiryNormalized * admission.mathWeight;
+      normalized = normalized - (mathNormalized * admission.mathWeight / 100) + Math.max(a, b) / 100;
+      inquiryContributionAdded = true;
+      appliedComponents.push("수학·탐구 고득점 영역 가중치 선택");
+    }
     if (admission.englishInquiryMode === "고득점 우선" && englishNormalized != null && inquiryNormalized != null) {
       const a = englishNormalized * admission.englishWeight + inquiryNormalized * admission.inquiryWeight;
       const b = englishNormalized * admission.inquiryWeight + inquiryNormalized * admission.englishWeight;
       normalized += Math.max(a, b) / 100;
+      inquiryContributionAdded = true;
       appliedComponents.push("영어·탐구 고득점 영역 가중치 선택");
     } else {
-      if (inquiryNormalized != null) normalized += inquiryNormalized * admission.inquiryWeight / 100;
+      if (inquiryNormalized != null && !inquiryContributionAdded) normalized += inquiryNormalized * admission.inquiryWeight / 100;
       if (englishNormalized != null) normalized += englishNormalized * admission.englishWeight / 100;
     }
     baseScore = normalized;
