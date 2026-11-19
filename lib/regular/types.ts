@@ -81,6 +81,7 @@ export type RegularAdmission = {
   /** Official Korean-history additive points on the final 100-point pre-scale. */
   koreanHistoryGradePoints?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
   languageMathMode?: "고득점 우선";
+  englishInquiryMode?: "고득점 우선";
   studentRecordWeight?: number;
   expectedCutline?: number;
   expectedCutline95?: number;
