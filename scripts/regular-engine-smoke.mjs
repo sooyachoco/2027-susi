@@ -640,4 +640,27 @@ const kmouExact = calculateRegularAdmission({
 assert.equal(kmouExact.missingRules.length, 0);
 assert.ok(kmouExact.totalScore > kmouExact.baseScore);
 
+
+// 2027 Daegu and Keimyung.
+const daeguPending = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 20, mathWeight: 30, englishWeight: 30, inquiryWeight: 20, inquirySubjects: 1, inquiryAggregation: "best",
+  finalScoreMultiplier: 937.5, studentRecordWeight: 6.25,
+  englishGradeTable: { 1: 100, 2: 97, 3: 94, 4: 91, 5: 88, 6: 85, 7: 82, 8: 79, 9: 76 },
+  koreanHistoryGradePoints: { 1: 5, 2: 5, 3: 4, 4: 4, 5: 3, 6: 2, 7: 1, 8: 0, 9: 0 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(daeguPending.calculationVerified, false);
+assert.ok(daeguPending.missingRules.some((rule) => rule.includes("학생부 반영 점수")));
+
+const keimyungExact = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 25, mathWeight: 25, englishWeight: 25, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
+  finalScoreMultiplier: 400, englishGradeTable: { 1: 100, 2: 98, 3: 94, 4: 90, 5: 86, 6: 82, 7: 78, 8: 74, 9: 60 },
+  koreanHistoryGradePoints: { 1: 5, 2: 5, 3: 4.5, 4: 4.5, 5: 4, 6: 4, 7: 3.5, 8: 3.5, 9: 3 },
+  calculationVerified: true,
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 3 });
+assert.equal(keimyungExact.calculationVerified, true);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
