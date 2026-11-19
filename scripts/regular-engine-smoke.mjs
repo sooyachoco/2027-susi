@@ -326,4 +326,50 @@ const sookmyungNatural = calculateRegularAdmission({
 }, { ...sampleScore, inquiry1Type: "과탐", inquiry2Type: "과탐" });
 assert.equal(sookmyungNatural.calculationVerified, true);
 
+
+// 2027 normalized formulas: Konkuk A/B, Dongguk math/science bonus, Kookmin subject bonuses.
+const normFixture = {
+  id: "normalized-fixture", universityName: "test", region: "서울", department: "test", majorGroup: "전체", group: "가",
+  scoreMetric: "표준점수", calculationMode: "normalized-standard-sum",
+  subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 }, finalScoreMultiplier: 1000,
+  koreanWeight: 40, mathWeight: 30, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
+  inquiryConversionRequired: false, englishGradeTable: { 1: 100, 2: 98.5, 3: 97, 4: 95, 5: 92.5, 6: 90, 7: 85, 8: 80, 9: 75 },
+  koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -1, 6: -1.75, 7: -3, 8: -4.25, 9: -5 },
+  gradeAdjustmentsAfterFinalMultiplier: true, calculationVerified: true,
+};
+const konkukA = calculateRegularAdmission({ ...normFixture }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+const konkukB = calculateRegularAdmission({ ...normFixture, koreanWeight: 30, mathWeight: 40 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+const konkukFree = calculateRegularAdmission({ ...normFixture, languageMathMode: "고득점 우선" }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(konkukFree.baseScore, Math.max(konkukA.baseScore, konkukB.baseScore));
+assert.equal(konkukFree.calculationVerified, true);
+
+const donggukNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25,
+  inquiryConversionRequired: true, inquiryConversionTable: { "96": 65, "99": 67 },
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.03, 기하: 0.03, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 99.5, 3: 98.5, 4: 95, 5: 90, 6: 70, 7: 45, 8: 10, 9: 0 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -4, 7: -6, 8: -8, 9: -10 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(donggukNatural.calculationVerified, true);
+assert.ok(donggukNatural.appliedComponents.includes("수학 선택과목 표준점수 가산율"));
+
+const kookminNatural = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.05, 기하: 0.05, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+}, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(kookminNatural.calculationVerified, true);
+
+// UOS inquiry bonus applies only when both inquiry subjects are of the same qualifying type.
+const uosSame = calculateRegularAdmission({
+  ...normFixture, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
+  inquiryBonusRequiresSameType: "사탐", subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 },
+}, { ...sampleScore, inquiry1Type: "사탐", inquiry2Type: "사탐", englishGrade: 2, koreanHistoryGrade: 5 });
+const uosMixed = calculateRegularAdmission({
+  ...normFixture, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
+  inquiryBonusRequiresSameType: "사탐", subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 },
+}, { ...sampleScore, inquiry1Type: "사탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.ok(uosSame.baseScore > uosMixed.baseScore);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
