@@ -184,7 +184,10 @@ export function calculateRegularAdmission(
     const mathMetricForMax = admission.subjectMetrics?.math ?? admission.scoreMetric;
     const koreanMax = koreanMetricForMax === "백분위" ? 100 : maxima?.korean;
     const mathMax = mathMetricForMax === "백분위" ? 100 : maxima?.math;
-    const inquiryMax = (admission.subjectMetrics?.inquiry ?? admission.scoreMetric) === "백분위" ? 100 : maxima?.inquiry;
+    const inquiryMetricForMax = admission.subjectMetrics?.inquiry ?? admission.scoreMetric;
+    const inquiryMax = admission.inquiryConversionRequired || admission.inquiryConversionTable
+      ? maxima?.inquiry
+      : inquiryMetricForMax === "백분위" ? 100 : maxima?.inquiry;
     if (!(typeof koreanMax === "number" && koreanMax > 0)) missingRules.push("당해 연도 국어 표준점수 최고점 미확보");
     if (!(typeof mathMax === "number" && mathMax > 0)) missingRules.push("당해 연도 수학 표준점수 최고점 미확보");
     if (admission.inquiryWeight > 0 && !(typeof inquiryMax === "number" && inquiryMax > 0)) {
