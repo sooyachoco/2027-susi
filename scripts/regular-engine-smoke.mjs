@@ -605,7 +605,7 @@ assert.equal(kangwonExact.calculationVerified, true);
 
 const chungbukPending = calculateRegularAdmission({
   ...normFixture, koreanWeight: 30, mathWeight: 20, englishWeight: 20, inquiryWeight: 30,
-  finalScoreMultiplier: 200, fixedBaseScore: 800, inquiryConversionRequired: false,
+  finalScoreMultiplier: 200, fixedBaseScore: 800, inquiryConversionRequired: false, subjectMaximumScores: {},
   englishGradeTable: { 1: 100, 2: 95, 3: 90, 4: 85, 5: 80, 6: 75, 7: 70, 8: 40, 9: 0 },
 }, sampleScore);
 assert.equal(chungbukPending.calculationVerified, false);
