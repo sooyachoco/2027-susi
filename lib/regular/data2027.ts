@@ -174,7 +174,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     benchmarkYear: 2025, benchmarkCutline70: 896.41, benchmarkTotalScore: 1000, benchmarkDepartment: "국어국문학과", recruitmentCount: 9,
     note: "2027 인문Ⅰ: 국어35·수학35·영어15·탐구15. 국어·수학은 당해 연도 표준점수 최고점으로 나눠 반영, 탐구는 시립대 변환표준점수 사용, 영어 150점 기준 등급표, 한국사 5등급부터 감점. 당해 연도 최고점·탐구 변환표 미확보로 최종 환산 보류.",
     sourceUrl: UOS_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "uos-seoul-na-humanities2", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
     department: "인문계열Ⅱ", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
@@ -195,7 +195,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -2, 6: -4, 7: -6, 8: -8, 9: -10 },
     note: "2027 자연계열: 국어30·수학40·영어10·탐구20. 국어·수학 당해 연도 표준점수 최고점 기준, 탐구 변환표준점수, 영어 100점 기준 등급표. 과탐 2과목 선택 시 3% 가산. 최고점·탐구 변환표 미확보로 최종 환산 보류.",
     sourceUrl: UOS_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "hufs-seoul-ga-humanities", universityId: "hufs-seoul", universityName: "한국외국어대학교", region: "서울",
     department: "인문A", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
@@ -290,7 +290,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -1, 6: -1.75, 7: -3, 8: -4.25, 9: -5 },
     note: "2027 KU일반학생 수리중심(B): 국어30·수학40·탐구20·영어10. 국어/수학 표준점수, 탐구 백분위별 변환표준점수, 영어 200점 환산표를 200 기준으로 반영하고 한국사 감점. 탐구 변환표 미공개 상태이므로 최종 환산 보류.",
     sourceUrl: KONKUK_SOURCE, verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "konkuk-seoul-ga-free-major", universityId: "konkuk-seoul", universityName: "건국대학교", region: "서울",
     department: "KU자유전공학부", majorGroup: "전체", group: "가", scoreMetric: "표준점수",
@@ -394,7 +394,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
     note: "2027 인문계·자유전공(A): 국어40·수학30·영어10·탐구20. 영어 등급별 배점, 한국사 5등급부터 감점. 국민대 산식 세부 배점·최종 환산 총점에 맞춘 공식 환산식 검증 전이므로 점수는 참고지수이며 판정 보류.",
     sourceUrl: "https://admission.kookmin.ac.kr/", verifiedAt: "2026-11-19",
-  }
+  },
   {
     id: "kwangwoon-seoul-ga-electronics", universityId: "kwangwoon-seoul", universityName: "광운대학교", region: "서울",
     department: "전자공학과", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 40, englishWeight: 10, inquiryWeight: 20,
