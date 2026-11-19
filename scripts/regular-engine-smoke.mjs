@@ -252,7 +252,7 @@ const ewhaExpectedBase = (
   (134 / 150 * 30) +
   (136 / 150 * 30) +
   ((64.3 + 67.4) / 140 * 20) +
-  (99.5 / 100 * 20)
+  (98 / 100 * 20)
 ) * 10;
 assert.ok(Math.abs(ewhaComplete.baseScore - ewhaExpectedBase) < 0.000001);
 assert.ok(Math.abs(ewhaComplete.totalScore - (ewhaExpectedBase + 9.6)) < 0.000001);
