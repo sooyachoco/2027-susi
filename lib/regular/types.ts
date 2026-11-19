@@ -84,6 +84,9 @@ export type RegularAdmission = {
   englishInquiryMode?: "고득점 우선";
   mathInquiryMode?: "고득점 우선";
   alternateWeighting?: { koreanWeight: number; mathWeight: number; englishWeight: number; inquiryWeight: number };
+  rankedAreaWeights?: number[];
+  inquiryTopSubjectBonusRate?: number;
+  inquiryTopSubjectBonusType?: "사탐" | "과탐" | "직탐";
   studentRecordWeight?: number;
   expectedCutline?: number;
   expectedCutline95?: number;
