@@ -50,10 +50,6 @@ function getCutline(admission: RegularAdmission): number | undefined {
   return raw;
 }
 
-function isTargetRegion(admission: RegularAdmission): boolean {
-  return /서울|경기|인천/.test(admission.region);
-}
-
 function isExcludedMajor(admission: RegularAdmission): boolean {
   const text = `${admission.universityName} ${admission.department} ${admission.majorGroup}`.replace(/\s+/g, "");
   return /신학|신학대|목회|기독교학/.test(text);
@@ -143,7 +139,7 @@ export type RegularPortfolioRecommendation = {
 export function recommendRegular(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularRecommendation[] {
   if (!isRegularProfileComplete(profile)) return [];
 
-  const eligibleAdmissions = admissions.filter((admission) => isTargetRegion(admission) && !isExcludedMajor(admission));
+  const eligibleAdmissions = admissions.filter((admission) => !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
