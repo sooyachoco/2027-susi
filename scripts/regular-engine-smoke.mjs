@@ -315,6 +315,7 @@ const sookmyungExpected = (
   (98 / 100 * 15) +
   ((64.3 * 1.03 + 67.4 * 1.03) / 140 * 25)
 ) * 10 + 2;
+console.log("Sookmyung debug", sookmyungResult, sookmyungExpected);
 assert.ok(Math.abs(sookmyungResult.totalScore - sookmyungExpected) < 0.000001);
 assert.equal(sookmyungResult.calculationVerified, true);
 const sookmyungNatural = calculateRegularAdmission({
