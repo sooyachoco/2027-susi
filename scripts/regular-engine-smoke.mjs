@@ -376,7 +376,7 @@ assert.ok(uosSame.baseScore > uosMixed.baseScore);
 const uosUnknown = calculateRegularAdmission({
   ...normFixture, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
   inquiryBonusRequiresSameType: "사탐",
-}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+}, { ...sampleScore, inquiryType: "혼합", englishGrade: 2, koreanHistoryGrade: 5 });
 assert.equal(uosUnknown.calculationVerified, false);
 
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
