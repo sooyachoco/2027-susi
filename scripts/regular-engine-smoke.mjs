@@ -528,4 +528,45 @@ const duksungRanked = calculateRegularAdmission({
 }, { ...sampleScore, koreanPercentile: 99, mathPercentile: 97, inquiry1Percentile: 92, englishGrade: 2, koreanHistoryGrade: 2 });
 assert.ok(duksungRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
 
+
+// 2027 ERICA, Pusan, Kyungpook and Chungnam formula fixtures.
+const ericaPending = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25,
+  inquiryConversionRequired: true, inquiryConversionTable: undefined,
+  englishGradeTable: { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 },
+}, sampleScore);
+assert.equal(ericaPending.calculationVerified, false);
+assert.ok(ericaPending.missingRules.some((rule) => rule.includes("탐구 변환표준점수표")));
+
+const pusanPending = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 20, mathWeight: 30, englishWeight: 20, inquiryWeight: 30,
+  subjectMaximumScores: { korean: 200, math: 200 }, inquiryConversionRequired: true,
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.05, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 99, 3: 97.5, 4: 95, 5: 92.5, 6: 90, 7: 87.5, 8: 85, 9: 82.5 },
+}, { ...sampleScore, inquiry1Type: "과탐", inquiry2Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(pusanPending.calculationVerified, false);
+
+const knuPending = calculateRegularAdmission({
+  ...normFixture, calculationMode: "weighted-sum-with-additive-bonuses",
+  koreanWeight: 150, mathWeight: 100, englishWeight: 100, inquiryWeight: 100,
+  subjectScoreMultiplier: 1, finalScoreMultiplier: 1.25, gradeAdjustmentsAfterFinalMultiplier: true,
+  inquiryConversionRequired: true, inquiryConversionTable: undefined,
+  englishGradeTable: { 1: 100, 2: 97, 3: 92, 4: 87, 5: 82, 6: 77, 7: 72, 8: 67, 9: 62 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.8, 6: 9.6, 7: 9.4, 8: 9.2, 9: 9 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(knuPending.calculationVerified, false);
+assert.ok(knuPending.missingRules.some((rule) => rule.includes("탐구 변환표준점수표")));
+
+const chungnamExact = calculateRegularAdmission({
+  ...normFixture, calculationMode: "weighted-sum-with-additive-bonuses",
+  koreanWeight: 67.5, mathWeight: 37.5, englishWeight: 0, inquiryWeight: 22.5,
+  subjectScoreMultiplier: 1, finalScoreMultiplier: 1, gradeAdjustmentsAfterFinalMultiplier: true,
+  inquiryConversionRequired: false, inquiryTypeBonusRequired: false,
+  englishGradeTable: { 1: 0, 2: -2, 3: -5, 4: -8, 5: -11, 6: -14, 7: -18, 8: -22, 9: -26 },
+  koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -1, 5: -1, 6: -1, 7: -2, 8: -2, 9: -2 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 4 });
+const chungnamExpectedBase = 134 * 0.675 + 136 * 0.375 + (64 + 67) * 0.225;
+assert.ok(Math.abs(chungnamExact.baseScore - chungnamExpectedBase) < 0.000001);
+assert.equal(chungnamExact.missingRules.length, 0);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
