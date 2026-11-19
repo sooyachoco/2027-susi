@@ -184,4 +184,46 @@ assert.ok(Math.abs(yonseiResult.totalScore - yonseiExpectedRaw * (950 / 800)) < 
 assert.ok(yonseiResult.missingRules.some((rule) => rule.includes("교과평가")));
 assert.equal(yonseiResult.calculationVerified, false);
 
-console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei formula samples, and missing-rule guards.");
+
+const sogang = {
+  ...cauNatural,
+  id: "sogang-engine-smoke",
+  koreanWeight: 110,
+  mathWeight: 130,
+  inquiryWeight: 60,
+  englishWeight: 0,
+  inquiryAggregation: "sum",
+  languageMathMode: "고득점 우선",
+  subjectScoreMultiplier: 1,
+  finalScoreMultiplier: 1,
+  inquiryConversionTable: { "96": 64.3, "99": 67.4 },
+  englishGradeTable: { 1: 100, 2: 99.5, 3: 98.5, 4: 97, 5: 95, 6: 92.5, 7: 89.5, 8: 86, 9: 82 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.5, 6: 9, 7: 8.5, 8: 8, 9: 7.5 },
+  inquiryTypeBonusRequired: false,
+  studentRecordWeight: 0,
+  curriculumEvaluationRequired: false,
+  scienceCombinationAdjustmentRequired: false,
+};
+const sogangResult = calculateRegularAdmission(sogang, sampleScore);
+const sogangExpected = 136 * 1.3 + 134 * 1.1 + (64.3 + 67.4) * 0.6 + 99.5 + 10;
+assert.ok(Math.abs(sogangResult.totalScore - sogangExpected) < 0.000001);
+assert.equal(sogangResult.calculationVerified, true);
+
+const ewhaPending = calculateRegularAdmission({
+  ...sogang,
+  id: "ewha-normalized-smoke",
+  calculationMode: "normalized-standard-sum",
+  koreanWeight: 30,
+  mathWeight: 30,
+  englishWeight: 20,
+  inquiryWeight: 20,
+  inquiryConversionRequired: true,
+  inquiryConversionTable: undefined,
+  subjectMaximumScores: undefined,
+  englishGradeTable: { 1: 100, 2: 98, 3: 94, 4: 88, 5: 84, 6: 80, 7: 76, 8: 72, 9: 68 },
+}, sampleScore);
+assert.equal(ewhaPending.calculationVerified, false);
+assert.ok(ewhaPending.missingRules.some((rule) => rule.includes("최고점")));
+assert.ok(ewhaPending.missingRules.some((rule) => rule.includes("탐구 변환표준점수표")));
+
+console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang formula samples, and missing-rule guards.");
