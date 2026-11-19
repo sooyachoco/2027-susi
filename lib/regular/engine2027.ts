@@ -118,6 +118,8 @@ export function calculateRegularAdmission(
     const rate2 = admission.inquirySubjects === 2 && type2
       ? admission.inquiryTypeBonusRate?.[type2]
       : undefined;
+    const flat1 = type1 ? admission.inquiryTypeBonusPerSubject?.[type1] ?? 0 : undefined;
+    const flat2 = type2 ? admission.inquiryTypeBonusPerSubject?.[type2] ?? 0 : undefined;
     const valid1 = typeof rate1 === "number";
     const valid2 = admission.inquirySubjects === 1 || typeof rate2 === "number";
 
@@ -126,9 +128,9 @@ export function calculateRegularAdmission(
       inquiry1 = undefined;
       inquiry2 = admission.inquirySubjects === 2 ? undefined : inquiry2;
     } else {
-      if (inquiry1 != null) inquiry1 *= 1 + rate1!;
-      if (inquiry2 != null && rate2 != null) inquiry2 *= 1 + rate2;
-      appliedComponents.push("탐구 과목별 선택유형 가산율");
+      if (inquiry1 != null) inquiry1 = inquiry1 * (1 + rate1!) + (flat1 ?? 0);
+      if (inquiry2 != null && rate2 != null) inquiry2 = inquiry2 * (1 + rate2) + (flat2 ?? 0);
+      appliedComponents.push("탐구 과목별 선택유형 가산율·과목별 고정 가산점");
     }
   }
 
