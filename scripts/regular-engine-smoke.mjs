@@ -463,4 +463,31 @@ const sangmyungNatural = calculateRegularAdmission({
 }, { ...sampleScore, mathType: "미적분", inquiry1Type: "과탐", englishGrade: 2, koreanHistoryGrade: 5 });
 assert.equal(sangmyungNatural.calculationVerified, true);
 
+
+// 2027 SKKU math/inquiry best weighting, Inha A/B alternatives, Ajou and Hongik.
+const bestMathInquiry = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 15, mathWeight: 40, englishWeight: 15, inquiryWeight: 30,
+  mathInquiryMode: "고득점 우선", subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 },
+  inquiryConversionRequired: false,
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.ok(bestMathInquiry.appliedComponents.includes("수학·탐구 고득점 영역 가중치 선택"));
+
+const inhaAB = calculateRegularAdmission({
+  ...normFixture, koreanWeight: 35, mathWeight: 30, englishWeight: 10, inquiryWeight: 25,
+  alternateWeighting: { koreanWeight: 30, mathWeight: 30, englishWeight: 10, inquiryWeight: 30 },
+  inquiryConversionRequired: false, subjectMaximumScores: { korean: 200, math: 200, inquiry: 200 },
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.ok(inhaAB.appliedComponents.includes("A/B 유형 고득점 환산 선택"));
+
+const hongikRaw = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 15, inquiryWeight: 25,
+  inquirySubjects: 2, inquiryAggregation: "sum", calculationMode: "weighted-sum-with-additive-bonuses",
+  subjectScoreMultiplier: 1, finalScoreMultiplier: 1,
+  englishGradeTable: { 1: 100, 2: 95, 3: 88, 4: 79, 5: 68, 6: 55, 7: 40, 8: 23, 9: 4 },
+  koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 9.9, 5: 9.8, 6: 9.7, 7: 9.6, 8: 9.5, 9: 9.4 },
+  gradeAdjustmentsAfterFinalMultiplier: true,
+}, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 4 });
+assert.ok(hongikRaw.totalScore > hongikRaw.baseScore);
+assert.equal(hongikRaw.missingRules.length, 0);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
