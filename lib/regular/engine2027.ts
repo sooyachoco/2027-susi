@@ -163,10 +163,45 @@ export function calculateRegularAdmission(
   let bonusScore = 0;
   let postMultiplierBonus = 0;
 
-  if (calculationMode === "weighted-sum-with-additive-bonuses") {
+  if (calculationMode === "normalized-standard-sum") {
+    const maxima = admission.subjectMaximumScores;
+    const koreanMax = maxima?.korean;
+    const mathMax = maxima?.math;
+    const inquiryMax = maxima?.inquiry;
+    if (!(typeof koreanMax === "number" && koreanMax > 0)) missingRules.push("당해 연도 국어 표준점수 최고점 미확보");
+    if (!(typeof mathMax === "number" && mathMax > 0)) missingRules.push("당해 연도 수학 표준점수 최고점 미확보");
+    if (admission.inquiryWeight > 0 && !(typeof inquiryMax === "number" && inquiryMax > 0)) {
+      missingRules.push("당해 연도 탐구 변환표준점수 최고점 미확보");
+    }
+    let normalized = 0;
+    if (typeof koreanMax === "number" && koreanMax > 0) normalized += korean / koreanMax * admission.koreanWeight / 100;
+    if (typeof mathMax === "number" && mathMax > 0) normalized += math / mathMax * admission.mathWeight / 100;
+    if (inquiry != null && typeof inquiryMax === "number" && inquiryMax > 0) normalized += inquiry / inquiryMax * admission.inquiryWeight / 100;
+    if (admission.englishWeight > 0) {
+      const english = gradePoints(admission.englishGradeTable, score.englishGrade);
+      if (english == null) missingRules.push("대학별 영어 등급 환산표 미등록");
+      else {
+        normalized += english / 100 * admission.englishWeight / 100;
+        appliedComponents.push("영어 등급 환산");
+      }
+    }
+    baseScore = normalized * (admission.finalScoreMultiplier ?? 1000);
+    if (admission.koreanHistoryRequired) {
+      const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
+      if (history == null) missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
+      else {
+        bonusScore += history;
+        appliedComponents.push("한국사 등급 반영");
+      }
+    }
+    if (admission.curriculumEvaluationRequired) missingRules.push("대학별 교과평가 점수 미입력");
+    if ((admission.studentRecordWeight ?? 0) > 0 && !admission.curriculumEvaluationRequired) missingRules.push("학생부 반영 점수 미입력");
+  } else if (calculationMode === "weighted-sum-with-additive-bonuses") {
+    const languageMathContribution = admission.languageMathMode === "고득점 우선"
+      ? languageMathScore / 100
+      : (korean * admission.koreanWeight / 100) + (math * admission.mathWeight / 100);
     const weightedSubjects =
-      (korean * admission.koreanWeight / 100) +
-      (math * admission.mathWeight / 100) +
+      languageMathContribution +
       (inquiry != null ? inquiry * admission.inquiryWeight / 100 : 0);
     baseScore = weightedSubjects * multiplier;
 
