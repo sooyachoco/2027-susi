@@ -285,4 +285,41 @@ assert.ok(Math.abs(khuResult.totalScore - khuExpected) < 0.000001);
 assert.equal(khuResult.calculationVerified, true);
 assert.ok(khuResult.appliedComponents.includes("탐구 과목별 선택유형 가산율·과목별 고정 가산점"));
 
+
+// Sookmyung 2027 normalized formula, subject-level inquiry bonus, and official history points.
+const sookmyung = {
+  ...ewhaComplete,
+  id: "sookmyung-humanities-smoke",
+  koreanWeight: 35,
+  mathWeight: 25,
+  englishWeight: 15,
+  inquiryWeight: 25,
+  inquiryConversionTable: { "96": 64.3, "99": 67.4 },
+  subjectMaximumScores: { korean: 150, math: 150, inquiry: 140 },
+  inquiryTypeBonusRequired: true,
+  inquiryTypeBonusRate: { 사탐: 0.03, 과탐: 0, 직탐: 0 },
+  englishGradeTable: { 1: 100, 2: 98, 3: 94, 4: 88, 5: 80, 6: 70, 7: 60, 8: 40, 9: 20 },
+  koreanHistoryRequired: true,
+  koreanHistoryGradePoints: { 1: 3, 2: 3, 3: 3, 4: 3, 5: 2, 6: 2, 7: 1, 8: 1, 9: 1 },
+  finalScoreMultiplier: 1000,
+  gradeAdjustmentsAfterFinalMultiplier: true,
+  studentRecordWeight: 0,
+  curriculumEvaluationRequired: false,
+};
+const sookmyungResult = calculateRegularAdmission(sookmyung, {
+  ...sampleScore, inquiry1Type: "사탐", inquiry2Type: "사탐", englishGrade: 2, koreanHistoryGrade: 5,
+});
+const sookmyungExpected = (
+  (134 / 150 * 35) +
+  (136 / 150 * 25) +
+  (98 / 100 * 15) +
+  ((64.3 * 1.03 + 67.4 * 1.03) / 140 * 25)
+) * 10 + 2;
+assert.ok(Math.abs(sookmyungResult.totalScore - sookmyungExpected) < 0.000001);
+assert.equal(sookmyungResult.calculationVerified, true);
+const sookmyungNatural = calculateRegularAdmission({
+  ...sookmyung, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+}, { ...sampleScore, inquiry1Type: "과탐", inquiry2Type: "과탐" });
+assert.equal(sookmyungNatural.calculationVerified, true);
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
