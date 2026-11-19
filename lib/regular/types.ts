@@ -52,6 +52,8 @@ export type RegularAdmission = {
   calculationMode?: "weighted-average" | "weighted-sum-with-additive-bonuses" | "normalized-standard-sum";
   subjectScoreMultiplier?: number;
   finalScoreMultiplier?: number;
+  /** Fixed base points added after the normalized weighted component. */
+  fixedBaseScore?: number;
   /** Some universities subtract English/history deductions after scaling the raw CSAT subtotal. */
   gradeAdjustmentsAfterFinalMultiplier?: boolean;
   cohortNormalizationRequired?: boolean;
