@@ -668,6 +668,23 @@ const keimyungExact = calculateRegularAdmission({
 assert.equal(keimyungExact.calculationVerified, true);
 
 
+// 2027 Ajou final guide: general admissions 2/3/4, exact group quotas and formula groups.
+const ajouData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+const ajouRowsText = ajouData.slice(ajouData.indexOf("const AJOU_ROWS: AjouRow[] = ["), ajouData.indexOf("const ajouAdmissions"));
+const ajouRows = [...ajouRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+), field: "([^"]+)", admissionType: "([^"]+)" \}/g)];
+assert.equal(ajouRows.length, 33);
+assert.equal(new Set(ajouRows.map((row) => row[1])).size, 33);
+const ajouTotals = ajouRows.reduce((totals, row) => {
+  totals[row[7]] += Number(row[5]);
+  return totals;
+}, { 일반전형2: 0, 일반전형3: 0, 일반전형4: 0 });
+assert.deepEqual(ajouTotals, { 일반전형2: 121, 일반전형3: 473, 일반전형4: 12 });
+assert.match(ajouData, /AJOU_ENGLISH = \{ 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 \}/);
+assert.match(ajouData, /AJOU_HISTORY = \{ 1: 0, 2: 0, 3: 0, 4: 0, 5: -5, 6: -10, 7: -20, 8: -30, 9: -40 \}/);
+assert.match(ajouData, /mathChoiceBonusRate: natural \? \{ 미적분: 0.03, 기하: 0.03/);
+assert.match(ajouData, /inquiryTypeBonusRate: natural \? \{ 사탐: 0, 과탐: 0.03/);
+assert.ok(!ajouRows.some((row) => row[2] === "의학과" || row[2] === "국방디지털융합학과"));
+
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
 assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
