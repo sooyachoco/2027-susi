@@ -24,6 +24,29 @@ const KOOKMIN_SOURCE = "https://admission.kookmin.ac.kr/";
 
 // 2027 정시 확인 데이터. 9월 공개 최종 모집요강/입학처 자료를 기준으로 순차 검증한다.
 // 현재 엔진은 모의지원 지수 단계이며, 대학별 변환표준점수·영어/한국사 세부 환산식은 별도 엔진으로 확장한다.
+const DANKOOK_SOURCE = "https://ipsi.dankook.ac.kr/bbs/filedown.php?bbsid=juk_info&file_seq=6904";
+const DANKOOK_ENGLISH = { 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 } as const;
+const DANKOOK_HISTORY = { 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 } as const;
+const DANKOOK_ROWS = [["english-humanities-ga","영미인문학과","인문·어문","가",14,35,25,20,20,"B"],["media-communication-ga","미디어커뮤니케이션학부","인문·사회","가",14,35,25,20,20,"B"],["counseling-ga","상담학과","인문·사회","가",9,35,25,20,20,"B"],["international-business-ga","국제경영학과","경영·경제","가",22,25,35,20,20,"BIZ"],["electrical-electronics-ga","전자전기공학과","자연·공학","가",21,20,35,20,25,"N"],["convergence-semiconductor-ga","융합반도체공학과","자연·공학","가",18,20,35,20,25,"N"],["polymer-engineering-ga","고분자시스템공학부(고분자공학전공)","자연·공학","가",14,20,35,20,25,"N"],["convergence-materials-ga","고분자시스템공학부(융합소재공학전공)","자연·공학","가",10,20,35,20,25,"N"],["infrastructure-construction-ga","인프라건설공학과","자연·공학","가",24,20,35,20,25,"N"],["mechanical-engineering-ga","기계공학과","자연·공학","가",16,20,35,20,25,"N"],["chemical-engineering-ga","화학공학과","자연·공학","가",27,20,35,20,25,"N"],["architecture-engineering-ga","건축학부(건축공학전공)","자연·공학","가",11,20,35,20,25,"N"],["film-theory-ga","공연영화학부(영화전공 이론·연출·스탭)","예술·인문","가",15,35,25,20,20,"B"],["theatre-directing-ga","공연영화학부(연극전공 연출)","예술·인문","가",5,35,25,20,20,"B"],["korean-language-na","국어국문학과","인문·어문","나",14,35,25,20,20,"B"],["history-na","사학과","인문·어문","나",14,35,25,20,20,"B"],["philosophy-na","철학과","인문·어문","나",8,35,25,20,20,"B"],["law-na","법학과","인문·사회","나",24,35,25,20,20,"B"],["political-science-na","정치외교학과","인문·사회","나",11,35,25,20,20,"B"],["public-administration-na","행정학과","인문·사회","나",10,35,25,20,20,"B"],["urban-planning-real-estate-na","도시계획·부동산학부","인문·사회","나",13,35,25,20,20,"B"],["economics-na","경제학과","경영·경제","나",12,25,35,20,20,"BIZ"],["trade-na","무역학과","경영·경제","나",13,25,35,20,20,"BIZ"],["business-na","경영학부","경영·경제","나",61,25,35,20,20,"BIZ"],["architecture-five-year-na","건축학부(건축학전공(5년제))","자연·공학","나",15,35,25,20,20,"B"],["software-na","소프트웨어학과","자연·공학","나",13,20,35,15,30,"N"],["computer-engineering-na","컴퓨터공학과","자연·공학","나",13,20,35,15,30,"N"],["statistics-data-science-na","통계데이터사이언스학과","자연·공학","나",16,20,35,15,30,"N"],["cyber-security-na","사이버보안학과","자연·공학","나",16,20,35,15,30,"N"],["artificial-intelligence-na","인공지능학과","자연·공학","나",19,20,35,15,30,"N"],["ai-architecture-na","AI건축융합학과","자연·공학","나",8,20,35,15,30,"N"],["toegye-general-da","퇴계혁신칼리지(광역)","자율전공","다",145,30,30,20,20,"B"],["toegye-social-da","퇴계혁신칼리지(사회계열광역)","인문·사회","다",30,30,30,20,20,"B"],["mobile-systems-da","모바일시스템공학과","자연·공학","다",18,20,35,15,30,"N"],["toegye-engineering-da","퇴계혁신칼리지(공학계열광역)","자연·공학","다",20,20,35,20,25,"N"],["classical-education-da","한문교육과","교육","다",12,35,25,20,20,"B"],["special-education-da","특수교육과","교육","다",18,35,25,20,20,"B"],["math-education-da","수학교육과","교육·자연","다",10,20,35,15,30,"N"],["science-education-da","과학교육과","교육·자연","다",14,20,35,15,30,"N"]] as const;
+const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department, majorGroup, group, recruitmentCount, koreanWeight, mathWeight, englishWeight, inquiryWeight, type]) => ({
+  id: `dankook-jukjeon-${key}`, universityId: "dankook-jukjeon", universityName: "단국대학교(죽전)", region: "경기",
+  department, majorGroup, group, recruitmentCount, scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  koreanWeight, mathWeight, englishWeight, inquiryWeight, inquirySubjects: 2, inquiryAggregation: "mean",
+  calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
+  englishGradeTable: DANKOOK_ENGLISH, koreanHistoryRequired: true, koreanHistoryGradePoints: DANKOOK_HISTORY,
+  ...(type === "N" ? {
+    mathChoiceBonusRequired: true,
+    mathChoiceBonusRate: { "미적분": 0.05, "기하": 0.05, "확률과통계": 0 },
+    inquiryTypeBonusRequired: true,
+    inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05, "직탐": 0 },
+  } : {}),
+  calculationVerified: true,
+  note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? "건축학전공 제외 자연계열 수학 미적분·기하 및 과탐 각 5% 가산." : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영.`,
+  sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
+}));
+
 export const regularAdmissions2027: RegularAdmission[] = [
   ...(["가", "나"] as const).flatMap((group) => [
     {
@@ -590,30 +613,8 @@ export const regularAdmissions2027: RegularAdmission[] = [
     sourceUrl: SOONGSIL_SOURCE, verifiedAt: "2026-11-19",
   },
   {
-const DANKOOK_SOURCE = "https://ipsi.dankook.ac.kr/bbs/filedown.php?bbsid=juk_info&file_seq=6904";
-const DANKOOK_ENGLISH = { 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 } as const;
-const DANKOOK_HISTORY = { 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 } as const;
-const DANKOOK_ROWS = [["english-humanities-ga","영미인문학과","인문·어문","가",14,35,25,20,20,"B"],["media-communication-ga","미디어커뮤니케이션학부","인문·사회","가",14,35,25,20,20,"B"],["counseling-ga","상담학과","인문·사회","가",9,35,25,20,20,"B"],["international-business-ga","국제경영학과","경영·경제","가",22,25,35,20,20,"BIZ"],["electrical-electronics-ga","전자전기공학과","자연·공학","가",21,20,35,20,25,"N"],["convergence-semiconductor-ga","융합반도체공학과","자연·공학","가",18,20,35,20,25,"N"],["polymer-engineering-ga","고분자시스템공학부(고분자공학전공)","자연·공학","가",14,20,35,20,25,"N"],["convergence-materials-ga","고분자시스템공학부(융합소재공학전공)","자연·공학","가",10,20,35,20,25,"N"],["infrastructure-construction-ga","인프라건설공학과","자연·공학","가",24,20,35,20,25,"N"],["mechanical-engineering-ga","기계공학과","자연·공학","가",16,20,35,20,25,"N"],["chemical-engineering-ga","화학공학과","자연·공학","가",27,20,35,20,25,"N"],["architecture-engineering-ga","건축학부(건축공학전공)","자연·공학","가",11,20,35,20,25,"N"],["film-theory-ga","공연영화학부(영화전공 이론·연출·스탭)","예술·인문","가",15,35,25,20,20,"B"],["theatre-directing-ga","공연영화학부(연극전공 연출)","예술·인문","가",5,35,25,20,20,"B"],["korean-language-na","국어국문학과","인문·어문","나",14,35,25,20,20,"B"],["history-na","사학과","인문·어문","나",14,35,25,20,20,"B"],["philosophy-na","철학과","인문·어문","나",8,35,25,20,20,"B"],["law-na","법학과","인문·사회","나",24,35,25,20,20,"B"],["political-science-na","정치외교학과","인문·사회","나",11,35,25,20,20,"B"],["public-administration-na","행정학과","인문·사회","나",10,35,25,20,20,"B"],["urban-planning-real-estate-na","도시계획·부동산학부","인문·사회","나",13,35,25,20,20,"B"],["economics-na","경제학과","경영·경제","나",12,25,35,20,20,"BIZ"],["trade-na","무역학과","경영·경제","나",13,25,35,20,20,"BIZ"],["business-na","경영학부","경영·경제","나",61,25,35,20,20,"BIZ"],["architecture-five-year-na","건축학부(건축학전공(5년제))","자연·공학","나",15,35,25,20,20,"B"],["software-na","소프트웨어학과","자연·공학","나",13,20,35,15,30,"N"],["computer-engineering-na","컴퓨터공학과","자연·공학","나",13,20,35,15,30,"N"],["statistics-data-science-na","통계데이터사이언스학과","자연·공학","나",16,20,35,15,30,"N"],["cyber-security-na","사이버보안학과","자연·공학","나",16,20,35,15,30,"N"],["artificial-intelligence-na","인공지능학과","자연·공학","나",19,20,35,15,30,"N"],["ai-architecture-na","AI건축융합학과","자연·공학","나",8,20,35,15,30,"N"],["toegye-general-da","퇴계혁신칼리지(광역)","자율전공","다",145,30,30,20,20,"B"],["toegye-social-da","퇴계혁신칼리지(사회계열광역)","인문·사회","다",30,30,30,20,20,"B"],["mobile-systems-da","모바일시스템공학과","자연·공학","다",18,20,35,15,30,"N"],["toegye-engineering-da","퇴계혁신칼리지(공학계열광역)","자연·공학","다",20,20,35,20,25,"N"],["classical-education-da","한문교육과","교육","다",12,35,25,20,20,"B"],["special-education-da","특수교육과","교육","다",18,35,25,20,20,"B"],["math-education-da","수학교육과","교육·자연","다",10,20,35,15,30,"N"],["science-education-da","과학교육과","교육·자연","다",14,20,35,15,30,"N"]] as const;
-const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department, majorGroup, group, recruitmentCount, koreanWeight, mathWeight, englishWeight, inquiryWeight, type]) => ({
-  id: `dankook-jukjeon-${key}`, universityId: "dankook-jukjeon", universityName: "단국대학교(죽전)", region: "경기",
-  department, majorGroup, group, recruitmentCount, scoreMetric: "백분위",
-  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-  koreanWeight, mathWeight, englishWeight, inquiryWeight, inquirySubjects: 2, inquiryAggregation: "mean",
-  calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-  finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-  englishGradeTable: DANKOOK_ENGLISH, koreanHistoryRequired: true, koreanHistoryGradePoints: DANKOOK_HISTORY,
-  ...(type === "N" ? {
-    mathChoiceBonusRequired: true,
-    mathChoiceBonusRate: { "미적분": 0.05, "기하": 0.05, "확률과통계": 0 },
-    inquiryTypeBonusRequired: true,
-    inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05, "직탐": 0 },
-  } : {}),
-  calculationVerified: true,
-  note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? "건축학전공 제외 자연계열 수학 미적분·기하 및 과탐 각 5% 가산." : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영.`,
-  sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
-}));
-
   ...dankookAdmissions,
+  {
     id: "kyonggi-suwon-ga-humanities", universityId: "kyonggi-suwon", universityName: "경기대학교", region: "경기",
     department: "인문·사회과학대학(B형)", majorGroup: "인문·어문", group: "가", scoreMetric: "백분위",
     subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
