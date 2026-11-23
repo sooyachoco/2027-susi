@@ -680,7 +680,7 @@ assert.match(ericaRow[0], /finalScoreMultiplier:1000/);
 assert.match(ericaRow[0], /inquiryConversionRequired:true/);
 assert.match(ericaRow[0], /calculationVerified:false/);
 assert.match(ericaRow[0], /group:"나", recruitmentCount:40/);
-const lionsRow = ericaData.match(/\\{ id:"hanyang-erica-na-lions"[^\\n]+/);
+const lionsRow = ericaData.match(/\{ id:"hanyang-erica-na-lions"[^\n]+/);
 assert.ok(lionsRow, "ERICA LIONS general admission row exists");
 assert.match(lionsRow[0], /group:"나", recruitmentCount:94/);
 assert.match(lionsRow[0], /koreanWeight:30, mathWeight:35, englishWeight:10, inquiryWeight:25/);
