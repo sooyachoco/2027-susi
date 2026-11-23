@@ -487,7 +487,11 @@ const hongikRaw = calculateRegularAdmission({
   koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 9.9, 5: 9.8, 6: 9.7, 7: 9.6, 8: 9.5, 9: 9.4 },
   gradeAdjustmentsAfterFinalMultiplier: true,
 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 4 });
-assert.ok(hongikRaw.totalScore > hongikRaw.baseScore);
+assert.ok(Math.abs(hongikRaw.baseScore - 128) < 0.000001);
+assert.ok(Math.abs(hongikRaw.bonus - 9.9) < 0.000001);
+assert.ok(Math.abs(hongikRaw.totalScore - 137.9) < 0.000001);
+assert.ok(hongikRaw.appliedComponents.includes("영어 등급별 반영점수"));
+assert.ok(!hongikRaw.appliedComponents.includes("영어 등급 가산점"));
 assert.equal(hongikRaw.missingRules.length, 0);
 
 

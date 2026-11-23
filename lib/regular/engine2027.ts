@@ -352,8 +352,10 @@ export function calculateRegularAdmission(
     }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
     if (english == null) {
-      missingRules.push("대학별 영어 등급 가산점표 미등록");
-    } else {
+      missingRules.push("대학별 영어 등급 환산표 미등록");
+    } else if (admission.englishWeight <= 0) {
+      // When English has a positive weighted share, it was already included in baseScore above.
+      // Add English as a separate grade adjustment only for formulas with no English weight.
       bonusScore += english;
       appliedComponents.push("영어 등급 가산점");
     }
