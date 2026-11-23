@@ -115,6 +115,9 @@ export type RegularRecommendation = {
   score: number;
   tier: RegularTier;
   reason: string;
+  calculationVerified: boolean;
+  missingRules: string[];
+  appliedComponents: string[];
 };
 
 export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
