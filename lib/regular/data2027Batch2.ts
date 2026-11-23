@@ -2,9 +2,8 @@ import type { RegularAdmission } from "./types";
 
 const SKKU_SOURCE = "https://admission.skku.edu/admission/html/regular/guide.html";
 const SOGANG_SOURCE = "https://admission.sogang.ac.kr/";
-const HONGIK_SOURCE = "https://admission.hongik.ac.kr/";
 
-// 2027 정시 2차 배치. 대표 모집단위 기준으로 먼저 연결하고, 세부 모집단위는 후속 배치에서 확장한다.
+// 중복 등록을 제거하고 기존의 독립 모집단위만 유지한다.
 export const regularAdmissions2027Batch2: RegularAdmission[] = [
   {
     id: "skku-seoul-ga-social",
@@ -25,7 +24,6 @@ export const regularAdmissions2027Batch2: RegularAdmission[] = [
     verifiedAt: "2026-09-27",
   },
   {
-  {
     id: "sogang-seoul-na-general",
     universityId: "sogang-seoul",
     universityName: "서강대학교",
@@ -43,6 +41,4 @@ export const regularAdmissions2027Batch2: RegularAdmission[] = [
     sourceUrl: SOGANG_SOURCE,
     verifiedAt: "2026-09-27",
   },
-  {
-  {
 ];
