@@ -38,6 +38,8 @@ const MEDICAL = {
   inquiryWeight: 25,
   inquirySubjects: 2 as const,
   inquiryAggregation: "mean" as const,
+  languageMathMode: undefined,
+  englishInquiryMode: undefined,
   note: "2027 최종 모집요강 일반전형 1 의예·약학·한의예 특별 반영비율: 국25·수30·영20·탐구2과목25. 일반계열의 40/30·20/10 고득점 배분을 적용하지 않는다. 수학 선택과목·탐구 세부 요건을 포함한 전체 산식 검증 전까지 합격 판정 보류.",
   calculationVerified: false,
 };
