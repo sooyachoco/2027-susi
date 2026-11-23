@@ -61,6 +61,9 @@ export default function Page() {
             <div className="muted">{rec.department}</div>
             <div style={{fontSize:32,fontWeight:800,marginTop:16}}>{rec.score}<small style={{fontSize:14,fontWeight:500}}> 참고 계산값</small></div>
             <div className="balanceText" style={{marginTop:10}}>{rec.reason}</div>
+            <div className="muted" style={{marginTop:10}}>환산식 검증: {rec.calculationVerified ? "완료" : "미완료"}</div>
+            {rec.missingRules.length > 0 && <div className="alert" style={{marginTop:8}}>확인 필요: {rec.missingRules.join(" · ")}</div>}
+            {rec.appliedComponents.length > 0 && <div className="muted" style={{marginTop:8}}>반영 항목: {rec.appliedComponents.join(" · ")}</div>}
             <a className="secondary" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer" style={{display:"inline-block",marginTop:14}}>모집요강 확인 ↗</a>
           </article>)}
         </div>
