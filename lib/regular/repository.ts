@@ -2,6 +2,7 @@ import { regularAdmissions2027 } from "./data2027";
 import { regularAdmissions2027Batch2 } from "./data2027Batch2";
 import { regularAdmissions2027SeoulExtra } from "./data2027-extra-seoul";
 import { regularAdmissions2027Gyeonggi } from "./data2027-gyeonggi";
+import { regularAdmissions2027Gachon } from "./data2027-gachon";
 import type { RegularAdmission } from "./types";
 
 const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -11,6 +12,7 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027Batch2,
   ...regularAdmissions2027SeoulExtra,
   ...regularAdmissions2027Gyeonggi,
+  ...regularAdmissions2027Gachon,
 ];
 
 function isExcludedAdmission(item: RegularAdmission) {
