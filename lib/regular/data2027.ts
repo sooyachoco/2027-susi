@@ -612,7 +612,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 자연2계열·자유전공(자연): 국어20·수학35·영어15·탐구30. 미적분·기하 수학 표준점수 5%, 과탐 과목별 백분위 3% 가산. 표준점수 최고점·탐구 변환표 미확보.",
     sourceUrl: SOONGSIL_SOURCE, verifiedAt: "2026-11-19",
   },
-  {
   ...dankookAdmissions,
   {
     id: "kyonggi-suwon-ga-humanities", universityId: "kyonggi-suwon", universityName: "경기대학교", region: "경기",
