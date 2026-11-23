@@ -676,6 +676,14 @@ assert.match(kyonggiData, /const KYONGGI_ROWS = \[/);
 assert.match(kyonggiData, /\["society-ga","사회과학부","인문·사회","가",52,"B"\]/);
 assert.match(kyonggiData, /\["business-da","경영학부","경영·경제","다",82,"A"\]/);
 assert.match(kyonggiData, /\["hotel-food-da","호텔외식경영학부","경영·경제","다",21,"B"\]/);
+const kyonggiRowsText = kyonggiData.slice(kyonggiData.indexOf("const KYONGGI_ROWS = ["), kyonggiData.indexOf("const kyonggiAdmissions"));
+const kyonggiRows = [...kyonggiRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),"[AB]"\]/g)];
+assert.equal(kyonggiRows.length, 35);
+const kyonggiTotals = kyonggiRows.reduce((totals, row) => {
+  totals[row[1]] += Number(row[2]);
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.deepEqual(kyonggiTotals, { 가: 104, 나: 94, 다: 622 });
 
 // 2027 Hanyang ERICA official guide: business belongs to natural/business weights, not humanities.
 const ericaData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
