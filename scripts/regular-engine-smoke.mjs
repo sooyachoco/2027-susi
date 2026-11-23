@@ -668,6 +668,15 @@ const keimyungExact = calculateRegularAdmission({
 assert.equal(keimyungExact.calculationVerified, true);
 
 
+// 2027 경기대 일반학생Ⅰ 비실기: 모집단위별 군·인원·계열 반영비율 데이터 검사
+const kyonggiData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+assert.match(kyonggiData, /KYONGGI_ENGLISH = \{ 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 \}/);
+assert.match(kyonggiData, /KYONGGI_HISTORY = \{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: -0.05, 7: -0.05, 8: -0.1, 9: -0.1 \}/);
+assert.match(kyonggiData, /const KYONGGI_ROWS = \[/);
+assert.match(kyonggiData, /\["society-ga","사회과학부","인문·사회","가",52,"B"\]/);
+assert.match(kyonggiData, /\["business-da","경영학부","경영·경제","다",82,"A"\]/);
+assert.match(kyonggiData, /\["hotel-food-da","호텔외식경영학부","경영·경제","다",21,"B"\]/);
+
 // 2027 Hanyang ERICA official guide: business belongs to natural/business weights, not humanities.
 const ericaData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
 const ericaRow = ericaData.match(/\{ id:"hanyang-erica-na-business"[^\n]+/);
