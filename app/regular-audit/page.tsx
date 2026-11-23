@@ -95,7 +95,7 @@ export default function RegularAuditPage() {
                 </summary>
                 {count === 0 ? <p className="muted">누락 없음</p> : <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
                   {items.map((item, index) => {
-                    const entry = item as AuditItem;
+                    const entry = item as AuditItem | { id: string; count: number };
                     return <div key={entry.id ?? index} className="balanceText" style={{ borderTop: "1px solid var(--line)", paddingTop: 8 }}>
                       {"university" in entry ? <><strong>{entry.university}</strong> · {entry.region} · {entry.group}군<br />{entry.department}</> : <>{entry.id} · {entry.count}회</>}
                     </div>;
