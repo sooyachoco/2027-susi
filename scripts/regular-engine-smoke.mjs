@@ -670,9 +670,16 @@ assert.equal(keimyungExact.calculationVerified, true);
 
 // 2027 Gachon official guide: group assignments are read from the General Admission 1 columns.
 const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
-assert.match(gachonData, /id: "gachon-tourism-na"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
-assert.match(gachonData, /id: "gachon-accounting-da"[^\n]*group: "다"[^\n]*recruitmentCount: 15/);
-assert.match(gachonData, /id: "gachon-business-da"[^\n]*group: "다"[^\n]*recruitmentCount: 38/);
+assert.match(gachonData, /id: "gachon-tourism-ga"[^\n]*group: "가"[^\n]*recruitmentCount: 15/);
+assert.match(gachonData, /id: "gachon-accounting-na"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
+assert.match(gachonData, /id: "gachon-business-da"[^\\n]*group: "다"[^\\n]*recruitmentCount: 38/);
+const gachonRows = [...gachonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+)/g)];
+const gachonTotals = gachonRows.reduce((totals, row) => {
+  totals[row[4]] += Number(row[5]);
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.equal(gachonRows.length, 47);
+assert.deepEqual(gachonTotals, { 가: 347, 나: 346, 다: 378 });
 
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
