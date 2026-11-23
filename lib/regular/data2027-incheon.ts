@@ -59,7 +59,7 @@ const rows: Row[] = [
   { id: "environment-engineering", department: "도시환경공학부(환경공학전공)", group: "다", count: 7, field: "natural" },
   { id: "urban-engineering", department: "도시공학과", group: "다", count: 9, field: "natural" },
   { id: "architecture-engineering", department: "도시건축학부(건축공학전공·도시건축학전공)", group: "다", count: 22, field: "natural" },
-  { id: "northeast-asia-trade", department: "동북아국제통상전공", group: "다", count: 11, field: "humanities" },
+  { id: "northeast-asia-trade", department: "동북아국제통상전공", group: "다", count: 11, field: "natural" },
   { id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "humanities" },
   { id: "law", department: "법학부", group: "다", count: 15, field: "humanities" },
 ];
@@ -72,7 +72,7 @@ export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) =
     universityName: "인천대학교",
     region: "인천",
     department: row.department,
-    majorGroup: humanities ? "인문·사회" : "자연·공학",
+    majorGroup: row.id === "fashion-industry" ? "자연·공학" : humanities ? "인문·사회" : "자연·공학",
     group: row.group,
     recruitmentCount: row.count,
     scoreMetric: "백분위",
