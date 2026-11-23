@@ -668,6 +668,20 @@ const keimyungExact = calculateRegularAdmission({
 assert.equal(keimyungExact.calculationVerified, true);
 
 
+// 2027 Hanyang ERICA official guide: business belongs to natural/business weights, not humanities.
+const ericaData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+const ericaRow = ericaData.match(/\{ id:"hanyang-erica-ga-business"[^\n]+/);
+assert.ok(ericaRow, "ERICA business representative row exists");
+assert.match(ericaRow[0], /department:"상경계열 대표"/);
+assert.match(ericaRow[0], /koreanWeight:25, mathWeight:35, englishWeight:15, inquiryWeight:25/);
+assert.match(ericaRow[0], /calculationMode:"normalized-standard-sum"/);
+assert.match(ericaRow[0], /inquiryAggregation:"sum"/);
+assert.match(ericaRow[0], /finalScoreMultiplier:1000/);
+assert.match(ericaRow[0], /inquiryConversionRequired:true/);
+assert.match(ericaRow[0], /calculationVerified:false/);
+assert.match(ericaData, /ERICA_ENGLISH = \{ 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 \}/);
+assert.match(ericaData, /ERICA_HISTORY = \{ 1: 10, 2: 9\.9, 3: 9\.8, 4: 9\.7, 5: 9\.6, 6: 9\.0, 7: 9\.0, 8: 9\.0, 9: 9\.0 \}/);
+
 // 2027 Ajou final guide: general admissions 2/3/4, exact group quotas and formula groups.
 const ajouData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
 const ajouRowsText = ajouData.slice(ajouData.indexOf("const AJOU_ROWS: AjouRow[] = ["), ajouData.indexOf("const ajouAdmissions"));
