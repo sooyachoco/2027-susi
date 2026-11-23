@@ -672,7 +672,7 @@ assert.equal(keimyungExact.calculationVerified, true);
 const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
 assert.match(gachonData, /id: "gachon-tourism-ga"[^\n]*group: "가"[^\n]*recruitmentCount: 15/);
 assert.match(gachonData, /id: "gachon-accounting-na"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
-assert.match(gachonData, /id: "gachon-business-da"[^\\n]*group: "다"[^\\n]*recruitmentCount: 38/);
+assert.match(gachonData, /id: "gachon-business-da"[^\n]*group: "다"[^\n]*recruitmentCount: 38/);
 const gachonRows = [...gachonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+)/g)];
 const gachonTotals = gachonRows.reduce((totals, row) => {
   totals[row[4]] += Number(row[5]);
