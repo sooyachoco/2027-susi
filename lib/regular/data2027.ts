@@ -616,17 +616,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-19",
   },
   {
-    id: "gachon-seongnam-ga-general1", universityId: "gachon-seongnam", universityName: "가천대학교", region: "경기",
-    department: "일반전형1 인문·자연 대표", majorGroup: "전체", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 40, mathWeight: 30, englishWeight: 20, inquiryWeight: 10, inquirySubjects: 1, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    languageMathMode: "고득점 우선", englishInquiryMode: "고득점 우선", finalScoreMultiplier: 1000,
-    englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
-    note: "2027 일반전형1 인문·자연: 국어·수학 중 고득점 순 40/30, 영어·탐구(1과목) 중 고득점 순 20/10. 활용지표 백분위, 한국사는 응시 필수만 적용. 두 영역군의 고득점 가중치를 별도로 계산.",
-    sourceUrl: GACHON_SOURCE, verifiedAt: "2026-11-19",
-  },
-  {
     id: "kyonggi-suwon-ga-humanities", universityId: "kyonggi-suwon", universityName: "경기대학교", region: "경기",
     department: "인문·사회과학대학(B형)", majorGroup: "인문·어문", group: "가", scoreMetric: "백분위",
     subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
