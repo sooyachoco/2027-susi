@@ -113,6 +113,7 @@ export type RegularRecommendation = {
   department: string;
   group: AdmissionGroup;
   score: number;
+  recruitmentCount?: number;
   tier: RegularTier;
   reason: string;
   calculationVerified: boolean;
