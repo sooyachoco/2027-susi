@@ -12,7 +12,6 @@ const SOURCES = {
 
 // 2027 정시 경기권 1차 데이터. 대표 모집단위 기준이며 세부 학과별 예외는 note에 표시.
 export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
-  { id:"gachon-ga-humanities", universityId:"gachon", universityName:"가천대학교", region:"경기", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:40, mathWeight:30, englishWeight:20, inquiryWeight:10, inquirySubjects:1, note:"일반전형 대표 인문계열. 탐구 1과목.", sourceUrl:SOURCES.gachon, verifiedAt:"2026-09-27" },
   { id:"ajou-na-humanities", universityId:"ajou", universityName:"아주대학교", region:"경기", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"표준점수", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"인문2 기준. 인문대·사회과학대·자유전공(인문).", sourceUrl:SOURCES.ajou, verifiedAt:"2026-09-27" },
   { id:"ajou-na-natural", universityId:"ajou", universityName:"아주대학교", region:"경기", department:"자연·공학계열 대표", majorGroup:"자연·공학", group:"나", scoreMetric:"표준점수", koreanWeight:20, mathWeight:35, englishWeight:15, inquiryWeight:30, inquirySubjects:2, note:"자연1 기준. 일부 선택과목 가산점 별도.", sourceUrl:SOURCES.ajou, verifiedAt:"2026-09-27" },
   { id:"kyonggi-ga-humanities", universityId:"kyonggi-suwon", universityName:"경기대학교", region:"경기", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:30, englishWeight:20, inquiryWeight:15, inquirySubjects:1, note:"일반학생Ⅰ B형. 탐구 상위 1과목.", sourceUrl:SOURCES.kyonggi, verifiedAt:"2026-09-27" },
