@@ -668,6 +668,21 @@ const keimyungExact = calculateRegularAdmission({
 assert.equal(keimyungExact.calculationVerified, true);
 
 
+// 2027 단국대 죽전 수능위주 일반학생 모집단위 및 계열별 산식 검사
+const dankookData = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
+assert.match(dankookData, /DANKOOK_ENGLISH = \{ 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 \}/);
+assert.match(dankookData, /DANKOOK_HISTORY = \{ 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 \}/);
+const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
+const dankookRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
+assert.equal(dankookRows.length, 39);
+const dankookTotals = dankookRows.reduce((totals, row) => {
+  totals[row[1]] += Number(row[2]);
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.deepEqual(dankookTotals, { 가: 220, 나: 280, 다: 267 });
+assert.match(dankookData, /\["mobile-systems-da","모바일시스템공학과","자연·공학","다",18,20,35,15,30,"N"\]/);
+assert.match(dankookData, /\["business-na","경영학부","경영·경제","나",61,25,35,20,20,"BIZ"\]/);
+
 // 2027 경기대 일반학생Ⅰ 비실기: 모집단위별 군·인원·계열 반영비율 데이터 검사
 const kyonggiData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
 assert.match(kyonggiData, /KYONGGI_ENGLISH = \{ 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 \}/);
