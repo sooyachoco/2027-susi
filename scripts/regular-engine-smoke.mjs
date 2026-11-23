@@ -684,7 +684,7 @@ const admissionDataFiles = [
 ];
 const ids = admissionDataFiles.flatMap((path) => {
   const text = readFileSync(new URL(path, import.meta.url), "utf8");
-  return [...text.matchAll(/\\bid:\\s*"([^"]+)"/g)].map((match) => match[1]);
+  return [...text.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
 });
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
