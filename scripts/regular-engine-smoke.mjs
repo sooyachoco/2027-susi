@@ -668,6 +668,20 @@ const keimyungExact = calculateRegularAdmission({
 assert.equal(keimyungExact.calculationVerified, true);
 
 
+// 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
+const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
+assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
+assert.match(incheonData, /id: "early-childhood", department: "유아교육과", group: "가", count: 9/);
+assert.match(incheonData, /id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural"/);
+const incheonRows = [...incheonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", group: "([가나다])", count: (\d+), field: "([^"]+)" \}/g)];
+const incheonTotals = incheonRows.reduce((totals, row) => {
+  totals[row[3]] += Number(row[4]);
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.equal(incheonRows.length, 56);
+assert.deepEqual(incheonTotals, { 가: 348, 나: 64, 다: 277 });
+assert.ok(!incheonRows.some((row) => ["스포츠과학부", "스포츠의학부", "체육교육과", "공연예술학과"].includes(row[2])));
+
 // 2027 Gachon official guide: group assignments are read from the General Admission 1 columns.
 const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
 assert.match(gachonData, /id: "tourism"[^\n]*group: "가"[^\n]*recruitmentCount: 15/);

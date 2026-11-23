@@ -5,8 +5,9 @@ const ENGLISH = { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 
 
 // 2027학년도 인천대학교 최종 정시모집요강 일반학생전형.
 // 수능 100% 인문·자연 모집단위만 우선 반영. 실기 혼합 모집단위는 별도 검증 전까지 제외.
-type Row = { id: string; department: string; group: "가" | "나" | "다"; count: number; field: "humanities" | "natural" };
+type Row = { id: string; department: string; group: "가" | "나" | "다"; count: number; field: "humanities" | "natural" | "design" };
 const rows: Row[] = [
+  { id: "design", department: "디자인학부", group: "가", count: 14, field: "design" },
   { id: "korean-language", department: "국어국문학과", group: "가", count: 6, field: "humanities" },
   { id: "english-language", department: "영어영문학과", group: "가", count: 11, field: "humanities" },
   { id: "german-language", department: "독어독문학과", group: "가", count: 6, field: "humanities" },
@@ -32,7 +33,7 @@ const rows: Row[] = [
   { id: "english-education", department: "영어교육과", group: "가", count: 6, field: "humanities" },
   { id: "japanese-education", department: "일어교육과", group: "가", count: 6, field: "humanities" },
   { id: "math-education", department: "수학교육과", group: "가", count: 8, field: "natural" },
-  { id: "early-childhood", department: "유아교육과", group: "가", count: 8, field: "humanities" },
+  { id: "early-childhood", department: "유아교육과", group: "가", count: 9, field: "humanities" },
   { id: "history-education", department: "역사교육과", group: "가", count: 3, field: "humanities" },
   { id: "ethics-education", department: "윤리교육과", group: "가", count: 3, field: "humanities" },
   { id: "life-science", department: "생명과학부(생명과학전공)", group: "가", count: 8, field: "natural" },
@@ -60,34 +61,35 @@ const rows: Row[] = [
   { id: "urban-engineering", department: "도시공학과", group: "다", count: 9, field: "natural" },
   { id: "architecture-engineering", department: "도시건축학부(건축공학전공·도시건축학전공)", group: "다", count: 22, field: "natural" },
   { id: "northeast-asia-trade", department: "동북아국제통상전공", group: "다", count: 11, field: "natural" },
-  { id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "humanities" },
+  { id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural" },
   { id: "law", department: "법학부", group: "다", count: 15, field: "humanities" },
 ];
 
 export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) => {
   const humanities = row.field === "humanities";
+  const design = row.field === "design";
   return {
     id: `inu-2027-${row.group}-${row.id}`,
     universityId: "incheon-national",
     universityName: "인천대학교",
     region: "인천",
     department: row.department,
-    majorGroup: row.id === "fashion-industry" ? "자연·공학" : humanities ? "인문·사회" : "자연·공학",
+    majorGroup: design || row.id === "fashion-industry" ? "예체능·디자인" : humanities ? "인문·사회" : "자연·공학",
     group: row.group,
     recruitmentCount: row.count,
     scoreMetric: "백분위",
     subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: humanities ? 35 : 25,
-    mathWeight: humanities ? 30 : 35,
+    koreanWeight: design ? 45 : humanities ? 35 : 25,
+    mathWeight: design ? 15 : humanities ? 30 : 35,
     englishWeight: 10,
-    inquiryWeight: humanities ? 25 : 30,
+    inquiryWeight: design ? 30 : humanities ? 25 : 30,
     inquirySubjects: 2,
     inquiryAggregation: "mean",
     englishGradeTable: ENGLISH,
     finalScoreMultiplier: 10,
     calculationVerified: true,
     benchmarkComparable: false,
-    note: "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문은 국35·수30·탐25·영10, 자연은 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가.",
+    note: design ? "2027 최종 모집요강 일반학생전형 디자인학부 기준. 수능 100%, 국45·수15·탐구30·영10. 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용." : row.id === "smart-logistics" ? "2027 최종 모집요강 일반학생전형 스마트물류공학전공 기준. 수능 반영표에서 동북아국제통상물류학부로 묶여 자연계열 반영비율(국25·수35·탐30·영10)을 적용." : "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문(패션산업 포함)은 국35·수30·탐25·영10, 자연·동북아국제통상물류학부는 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가.",
     sourceUrl: SOURCE,
     verifiedAt: "2026-11-23",
   };
