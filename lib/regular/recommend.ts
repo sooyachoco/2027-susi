@@ -139,7 +139,7 @@ export type RegularPortfolioRecommendation = {
 export function recommendRegular(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularRecommendation[] {
   if (!isRegularProfileComplete(profile)) return [];
 
-  const eligibleAdmissions = admissions.filter((admission) => !isExcludedMajor(admission));
+  const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
@@ -172,13 +172,16 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     score,
     tier,
     reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    calculationVerified: result.calculationVerified,
+    missingRules: result.missingRules,
+    appliedComponents: result.appliedComponents,
   }));
 }
 
 export function recommendRegularPortfolio(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularPortfolioRecommendation | null {
   if (!isRegularProfileComplete(profile)) return null;
 
-  const eligible = admissions.filter((admission) => !isExcludedMajor(admission));
+  const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission.majorGroup);
@@ -219,6 +222,9 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     score,
     tier,
     reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    calculationVerified: result.calculationVerified,
+    missingRules: result.missingRules,
+    appliedComponents: result.appliedComponents,
   })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];
 
   const stabilityValues = best.items.map((item) => item.tier === "안정" ? 100 : item.tier === "적정" ? 75 : item.tier === "소신" ? 45 : 20);
