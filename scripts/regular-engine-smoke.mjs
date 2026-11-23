@@ -679,6 +679,9 @@ const gachonTotals = gachonRows.reduce((totals, row) => {
   return totals;
 }, { 가: 0, 나: 0, 다: 0 });
 assert.equal(gachonRows.length, 47);
+assert.equal(new Set(gachonRows.map((row) => row[1])).size, 47);
+assert.match(gachonData, /languageMathMode: undefined/);
+assert.match(gachonData, /englishInquiryMode: undefined/);
 assert.deepEqual(gachonTotals, { 가: 347, 나: 346, 다: 378 });
 
 const admissionDataFiles = [
@@ -689,7 +692,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-gachon.ts",
   "../lib/regular/data2027-incheon.ts",
 ];
-const ids = admissionDataFiles.flatMap((path) => {
+const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.ts")).flatMap((path) => {
   const text = readFileSync(new URL(path, import.meta.url), "utf8");
   return [...text.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
 });
