@@ -58,7 +58,7 @@ export default function Page() {
           {portfolio.recommendations.map((rec) => <article className="panel" key={rec.admissionId}>
             <div className="eyebrow">{rec.group}군 · {rec.tier}</div>
             <h3 style={{margin:"8px 0 4px"}}>{rec.universityName}</h3>
-            <div className="muted">{rec.department}</div>
+            <div className="muted">{rec.department}{rec.recruitmentCount != null ? ` · 모집인원 ${rec.recruitmentCount}명` : ""}</div>
             <div style={{fontSize:32,fontWeight:800,marginTop:16}}>{rec.score}<small style={{fontSize:14,fontWeight:500}}> 참고 계산값</small></div>
             <div className="balanceText" style={{marginTop:10}}>{rec.reason}</div>
             <div className="muted" style={{marginTop:10}}>환산식 검증: {rec.calculationVerified ? "완료" : "미완료"}</div>
