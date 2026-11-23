@@ -667,4 +667,26 @@ const keimyungExact = calculateRegularAdmission({
 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 3 });
 assert.equal(keimyungExact.calculationVerified, true);
 
+
+// 2027 Gachon official guide: group assignments are read from the General Admission 1 columns.
+const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
+assert.match(gachonData, /id: "gachon-tourism-na"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
+assert.match(gachonData, /id: "gachon-accounting-da"[^\n]*group: "다"[^\n]*recruitmentCount: 15/);
+assert.match(gachonData, /id: "gachon-business-da"[^\n]*group: "다"[^\n]*recruitmentCount: 38/);
+
+const admissionDataFiles = [
+  "../lib/regular/data2027.ts",
+  "../lib/regular/data2027Batch2.ts",
+  "../lib/regular/data2027-extra-seoul.ts",
+  "../lib/regular/data2027-gyeonggi.ts",
+  "../lib/regular/data2027-gachon.ts",
+  "../lib/regular/data2027-incheon.ts",
+];
+const ids = admissionDataFiles.flatMap((path) => {
+  const text = readFileSync(new URL(path, import.meta.url), "utf8");
+  return [...text.matchAll(/\\bid:\\s*"([^"]+)"/g)].map((match) => match[1]);
+});
+const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
+
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");

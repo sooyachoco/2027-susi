@@ -31,10 +31,10 @@ const COMMON = {
 };
 
 export const regularAdmissions2027Gachon: RegularAdmission[] = [
-  { ...COMMON, id: "gachon-tourism-ga", department: "관광경영학과", majorGroup: "경영·경제", group: "가", recruitmentCount: 15 },
+  { ...COMMON, id: "gachon-tourism-na", department: "관광경영학과", majorGroup: "경영·경제", group: "나", recruitmentCount: 15 },
   { ...COMMON, id: "gachon-economics-ga", department: "경제학과", majorGroup: "경영·경제", group: "가", recruitmentCount: 16 },
   { ...COMMON, id: "gachon-applied-statistics-ga", department: "응용통계학과", majorGroup: "경영·경제", group: "가", recruitmentCount: 16 },
-  { ...COMMON, id: "gachon-accounting-na", department: "회계세무학과", majorGroup: "경영·경제", group: "나", recruitmentCount: 15 },
+  { ...COMMON, id: "gachon-accounting-da", department: "회계세무학과", majorGroup: "경영·경제", group: "다", recruitmentCount: 15 },
   { ...COMMON, id: "gachon-social-welfare-na", department: "사회복지학과", majorGroup: "사회·법", group: "나", recruitmentCount: 13 },
   { ...COMMON, id: "gachon-early-childhood-na", department: "유아교육학과", majorGroup: "인문·어문", group: "나", recruitmentCount: 13 },
   { ...COMMON, id: "gachon-psychology-na", department: "심리학과", majorGroup: "사회·법", group: "나", recruitmentCount: 15 },
