@@ -1,4 +1,5 @@
 import type { RegularAdmission } from "./types";
+import { seoultechAdmissions } from "./data2027-seoultech";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
 const SNU_SOURCE = "https://admission.snu.ac.kr/undergraduate/regular/guide";
@@ -843,37 +844,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 서울캠퍼스 수능우수자 자연: 국어·수학 표준점수, 탐구 2과목 표준점수 합. 미적분·기하 수학 표준점수 3%, 과탐 과목별 표준점수 3% 가산. 영어 100점 환산점수 가중합 + 한국사 가산점.",
     sourceUrl: "https://www.hongik.ac.kr/kr/admission/recruitment-regular.do?articleNo=155914&mode=view", verifiedAt: "2026-11-19",
   },
-  {
-    id: "seoultech-seoul-ga-natural", universityId: "seoultech-seoul", universityName: "서울과학기술대학교", region: "서울",
-    department: "자연계열·공과·정보통신·에너지바이오", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.07, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 97.7778, 3: 94.8148, 4: 88.8889, 5: 74.0741, 6: 59.2593, 7: 44.4444, 8: 22.2222, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -1, 5: -2, 6: -3, 7: -4, 8: -5, 9: -10 },
-    note: "2027 자연계열: 국어20·수학35·영어20·탐구25. 국어·수학·탐구 표준점수는 당해연도 영역별 최고점 대비 환산, 영어 가상 표준점수(1등급135)를 같은 방식으로 반영. 과탐 응시자는 과탐 표준점수 7% 가산. 당해연도 최고점 미확보로 최종 환산 보류.",
-    sourceUrl: "https://www.seoultech.ac.kr/", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "seoultech-seoul-ga-humanities", universityId: "seoultech-seoul", universityName: "서울과학기술대학교", region: "서울",
-    department: "인문계열·산업공학부 인문·경영학과 인문", majorGroup: "인문·사회", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 30, mathWeight: 25, englishWeight: 20, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 97.7778, 3: 94.8148, 4: 88.8889, 5: 74.0741, 6: 59.2593, 7: 44.4444, 8: 22.2222, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -1, 5: -2, 6: -3, 7: -4, 8: -5, 9: -10 },
-    note: "2027 인문계열: 국어30·수학25·영어20·탐구25. 국어·수학·탐구 표준점수 및 영어 가상 표준점수 반영. 당해연도 표준점수 최고점 미확보로 최종 환산 보류.",
-    sourceUrl: "https://www.seoultech.ac.kr/", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "seoultech-seoul-ga-free-major", universityId: "seoultech-seoul", universityName: "서울과학기술대학교", region: "서울",
-    department: "자유전공학부(기술경영융합대학)", majorGroup: "경영·경제", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 97.7778, 3: 94.8148, 4: 88.8889, 5: 74.0741, 6: 59.2593, 7: 44.4444, 8: 22.2222, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -1, 5: -2, 6: -3, 7: -4, 8: -5, 9: -10 },
-    note: "2027 자유전공학부(기술경영융합): 국어25·수학30·영어20·탐구25. 표준점수 최고점 미확보로 최종 환산 보류.",
-    sourceUrl: "https://www.seoultech.ac.kr/", verifiedAt: "2026-11-19",
-  },
+  ...seoultechAdmissions,
   {
     id: "swu-seoul-ga-general", universityId: "swu-seoul", universityName: "서울여자대학교", region: "서울",
     department: "인문·사회·과학기술·미래산업 일반 모집단위", majorGroup: "전체", group: "가", scoreMetric: "백분위",
