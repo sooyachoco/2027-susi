@@ -819,6 +819,22 @@ const kyonggiTotals = kyonggiRows.reduce((totals, row) => {
 }, { 가: 0, 나: 0, 다: 0 });
 assert.deepEqual(kyonggiTotals, { 가: 104, 나: 94, 다: 622 });
 
+
+// 2027 한국공학대: 공식 정시모집요강 일반학생1의 모집군·모집인원·환산 규칙 및 학교폭력 감점 검증
+const koreatechData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+assert.match(koreatechData, /KOREATECH_ENGLISH = \\{ 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 \\}/);
+assert.match(koreatechData, /mathChoiceBonusRate: \\{ 미적분: 0\\.1, 기하: 0\\.1, 확률과통계: 0 \\}/);
+assert.match(koreatechData, /schoolViolencePenaltyRequired: true/);
+assert.match(koreatechData, /1호 10점, 2호 15점, 3호 20점[\\s\\S]*9호 100점/);
+assert.match(koreatechData, /id: "koreatech-computer-engineering-na"[^\\n]*group: row.group/);
+assert.match(koreatechData, /id: "koreatech-artificial-intelligence-da"/);
+assert.match(koreatechData, /calculationVerified: false/);
+const koreatechRowsText = koreatechData.slice(koreatechData.indexOf("const KOREATECH_ROWS:"), koreatechData.indexOf("const koreatechAdmissions"));
+const koreatechRows = [...koreatechRowsText.matchAll(/group: "(나|다)", recruitmentCount: (\\d+)/g)];
+assert.equal(koreatechRows.length, 17);
+const koreatechTotals = koreatechRows.reduce((totals, row) => { totals[row[1]] += Number(row[2]); return totals; }, { 나: 0, 다: 0 });
+assert.deepEqual(koreatechTotals, { 나: 116, 다: 63 });
+
 // 2027 Hanyang ERICA official guide: business belongs to natural/business weights, not humanities.
 const ericaData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
 const ericaRow = ericaData.match(/\{ id:"hanyang-erica-na-business"[^\n]+/);
