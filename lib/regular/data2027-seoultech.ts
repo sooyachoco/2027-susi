@@ -390,6 +390,7 @@ export const seoultechAdmissions2027: RegularAdmission[] = rows.map(([key, depar
     inquiryAggregation: "mean",
     calculationMode: "normalized-standard-sum",
     practicalEvaluationRequired: practical,
+    practicalEvaluationNote: practical ? "실기평가 점수 미입력(모집단위별 실기 배점·반영비율 적용 필요)" : undefined,
     koreanHistoryRequired: true,
     inquiryTypeBonusRequired: type === "natural",
     inquiryTypeBonusRate: type === "natural" ? { 사탐: 0, 과탐: 0.07, 직탐: 0 } : undefined,
