@@ -79,7 +79,7 @@ export async function GET() {
     const maxima = item.subjectMaximumScores;
     const koreanNeedsMaximum = (metrics?.korean ?? item.scoreMetric) === "표준점수";
     const mathNeedsMaximum = (metrics?.math ?? item.scoreMetric) === "표준점수";
-    const inquiryNeedsMaximum = item.inquiryWeight > 0 &&
+    const inquiryNeedsMaximum = (item.inquiryWeight > 0 || Boolean(item.rankedAreaWeights?.length)) &&
       (item.inquiryConversionRequired || (metrics?.inquiry ?? item.scoreMetric) === "표준점수");
     return (koreanNeedsMaximum && !(maxima?.korean && maxima.korean > 0)) ||
       (mathNeedsMaximum && !(maxima?.math && maxima.math > 0)) ||
@@ -157,6 +157,8 @@ export async function GET() {
       ).length,
       withRecruitmentCount: admissions.length - missingRecruitment.length,
       withSource: admissions.length - missingSource.length,
+      requiresPracticalEvaluation: admissions.filter((item) => item.practicalEvaluationRequired === true).length,
+      requiresSchoolViolenceInput: admissions.filter((item) => item.schoolViolencePenaltyRequired === true).length,
     },
     issueCounts: {
       missingSource: missingSource.length,
