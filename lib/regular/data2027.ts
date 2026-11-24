@@ -1,5 +1,5 @@
 import type { RegularAdmission } from "./types";
-import { seoultechAdmissions } from "./data2027-seoultech";
+import { seoultechAdmissions2027 } from "./data2027-seoultech";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
 const SNU_SOURCE = "https://admission.snu.ac.kr/undergraduate/regular/guide";
