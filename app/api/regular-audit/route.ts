@@ -39,7 +39,7 @@ export async function GET() {
   const invalidConversionTables = admissions.filter((item) => {
     const tables = [item.inquiryConversionTable, item.englishGradeTable, item.koreanHistoryGradePoints];
     return tables.some((table) => table != null &&
-      Object.values(table).some((value) => !Number.isFinite(value) || value < 0));
+      Object.values(table).some((value) => !Number.isFinite(value)));
   });
   const invalidSourceMetadata = admissions.filter((item) =>
     !item.sourceUrl?.trim() || !/^https?:\\/\\//i.test(item.sourceUrl) ||
