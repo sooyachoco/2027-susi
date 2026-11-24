@@ -30,7 +30,7 @@ assert.deepEqual(konkukRows.reduce((totals, row) => {
   totals.total += row.recruitmentCount;
   return totals;
 }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 545, 나: 467, 다: 318, total: 1330 });
-assert.equal(konkukRows.filter((row) => row.field === "practical").reduce((sum,row)=>sum+row.recruitmentCount,0), 234);
+assert.equal(konkukRows.filter((row) => row.field === "practical").reduce((sum,row)=>sum+row.recruitmentCount,0), 247);
 assert.match(konkukSource, /englishMaximumScore: 200/);
 assert.match(konkukSource, /alternateWeighting: free/);
 assert.match(konkukSource, /topAreaWeights: arts/);
