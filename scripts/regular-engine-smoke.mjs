@@ -20,7 +20,18 @@ assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCo
 assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
-const konkukSource = readFileSync(new URL("../lib/regular/data2027-konkuk.ts", import.meta.url), "utf8");
+const khuInternationalSource = readFileSync(new URL("../lib/regular/data2027-khu-international.ts", import.meta.url), "utf8");
+const khuInternationalRowsMatch = khuInternationalSource.match(/const KHU_INTERNATIONAL_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(khuInternationalRowsMatch);
+const khuInternationalRows = JSON.parse(khuInternationalRowsMatch[1]);
+assert.equal(khuInternationalRows.length, 43);
+assert.deepEqual(khuInternationalRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 252, 나: 614, 다: 0, total: 866 });
+assert.equal(khuInternationalRows.some((row) => /대표/.test(row.department)), false);
+assert.match(khuInternationalSource, /inquiryTypeBonusPerSubject: natural \? \{ "과탐":4 \}/);
 const konkukRowsMatch = konkukSource.match(/const KONKUK_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(konkukRowsMatch);
 const konkukRows = JSON.parse(konkukRowsMatch[1]);
