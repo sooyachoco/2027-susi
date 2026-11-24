@@ -37,6 +37,22 @@ const seoultechTotals = seoultechRows.reduce((totals, row) => {
 assert.deepEqual(seoultechTotals, { 가: 304, 나: 277, 다: 61, practical: 126 });
 assert.match(seoultechSource, /koreanHistoryRequired: true/);
 assert.match(seoultechSource, /0\.07/);
+const seoulExtraSource = readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts", import.meta.url), "utf8");
+const kwangwoonRowsMatch = seoulExtraSource.match(/const KWANGWOON_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(kwangwoonRowsMatch, "Kwangwoon source rows must be present as a literal audit-friendly table");
+const kwangwoonRows = JSON.parse(kwangwoonRowsMatch[1]);
+assert.equal(kwangwoonRows.length, 31);
+const kwangwoonTotals = kwangwoonRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.deepEqual(kwangwoonTotals, { 가: 164, 나: 111, 다: 425 });
+assert.equal(kwangwoonRows.some((row) => /대표/.test(row.department)), false);
+assert.match(seoulExtraSource, /KWANGWOON_ENGLISH = \{ 1:200, 2:198, 3:195, 4:190, 5:182, 6:170, 7:158, 8:146, 9:0 \}/);
+assert.match(seoulExtraSource, /schoolViolencePenaltyRequired: true/);
+assert.match(seoulExtraSource, /calculationVerified: false/);
+assert.equal(seoulExtraSource.includes('department:"자연·공학계열 대표"'), false);
+assert.equal(seoulExtraSource.includes('서울과학기술대학교", region:"서울", department:"자연·공학계열 대표"'), false);
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 assert.match(repositorySource, /getRegularAdmissionSourceAudit/);
 assert.match(repositorySource, /sourceRows\.length/);
