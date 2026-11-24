@@ -13,6 +13,38 @@ export async function GET() {
   );
 
   const missingSource = admissions.filter((item) => !item.sourceUrl?.trim());
+  const invalidRecruitmentCount = admissions.filter((item) =>
+    item.recruitmentCount != null && (!Number.isInteger(item.recruitmentCount) || item.recruitmentCount < 0),
+  );
+  const invalidWeights = admissions.filter((item) => {
+    const weights = [item.koreanWeight, item.mathWeight, item.englishWeight, item.inquiryWeight];
+    return weights.some((weight) => !Number.isFinite(weight) || weight < 0) ||
+      (item.alternateWeighting != null &&
+        [item.alternateWeighting.koreanWeight, item.alternateWeighting.mathWeight,
+          item.alternateWeighting.englishWeight, item.alternateWeighting.inquiryWeight]
+          .some((weight) => !Number.isFinite(weight) || weight < 0)) ||
+      (item.topAreaWeights != null &&
+        (!Number.isInteger(item.topAreaWeights.count) || item.topAreaWeights.count < 1 ||
+          item.topAreaWeights.count > item.topAreaWeights.areas.length ||
+          !Number.isFinite(item.topAreaWeights.weight) || item.topAreaWeights.weight < 0)) ||
+      (item.rankedAreaWeights != null &&
+        (item.rankedAreaWeights.some((weight) => !Number.isFinite(weight) || weight < 0) ||
+          item.rankedAreaWeights.length === 0));
+  });
+  const invalidMultipliers = admissions.filter((item) =>
+    [item.subjectScoreMultiplier, item.finalScoreMultiplier].some((value) =>
+      value != null && (!Number.isFinite(value) || value <= 0),
+    ),
+  );
+  const invalidConversionTables = admissions.filter((item) => {
+    const tables = [item.inquiryConversionTable, item.englishGradeTable, item.koreanHistoryGradePoints];
+    return tables.some((table) => table != null &&
+      Object.values(table).some((value) => !Number.isFinite(value) || value < 0));
+  });
+  const invalidSourceMetadata = admissions.filter((item) =>
+    !item.sourceUrl?.trim() || !/^https?:\\/\\//i.test(item.sourceUrl) ||
+    !item.verifiedAt?.trim() || !Number.isFinite(Date.parse(item.verifiedAt)),
+  );
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
   const zeroRecruitment = admissions.filter((item) => item.recruitmentCount === 0);
   const missingEnglishTable = admissions.filter(
@@ -88,7 +120,7 @@ export async function GET() {
     issueCounts: {
       missingSource: missingSource.length,
       missingRecruitmentCount: missingRecruitment.length,
-      zeroRecruitmentCount: zeroRecruitment.length,
+      zeroRecruitmentCount: zeroRecruitment.length,\n      invalidRecruitmentCount: invalidRecruitmentCount.length,\n      invalidWeights: invalidWeights.length,\n      invalidMultipliers: invalidMultipliers.length,\n      invalidConversionTables: invalidConversionTables.length,\n      invalidSourceMetadata: invalidSourceMetadata.length,
       missingEnglishGradeTable: missingEnglishTable.length,
       missingKoreanHistoryTable: missingHistoryTable.length,
       missingInquiryConversionTable: missingInquiryConversion.length,
@@ -101,7 +133,7 @@ export async function GET() {
     issues: {
       missingSource: summarize(missingSource),
       missingRecruitmentCount: summarize(missingRecruitment),
-      zeroRecruitmentCount: summarize(zeroRecruitment),
+      zeroRecruitmentCount: summarize(zeroRecruitment),\n      invalidRecruitmentCount: summarize(invalidRecruitmentCount),\n      invalidWeights: summarize(invalidWeights),\n      invalidMultipliers: summarize(invalidMultipliers),\n      invalidConversionTables: summarize(invalidConversionTables),\n      invalidSourceMetadata: summarize(invalidSourceMetadata),
       missingEnglishGradeTable: summarize(missingEnglishTable),
       missingKoreanHistoryTable: summarize(missingHistoryTable),
       missingInquiryConversionTable: summarize(missingInquiryConversion),
