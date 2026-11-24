@@ -50,6 +50,15 @@ function getCutline(admission: RegularAdmission): number | undefined {
   return raw;
 }
 
+function getBenchmarkHoldLabel(admission: RegularAdmission, result: ReturnType<typeof calculateRegularAdmission>): string {
+  if (!result.calculationVerified) {
+    return result.missingRules.length ? `판정 보류 (미반영: ${result.missingRules.join(", ")})` : "판정 보류 (공식 환산식 검증 전)";
+  }
+  if (admission.note?.includes("전년도 환산점수는 비교 기준으로 사용하지 않음")) {
+    return "판정 보류 (전년도 환산식 변경으로 기준점 비교 불가)";
+  }
+  return "판정 보류 (비교 가능한 전년도 기준점 없음)";
+}
 function getBenchmarkGapLabel(admission: RegularAdmission, gap: number): string {
   const label = admission.benchmarkYear && admission.benchmarkCutline70 != null
     ? `${admission.benchmarkYear}학년도 최종등록자 70%컷`
@@ -178,7 +187,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     score,
     recruitmentCount: admission.recruitmentCount,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · ${getBenchmarkHoldLabel(admission, result)}`}`,
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
@@ -235,7 +244,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     score,
     recruitmentCount: admission.recruitmentCount,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · ${getBenchmarkHoldLabel(admission, result)}`}`,
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
