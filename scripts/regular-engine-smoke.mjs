@@ -24,7 +24,7 @@ const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.
 assert.match(seoultechSource, /서울과학기술대학교/);
 assert.match(seoultechSource, /calculationVerified: false/);
 assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
-assert.equal((seoultechSource.match(/\["(?:ga|na|da)-/g) ?? []).length, 48);
+assert.equal((seoultechSource.match(/"(?:ga|na|da)-[a-z-]+"/g) ?? []).length, 48);
 assert.match(seoultechSource, /koreanHistoryRequired: true/);
 assert.match(seoultechSource, /0\.07/);
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
