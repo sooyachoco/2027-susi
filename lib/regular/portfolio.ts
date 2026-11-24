@@ -19,7 +19,25 @@ export function recommendRegularPortfolio(
   profile: RegularStudentProfile,
   admissions: RegularAdmission[],
 ): RegularPortfolioRecommendation[] {
-  const optimized = optimizeRegularPortfolio(profile, admissions);
+  // 비교 가능한 전년도 기준점이 모집군마다 최소 3개 대학에 확보된 경우에만
+  // 최적 포트폴리오 점수를 계산한다. 특정 대학 데이터만 있는 상태에서 3장이 독점되는 것을 방지한다.
+  const comparableUniversitiesByGroup = (["가", "나", "다"] as const).map((group) =>
+    new Set(admissions
+      .filter((item) =>
+        item.group === group &&
+        item.recruitmentCount !== 0 &&
+        item.calculationVerified === true &&
+        item.benchmarkComparable === true &&
+        item.benchmarkCutline70 != null &&
+        ["서울", "경기", "인천"].includes(item.region),
+      )
+      .map((item) => item.universityId),
+    ).size,
+  );
+  const hasBalancedBenchmarkCoverage = comparableUniversitiesByGroup.every((count) => count >= 3);
+  const optimized = hasBalancedBenchmarkCoverage
+    ? optimizeRegularPortfolio(profile, admissions)
+    : null;
 
   if (optimized) {
     return [{
