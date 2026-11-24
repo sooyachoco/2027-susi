@@ -849,7 +849,7 @@ assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
 const swuTopThree = calculateRegularAdmission({
   ...normFixture, scoreMetric:"백분위", subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},
   subjectMaximumScores:{korean:100,math:100,inquiry:100}, inquirySubjects:1, inquiryAggregation:"best",
-  koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:20,
+  koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:0,
   rankedAreaWeights:[40,40,20], finalScoreMultiplier:60,
   englishGradeTable:{1:100,2:97,3:93,4:85,5:70,6:50,7:35,8:20,9:0},
   koreanHistoryGradePoints:{1:5,2:5,3:5,4:5,5:4.95,6:4.8,7:4.5,8:4,9:0},
@@ -865,6 +865,7 @@ assert.equal(swuRows.length,44);
 const swuTotals=swuRows.reduce((a,r)=>(a[r[4]]+=Number(r[5]),a),{가:0,나:0,다:0});
 assert.deepEqual(swuTotals,{가:277,나:190,다:261});
 assert.ok(swuData.includes("finalScoreMultiplier:top3?60:400"));
+assert.ok(swuData.includes("inquiryWeight:0"), "상위 3개 반영 전형은 탐구 가중치를 별도로 중복 반영하지 않아야 함");
 assert.ok(swuData.includes('mathChoiceBonusRate:{미적분:0.2,기하:0.2'));
 
 const duksungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
