@@ -31,13 +31,14 @@ export default function Page() {
     <main>
       <section className="hero">
         <div className="heroCopy">
-          <div className="eyebrow">2027학년도 정시 대비</div>
-          <h1>수능 성적으로<br /><span>가·나·다군</span>을 설계합니다.</h1>
-          <p>수능 성적을 입력하면 서울·경기·인천권 대학의 계열별 반영비율과 기준점을 적용해 모집군별 지원 후보를 골라봅니다.</p>
-          <div className="muted" style={{marginTop:12}}>수도권 {universityCount}개 대학 · {admissions.length}개 모집단위 데이터</div>
+          <div className="heroBadge"><span className="heroBadgeDot" /> 2027 ADMISSION PLANNER</div>
+          <h1>나의 가능성을 찾아<br /><span>정시 지원전략</span>을 그리다.</h1>
+          <p>수능 성적을 입력하면 서울·경기·인천 대학의 반영 방식과 모집군을 비교해 나에게 맞는 지원 후보를 살펴볼 수 있어요.</p>
+          <div className="heroPills"><span>✦ 가·나·다군 한눈에</span><span>⌁ 대학별 환산식 반영</span><span>♡ 수도권 집중 분석</span></div>
+          <div className="heroDataLine"><strong>{universityCount}개 대학</strong><i /> <strong>{admissions.length}개 모집단위</strong><span>2027 정시 데이터</span></div>
           <div className="notice">현재는 대학별 공식 환산식 검증 전 단계입니다. 검증되지 않은 전형은 합격등급을 산출하지 않고 참고 후보로만 표시합니다.</div>
         </div>
-        <div className="panel scoreHero"><div className="muted">현재 분석 상태</div><div className="bigScore">{started ? (portfolio?.recommendations.length ?? 0) : "—"}</div><div>{started ? "추천 모집군" : "점수 입력 후 분석"}</div></div>
+        <div className="panel scoreHero"><div className="scoreCardTop"><span className="scoreCardIcon">✦</span><span className="scoreCardLabel">MY ADMISSION</span></div><div className="muted">나의 정시 분석 준비</div><div className="bigScore">{started ? (portfolio?.recommendations.length ?? 0) : "—"}</div><div className="scoreCardCaption">{started ? "분석된 모집군" : "성적을 입력하고 시작해요"}</div><div className="scoreCardFoot"><span>가군</span><span>나군</span><span>다군</span></div></div>
       </section>
 
       <section className="section" id="profile">
