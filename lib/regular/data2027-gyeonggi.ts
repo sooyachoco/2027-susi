@@ -3,6 +3,45 @@ import type { RegularAdmission } from "./types";
 const ERICA_ENGLISH = { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 } as const;
 const ERICA_HISTORY = { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9.0, 7: 9.0, 8: 9.0, 9: 9.0 } as const;
 
+const KOREATECH_SOURCE = "https://iphak.tukorea.ac.kr/bbs/fileview.php?bbsid=guide&file_seq=2041&save_file_nm=guide_20261029152250_4347.pdf";
+const KOREATECH_ENGLISH = { 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 } as const;
+const KOREATECH_SCHOOL_VIOLENCE_NOTE = "학교폭력 감점(환산 총점 기준): 1호 10점, 2호 15점, 3호 20점, 4호 30점, 5호 45점, 6호 60점, 7호 80점, 8호 90점, 9호 100점. 조치사항 입력 전 최종점수 판정 보류.";
+type KoreatechRow = { id: string; department: string; majorGroup: string; group: "나" | "다"; recruitmentCount: number };
+const KOREATECH_ROWS: KoreatechRow[] = [
+  { id: "computer-engineering-na", department: "컴퓨터공학전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 11 },
+  { id: "game-engineering-na", department: "게임공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 16 },
+  { id: "electronics-na", department: "전자공학전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 16 },
+  { id: "semiconductor-system-na", department: "반도체시스템전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 7 },
+  { id: "mechanical-engineering-na", department: "기계공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 17 },
+  { id: "mechanical-design-na", department: "기계설계전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 11 },
+  { id: "ai-robotics-na", department: "AI로봇전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 5 },
+  { id: "advanced-materials-na", department: "신소재공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 13 },
+  { id: "bio-chemical-na", department: "생명화학공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 13 },
+  { id: "energy-engineering-na", department: "에너지공학전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 7 },
+  { id: "software-da", department: "소프트웨어전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 10 },
+  { id: "artificial-intelligence-da", department: "인공지능학과", majorGroup: "자연·공학", group: "다", recruitmentCount: 6 },
+  { id: "embedded-systems-da", department: "임베디드시스템전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 11 },
+  { id: "nano-semiconductor-da", department: "나노반도체공학전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 10 },
+  { id: "intelligent-mobility-da", department: "지능형모빌리티전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 4 },
+  { id: "mechatronics-da", department: "메카트로닉스전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 12 },
+  { id: "electrical-engineering-da", department: "전기공학전공", majorGroup: "자연·공학", group: "다", recruitmentCount: 10 },
+];
+const koreatechAdmissions: RegularAdmission[] = KOREATECH_ROWS.map((row) => ({
+  id: `koreatech-${row.id}`, universityId: "koreatech", universityName: "한국공학대학교", region: "경기",
+  department: row.department, majorGroup: row.majorGroup, group: row.group, recruitmentCount: row.recruitmentCount,
+  scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  calculationMode: "weighted-average", koreanWeight: 25, mathWeight: 35, englishWeight: 20, inquiryWeight: 20,
+  inquirySubjects: 1, inquiryAggregation: "best", finalScoreMultiplier: 1, englishGradeTable: KOREATECH_ENGLISH,
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.1, 기하: 0.1, 확률과통계: 0 },
+  schoolViolencePenaltyRequired: true, schoolViolencePenaltyNote: KOREATECH_SCHOOL_VIOLENCE_NOTE,
+  calculationVerified: false, benchmarkComparable: false,
+  note: `2027 최종 정시모집요강 수능 일반학생1 ${row.group}군 ${row.recruitmentCount}명. 국25·수35·영20·탐구 1과목20, 백분위 활용. 미적분·기하 수학 백분위 10% 가산. 한국사는 필수 응시이며 별도 가산점 표기는 확인되지 않음. 학교폭력 조치사항 감점 반영으로 조치사항 미입력 시 최종 판정 보류. 전년도 입결 비교는 산식·모집단위 대응 확인 전까지 비활성화.`,
+  sourceUrl: KOREATECH_SOURCE, verifiedAt: "2026-11-24",
+}));
+if (KOREATECH_ROWS.length !== 17 || KOREATECH_ROWS.filter((row) => row.group === "나").reduce((sum, row) => sum + row.recruitmentCount, 0) !== 116 || KOREATECH_ROWS.filter((row) => row.group === "다").reduce((sum, row) => sum + row.recruitmentCount, 0) !== 63) {
+  throw new Error("한국공학대 2027 일반학생1 부분 데이터의 군별 검증 합계가 맞지 않습니다.");
+}
+
 const SOURCES = {
   gachon: "https://admission.gachon.ac.kr/admission/html/regular/guide.asp",
   ajou: "https://www.iajou.ac.kr/notice/view.php?bn=78759",
@@ -126,5 +165,5 @@ export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
   { id:"hanyang-erica-na-lions", universityId:"hanyang-erica", universityName:"한양대학교 ERICA", region:"경기", department:"LIONS자율전공학부(전계열)", majorGroup:"자유전공", group:"나", recruitmentCount:94, scoreMetric:"표준점수", subjectMetrics:{ korean:"표준점수", math:"표준점수", inquiry:"표준점수" }, calculationMode:"normalized-standard-sum", koreanWeight:30, mathWeight:35, englishWeight:10, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"sum", inquiryConversionRequired:true, finalScoreMultiplier:1000, gradeAdjustmentsAfterFinalMultiplier:true, englishGradeTable:ERICA_ENGLISH, koreanHistoryRequired:true, koreanHistoryGradePoints:ERICA_HISTORY, calculationVerified:false, schoolViolencePenaltyRequired:true, schoolViolencePenaltyNote:"학교폭력 조치사항 감점: 1호 5점, 2호 10점, 3호 15점, 4·5호 30점, 6·7호 100점, 8호 200점, 9호 300점. 조치사항 입력 전 최종점수 판정 보류.", note:"2027 최종 모집요강 나군 일반전형 94명. LIONS 전계열 반영비율 국30·수35·영10·탐25(2과목). 국어·수학 표준점수 최고점 정규화, 탐구 변환표준점수 2과목 합 정규화, 영어 등급환산, 한국사 가산점. 탐구 가산점 없음. 탐구 변환표와 2027 수능 최고점 미확정으로 계산 검증 보류.", sourceUrl:SOURCES.erica, verifiedAt:"2026-11-24" },
   { id:"kau-ga-engineering", universityId:"kau", universityName:"한국항공대학교", region:"경기", department:"공과대학 대표", majorGroup:"자연·공학", group:"가", scoreMetric:"표준점수", koreanWeight:20, mathWeight:35, englishWeight:20, inquiryWeight:25, inquirySubjects:1, note:"탐구 1과목, 영어 등급환산, 한국사 가점.", sourceUrl:SOURCES.kau, verifiedAt:"2026-09-27" },
   { id:"kau-ga-business", universityId:"kau", universityName:"한국항공대학교", region:"경기", department:"항공·경영대학 대표", majorGroup:"경영·경제", group:"가", scoreMetric:"표준점수", koreanWeight:25, mathWeight:30, englishWeight:20, inquiryWeight:25, inquirySubjects:1, note:"사회적성 기준. 탐구 1과목.", sourceUrl:SOURCES.kau, verifiedAt:"2026-09-27" },
-  { id:"koreatech-ga-engineering", universityId:"koreatech", universityName:"한국공학대학교", region:"경기", department:"공학계열 대표", majorGroup:"자연·공학", group:"가", scoreMetric:"백분위", koreanWeight:25, mathWeight:35, englishWeight:20, inquiryWeight:20, inquirySubjects:1, note:"대표 공학계열. 학과별 반영유형이 다름.", sourceUrl:SOURCES.koreatech, verifiedAt:"2026-09-27" },
+  ...koreatechAdmissions,
 ];
