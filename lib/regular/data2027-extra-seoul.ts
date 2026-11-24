@@ -356,6 +356,7 @@ const kwangwoonAdmissions2027: RegularAdmission[] = KWANGWOON_ROWS.map((row) => 
     schoolViolencePenaltyRequired: true,
     schoolViolencePenaltyNote: "일반학생전형 전형총점 1,000점 기준: 1~3호 각 3점, 4~5호 각 30점, 6~7호 각 50점 감점, 8~9호 부적격. 해당 입력·결격 처리가 구현되기 전까지 최종 판정 보류.",
     practicalEvaluationRequired: sports,
+    practicalEvaluationNote: sports ? "실기평가 점수 미입력(전형 총점의 30%)" : undefined,
     studentRecordWeight: sports ? 30 : undefined,
     calculationVerified: false,
     sourceUrl: KWANGWOON_SOURCE,
@@ -618,11 +619,432 @@ if (sangmyungAdmissions2027.length !== 28 || sangmyungAdmissions2027.reduce((sum
   throw new Error("상명대 2027 서울캠퍼스 수능전형 모집단위·인원 검증 실패");
 }
 
+// 2027학년도 성신여자대학교 정시 일반학생전형: 공식 모집요강 p.8~9, p.20~21, p.44, p.48
+const SUNGSHIN_SOURCE = "https://ipsi.sungshin.ac.kr/bbs/fileview.php?bbsid=guideline&file_seq=2989";
+const SUNGSHIN_ENGLISH = { 1:100, 2:97, 3:94, 4:85, 5:60, 6:40, 7:25, 8:10, 9:0 } as const;
+const SUNGSHIN_HISTORY = { 1:2, 2:1.5, 3:1, 4:0.5, 5:0, 6:0, 7:0, 8:0, 9:0 } as const;
+const SUNGSHIN_ROWS = [
+  {
+    "key": "ga-media-video",
+    "department": "미디어영상연기학과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "p30"
+  },
+  {
+    "key": "ga-modern-music",
+    "department": "현대실용음악학과",
+    "group": "가",
+    "recruitmentCount": 9,
+    "field": "p55"
+  },
+  {
+    "key": "ga-math-fintech",
+    "department": "수리통계데이터사이언스학부 수학·핀테크전공",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "ga-stats-bigdata",
+    "department": "수리통계데이터사이언스학부 통계학·빅데이터사이언스전공",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "ga-chem-energy",
+    "department": "화학·에너지융합학부",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "natural"
+  },
+  {
+    "key": "ga-biohealth",
+    "department": "바이오헬스융합학부",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "natural"
+  },
+  {
+    "key": "ga-bio-drug",
+    "department": "바이오신약의과학부",
+    "group": "가",
+    "recruitmentCount": 16,
+    "field": "natural"
+  },
+  {
+    "key": "ga-ai",
+    "department": "AI융합학과",
+    "group": "가",
+    "recruitmentCount": 15,
+    "field": "ai"
+  },
+  {
+    "key": "ga-ai-semiconductor",
+    "department": "융합AI반도체공학과",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "ai"
+  },
+  {
+    "key": "ga-nursing-human",
+    "department": "간호학과(인문)",
+    "group": "가",
+    "recruitmentCount": 11,
+    "field": "nursing"
+  },
+  {
+    "key": "ga-nursing-natural",
+    "department": "간호학과(자연)",
+    "group": "가",
+    "recruitmentCount": 14,
+    "field": "nursing"
+  },
+  {
+    "key": "ga-sports-leisure",
+    "department": "스포츠과학부(스포츠레저전공)",
+    "group": "가",
+    "recruitmentCount": 25,
+    "field": "p60"
+  },
+  {
+    "key": "ga-sports-rehab",
+    "department": "스포츠과학부(운동재활전공)",
+    "group": "가",
+    "recruitmentCount": 25,
+    "field": "p60"
+  },
+  {
+    "key": "ga-education",
+    "department": "교육학과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "education"
+  },
+  {
+    "key": "ga-social-education",
+    "department": "사회교육과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "education"
+  },
+  {
+    "key": "ga-ethics-education",
+    "department": "윤리교육과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "education"
+  },
+  {
+    "key": "ga-classical-education",
+    "department": "한문교육과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "education"
+  },
+  {
+    "key": "ga-early-childhood",
+    "department": "유아교육과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "education"
+  },
+  {
+    "key": "ga-oriental-painting",
+    "department": "동양화과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "p40"
+  },
+  {
+    "key": "ga-western-painting",
+    "department": "서양화과",
+    "group": "가",
+    "recruitmentCount": 10,
+    "field": "p40"
+  },
+  {
+    "key": "ga-sculpture",
+    "department": "조소과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "p40"
+  },
+  {
+    "key": "ga-vocal",
+    "department": "성악과",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "p30"
+  },
+  {
+    "key": "ga-composition",
+    "department": "작곡과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "p55"
+  },
+  {
+    "key": "ga-free",
+    "department": "창의융합학부(자유전공)",
+    "group": "가",
+    "recruitmentCount": 184,
+    "field": "free"
+  },
+  {
+    "key": "na-korean",
+    "department": "국어국문학과",
+    "group": "나",
+    "recruitmentCount": 5,
+    "field": "humanities"
+  },
+  {
+    "key": "na-english",
+    "department": "영어영문학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "na-german",
+    "department": "독일어문·문화학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "humanities"
+  },
+  {
+    "key": "na-french",
+    "department": "프랑스어문·문화학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "humanities"
+  },
+  {
+    "key": "na-japanese",
+    "department": "일본어문·문화학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "humanities"
+  },
+  {
+    "key": "na-chinese",
+    "department": "중국어문·문화학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "humanities"
+  },
+  {
+    "key": "na-history",
+    "department": "사학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "humanities"
+  },
+  {
+    "key": "na-culture-art-management",
+    "department": "문화예술경영학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "humanities"
+  },
+  {
+    "key": "na-politics",
+    "department": "정치외교학과",
+    "group": "나",
+    "recruitmentCount": 5,
+    "field": "social"
+  },
+  {
+    "key": "na-psychology",
+    "department": "심리학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "social"
+  },
+  {
+    "key": "na-geography",
+    "department": "지리학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "social"
+  },
+  {
+    "key": "na-economics",
+    "department": "경제학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "social"
+  },
+  {
+    "key": "na-media",
+    "department": "미디어커뮤니케이션학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "social"
+  },
+  {
+    "key": "na-business",
+    "department": "경영학과",
+    "group": "나",
+    "recruitmentCount": 17,
+    "field": "social"
+  },
+  {
+    "key": "na-social-welfare",
+    "department": "사회복지학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "social"
+  },
+  {
+    "key": "na-law",
+    "department": "법학부",
+    "group": "나",
+    "recruitmentCount": 15,
+    "field": "social"
+  },
+  {
+    "key": "na-clean-materials",
+    "department": "청정신소재공학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "engineering"
+  },
+  {
+    "key": "na-biofood",
+    "department": "바이오식품공학과",
+    "group": "나",
+    "recruitmentCount": 4,
+    "field": "engineering"
+  },
+  {
+    "key": "na-computer",
+    "department": "컴퓨터공학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "engineering"
+  },
+  {
+    "key": "na-security",
+    "department": "융합보안공학과",
+    "group": "나",
+    "recruitmentCount": 12,
+    "field": "engineering"
+  },
+  {
+    "key": "na-service-design",
+    "department": "서비스디자인공학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "engineering"
+  },
+  {
+    "key": "na-clothing",
+    "department": "의류산업학과",
+    "group": "나",
+    "recruitmentCount": 7,
+    "field": "social"
+  },
+  {
+    "key": "na-consumer",
+    "department": "소비자산업학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "social"
+  },
+  {
+    "key": "na-craft",
+    "department": "공예과",
+    "group": "나",
+    "recruitmentCount": 20,
+    "field": "p55"
+  },
+  {
+    "key": "na-instrumental",
+    "department": "기악과",
+    "group": "나",
+    "recruitmentCount": 22,
+    "field": "p30"
+  },
+  {
+    "key": "na-free-advanced",
+    "department": "창의융합학부(첨단분야전공)",
+    "group": "나",
+    "recruitmentCount": 71,
+    "field": "naturalAdvanced"
+  },
+  {
+    "key": "da-design",
+    "department": "디자인과",
+    "group": "다",
+    "recruitmentCount": 36,
+    "field": "p55"
+  }
+] as const;
+function sungshinWeights(field: string): readonly [number,number,number,number] {
+  if (field === "free") return [30,30,20,20];
+  if (field === "natural" || field === "naturalAdvanced" || field === "nursing") return [20,30,20,30];
+  if (field === "ai") return [10,35,30,25];
+  if (field === "education") return [30,20,20,30];
+  if (field === "humanities") return [30,20,30,20];
+  if (field === "social") return [30,25,20,25];
+  if (field === "engineering") return [20,30,20,30];
+  return [25,25,25,25];
+}
+const sungshinAdmissions2027: RegularAdmission[] = SUNGSHIN_ROWS.map((row) => {
+  const practical = row.field.startsWith("p");
+  const csatShare = practical ? Number(row.field.slice(1)) : 100;
+  const scienceBonus = row.field === "natural" || row.field === "ai" || row.field === "engineering";
+  const [koreanWeight,mathWeight,englishWeight,inquiryWeight] = sungshinWeights(row.field);
+  const majorGroup = practical
+    ? row.field === "p60" ? "예체능·체육" : "예체능"
+    : row.field === "education" ? "교육" : ["natural","naturalAdvanced","ai","engineering","nursing"].includes(row.field) ? "자연·공학" : "인문·사회";
+  return {
+    id: `sungshin-seoul-${row.key}`,
+    universityId: "sungshin-seoul",
+    universityName: "성신여자대학교",
+    region: "서울",
+    department: row.department,
+    majorGroup,
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "백분위",
+    subjectMetrics: { korean:"백분위", math:"백분위", inquiry:"백분위" },
+    koreanWeight, mathWeight, englishWeight, inquiryWeight,
+    inquirySubjects: 2,
+    inquiryAggregation: "mean",
+    calculationMode: "normalized-standard-sum",
+    subjectMaximumScores: { korean:100, math:100, inquiry:100 },
+    topAreaWeights: practical ? { areas:["korean","math","english","inquiry"], count:3, weight:100/3 } : undefined,
+    finalScoreMultiplier: practical ? csatShare * 5 : 500,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    englishGradeTable: SUNGSHIN_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: SUNGSHIN_HISTORY,
+    inquiryTopSubjectBonusRate: scienceBonus ? 0.10 : undefined,
+    inquiryTopSubjectBonusType: scienceBonus ? "과탐" : undefined,
+    practicalEvaluationRequired: practical,
+    practicalEvaluationNote: practical ? `실기평가 점수 미입력(수능 ${csatShare}%, 실기 ${100-csatShare}%)` : undefined,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "일반학생전형: 학교폭력 1호 3점, 2호 6점, 3호 9점, 4호 12점, 5호 15점, 6호 20점 감점, 7~9호 불합격. 조치사항 입력 전 최종 판정 보류.",
+    calculationVerified: false,
+    sourceUrl: SUNGSHIN_SOURCE,
+    verifiedAt: "2026-11-24",
+    note: practical
+      ? `2027 정시 일반학생전형 실기 모집단위. 수능 ${csatShare}%와 실기 ${100-csatShare}% 반영, 수능은 국어·수학·영어·탐구 중 상위 3개 영역 각 1/3. 실기 점수 미입력으로 판정 보류.`
+      : "2027 정시 일반학생전형 수능100%. 국어·수학·탐구 백분위, 영어 등급별 백분위 환산, 탐구 2과목 평균, 한국사 가산점. 지정영역 응시자격·과탐 상위 1과목 10% 가산 및 학교폭력 조치사항까지 검증 전 판정 보류."
+  };
+});
+if (sungshinAdmissions2027.length !== 51 || sungshinAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 721) {
+  throw new Error("성신여대 2027 일반학생전형 모집단위·인원 검증 실패");
+}
+
 export const regularAdmissions2027SeoulExtra: RegularAdmission[] = [
   ...kwangwoonAdmissions2027,
   { id:"myongji-seoul-na-humanities", universityId:"myongji-seoul", universityName:"명지대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://iphak.mju.ac.kr/", verifiedAt:"2026-09-27" },
   ...sangmyungAdmissions2027,
-  { id:"sungshin-seoul-ga-humanities", universityId:"sungshin-seoul", universityName:"성신여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.sungshin.ac.kr/", verifiedAt:"2026-09-27" },
+  ...sungshinAdmissions2027,
   ...duksungAdmissions2027,
   { id:"dongduk-seoul-na-humanities", universityId:"dongduk-seoul", universityName:"동덕여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.dongduk.ac.kr/", verifiedAt:"2026-09-27" },
 
