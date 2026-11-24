@@ -2,15 +2,34 @@ import type { RegularAdmission, RegularRecommendation, RegularStudentProfile, Re
 import { calculateRegularAdmission, type RegularStudentScore } from "./engine2027";
 import { classifyRegularGap } from "./strategy2027";
 
-function majorFit(query: string, majorGroup: string): number {
-  const q = query.replace(/\s+/g, "");
-  if (!q || majorGroup === "전체") return 0;
-  if ((q.includes("경영") || q.includes("경제") || q.includes("회계") || q.includes("금융")) && majorGroup === "경영·경제") return 7;
-  if ((q.includes("컴퓨터") || q.includes("소프트웨어") || q.includes("인공지능") || q.includes("AI") || q.includes("공학")) && (majorGroup === "자연·공학" || majorGroup === "컴퓨터·소프트웨어")) return 7;
-  if ((q.includes("국어") || q.includes("영어") || q.includes("사학") || q.includes("역사") || q.includes("철학") || q.includes("어문") || q.includes("교육")) && majorGroup === "인문·어문") return 7;
-  if ((q.includes("간호") || q.includes("의료") || q.includes("보건")) && (majorGroup === "의약·보건" || majorGroup === "자연·공학")) return 7;
-  if ((q.includes("심리") || q.includes("사회복지") || q.includes("사회학") || q.includes("행정") || q.includes("정치")) && majorGroup === "사회·법") return 7;
-  if ((q.includes("디자인") || q.includes("미술") || q.includes("시각") || q.includes("산업디자인")) && majorGroup === "예체능·디자인") return 7;
+export function majorFit(
+  query: string,
+  admission: Pick<RegularAdmission, "department" | "majorGroup">,
+): number {
+  const q = query.toLocaleLowerCase("ko-KR").replace(/[\\s·・_-]+/g, "");
+  const department = admission.department.toLocaleLowerCase("ko-KR").replace(/[\\s·・_-]+/g, "");
+  const group = admission.majorGroup;
+
+  if (!q) return 0;
+  // 학과명이 직접 일치하거나 사용자가 학과명의 일부를 입력한 경우 가장 높은 적합도를 부여한다.
+  if (department.includes(q) || (q.length >= 3 && q.includes(department))) return 10;
+
+  const rules: Array<{ keywords: string[]; groups: string[] }> = [
+    { keywords: ["경영", "경제", "회계", "금융", "무역", "세무"], groups: ["경영·경제"] },
+    { keywords: ["컴퓨터", "소프트웨어", "인공지능", "ai", "정보통신", "반도체"], groups: ["자연·공학", "컴퓨터·소프트웨어"] },
+    { keywords: ["국어", "영어", "어문", "문학", "사학", "역사", "철학", "외국어"], groups: ["인문·어문", "인문·사회"] },
+    { keywords: ["간호", "의료", "보건", "약학", "의예", "치의", "한의"], groups: ["의약·보건", "보건", "의약학", "자연·공학"] },
+    { keywords: ["심리", "사회복지", "사회학", "행정", "정치", "법학", "경찰"], groups: ["사회·법", "인문·사회", "사회과학"] },
+    { keywords: ["디자인", "미술", "시각", "산업디자인", "패션"], groups: ["예체능·디자인"] },
+    { keywords: ["교육", "교직", "사범"], groups: ["교육", "인문·어문", "교육·자연"] },
+    { keywords: ["수학", "물리", "화학", "생명", "생물", "천문", "통계"], groups: ["자연·공학", "자연과학", "교육·자연"] },
+  ];
+
+  for (const rule of rules) {
+    if (!rule.keywords.some((keyword) => q.includes(keyword))) continue;
+    if (rule.keywords.some((keyword) => department.includes(keyword))) return 9;
+    if (rule.groups.includes(group)) return 6;
+  }
   return 0;
 }
 
@@ -157,7 +176,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
   const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
-    const fit = majorFit(profile.desiredMajor, admission.majorGroup);
+    const fit = majorFit(profile.desiredMajor, admission);
     const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
     const score = Math.round(result.totalScore * 10) / 10;
