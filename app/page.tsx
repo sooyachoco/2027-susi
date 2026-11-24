@@ -38,7 +38,7 @@ export default function Page() {
           <div className="heroDataLine"><strong>{universityCount}개 대학</strong><i /> <strong>{admissions.length}개 모집단위</strong><span>2027 정시 데이터</span></div>
           <div className="notice">현재는 대학별 공식 환산식 검증 전 단계입니다. 검증되지 않은 전형은 합격등급을 산출하지 않고 참고 후보로만 표시합니다.</div>
         </div>
-        <div className="panel scoreHero"><div className="scoreCardTop"><span className="scoreCardIcon">✦</span><span className="scoreCardLabel">MY ADMISSION</span></div><div className="muted">나의 정시 분석 준비</div><div className="bigScore">{started ? (portfolio?.recommendations.length ?? 0) : "—"}</div><div className="scoreCardCaption">{started ? "분석된 모집군" : "성적을 입력하고 시작해요"}</div><div className="scoreCardFoot"><span>가군</span><span>나군</span><span>다군</span></div></div>
+        <div className="panel scoreHero"><div className="scoreCardTop"><span className="scoreCardIcon">✦</span><span className="scoreCardLabel">MY ADMISSION</span></div><div className="muted">나의 정시 분석 준비</div><div className="bigScore">{started ? (portfolio?.recommendations.length ?? 0) : "—"}</div><div className="scoreCardCaption">{started ? "분석된 지원 후보" : "성적을 입력하고 시작해요"}</div><div className="scoreCardFoot"><span>가군</span><span>나군</span><span>다군</span></div></div>
       </section>
 
       <section className="section" id="profile">
@@ -49,7 +49,7 @@ export default function Page() {
       </section>
 
       {started && portfolio && <section className="section" id="results">
-        <div className="sectionHead"><div><h2>🎯 나의 정시 지원 후보</h2><div className="muted">가·나·다군별 확인 가능한 후보를 표시합니다.</div></div></div>
+        <div className="sectionHead"><div><h2>🎯 나의 정시 지원 후보</h2><div className="muted">가·나·다군별 최대 5개 대학, 총 최대 15개 후보를 비교합니다.</div></div></div>
         <div className="panel balance" style={{marginBottom:16}}>
           <div className="eyebrow">{portfolio.style}{portfolio.style === "기초 후보형" ? " · 최적 조합 점수 산출 보류" : ` · 안정·전공 적합도 지수 ${portfolio.score}`}</div>
           <h3 style={{margin:"8px 0 4px"}}>{portfolio.style === "기초 후보형" ? "모집군별 참고 후보" : "가·나·다군 통합 지원 조합"}</h3>
