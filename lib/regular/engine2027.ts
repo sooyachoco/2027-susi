@@ -131,6 +131,9 @@ export function calculateRegularAdmission(
     const sameTypeRequired = admission.inquiryBonusRequiresSameType;
     const sameTypeKnown = !sameTypeRequired || Boolean(type1 && type2);
     const sameTypeMatched = !sameTypeRequired || (sameTypeKnown && type1 === sameTypeRequired && type2 === sameTypeRequired);
+    if (sameTypeRequired && sameTypeKnown && !sameTypeMatched) {
+      missingRules.push(`탐구 영역은 ${sameTypeRequired} 2과목 응시 필수`);
+    }
     const effectiveRate1 = !sameTypeKnown ? undefined : sameTypeMatched ? rate1 : 0;
     const effectiveRate2 = !sameTypeKnown ? undefined : sameTypeMatched ? rate2 : 0;
     const valid1 = typeof effectiveRate1 === "number";
