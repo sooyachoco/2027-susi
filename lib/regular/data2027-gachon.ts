@@ -25,7 +25,8 @@ const COMMON = {
   gradeAdjustmentsAfterFinalMultiplier: true,
   englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
   calculationVerified: true,
-  note: "2027학년도 가천대 최종 정시모집요강 일반전형 1. 국어·수학 중 고득점 영역 40/30, 영어·탐구(1과목) 중 고득점 영역 20/10. 수능 활용지표는 백분위(영어 등급).",
+  benchmarkComparable: false,
+  note: "2027학년도 가천대 최종 정시모집요강 일반전형 1. 국어·수학 중 고득점 영역 40/30, 영어·탐구(1과목) 중 고득점 영역 20/10. 2026학년도는 국어·수학·영어 상위 3개 영역 35/25/20과 탐구 20을 반영해 산식이 달라 전년도 환산점수는 비교 기준으로 사용하지 않음.",
   sourceUrl: SOURCE,
   verifiedAt: "2026-11-23",
 };

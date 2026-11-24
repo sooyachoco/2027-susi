@@ -113,7 +113,8 @@ const kyonggiAdmissions: RegularAdmission[] = KYONGGI_ROWS.map(([key, department
   englishWeight: 20, inquiryWeight: 15, inquirySubjects: 1, inquiryAggregation: "best",
   englishGradeTable: KYONGGI_ENGLISH, koreanHistoryRequired: true, koreanHistoryGradePoints: KYONGGI_HISTORY,
   calculationVerified: true,
-  note: `2027 정시 수능(일반학생Ⅰ) 비실기 ${group}군 ${recruitmentCount}명. 유형 ${type}: 국어 ${type === "A" ? 30 : 35}·수학 ${type === "A" ? 35 : 30}·영어20·탐구15, 백분위 및 탐구 상위 1과목. 한국사 6~7등급 0.5점, 8~9등급 1점 감점.`,
+  benchmarkComparable: false,
+  note: `2027 정시 수능(일반학생Ⅰ) 비실기 ${group}군 ${recruitmentCount}명. 유형 ${type}: 국어 ${type === "A" ? 30 : 35}·수학 ${type === "A" ? 35 : 30}·영어20·탐구15, 백분위 및 탐구 상위 1과목. 한국사 6~7등급 0.5점, 8~9등급 1점 감점. 2026학년도와 영어 등급 환산표가 달라 전년도 환산점수는 비교 기준으로 사용하지 않음.`,
   sourceUrl: KYONGGI_SOURCE, verifiedAt: "2026-11-23",
 }));
 

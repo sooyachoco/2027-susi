@@ -711,6 +711,8 @@ assert.match(dankookData, /\["business-na","경영학부","경영·경제","나"
 
 // 2027 경기대 일반학생Ⅰ 비실기: 모집단위별 군·인원·계열 반영비율 데이터 검사
 const kyonggiData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+assert.match(kyonggiData, /benchmarkComparable: false/);
+assert.match(kyonggiData, /영어 등급 환산표가 달라 전년도 환산점수는 비교 기준으로 사용하지 않음/);
 assert.match(kyonggiData, /KYONGGI_ENGLISH = \{ 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 \}/);
 assert.match(kyonggiData, /KYONGGI_HISTORY = \{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: -0.05, 7: -0.05, 8: -0.1, 9: -0.1 \}/);
 assert.match(kyonggiData, /const KYONGGI_ROWS = \[/);
@@ -785,6 +787,8 @@ assert.ok(!incheonRows.some((row) => ["스포츠과학부", "스포츠의학부"
 
 // 2027 Gachon official guide: group assignments are read from the General Admission 1 columns.
 const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
+assert.match(gachonData, /benchmarkComparable: false/);
+assert.match(gachonData, /2026학년도는 국어·수학·영어 상위 3개 영역/);
 assert.match(gachonData, /id: "tourism"[^\n]*group: "가"[^\n]*recruitmentCount: 15/);
 assert.match(gachonData, /id: "accounting"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
 assert.match(gachonData, /id: "business"[^\n]*group: "다"[^\n]*recruitmentCount: 38/);
