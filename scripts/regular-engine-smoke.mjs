@@ -822,3 +822,11 @@ const swuRows=[...swuData.matchAll(/id:"swu-seoul-[^"]+", universityId:"swu-seou
 assert.equal(swuRows.length,41);
 const swuTotals=swuRows.reduce((totals,row)=>{totals[row[1]]+=Number(row[2]);return totals;},{가:0,나:0,다:0});
 assert.deepEqual(swuTotals,{가:277,나:190,다:261});
+
+const swu=readFileSync(new URL("../lib/regular/data2027-seoulwomen.ts",import.meta.url),"utf8");
+const swuRows=[...swu.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\d+),"([^"]+)"\]/g)];
+assert.equal(swuRows.length,44);
+const swuTotals=swuRows.reduce((a,r)=>(a[r[4]]+=Number(r[5]),a),{가:0,나:0,다:0});
+assert.deepEqual(swuTotals,{가:277,나:190,다:261});
+assert.match(swu,/areas:\["korean","math","english","inquiry"\],count:3,weight:40/);
+assert.match(swu,/mathChoiceBonusRate:\{미적분:0\.2,기하:0\.2/);
