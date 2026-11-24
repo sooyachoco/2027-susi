@@ -786,6 +786,8 @@ console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, So
 
 const hansungTopTwo = calculateRegularAdmission({
   ...normFixture,
+  scoreMetric:"백분위", subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},
+  subjectMaximumScores:{korean:100,math:100,inquiry:100}, inquirySubjects:1, inquiryAggregation:"best",
   koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:40,
   topAreaWeights:{areas:["korean","math","inquiry"],count:2,weight:40},
   englishGradeTable:{1:100,2:97,3:94,4:80,5:70,6:55,7:40,8:25,9:10},
