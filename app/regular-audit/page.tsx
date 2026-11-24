@@ -15,6 +15,7 @@ type AuditData = {
 const LABELS: Record<string, string> = {
   missingSource: "공식 출처 누락",
   missingRecruitmentCount: "모집인원 누락",
+  zeroRecruitmentCount: "모집인원 0명 · 조건부/미모집",
   missingEnglishGradeTable: "영어 등급 환산표 누락",
   missingKoreanHistoryTable: "한국사 환산표 누락",
   missingInquiryConversionTable: "탐구 변환표 누락",
