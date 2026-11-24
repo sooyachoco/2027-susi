@@ -95,6 +95,16 @@ const syntheticProfile = {
 };
 const syntheticRecommendations = recommendationModule.recommendRegular(syntheticProfile, syntheticAdmissions);
 assert.equal(syntheticRecommendations.length, 15);
+const placeholderAdmissions = [
+  ...syntheticAdmissions,
+  { ...syntheticAdmissions[0], id: "synthetic-placeholder", universityId: "placeholder-university", universityName: "임시대학", department: "인문계열 대표" },
+];
+const placeholderRecommendations = recommendationModule.recommendRegular(syntheticProfile, placeholderAdmissions);
+assert.equal(
+  placeholderRecommendations.some((item) => item.admissionId === "synthetic-placeholder"),
+  false,
+  "placeholder department labels must never be shown as real admission recommendations",
+);
 for (const group of ["가", "나", "다"]) {
   const groupRecommendations = syntheticRecommendations.filter((item) => item.group === group);
   assert.equal(groupRecommendations.length, 5);
