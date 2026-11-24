@@ -216,7 +216,7 @@ export function calculateRegularAdmission(
       const english = gradePoints(admission.englishGradeTable, score.englishGrade);
       if (english == null) missingRules.push("대학별 영어 등급 환산표 미등록");
       else {
-        englishNormalized = english / 100;
+        englishNormalized = english / (admission.englishMaximumScore ?? 100);
         appliedComponents.push("영어 등급 환산");
       }
     }
