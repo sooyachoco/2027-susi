@@ -174,6 +174,8 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     tier,
     reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
     calculationVerified: result.calculationVerified,
+    hasComparableBenchmark: reference != null,
+    benchmarkGap: gap,
     missingRules: result.missingRules,
     appliedComponents: result.appliedComponents,
   }));
@@ -225,6 +227,8 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     tier,
     reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
     calculationVerified: result.calculationVerified,
+    hasComparableBenchmark: reference != null,
+    benchmarkGap: gap,
     missingRules: result.missingRules,
     appliedComponents: result.appliedComponents,
   })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];
