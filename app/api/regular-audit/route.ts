@@ -123,6 +123,19 @@ export async function GET() {
     !GROUPS.includes(item.group),
   );
 
+  const universityCoverage = [...new Map(admissions.map((item) => [item.universityId, item.universityName])).entries()]
+    .map(([universityId, universityName]) => {
+      const rows = admissions.filter((item) => item.universityId === universityId);
+      return {
+        universityId, universityName, region: rows[0]?.region ?? "", admissions: rows.length,
+        departments: new Set(rows.map((item) => item.department)).size,
+        withRecruitmentCount: rows.filter((item) => item.recruitmentCount != null).length,
+        calculationVerified: rows.filter((item) => item.calculationVerified === true).length,
+        benchmarkComparable: rows.filter((item) => item.benchmarkComparable === true && item.calculationVerified === true).length,
+      };
+    })
+    .sort((a, b) => a.region.localeCompare(b.region, "ko") || a.universityName.localeCompare(b.universityName, "ko"));
+
   return Response.json({
     generatedAt: new Date().toISOString(),
     scope: "2027 정시 / 서울·경기·인천",
@@ -132,6 +145,7 @@ export async function GET() {
       byRegion,
       byGroup,
     },
+    universityCoverage,
     quality: {
       calculationVerified: admissions.length - unverifiedCalculation.length,
       calculationUnverified: unverifiedCalculation.length,
