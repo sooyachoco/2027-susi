@@ -839,7 +839,7 @@ const duksungPharmacy=calculateRegularAdmission({
   subjectMaximumScores:{korean:100,math:100,inquiry:100},koreanWeight:25,mathWeight:30,englishWeight:20,inquiryWeight:25,
   inquirySubjects:2,inquiryAggregation:"mean",finalScoreMultiplier:1000,
   englishGradeTable:{1:100,2:98,3:96,4:80,5:70,6:60,7:50,8:40,9:0},
-  inquiryTypeBonusRequired:true,inquiryTypeBonusRate:{사탐:0,과탐:0.2,직탐:0},inquiryBonusRequiresSameType:"과탐",
+  inquiryTypeBonusRequired:true,inquiryTypeBonusRate:{사탐:0,과탐:0.2,직탐:0},inquiryBonusRequiresSameType:"과탐",schoolViolencePenaltyRequired:true,
 },{...sampleScore,englishGrade:2,inquiry1Type:"과탐",inquiry2Type:"과탐"});
 assert.ok(duksungPharmacy.appliedComponents.includes("탐구 과목별 선택유형 가산율·과목별 고정 가산점"));
 assert.equal(duksungPharmacy.calculationVerified,false);
