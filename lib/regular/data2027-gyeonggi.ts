@@ -121,7 +121,90 @@ const kyonggiAdmissions: RegularAdmission[] = KYONGGI_ROWS.map(([key, department
 export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
   ...ajouAdmissions,
   ...kyonggiAdmissions,
-  { id:"hanyang-erica-na-business", universityId:"hanyang-erica", universityName:"한양대학교 ERICA", region:"경기", department:"경영학부", majorGroup:"경영·경제", group:"나", recruitmentCount:40, scoreMetric:"표준점수", subjectMetrics:{ korean:"표준점수", math:"표준점수", inquiry:"표준점수" }, calculationMode:"normalized-standard-sum", koreanWeight:25, mathWeight:35, englishWeight:15, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"sum", inquiryConversionRequired:true, finalScoreMultiplier:1000, gradeAdjustmentsAfterFinalMultiplier:true, englishGradeTable:ERICA_ENGLISH, koreanHistoryRequired:true, koreanHistoryGradePoints:ERICA_HISTORY, calculationVerified:false, schoolViolencePenaltyRequired:true, schoolViolencePenaltyNote:"학교폭력 조치사항 감점: 1호 5점, 2호 10점, 3호 15점, 4·5호 30점, 6·7호 100점, 8호 200점, 9호 300점. 조치사항 입력 전 최종점수 판정 보류.", note:"2027 최종 모집요강 나군 경영학부 일반전형 40명. 상경계열 반영비율 국25·수35·영15·탐25(2과목). 국어·수학은 당해 연도 표준점수 최고점으로 정규화, 탐구는 변환표준점수 2과목 합을 변환표 최고점×2로 정규화, 영어는 등급환산점수×영역반영점수/100, 한국사는 등급별 가산점. 상경계열 탐구 가산점 없음. 탐구 변환표와 2027 수능 최고점 미확정으로 계산 검증 보류.", sourceUrl:SOURCES.erica, verifiedAt:"2026-11-24" },
-  { id:"hanyang-erica-na-lions", universityId:"hanyang-erica", universityName:"한양대학교 ERICA", region:"경기", department:"LIONS자율전공학부(전계열)", majorGroup:"자유전공", group:"나", recruitmentCount:94, scoreMetric:"표준점수", subjectMetrics:{ korean:"표준점수", math:"표준점수", inquiry:"표준점수" }, calculationMode:"normalized-standard-sum", koreanWeight:30, mathWeight:35, englishWeight:10, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"sum", inquiryConversionRequired:true, finalScoreMultiplier:1000, gradeAdjustmentsAfterFinalMultiplier:true, englishGradeTable:ERICA_ENGLISH, koreanHistoryRequired:true, koreanHistoryGradePoints:ERICA_HISTORY, calculationVerified:false, schoolViolencePenaltyRequired:true, schoolViolencePenaltyNote:"학교폭력 조치사항 감점: 1호 5점, 2호 10점, 3호 15점, 4·5호 30점, 6·7호 100점, 8호 200점, 9호 300점. 조치사항 입력 전 최종점수 판정 보류.", note:"2027 최종 모집요강 나군 일반전형 94명. LIONS 전계열 반영비율 국30·수35·영10·탐25(2과목). 국어·수학 표준점수 최고점 정규화, 탐구 변환표준점수 2과목 합 정규화, 영어 등급환산, 한국사 가산점. 탐구 가산점 없음. 탐구 변환표와 2027 수능 최고점 미확정으로 계산 검증 보류.", sourceUrl:SOURCES.erica, verifiedAt:"2026-11-24" },
+
+const HANYANG_ERICA_ROWS = [
+  { id: "architecture-major-ga", department: "건축학부 건축학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural2" },
+  { id: "architecture-engineering-ga", department: "건축학부 건축공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural1" },
+  { id: "civil-environment-ga", department: "건설환경공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 14, field: "natural1" },
+  { id: "transport-logistics-ga", department: "교통·물류공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural2" },
+  { id: "electronic-engineering-ga", department: "전자공학부", majorGroup: "자연·공학", group: "가", recruitmentCount: 50, field: "natural1" },
+  { id: "battery-materials-ga", department: "배터리소재화학공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 31, field: "natural1" },
+  { id: "mechanical-engineering-ga", department: "기계공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 32, field: "natural1" },
+  { id: "industrial-management-ga", department: "산업경영공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural2" },
+  { id: "computer-major-ga", department: "컴퓨터전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 22, field: "natural2" },
+  { id: "intelligent-cloud-ga", department: "지능형클라우드전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 6, field: "natural2" },
+  { id: "ict-convergence-ga", department: "ICT융합학부", majorGroup: "자연·공학", group: "가", recruitmentCount: 19, field: "natural2" },
+  { id: "math-data-ga", department: "수리데이터사이언스학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 10, field: "natural1" },
+  { id: "nextgen-semiconductor-ga", department: "차세대반도체융합공학부(학부모집)", majorGroup: "자연·공학", group: "가", recruitmentCount: 19, field: "natural1" },
+  { id: "semiconductor-display-ga", department: "반도체·디스플레이공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural1" },
+  { id: "molecular-medicine-ga", department: "분자의약전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural1" },
+  { id: "bio-nano-ga", department: "바이오나노공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural1" },
+  { id: "intelligent-system-ga", department: "지능형시스템공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 22, field: "natural1" },
+  { id: "global-culture-ga", department: "글로벌문화통상학부", majorGroup: "인문·사회", group: "가", recruitmentCount: 32, field: "humanities" },
+  { id: "advertising-ga", department: "광고홍보학과", majorGroup: "인문·사회", group: "가", recruitmentCount: 20, field: "humanities" },
+  { id: "economics-ga", department: "경제학부", majorGroup: "경영·경제", group: "가", recruitmentCount: 28, field: "business" },
+  { id: "insurance-actuarial-ga", department: "보험계리학과", majorGroup: "경영·경제", group: "가", recruitmentCount: 11, field: "natural1" },
+  { id: "robotics-na", department: "로봇공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 20, field: "natural1" },
+  { id: "energy-bio-na", department: "에너지바이오학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 19, field: "natural1" },
+  { id: "marine-convergence-na", department: "해양융합공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 11, field: "natural1" },
+  { id: "computer-faculty-na", department: "컴퓨터학부(학부모집)", majorGroup: "자연·공학", group: "나", recruitmentCount: 8, field: "natural2" },
+  { id: "artificial-intelligence-na", department: "인공지능학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 30, field: "natural1" },
+  { id: "pharmacy-na", department: "약학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 10, field: "natural1" },
+  { id: "semiconductor-materials-na", department: "신소재·반도체공학전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 20, field: "natural1" },
+  { id: "bio-pharma-faculty-na", department: "바이오신약융합학부(학부모집)", majorGroup: "자연·공학", group: "나", recruitmentCount: 24, field: "natural1" },
+  { id: "media-na", department: "미디어학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 20, field: "humanities" },
+  { id: "cultural-anthropology-na", department: "문화인류학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 11, field: "humanities" },
+  { id: "culture-contents-na", department: "문화콘텐츠학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 12, field: "humanities" },
+  { id: "business-na", department: "경영학부", majorGroup: "경영·경제", group: "나", recruitmentCount: 40, field: "business" },
+  { id: "lions-free-major-na", department: "LIONS자율전공학부(전계열)", majorGroup: "자유전공", group: "나", recruitmentCount: 94, field: "lions" },
+] as const;
+
+const HANYANG_ERICA_ENGLISH = { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 } as const;
+const HANYANG_ERICA_HISTORY = { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9.0 } as const;
+const HANYANG_ERICA_SOURCE = "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp";
+
+const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map((row) => {
+  const natural1 = row.field === "natural1";
+  const natural2 = row.field === "natural2";
+  const humanities = row.field === "humanities";
+  const lions = row.field === "lions";
+  const weights = lions
+    ? { koreanWeight: 30, mathWeight: 35, englishWeight: 10, inquiryWeight: 25 }
+    : humanities
+      ? { koreanWeight: 30, mathWeight: 30, englishWeight: 15, inquiryWeight: 25 }
+      : { koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25 };
+  const inquiryBonus = natural1 ? { 과탐: 0.03 } : humanities ? { 사탐: 0.03 } : undefined;
+  return {
+    id: `hanyang-erica-${row.id}`,
+    universityId: "hanyang-erica",
+    universityName: "한양대학교 ERICA",
+    region: "경기",
+    department: row.department,
+    majorGroup: row.majorGroup,
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "표준점수",
+    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "표준점수" },
+    calculationMode: "normalized-standard-sum",
+    ...weights,
+    inquirySubjects: 2,
+    inquiryAggregation: "sum",
+    inquiryConversionRequired: true,
+    inquiryTypeBonusRequired: Boolean(inquiryBonus),
+    inquiryTypeBonusRate: inquiryBonus,
+    finalScoreMultiplier: 1000,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    englishGradeTable: HANYANG_ERICA_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: HANYANG_ERICA_HISTORY,
+    calculationVerified: false,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "학교폭력 조치사항은 총점 1,000점에서 감점: 1호 5점, 2호 10점, 3호 15점, 4·5호 30점, 6·7호 100점, 8호 200점, 9호 300점. 조치사항 입력 전 최종 판정 보류.",
+    note: `2027 정시 일반전형 ${row.group}군 ${row.recruitmentCount}명. ${natural1 ? "자연1" : natural2 ? "자연2" : humanities ? "인문" : lions ? "LIONS 전계열" : "상경"} 반영비율 국${weights.koreanWeight}·수${weights.mathWeight}·영${weights.englishWeight}·탐${weights.inquiryWeight}(탐구 2과목). ${natural1 ? "과탐 과목당 변환표준점수 3% 가산" : humanities ? "사탐 과목당 변환표준점수 3% 가산" : "탐구 가산점 없음"}. 영어 등급환산, 한국사 등급별 가산점 반영. 2027 탐구 변환표준점수표 및 국어·수학 표준점수 최고점은 2026-12-18 이후 공지 예정이므로 환산점수 판정 보류.`,
+    sourceUrl: HANYANG_ERICA_SOURCE,
+    verifiedAt: "2026-11-25",
+  };
+});
+  ...hanyangEricaAdmissions,
   // 한국항공대 2027 공식 모집요강 공개 확인. 세부표 추출 검증 전까지 미등록.
 ];
