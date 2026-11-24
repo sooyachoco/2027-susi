@@ -636,11 +636,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     sourceUrl: "https://iphak.khu.ac.kr/detail.do?board_seq=19434", verifiedAt: "2026-11-19",
   },
   {
-    id: "khu-international-na-natural", universityId: "khu-international", universityName: "경희대학교(국제)", region: "경기",
-    department: "자연계열 대표", majorGroup: "자연·공학", group: "나", scoreMetric: "표준점수", koreanWeight: 25, mathWeight: 40, englishWeight: 0, inquiryWeight: 35,
-    inquirySubjects: 2, note: "수능 100%. 국어 25 / 수학 40 / 탐구 35. 영어는 등급별 가산, 한국사는 감점. 탐구 과목당 가산점 적용.", sourceUrl: KHU_SOURCE, verifiedAt: "2026-09-27",
-  },
-  {
     id: "ewha-seoul-ga-humanities", universityId: "ewha-seoul", universityName: "이화여자대학교", region: "서울",
     department: "인문계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
     koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum" as const,
