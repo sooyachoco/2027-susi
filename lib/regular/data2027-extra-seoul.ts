@@ -1144,9 +1144,102 @@ if (dongdukAdmissions2027.length !== 7 || dongdukAdmissions2027.reduce((sum,row)
   throw new Error("동덕여대 2027 수능우수자전형 모집단위·인원 검증 실패");
 }
 
+// 2027학년도 명지대학교 인문캠퍼스(서울) 정시 수능 일반전형: 공식 모집요강 p.16, p.44~47
+const MYONGJI_SOURCE = "https://iphak.mju.ac.kr/_common/new_download_file.php?file_no=10963&menu=boardfile";
+const MYONGJI_ENGLISH = { 1:100, 2:98, 3:96, 4:90, 5:80, 6:60, 7:40, 8:20, 9:0 } as const;
+const MYONGJI_HISTORY = { 1:3, 2:2.8, 3:2.6, 4:2.4, 5:2.2, 6:2, 7:1.8, 8:1.6, 9:1.4 } as const;
+const MYONGJI_ROWS = [
+  {
+    "key": "ga-autonomous-humanities",
+    "department": "자율전공학부(인문)",
+    "group": "가",
+    "recruitmentCount": 150,
+    "field": "humanities"
+  },
+  {
+    "key": "na-humanities-college",
+    "department": "인문대학[광역]",
+    "group": "나",
+    "recruitmentCount": 85,
+    "field": "humanities"
+  },
+  {
+    "key": "na-social-sciences",
+    "department": "사회과학대학[광역]",
+    "group": "나",
+    "recruitmentCount": 88,
+    "field": "humanities"
+  },
+  {
+    "key": "na-media-humanlife",
+    "department": "미디어·휴먼라이프대학[광역]",
+    "group": "나",
+    "recruitmentCount": 23,
+    "field": "humanities"
+  },
+  {
+    "key": "da-business-college",
+    "department": "경영대학[광역]",
+    "group": "다",
+    "recruitmentCount": 57,
+    "field": "business"
+  },
+  {
+    "key": "da-ai-software-college",
+    "department": "인공지능·소프트웨어융합대학[광역]",
+    "group": "다",
+    "recruitmentCount": 25,
+    "field": "natural"
+  }
+] as const;
+const myongjiAdmissions2027: RegularAdmission[] = MYONGJI_ROWS.map((row) => {
+  const business = row.field === "business";
+  const natural = row.field === "natural";
+  return {
+    id: `myongji-seoul-${row.key}`,
+    universityId: "myongji-seoul",
+    universityName: "명지대학교",
+    region: "서울",
+    department: row.department,
+    majorGroup: business ? "경영·경제" : natural ? "자연·공학" : "인문·사회",
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "백분위",
+    subjectMetrics: { korean:"백분위", math:"백분위", inquiry:"백분위" },
+    koreanWeight: business ? 30 : natural ? 25 : 35,
+    mathWeight: business ? 30 : natural ? 35 : 25,
+    englishWeight: 20,
+    inquiryWeight: 20,
+    inquirySubjects: 1,
+    inquiryAggregation: "best",
+    inquiryTypeBonusRequired: natural,
+    inquiryTypeBonusRate: natural ? { "사탐":0, "과탐":0.10, "직탐":0 } : undefined,
+    calculationMode: "normalized-standard-sum",
+    subjectMaximumScores: { korean:100, math:100, inquiry:100 },
+    finalScoreMultiplier: 1000,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    englishGradeTable: MYONGJI_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: MYONGJI_HISTORY,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "수능 일반전형: 1~3호 감점 없음, 4~5호 각 150점, 6~7호 각 300점 감점, 8~9호 결격 처리. 조치사항 입력 전 최종 판정 보류.",
+    calculationVerified: false,
+    sourceUrl: MYONGJI_SOURCE,
+    verifiedAt: "2026-11-24",
+    note: natural
+      ? "2027 정시 수능 일반전형 명지대 인문캠퍼스(서울) 자연공학계열. 국어25·수학35·영어20·탐구 상위1과목20, 과탐 선택 시 탐구 백분위 반영점수 10% 가산. 학교폭력 조치사항 입력·가산 검증 전 판정 보류."
+      : business
+        ? "2027 정시 수능 일반전형 명지대 인문캠퍼스(서울) 경영대학. 국어30·수학30·영어20·탐구 상위1과목20, 한국사 가산점. 학교폭력 조치사항 입력 전 판정 보류."
+        : "2027 정시 수능 일반전형 명지대 인문캠퍼스(서울) 인문사회계열(경영대학 외). 국어35·수학25·영어20·탐구 상위1과목20, 한국사 가산점. 학교폭력 조치사항 입력 전 판정 보류."
+  };
+});
+if (myongjiAdmissions2027.length !== 6 || myongjiAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 428) {
+  throw new Error("명지대 서울캠퍼스 2027 일반전형 모집단위·인원 검증 실패");
+}
+
 export const regularAdmissions2027SeoulExtra: RegularAdmission[] = [
   ...kwangwoonAdmissions2027,
-  { id:"myongji-seoul-na-humanities", universityId:"myongji-seoul", universityName:"명지대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://iphak.mju.ac.kr/", verifiedAt:"2026-09-27" },
+  ...myongjiAdmissions2027,
   ...sangmyungAdmissions2027,
   ...sungshinAdmissions2027,
   ...duksungAdmissions2027,
