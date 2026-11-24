@@ -76,7 +76,11 @@ export async function GET() {
     quality: {
       calculationVerified: admissions.length - unverifiedCalculation.length,
       calculationUnverified: unverifiedCalculation.length,
-      benchmarkComparable: admissions.filter((item) => item.benchmarkComparable === true).length,
+      benchmarkComparable: admissions.filter((item) =>
+        item.benchmarkComparable === true && item.calculationVerified === true &&
+        (item.benchmarkCutline70 != null || item.benchmarkCutline95 != null ||
+          item.expectedCutline != null || item.expectedCutline70 != null || item.expectedCutline95 != null),
+      ).length,
       withRecruitmentCount: admissions.length - missingRecruitment.length,
       withSource: admissions.length - missingSource.length,
     },
