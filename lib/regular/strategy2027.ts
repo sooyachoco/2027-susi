@@ -52,7 +52,7 @@ function portfolioPriority(item: {
 }
 
 export function recommendByGroup(admissions: RegularAdmission[], score: RegularStudentScore) {
-  const calculated = admissions.map((admission) => {
+  const calculated = admissions.filter((admission) => admission.recruitmentCount !== 0).map((admission) => {
     const result = calculateRegularAdmission(admission, score);
     const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
