@@ -492,3 +492,43 @@ main { padding: 18px 22px 70px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* Result cards: distinguish formula verification from benchmark comparison. */
+.regular-home .resultCards { align-items: stretch; }
+.regular-home .candidateCard { display: flex; flex-direction: column; min-width: 0; }
+.regular-home .candidateTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.regular-home .groupTag, .regular-home .tierTag {
+  display: inline-flex; align-items: center; padding: 7px 11px; border-radius: 99px;
+  font-size: 11px; font-weight: 900; letter-spacing: -.1px;
+}
+.regular-home .group-가 { color: #a65d75; background: #fff0f3; }
+.regular-home .group-나 { color: #6e62a4; background: #f1edff; }
+.regular-home .group-다 { color: #4f8294; background: #eaf7fb; }
+.regular-home .tier-안정 { color: #28795f; background: #e9f8f1; }
+.regular-home .tier-적정 { color: #5477a5; background: #edf4ff; }
+.regular-home .tier-소신 { color: #a56a36; background: #fff4e8; }
+.regular-home .tier-상향 { color: #b45d67; background: #fff0f0; }
+.regular-home .tier-pending { color: #82758e; background: #f3eff6; }
+.regular-home .candidateCard h3 { margin: 17px 0 5px; color: #44394f; font-size: 21px; letter-spacing: -.7px; }
+.regular-home .candidateDepartment { color: #8a8190; font-size: 12px; line-height: 1.6; }
+.regular-home .candidateScore {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px;
+  margin-top: 19px; padding: 15px 16px; border-radius: 16px;
+  background: linear-gradient(110deg, #faf6ff, #fff7f3);
+}
+.regular-home .candidateScore strong { color: #6f5e9a; font-size: 29px; letter-spacing: -.8px; }
+.regular-home .candidateScore span { color: #8e8295; font-size: 11px; font-weight: 700; }
+.regular-home .verificationLine { display: flex; flex-wrap: wrap; gap: 7px 12px; margin-top: 12px; font-size: 11px; font-weight: 750; }
+.regular-home .verificationLine.verified { color: #43836d; }
+.regular-home .verificationLine.unverified { color: #b17a4e; }
+.regular-home .benchmarkGap { margin-top: 10px; color: #857a8d; font-size: 12px; }
+.regular-home .benchmarkGap strong { color: #6c5c91; }
+.regular-home .candidateReason { margin-top: 12px; font-size: 12px; }
+.regular-home .candidateAlert { margin-top: 12px; padding: 12px 13px; font-size: 11px; }
+.regular-home .appliedRules { margin-top: 12px; color: #8e8493; font-size: 11px; line-height: 1.65; }
+.regular-home .candidateSource { align-self: flex-start; margin-top: auto; padding: 9px 12px; font-size: 11px; }
+@media (max-width: 760px) {
+  .regular-home .candidateCard h3 { font-size: 20px; }
+  .regular-home .candidateScore strong { font-size: 27px; }
+}
