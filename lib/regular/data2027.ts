@@ -1,5 +1,4 @@
 import type { RegularAdmission } from "./types";
-import { seoultechAdmissions2027 } from "./data2027-seoultech";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
 const SNU_SOURCE = "https://admission.snu.ac.kr/undergraduate/regular/guide";
@@ -937,7 +936,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 서울캠퍼스 수능우수자 자연: 국어·수학 표준점수, 탐구 2과목 표준점수 합. 미적분·기하 수학 표준점수 3%, 과탐 과목별 표준점수 3% 가산. 영어 100점 환산점수 가중합 + 한국사 가산점.",
     sourceUrl: "https://www.hongik.ac.kr/kr/admission/recruitment-regular.do?articleNo=155914&mode=view", verifiedAt: "2026-11-19",
   },
-  ...seoultechAdmissions2027,
   {
     id: "sungshin-seoul-ga-free-major", universityId: "sungshin-seoul", universityName: "성신여자대학교", region: "서울",
     department: "창의융합학부(자유전공)", majorGroup: "전체", group: "가", scoreMetric: "백분위",
