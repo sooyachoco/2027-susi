@@ -164,7 +164,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     if (candidate) selected.push(candidate);
   }
 
-  return selected.map(({ admission, result, score, fit, reference, tier }) => ({
+  return selected.map(({ admission, result, score, fit, reference, gap, tier }) => ({
     admissionId: admission.id,
     universityName: admission.universityName,
     department: admission.department,
@@ -217,7 +217,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
   }
   if (!best || best.items.some((item) => item.tier === "판정 보류")) return null;
 
-  const recommendations = best.items.map(({ admission, result, score, fit, reference, tier }) => ({
+  const recommendations = best.items.map(({ admission, result, score, fit, reference, gap, tier }) => ({
     admissionId: admission.id,
     universityName: admission.universityName,
     department: admission.department,
