@@ -826,8 +826,8 @@ assert.match(koreatechData, /KOREATECH_ENGLISH = \\{ 1: 100, 2: 96, 3: 92, 4: 88
 assert.match(koreatechData, /mathChoiceBonusRate: \\{ 미적분: 0\\.1, 기하: 0\\.1, 확률과통계: 0 \\}/);
 assert.match(koreatechData, /schoolViolencePenaltyRequired: true/);
 assert.match(koreatechData, /1호 10점, 2호 15점, 3호 20점[\\s\\S]*9호 100점/);
-assert.match(koreatechData, /id: "koreatech-computer-engineering-na"[^\\n]*group: row.group/);
-assert.match(koreatechData, /id: "koreatech-artificial-intelligence-da"/);
+assert.match(koreatechData, /id: "computer-engineering-na", department: "컴퓨터공학전공"[^\\n]*group: "나", recruitmentCount: 11/);
+assert.match(koreatechData, /id: "artificial-intelligence-da", department: "인공지능학과"[^\\n]*group: "다", recruitmentCount: 6/);
 assert.match(koreatechData, /calculationVerified: false/);
 const koreatechRowsText = koreatechData.slice(koreatechData.indexOf("const KOREATECH_ROWS:"), koreatechData.indexOf("const koreatechAdmissions"));
 const koreatechRows = [...koreatechRowsText.matchAll(/group: "(나|다)", recruitmentCount: (\\d+)/g)];
