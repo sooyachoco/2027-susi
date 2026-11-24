@@ -91,6 +91,11 @@ function isExcludedMajor(admission: RegularAdmission): boolean {
   return /신학|신학대|목회|기독교학/.test(text);
 }
 
+// '계열 대표'는 공식 모집단위명이 아닌 임시 데이터이므로 실제 추천에서는 제외한다.
+function isPlaceholderDepartment(admission: RegularAdmission): boolean {
+  return /대표/.test(admission.department);
+}
+
 export function isRegularProfileComplete(profile: RegularStudentProfile): boolean {
   return Boolean(
     profile.desiredMajor.trim() &&
@@ -175,7 +180,7 @@ export type RegularPortfolioRecommendation = {
 export function recommendRegular(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularRecommendation[] {
   if (!isRegularProfileComplete(profile)) return [];
 
-  const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission));
+  const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission);
