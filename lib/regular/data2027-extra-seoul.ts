@@ -372,10 +372,255 @@ if (kwangwoonAdmissions2027.length !== 31 || kwangwoonTotals.가 !== 164 || kwan
   throw new Error("광운대 2027 일반학생전형 모집단위·군별 인원 합계 검증 실패");
 }
 
+// 2027학년도 상명대학교 서울캠퍼스 정시 수능전형: 모집요강 p.6 모집단위·인원, p.31~33 수능 반영방법
+const SANGMYUNG_SOURCE = "https://admission.smu.ac.kr/bbs/fileview.php?bbsid=seoul_mojib&file_seq=8635";
+const SANGMYUNG_ENGLISH = { 1:100, 2:98, 3:96, 4:94, 5:90, 6:80, 7:60, 8:40, 9:0 } as const;
+const SANGMYUNG_HISTORY = { 1:10, 2:10, 3:10, 4:10, 5:9.8, 6:9.6, 7:9.4, 8:9.2, 9:9 } as const;
+const SANGMYUNG_ROWS = [
+  {
+    "key": "free-humanities",
+    "department": "자유전공(인문계열)",
+    "group": "나",
+    "recruitmentCount": 75,
+    "field": "humanities"
+  },
+  {
+    "key": "free-science",
+    "department": "자유전공(이공계열)",
+    "group": "나",
+    "recruitmentCount": 54,
+    "field": "natural"
+  },
+  {
+    "key": "free-arts",
+    "department": "자유전공(예체능계열)",
+    "group": "나",
+    "recruitmentCount": 11,
+    "field": "humanities"
+  },
+  {
+    "key": "history-content",
+    "department": "역사콘텐츠전공",
+    "group": "나",
+    "recruitmentCount": 9,
+    "field": "humanities"
+  },
+  {
+    "key": "intellectual-property",
+    "department": "지적재산권전공",
+    "group": "나",
+    "recruitmentCount": 9,
+    "field": "humanities"
+  },
+  {
+    "key": "library-information",
+    "department": "문헌정보학전공",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "japanese-content",
+    "department": "한일문화콘텐츠전공",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "spatial-environment",
+    "department": "공간환경학부",
+    "group": "나",
+    "recruitmentCount": 13,
+    "field": "humanities"
+  },
+  {
+    "key": "public-administration",
+    "department": "행정학부",
+    "group": "나",
+    "recruitmentCount": 14,
+    "field": "humanities"
+  },
+  {
+    "key": "family-welfare",
+    "department": "가족복지학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "economics-finance",
+    "department": "경제금융학부",
+    "group": "나",
+    "recruitmentCount": 19,
+    "field": "humanities"
+  },
+  {
+    "key": "business",
+    "department": "경영학부",
+    "group": "나",
+    "recruitmentCount": 18,
+    "field": "humanities"
+  },
+  {
+    "key": "global-business",
+    "department": "글로벌경영학과",
+    "group": "나",
+    "recruitmentCount": 19,
+    "field": "humanities"
+  },
+  {
+    "key": "korean-education",
+    "department": "국어교육과",
+    "group": "나",
+    "recruitmentCount": 21,
+    "field": "humanities"
+  },
+  {
+    "key": "english-education",
+    "department": "영어교육과",
+    "group": "나",
+    "recruitmentCount": 16,
+    "field": "humanities"
+  },
+  {
+    "key": "education",
+    "department": "교육학과",
+    "group": "나",
+    "recruitmentCount": 13,
+    "field": "humanities"
+  },
+  {
+    "key": "math-education",
+    "department": "수학교육과",
+    "group": "나",
+    "recruitmentCount": 15,
+    "field": "natural"
+  },
+  {
+    "key": "human-ai",
+    "department": "휴먼AI공학전공",
+    "group": "나",
+    "recruitmentCount": 35,
+    "field": "natural"
+  },
+  {
+    "key": "data-science",
+    "department": "데이터과학전공",
+    "group": "나",
+    "recruitmentCount": 21,
+    "field": "natural"
+  },
+  {
+    "key": "computer-science",
+    "department": "컴퓨터과학전공",
+    "group": "나",
+    "recruitmentCount": 30,
+    "field": "natural"
+  },
+  {
+    "key": "electrical-engineering",
+    "department": "전기공학전공",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "natural"
+  },
+  {
+    "key": "game",
+    "department": "게임전공",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "biotechnology",
+    "department": "생명공학전공",
+    "group": "나",
+    "recruitmentCount": 11,
+    "field": "natural"
+  },
+  {
+    "key": "chemical-energy",
+    "department": "화학에너지공학전공",
+    "group": "나",
+    "recruitmentCount": 11,
+    "field": "natural"
+  },
+  {
+    "key": "chemical-materials",
+    "department": "화공신소재전공",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "natural"
+  },
+  {
+    "key": "food-nutrition",
+    "department": "식품영양학전공",
+    "group": "나",
+    "recruitmentCount": 7,
+    "field": "natural"
+  },
+  {
+    "key": "clothing",
+    "department": "의류학과",
+    "group": "나",
+    "recruitmentCount": 7,
+    "field": "natural"
+  },
+  {
+    "key": "animation",
+    "department": "애니메이션전공",
+    "group": "나",
+    "recruitmentCount": 9,
+    "field": "natural"
+  }
+] as const;
+const sangmyungAdmissions2027: RegularAdmission[] = SANGMYUNG_ROWS.map((row) => {
+  const natural = row.field === "natural";
+  const animation = row.key === "animation";
+  return {
+    id: `sangmyung-seoul-${row.key}`,
+    universityId: "sangmyung-seoul",
+    universityName: "상명대학교",
+    region: "서울",
+    department: row.department,
+    majorGroup: natural ? "자연·공학" : row.key === "free-arts" ? "자율전공·예체능" : "인문·사회",
+    group: "나",
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "백분위",
+    subjectMetrics: { korean:"백분위", math:"백분위", inquiry:"백분위" },
+    koreanWeight: natural ? 25 : 35,
+    mathWeight: natural ? 35 : 25,
+    englishWeight: 20,
+    inquiryWeight: 20,
+    inquirySubjects: 1,
+    inquiryAggregation: "best",
+    calculationMode: "normalized-standard-sum",
+    subjectMaximumScores: { korean:100, math:100, inquiry:100 },
+    finalScoreMultiplier: 1000,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    englishGradeTable: SANGMYUNG_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: SANGMYUNG_HISTORY,
+    mathChoiceBonusRequired: natural && !animation,
+    mathChoiceBonusRate: natural && !animation ? { "미적분":0.10, "기하":0.10 } : undefined,
+    inquiryTypeBonusRequired: natural && !animation,
+    inquiryTypeBonusRate: natural && !animation ? { "사탐":0, "과탐":0.05, "직탐":0 } : undefined,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "수능전형 총점 1,000점 기준 누적 감점: 1~4호 감점 없음, 5~7호 각 5점, 8~9호 각 10점. 조치 건수별 누적 감점 및 결격 처리 입력 미지원으로 최종 판정 보류.",
+    calculationVerified: false,
+    sourceUrl: SANGMYUNG_SOURCE,
+    verifiedAt: "2026-11-24",
+    note: "2027학년도 상명대 서울캠퍼스 수능전형. 국어·수학·탐구 백분위와 영어 등급 환산점수 반영, 탐구 상위 1과목, 한국사 가산점. 자연계열은 미적분·기하 수학 10%, 과학탐구 5% 가산(애니메이션전공 제외). 학교폭력 누적 감점까지 계산엔진 검증 전 최종 판정 보류."
+  };
+});
+if (sangmyungAdmissions2027.length !== 28 || sangmyungAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 489) {
+  throw new Error("상명대 2027 서울캠퍼스 수능전형 모집단위·인원 검증 실패");
+}
+
 export const regularAdmissions2027SeoulExtra: RegularAdmission[] = [
   ...kwangwoonAdmissions2027,
   { id:"myongji-seoul-na-humanities", universityId:"myongji-seoul", universityName:"명지대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://iphak.mju.ac.kr/", verifiedAt:"2026-09-27" },
-  { id:"sangmyung-seoul-ga-humanities", universityId:"sangmyung-seoul", universityName:"상명대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://admission.smu.ac.kr/", verifiedAt:"2026-09-27" },
+  ...sangmyungAdmissions2027,
   { id:"sungshin-seoul-ga-humanities", universityId:"sungshin-seoul", universityName:"성신여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.sungshin.ac.kr/", verifiedAt:"2026-09-27" },
   ...duksungAdmissions2027,
   { id:"dongduk-seoul-na-humanities", universityId:"dongduk-seoul", universityName:"동덕여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.dongduk.ac.kr/", verifiedAt:"2026-09-27" },
