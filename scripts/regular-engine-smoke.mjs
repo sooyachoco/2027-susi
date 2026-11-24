@@ -15,9 +15,9 @@ assert.match(regularDataSource, /id: "cau-seoul-ga-psychology"[\s\S]*?recruitmen
 assert.match(regularDataSource, /id: "cau-seoul-na-industrial-security"[\s\S]*?recruitmentCount: 28/);
 assert.equal((regularDataSource.match(/id: "cau-seoul-/g) ?? []).length, 3);
 assert.equal((regularDataSource.match(/id: "uos-seoul-/g) ?? []).length, 4);
-assert.match(regularDataSource, /id: "uos-seoul-na-humanities2"[\\s\\S]*?group: "나"/);
-assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\\s\\S]*?recruitmentCount: 22/);
-assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\\s\\S]*?recruitmentCount: 54[\\s\\S]*?schoolViolencePenaltyRequired: true/);
+assert.match(regularDataSource, /id: "uos-seoul-na-humanities2"[\s\S]*?group: "나"/);
+assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCount: 22/);
+assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
 assert.match(recommendationSource, /seenUniversities\.size >= 5/);
