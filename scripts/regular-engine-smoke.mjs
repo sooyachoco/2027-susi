@@ -783,3 +783,20 @@ const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
 
 console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
+
+const hansungTopTwo = calculateRegularAdmission({
+  ...normFixture,
+  koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:40,
+  topAreaWeights:{areas:["korean","math","inquiry"],count:2,weight:40},
+  englishGradeTable:{1:100,2:97,3:94,4:80,5:70,6:55,7:40,8:25,9:10},
+  koreanHistoryGradePoints:{1:10,2:10,3:10,4:10,5:8,6:6,7:4,8:2,9:0},
+}, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2,koreanHistoryGrade:5});
+assert.equal(hansungTopTwo.calculationVerified,true);
+assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2))<0.000001);
+assert.ok(hansungTopTwo.appliedComponents.includes("지정 영역 상위 2개 자동 선택 반영"));
+
+const hansungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
+const hansungRows=[...hansungData.matchAll(/key":"([^"]+)"[^}]*"group":"([가나다])"[^}]*"recruitmentCount":(\d+)/g)];
+assert.equal(hansungRows.length,16);
+const hansungTotals=hansungRows.reduce((totals,row)=>{totals[row[2]]+=Number(row[3]);return totals;},{가:0,나:0,다:0});
+assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
