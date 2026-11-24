@@ -739,6 +739,7 @@ assert.ok(!ajouRows.some((row) => row[2] === "의학과" || row[2] === "국방�
 
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
+assert.match(incheonData, /finalScoreMultiplier: 1000/);
 assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
 assert.match(incheonData, /id: "early-childhood", department: "유아교육과", group: "가", count: 9/);
 assert.match(incheonData, /id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural"/);
