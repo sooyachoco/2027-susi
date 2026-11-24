@@ -159,13 +159,13 @@ assert.ok(ericaRowsMatch, "Hanyang ERICA 2027 regular rows must be a literal aud
 const ericaRows = JSON.parse(ericaRowsMatch[1]);
 assert.equal(ericaRows.length, 34);
 assert.deepEqual(ericaRows.reduce((totals, row) => {
-  totals[row.group] += row.recruitmentCount;
-  totals.total += row.recruitmentCount;
+  totals[row[3]] += row[4];
+  totals.total += row[4];
   return totals;
 }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 404, 나: 319, 다: 0, total: 723 });
-assert.equal(ericaRows.some((row) => /대표/.test(row.department)), false);
-assert.equal(ericaRows.some((row) => row.id === "business-na" && row.recruitmentCount === 40), true);
-assert.equal(ericaRows.some((row) => row.id === "lions-free-major-na" && row.recruitmentCount === 94), true);
+assert.equal(ericaRows.some((row) => /대표/.test(row[1])), false);
+assert.equal(ericaRows.some((row) => row[0] === "business-na" && row[4] === 40), true);
+assert.equal(ericaRows.some((row) => row[0] === "lions-free-major-na" && row[4] === 94), true);
 assert.match(gyeonggiSource, /HANYANG_ERICA_ENGLISH = \{ 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 \}/);
 assert.match(gyeonggiSource, /HANYANG_ERICA_HISTORY = \{ 1: 10, 2: 9\.9, 3: 9\.8, 4: 9\.7, 5: 9\.6, 6: 9\.0 \}/);
 assert.match(gyeonggiSource, /inquiryConversionRequired: true/);
