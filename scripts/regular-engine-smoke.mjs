@@ -971,3 +971,15 @@ const duksungPharmacy=calculateRegularAdmission({
 },{...sampleScore,englishGrade:2,inquiry1Type:"과탐",inquiry2Type:"과탐"});
 assert.ok(duksungPharmacy.appliedComponents.includes("탐구 과목별 선택유형 가산율·과목별 고정 가산점"));
 assert.equal(duksungPharmacy.calculationVerified,false);
+
+
+// 수도권 전용 추천 범위 회귀 테스트: 비수도권 대학만 주어지면 후보를 생성하지 않는다.
+const outOfScopeAdmissions = syntheticAdmissions.map((admission) => ({
+  ...admission,
+  region: "부산",
+}));
+assert.equal(
+  recommendationModule.recommendRegular(syntheticProfile, outOfScopeAdmissions).length,
+  0,
+  "서울·경기·인천 외 대학은 정시 추천 후보에 포함되면 안 된다",
+);
