@@ -89,15 +89,15 @@ const ajouAdmissions: RegularAdmission[] = AJOU_ROWS.map((row) => {
     ...AJOU_BASE,
     ...weights,
     id: `ajou-${row.id}`,
-    department,
-    majorGroup,
-    group,
-    recruitmentCount,
+    department: row.department,
+    majorGroup: row.majorGroup,
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
     mathChoiceBonusRequired: natural,
     mathChoiceBonusRate: natural ? { 미적분: 0.03, 기하: 0.03, 확률과통계: 0 } : undefined,
     inquiryTypeBonusRequired: natural,
     inquiryTypeBonusRate: natural ? { 사탐: 0, 과탐: 0.03, 직탐: 0 } : undefined,
-    note: `2027 아주대 ${row.admissionType} 기준. ${row.department} ${group}군 ${recruitmentCount}명. ${natural ? "자연1 국20·수35·영15·탐30, 미적분·기하 수학 표준점수 3% 및 과탐 탐구변환점수 3% 가산." : humanitiesBusiness ? "인문1 국25·수40·영15·탐20." : "인문2 국35·수25·영15·탐25."} 국어·수학 표준점수, 탐구 백분위 기반 자체변환점수 2과목, 영어 등급환산, 한국사 5등급부터 감점. 탐구 변환표와 해당 수능 최고점 확정 전이므로 계산 판정 보류.`,
+    note: `2027 아주대 ${row.admissionType} 기준. ${row.department} ${row.group}군 ${row.recruitmentCount}명. ${natural ? "자연1 국20·수35·영15·탐30, 미적분·기하 수학 표준점수 3% 및 과탐 탐구변환점수 3% 가산." : humanitiesBusiness ? "인문1 국25·수40·영15·탐20." : "인문2 국35·수25·영15·탐25."} 국어·수학 표준점수, 탐구 백분위 기반 자체변환점수 2과목, 영어 등급환산, 한국사 5등급부터 감점. 탐구 변환표와 해당 수능 최고점 확정 전이므로 계산 판정 보류.`,
   };
 });
 
