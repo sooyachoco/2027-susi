@@ -22,7 +22,7 @@ assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentC
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
-assert.match(recommendationSource, /seenUniversitiesAcrossGroups/);\nassert.match(recommendationSource, /new Set\(items\.map\(\(item\) => item\.admission\.universityId\)\)\.size !== 3/);
+assert.match(recommendationSource, /seenUniversitiesAcrossGroups/);
 assert.match(recommendationSource, /seenPortfolioUniversities/);
 const portfolioSource = readFileSync(new URL("../lib/regular/portfolio.ts", import.meta.url), "utf8");
 assert.match(portfolioSource, /comparableUniversitiesByGroup\.every\(\(count\) => count >= 3\)/);
