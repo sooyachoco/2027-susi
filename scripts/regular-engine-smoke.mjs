@@ -32,6 +32,9 @@ assert.deepEqual(khuInternationalRows.reduce((totals, row) => {
 }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 252, 나: 614, 다: 0, total: 866 });
 assert.equal(khuInternationalRows.some((row) => /대표/.test(row.department)), false);
 assert.match(khuInternationalSource, /inquiryTypeBonusPerSubject: natural \? \{ "과탐":4 \}/);
+const konkukSource = readFileSync(new URL("../lib/regular/data2027-konkuk.ts", import.meta.url), "utf8");
+const donggukSource = readFileSync(new URL("../lib/regular/data2027-dongguk.ts", import.meta.url), "utf8");
+const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.ts", import.meta.url), "utf8");
 const konkukRowsMatch = konkukSource.match(/const KONKUK_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(konkukRowsMatch);
 const konkukRows = JSON.parse(konkukRowsMatch[1]);
