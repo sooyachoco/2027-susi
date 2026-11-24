@@ -8,7 +8,7 @@ type AuditData = {
   scope: string;
   totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
   universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
-  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number };
+  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresSchoolViolenceInput: number };
   issueCounts: Record<string, number>;
   issues: Record<string, AuditItem[] | { id: string; count: number }[]>;
 };
@@ -100,6 +100,8 @@ export default function RegularAuditPage() {
             <article className="panel stat"><div className="muted">비교 가능한 기준점</div><strong>{data.quality.benchmarkComparable}</strong></article>
             <article className="panel stat"><div className="muted">모집인원 확보</div><strong>{data.quality.withRecruitmentCount}</strong></article>
             <article className="panel stat"><div className="muted">공식 출처 확보</div><strong>{data.quality.withSource}</strong></article>
+            <article className="panel stat"><div className="muted">실기점수 입력 필요 모집단위</div><strong>{data.quality.requiresPracticalEvaluation}</strong></article>
+            <article className="panel stat"><div className="muted">학교폭력 조치 확인 필요</div><strong>{data.quality.requiresSchoolViolenceInput}</strong></article>
           </div>
         </section>
         <section className="section">
