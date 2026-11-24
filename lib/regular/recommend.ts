@@ -249,7 +249,15 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     byGroup.set(item.admission.group, list);
   }
 
-  const candidates = (["가", "나", "다"] as const).map((group) => rankWithinGroup(byGroup.get(group) ?? []).slice(0, 8));
+  // 최적 조합 탐색에서도 한 모집군의 상위 8칸을 한 대학이 독점하지 않도록 대학별 대표 학과만 남긴다.
+  const candidates = (["가", "나", "다"] as const).map((group) => {
+    const seenPortfolioUniversities = new Set<string>();
+    return rankWithinGroup(byGroup.get(group) ?? []).filter((item) => {
+      if (seenPortfolioUniversities.has(item.admission.universityId)) return false;
+      seenPortfolioUniversities.add(item.admission.universityId);
+      return true;
+    }).slice(0, 8);
+  });
   if (candidates.some((list) => list.length === 0)) return null;
 
   let best: { items: [ScoredAdmission, ScoredAdmission, ScoredAdmission]; score: number } | null = null;
