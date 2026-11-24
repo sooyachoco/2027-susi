@@ -1040,12 +1040,116 @@ if (sungshinAdmissions2027.length !== 51 || sungshinAdmissions2027.reduce((sum,r
   throw new Error("성신여대 2027 일반학생전형 모집단위·인원 검증 실패");
 }
 
+// 2027학년도 동덕여자대학교 정시 수능우수자전형: 공식 모집요강 p.8, p.25~26
+const DONGDUK_SOURCE = "https://ipsi.dongduk.ac.kr/ipsi/contents/fxdtime-viewer.do?gotoMenuNo=fxdtime-viewer";
+const DONGDUK_ENGLISH = { 1:100, 2:99, 3:96, 4:85, 5:70, 6:55, 7:40, 8:20, 9:0 } as const;
+const DONGDUK_HISTORY = { 1:3, 2:3, 3:3, 4:3, 5:2.5, 6:2, 7:1.5, 8:1, 9:0.5 } as const;
+const DONGDUK_ROWS = [
+  {
+    "key": "ga-autonomous",
+    "department": "자율전공학부",
+    "group": "가",
+    "recruitmentCount": 93,
+    "field": "standard"
+  },
+  {
+    "key": "ga-data-science",
+    "department": "데이터사이언스전공",
+    "group": "가",
+    "recruitmentCount": 30,
+    "field": "standard"
+  },
+  {
+    "key": "ga-pharmacy",
+    "department": "약학과",
+    "group": "가",
+    "recruitmentCount": 20,
+    "field": "pharmacy"
+  },
+  {
+    "key": "ga-curator",
+    "department": "큐레이터학전공",
+    "group": "가",
+    "recruitmentCount": 12,
+    "field": "standard"
+  },
+  {
+    "key": "ga-entrepreneurship",
+    "department": "앙트러프러너십전공",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "standard"
+  },
+  {
+    "key": "na-humanities-social-culture",
+    "department": "인문사회문화학부",
+    "group": "나",
+    "recruitmentCount": 125,
+    "field": "standard"
+  },
+  {
+    "key": "na-natural-info-convergence",
+    "department": "자연정보융합학부",
+    "group": "나",
+    "recruitmentCount": 43,
+    "field": "standard"
+  }
+] as const;
+const dongdukAdmissions2027: RegularAdmission[] = DONGDUK_ROWS.map((row) => {
+  const pharmacy = row.field === "pharmacy";
+  const majorGroup = pharmacy ? "의약·보건"
+    : row.key.includes("data-science") || row.key.includes("natural-info") ? "자연·공학"
+    : row.key.includes("entrepreneurship") ? "경영·경제" : "인문·사회";
+  return {
+    id: `dongduk-seoul-${row.key}`,
+    universityId: "dongduk-seoul",
+    universityName: "동덕여자대학교",
+    region: "서울",
+    department: row.department,
+    majorGroup,
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "백분위",
+    subjectMetrics: { korean:"백분위", math:"백분위", inquiry:"백분위" },
+    koreanWeight: pharmacy ? 25 : 35,
+    mathWeight: pharmacy ? 35 : 25,
+    englishWeight: 20,
+    inquiryWeight: 20,
+    languageMathMode: pharmacy ? undefined : "고득점 우선",
+    inquirySubjects: pharmacy ? 2 : 1,
+    inquiryAggregation: pharmacy ? "mean" : "best",
+    inquiryTypeBonusRequired: pharmacy,
+    inquiryTypeBonusRate: pharmacy ? { "사탐":0, "과탐":0, "직탐":0 } : undefined,
+    inquiryBonusRequiresSameType: pharmacy ? "과탐" : undefined,
+    mathChoiceBonusRequired: pharmacy,
+    mathChoiceBonusRate: pharmacy ? { "미적분":0, "기하":0 } : undefined,
+    calculationMode: "normalized-standard-sum",
+    subjectMaximumScores: { korean:100, math:100, inquiry:100 },
+    finalScoreMultiplier: 1000,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    englishGradeTable: DONGDUK_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: DONGDUK_HISTORY,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "전 전형 총점 감점: 1~3호 각 10점, 4~5호 각 30점, 6~7호 각 100점, 8호 200점, 9호 400점. 조치사항 입력 전 최종 판정 보류.",
+    calculationVerified: false,
+    sourceUrl: DONGDUK_SOURCE,
+    verifiedAt: "2026-11-24",
+    note: pharmacy
+      ? "2027 수능우수자전형 약학과: 국어25·수학35·영어20·탐구20, 수학 미적분/기하 필수, 과학탐구 2과목 필수. 선택과목·탐구 응시자격과 학교폭력 감점 검증 전 판정 보류."
+      : "2027 수능우수자전형. 국어·수학 중 우수 영역 35%, 나머지 25%, 영어20%, 탐구 상위 1과목20%. 수학·국어 중 1개 미응시 및 탐구 미응시 부적격, 한국사 가산점과 학교폭력 감점 검증 전 판정 보류."
+  };
+});
+if (dongdukAdmissions2027.length !== 7 || dongdukAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 328) {
+  throw new Error("동덕여대 2027 수능우수자전형 모집단위·인원 검증 실패");
+}
+
 export const regularAdmissions2027SeoulExtra: RegularAdmission[] = [
   ...kwangwoonAdmissions2027,
   { id:"myongji-seoul-na-humanities", universityId:"myongji-seoul", universityName:"명지대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://iphak.mju.ac.kr/", verifiedAt:"2026-09-27" },
   ...sangmyungAdmissions2027,
   ...sungshinAdmissions2027,
   ...duksungAdmissions2027,
-  { id:"dongduk-seoul-na-humanities", universityId:"dongduk-seoul", universityName:"동덕여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.dongduk.ac.kr/", verifiedAt:"2026-09-27" },
+  ...dongdukAdmissions2027,
 
 ];
