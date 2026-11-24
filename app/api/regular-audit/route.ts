@@ -32,6 +32,10 @@ export async function GET() {
           item.rankedAreaWeights.length === 0));
   });
   const invalidWeightTotals = admissions.filter((item) => {
+    // Weighted-sum formulas use raw score weights (e.g. 100/120/80), not percentages.
+    // Only percentage-based modes must total 100 across subject areas.
+    const mode = item.calculationMode ?? "weighted-average";
+    if (mode === "weighted-sum-with-additive-bonuses") return false;
     const groups = [
       [item.koreanWeight, item.mathWeight, item.englishWeight, item.inquiryWeight],
       item.alternateWeighting
