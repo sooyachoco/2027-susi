@@ -22,7 +22,7 @@ assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentC
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
-assert.match(recommendationSource, /seenUniversities\.size >= 5/);
+assert.match(recommendationSource, /seenUniversitiesAcrossGroups/);\nassert.match(recommendationSource, /new Set\(items\.map\(\(item\) => item\.admission\.universityId\)\)\.size !== 3/);
 assert.match(recommendationSource, /seenPortfolioUniversities/);
 const portfolioSource = readFileSync(new URL("../lib/regular/portfolio.ts", import.meta.url), "utf8");
 assert.match(portfolioSource, /comparableUniversitiesByGroup\.every\(\(count\) => count >= 3\)/);
@@ -101,6 +101,24 @@ for (const group of ["가", "나", "다"]) {
   assert.equal(new Set(groupRecommendations.map((item) => item.admissionId.split("-").slice(0, 3).join("-") + "-" + item.admissionId.split("-")[2])).size, 5);
   assert.equal(new Set(groupRecommendations.map((item) => item.universityName)).size, 5);
 }
+
+const crossGroupAdmissions = syntheticAdmissions.map((admission) =>
+  admission.id.endsWith("-0")
+    ? { ...admission, universityId: "shared-university", universityName: "공통대학" }
+    : admission,
+);
+const crossGroupRecommendations = recommendationModule.recommendRegular(syntheticProfile, crossGroupAdmissions);
+assert.equal(crossGroupRecommendations.length, 15);
+assert.equal(
+  crossGroupRecommendations.filter((item) => item.universityName === "공통대학").length,
+  1,
+  "one university must not occupy recommendation slots in multiple admission groups",
+);
+assert.equal(
+  new Set(crossGroupRecommendations.map((item) => item.universityName)).size,
+  crossGroupRecommendations.length,
+  "the displayed shortlist must contain globally distinct universities",
+);
 
 const cauNatural = {
   id: "cau-engine-smoke",
