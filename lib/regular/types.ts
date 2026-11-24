@@ -96,6 +96,8 @@ export type RegularAdmission = {
   schoolViolencePenaltyNote?: string;
   /** Requires the practical-exam score; CSAT-only subtotal is not the final admission score. */
   practicalEvaluationRequired?: boolean;
+  /** Accurate missing-score message for practical components with university-specific weights. */
+  practicalEvaluationNote?: string;
   inquiryTopSubjectBonusRate?: number;
   inquiryTopSubjectBonusType?: "사탐" | "과탐" | "직탐";
   studentRecordWeight?: number;
