@@ -40,6 +40,17 @@ assert.match(seoultechSource, /0\.07/);
 const seoulExtraSource = readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts", import.meta.url), "utf8");
 const sangmyungRowsMatch = seoulExtraSource.match(/const SANGMYUNG_ROWS = (\[[\s\S]*?\]) as const;/);
 const sungshinRowsMatch = seoulExtraSource.match(/const SUNGSHIN_ROWS = (\[[\s\S]*?\]) as const;/);
+const dongdukRowsMatch = seoulExtraSource.match(/const DONGDUK_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(dongdukRowsMatch);
+const dongdukRows = JSON.parse(dongdukRowsMatch[1]);
+assert.equal(dongdukRows.length, 7);
+assert.deepEqual(dongdukRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 160, 나: 168, 다: 0, total: 328 });
+assert.equal(dongdukRows.find((row) => row.field === "pharmacy").recruitmentCount, 20);
+assert.match(seoulExtraSource, /DONGDUK_ENGLISH = \{ 1:100, 2:99, 3:96, 4:85, 5:70, 6:55, 7:40, 8:20, 9:0 \}/);
 assert.ok(sungshinRowsMatch);
 const sungshinRows = JSON.parse(sungshinRowsMatch[1]);
 assert.equal(sungshinRows.length, 51);
@@ -275,6 +286,34 @@ const englishScale200Point = calculateRegularAdmission({
 });
 assert.equal(englishScale200Point.baseScore, 1000, "200-point English conversion must be normalized against 200, not 100");
 assert.equal(englishScale200Point.calculationVerified, true);
+const wrongInquiryCombination = calculateRegularAdmission({
+  id: "science-inquiry-eligibility",
+  universityId: "eligibility-test",
+  universityName: "탐구 응시유형 테스트",
+  region: "서울",
+  department: "약학과",
+  majorGroup: "의약·보건",
+  group: "가",
+  scoreMetric: "백분위",
+  subjectMetrics: { korean:"백분위", math:"백분위", inquiry:"백분위" },
+  koreanWeight:25, mathWeight:35, englishWeight:20, inquiryWeight:20,
+  inquirySubjects:2, inquiryAggregation:"mean",
+  inquiryTypeBonusRequired:true,
+  inquiryTypeBonusRate: { "사탐":0, "과탐":0, "직탐":0 },
+  inquiryBonusRequiresSameType:"과탐",
+  calculationMode:"normalized-standard-sum",
+  subjectMaximumScores:{korean:100,math:100,inquiry:100},
+  englishGradeTable:{1:100},
+  finalScoreMultiplier:1000,
+  calculationVerified:false,
+  sourceUrl:"https://example.invalid",
+  verifiedAt:"2026-11-24",
+}, {
+  korean:90,koreanPercentile:90,math:90,mathPercentile:90,mathType:"미적분",
+  englishGrade:1,inquiry1:90,inquiry1Percentile:90,inquiry1Type:"사탐",
+  inquiry2:90,inquiry2Percentile:90,inquiry2Type:"과탐",
+});
+assert.ok(wrongInquiryCombination.missingRules.some((rule) => rule.includes("과탐 2과목 응시 필수")));
 const result = calculateRegularAdmission(cauNatural, sampleScore);
 assert.equal(result.calculationVerified, true);
 assert.equal(result.missingRules.length, 0);
