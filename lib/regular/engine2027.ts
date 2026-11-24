@@ -425,6 +425,9 @@ export function calculateRegularAdmission(
     }
   }
 
+  if (admission.schoolViolencePenaltyRequired) missingRules.push("학교폭력 조치사항 입력 필요(2~3호 10점 감점, 4~6호 20점 감점, 7~9호 부적격)");
+  if (admission.practicalEvaluationRequired) missingRules.push("실기평가 점수 미입력(전형 총점의 40%)");
+
   if (admission.mathChoiceBonusRequired && !admission.mathChoiceBonusRate) {
     const points = score.mathType ? admission.mathChoiceBonusPoints?.[score.mathType] : undefined;
     if (typeof points !== "number") missingRules.push("수학 선택과목 가산점 규칙 미등록");

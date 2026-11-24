@@ -88,6 +88,10 @@ export type RegularAdmission = {
   alternateWeighting?: { koreanWeight: number; mathWeight: number; englishWeight: number; inquiryWeight: number };
   rankedAreaWeights?: number[];
   topAreaWeights?: { areas: Array<"korean" | "math" | "inquiry">; count: number; weight: number };
+  /** Requires an applicant-specific school-violence penalty/disqualification input. */
+  schoolViolencePenaltyRequired?: boolean;
+  /** Requires the practical-exam score; CSAT-only subtotal is not the final admission score. */
+  practicalEvaluationRequired?: boolean;
   inquiryTopSubjectBonusRate?: number;
   inquiryTopSubjectBonusType?: "사탐" | "과탐" | "직탐";
   studentRecordWeight?: number;

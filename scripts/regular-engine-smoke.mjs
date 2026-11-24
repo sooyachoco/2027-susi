@@ -802,3 +802,23 @@ const hansungRows=[...hansungData.matchAll(/key":"([^"]+)"[^}]*"group":"([가나
 assert.equal(hansungRows.length,16);
 const hansungTotals=hansungRows.reduce((totals,row)=>{totals[row[2]]+=Number(row[3]);return totals;},{가:0,나:0,다:0});
 assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
+
+
+// 서울여대 2027: 상위 3개 영역(영어 포함) 및 20% 수학 가산·누락 입력 방어
+const swuTopThree = calculateRegularAdmission({
+  ...normFixture, scoreMetric:"백분위", subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},
+  subjectMaximumScores:{korean:100,math:100,inquiry:100}, inquirySubjects:1, inquiryAggregation:"best",
+  koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:20, rankedAreaWeights:[40,40,20],
+  finalScoreMultiplier:0.6, englishGradeTable:{1:100,2:97,3:93,4:85,5:70,6:50,7:35,8:20,9:0},
+  koreanHistoryGradePoints:{1:5,2:5,3:5,4:5,5:4.95,6:4.8,7:4.5,8:4,9:0},
+  schoolViolencePenaltyRequired:true, practicalEvaluationRequired:true,
+}, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2,koreanHistoryGrade:5});
+assert.ok(Math.abs(swuTopThree.baseScore-(0.9*0.4+0.97*0.4+0.8*0.2)*0.6)<0.000001);
+assert.equal(swuTopThree.calculationVerified,false);
+assert.ok(swuTopThree.missingRules.some(rule=>rule.includes("실기평가")));
+assert.ok(swuTopThree.missingRules.some(rule=>rule.includes("학교폭력")));
+const swuData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
+const swuRows=[...swuData.matchAll(/id:"swu-seoul-[^"]+", universityId:"swu-seoul"[^\\n]*group:"([가나다])", recruitmentCount:(\\d+)/g)];
+assert.equal(swuRows.length,41);
+const swuTotals=swuRows.reduce((totals,row)=>{totals[row[1]]+=Number(row[2]);return totals;},{가:0,나:0,다:0});
+assert.deepEqual(swuTotals,{가:277,나:190,다:261});
