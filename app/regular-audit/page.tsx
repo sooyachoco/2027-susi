@@ -13,6 +13,7 @@ type AuditData = {
 };
 
 const LABELS: Record<string, string> = {
+  missingSource: "공식 출처 누락",
   missingRecruitmentCount: "모집인원 누락",
   missingEnglishGradeTable: "영어 등급 환산표 누락",
   missingKoreanHistoryTable: "한국사 환산표 누락",
@@ -81,6 +82,7 @@ export default function RegularAuditPage() {
             <article className="panel stat"><div className="muted">환산식 미검증</div><strong>{data.quality.calculationUnverified}</strong></article>
             <article className="panel stat"><div className="muted">비교 가능한 기준점</div><strong>{data.quality.benchmarkComparable}</strong></article>
             <article className="panel stat"><div className="muted">모집인원 확보</div><strong>{data.quality.withRecruitmentCount}</strong></article>
+            <article className="panel stat"><div className="muted">공식 출처 확보</div><strong>{data.quality.withSource}</strong></article>
           </div>
         </section>
         <section className="section">
