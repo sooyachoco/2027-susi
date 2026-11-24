@@ -42,7 +42,7 @@ export async function GET() {
       Object.values(table).some((value) => !Number.isFinite(value)));
   });
   const invalidSourceMetadata = admissions.filter((item) =>
-    !item.sourceUrl?.trim() || !/^https?:\\/\\//i.test(item.sourceUrl) ||
+    !item.sourceUrl?.trim() || !/^https?:\/\//i.test(item.sourceUrl) ||
     !item.verifiedAt?.trim() || !Number.isFinite(Date.parse(item.verifiedAt)),
   );
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
