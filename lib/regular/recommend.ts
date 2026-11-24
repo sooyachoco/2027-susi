@@ -27,7 +27,9 @@ export function majorFit(
 
   for (const rule of rules) {
     if (!rule.keywords.some((keyword) => q.includes(keyword))) continue;
-    if (rule.keywords.some((keyword) => department.includes(keyword))) return 9;
+    const departmentAliasMatch = rule.keywords.some((keyword) => department.includes(keyword)) ||
+      (q.includes("ai") && department.includes("인공지능"));
+    if (departmentAliasMatch) return 9;
     if (rule.groups.includes(group)) return 6;
   }
   return 0;
