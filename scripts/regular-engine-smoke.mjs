@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.meta.url));
+const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
+assert.match(regularAuditSource, /mode === "weighted-sum-with-additive-bonuses"\) return false/);
 const source = readFileSync(enginePath, "utf8");
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
