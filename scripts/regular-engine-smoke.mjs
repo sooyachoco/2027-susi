@@ -20,6 +20,13 @@ assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCo
 assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
+const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.ts", import.meta.url), "utf8");
+assert.match(seoultechSource, /서울과학기술대학교/);
+assert.match(seoultechSource, /calculationVerified: false/);
+assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
+assert.equal((seoultechSource.match(/\["(?:ga|na|da)-/g) ?? []).length, 48);
+assert.match(seoultechSource, /koreanHistoryRequired: true/);
+assert.match(seoultechSource, /0\.07/);
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 assert.match(repositorySource, /getRegularAdmissionSourceAudit/);
 assert.match(repositorySource, /sourceRows\.length/);
