@@ -152,6 +152,26 @@ assert.match(seoulExtraSource, /schoolViolencePenaltyRequired: true/);
 assert.match(seoulExtraSource, /calculationVerified: false/);
 assert.equal(seoulExtraSource.includes('department:"자연·공학계열 대표"'), false);
 assert.equal(seoulExtraSource.includes('서울과학기술대학교", region:"서울", department:"자연·공학계열 대표"'), false);
+
+const gyeonggiSource = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+const ericaRowsMatch = gyeonggiSource.match(/const HANYANG_ERICA_ROWS = (\\[[\\s\\S]*?\\]) as const;/);
+assert.ok(ericaRowsMatch, "Hanyang ERICA 2027 regular rows must be a literal audit-friendly table");
+const ericaRows = JSON.parse(ericaRowsMatch[1]);
+assert.equal(ericaRows.length, 34);
+assert.deepEqual(ericaRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 404, 나: 319, 다: 0, total: 723 });
+assert.equal(ericaRows.some((row) => /대표/.test(row.department)), false);
+assert.equal(ericaRows.some((row) => row.id === "business-na" && row.recruitmentCount === 40), true);
+assert.equal(ericaRows.some((row) => row.id === "lions-free-major-na" && row.recruitmentCount === 94), true);
+assert.match(gyeonggiSource, /HANYANG_ERICA_ENGLISH = \\{ 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 \\}/);
+assert.match(gyeonggiSource, /HANYANG_ERICA_HISTORY = \\{ 1: 10, 2: 9\\.9, 3: 9\\.8, 4: 9\\.7, 5: 9\\.6, 6: 9\\.0 \\}/);
+assert.match(gyeonggiSource, /inquiryConversionRequired: true/);
+assert.match(gyeonggiSource, /calculationVerified: false/);
+assert.match(gyeonggiSource, /학교폭력 조치사항은 총점 1,000점에서 감점/);
+
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 assert.match(repositorySource, /getRegularAdmissionSourceAudit/);
 assert.match(repositorySource, /sourceRows\.length/);
