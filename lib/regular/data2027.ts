@@ -47,6 +47,208 @@ const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department
   sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
 }));
 
+// 2027학년도 서강대학교 정시 수능(일반) 모집단위: 공식 모집요강 p.8, p.34~35
+const SOGANG_SOURCE = "https://admission.sogang.ac.kr/";
+const SOGANG_ENGLISH = { 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 } as const;
+const SOGANG_HISTORY = { 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 } as const;
+const SOGANG_ROWS = [
+  {
+    "key": "na-humanities",
+    "department": "인문학부",
+    "group": "나",
+    "recruitmentCount": 37,
+    "field": "humanities"
+  },
+  {
+    "key": "na-english",
+    "department": "영문학부",
+    "group": "나",
+    "recruitmentCount": 27,
+    "field": "humanities"
+  },
+  {
+    "key": "na-european-culture",
+    "department": "유럽문화학과",
+    "group": "나",
+    "recruitmentCount": 18,
+    "field": "humanities"
+  },
+  {
+    "key": "na-chinese-culture",
+    "department": "중국문화학과",
+    "group": "나",
+    "recruitmentCount": 13,
+    "field": "humanities"
+  },
+  {
+    "key": "na-social-science",
+    "department": "사회과학부",
+    "group": "나",
+    "recruitmentCount": 22,
+    "field": "humanities"
+  },
+  {
+    "key": "na-economics",
+    "department": "경제학과",
+    "group": "나",
+    "recruitmentCount": 57,
+    "field": "humanities"
+  },
+  {
+    "key": "na-business",
+    "department": "경영학부",
+    "group": "나",
+    "recruitmentCount": 90,
+    "field": "business"
+  },
+  {
+    "key": "na-knowledge-media",
+    "department": "지식융합미디어학부",
+    "group": "나",
+    "recruitmentCount": 28,
+    "field": "humanities"
+  },
+  {
+    "key": "na-global-korean",
+    "department": "글로벌한국학부",
+    "group": "나",
+    "recruitmentCount": 7,
+    "field": "humanities"
+  },
+  {
+    "key": "na-math",
+    "department": "수학과",
+    "group": "나",
+    "recruitmentCount": 17,
+    "field": "natural"
+  },
+  {
+    "key": "na-physics",
+    "department": "물리학과",
+    "group": "나",
+    "recruitmentCount": 16,
+    "field": "natural"
+  },
+  {
+    "key": "na-chemistry",
+    "department": "화학과",
+    "group": "나",
+    "recruitmentCount": 17,
+    "field": "natural"
+  },
+  {
+    "key": "na-life-science",
+    "department": "생명과학과",
+    "group": "나",
+    "recruitmentCount": 16,
+    "field": "natural"
+  },
+  {
+    "key": "na-electronic",
+    "department": "전자공학과",
+    "group": "나",
+    "recruitmentCount": 24,
+    "field": "natural"
+  },
+  {
+    "key": "na-chemical-bio",
+    "department": "화공생명공학과",
+    "group": "나",
+    "recruitmentCount": 33,
+    "field": "natural"
+  },
+  {
+    "key": "na-mechanical",
+    "department": "기계공학과",
+    "group": "나",
+    "recruitmentCount": 25,
+    "field": "natural"
+  },
+  {
+    "key": "na-semiconductor",
+    "department": "반도체공학과",
+    "group": "나",
+    "recruitmentCount": 14,
+    "field": "natural"
+  },
+  {
+    "key": "na-computer",
+    "department": "컴퓨터공학과",
+    "group": "나",
+    "recruitmentCount": 32,
+    "field": "natural"
+  },
+  {
+    "key": "na-ai",
+    "department": "인공지능학과",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "natural"
+  },
+  {
+    "key": "na-system-semiconductor",
+    "department": "시스템반도체공학과",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "natural"
+  },
+  {
+    "key": "da-free-humanities",
+    "department": "인문학기반자유전공학부",
+    "group": "다",
+    "recruitmentCount": 49,
+    "field": "humanities"
+  },
+  {
+    "key": "da-free-science",
+    "department": "SCIENCE기반자유전공학부",
+    "group": "다",
+    "recruitmentCount": 25,
+    "field": "natural"
+  },
+  {
+    "key": "da-free-ai",
+    "department": "AI기반자유전공학부",
+    "group": "다",
+    "recruitmentCount": 36,
+    "field": "natural"
+  }
+] as const;
+const sogangAdmissions2027: RegularAdmission[] = SOGANG_ROWS.map((row) => ({
+  id: `sogang-seoul-${row.key}`,
+  universityId: "sogang-seoul",
+  universityName: "서강대학교",
+  region: "서울",
+  department: row.department,
+  majorGroup: row.field === "business" ? "경영·경제" : row.field === "natural" ? "자연·공학" : "인문·사회",
+  group: row.group,
+  recruitmentCount: row.recruitmentCount,
+  scoreMetric: "표준점수",
+  koreanWeight: 110,
+  mathWeight: 130,
+  englishWeight: 0,
+  inquiryWeight: 60,
+  inquirySubjects: 2,
+  inquiryAggregation: "sum",
+  calculationMode: "weighted-sum-with-additive-bonuses",
+  subjectScoreMultiplier: 1,
+  finalScoreMultiplier: 1,
+  languageMathMode: "고득점 우선",
+  inquiryConversionRequired: true,
+  englishGradeTable: SOGANG_ENGLISH,
+  koreanHistoryRequired: true,
+  koreanHistoryGradePoints: SOGANG_HISTORY,
+  schoolViolencePenaltyRequired: true,
+  schoolViolencePenaltyNote: "전 전형: 학교폭력 1호 100점 감점, 2~9호 과락(선발 제외). 조치사항 입력 전 최종 판정 보류.",
+  calculationVerified: false,
+  sourceUrl: SOGANG_SOURCE,
+  verifiedAt: "2026-11-24",
+  note: "2027 정시 수능(일반). A형(K 1.1·M 1.3·탐구합 0.6)과 B형(K 1.3·M 1.1·탐구합 0.6) 중 높은 점수 자동 반영. 국어·수학 표준점수, 탐구 2과목 백분위 기반 자체 변환표준점수(성적 발표 후 공지), 영어·한국사 등급별 가산점. 탐구 변환표 미등록 및 학교폭력 조치사항 미입력으로 판정 보류."
+}));
+if (sogangAdmissions2027.length !== 23 || sogangAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 623) {
+  throw new Error("서강대 2027 일반전형 모집단위·인원 검증 실패");
+}
+
 export const regularAdmissions2027: RegularAdmission[] = [
   ...(["가", "나"] as const).flatMap((group) => [
     {
@@ -159,18 +361,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 다군 2유형: 국어·수학 우수영역 순 35/30, 탐구 상위1과목25, 영어10. 탐구 변환표·영어 변환표·당해연도 최고점·과탐 가산 세부율 미확보로 최종 환산 보류.",
     sourceUrl: "https://skkao.skku.edu/upload/guide/20260904131832E8YKPF.pdf", verifiedAt: "2026-11-19",
   },
-  {
-    id: "sogang-seoul-na-humanities", universityId: "sogang-seoul", universityName: "서강대학교", region: "서울",
-    department: "전 계열 일반전형 대표", majorGroup: "전체", group: "나", scoreMetric: "표준점수",
-    koreanWeight: 110, mathWeight: 130, englishWeight: 0, inquiryWeight: 60, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 1,
-    languageMathMode: "고득점 우선", inquiryConversionRequired: true,
-    englishGradeTable: { 1: 100, 2: 99.5, 3: 98.5, 4: 97, 5: 95, 6: 92.5, 7: 89.5, 8: 86, 9: 82 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.5, 6: 9, 7: 8.5, 8: 8, 9: 7.5 },
-    recruitmentCount: 623,
-    note: "2027 최종 정시요강: 전 계열 공통 A형(국어×1.1+수학×1.3+탐구 변환점수 합×0.6)과 B형(국어×1.3+수학×1.1+탐구 변환점수 합×0.6)을 각각 계산해 높은 점수 반영. 영어·한국사 등급 가산점 반영. 탐구 변환표준점수는 수능 성적 발표 후 공개 예정이므로 최종 환산은 보류.",
-    sourceUrl: "https://admission.sogang.ac.kr/", verifiedAt: "2026-11-19",
-  },
+  ...sogangAdmissions2027,
   {
     id: "hanyang-seoul-da-intercollege", universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
     department: "한양인터칼리지학부", majorGroup: "전체", group: "다", scoreMetric: "표준점수",
