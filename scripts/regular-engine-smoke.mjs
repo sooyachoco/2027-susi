@@ -24,7 +24,7 @@ const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.
 assert.match(seoultechSource, /서울과학기술대학교/);
 assert.match(seoultechSource, /calculationVerified: false/);
 assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
-const seoultechRows = [...seoultechSource.matchAll(/\\[\\s*"(?:ga|na|da)-[^"]+",\\s*"[^"]+",\\s*"([가나다])",\\s*(\\d+),\\s*"([^"]+)"\\s*\\]/g)];
+const seoultechRows = [...seoultechSource.matchAll(/\[\s*"(?:ga|na|da)-[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\s*\]/g)];
 assert.equal(seoultechRows.length, 49);
 const seoultechTotals = seoultechRows.reduce((totals, row) => {
   const group = row[1];
