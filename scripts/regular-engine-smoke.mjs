@@ -8,6 +8,9 @@ const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.meta.url));
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
+const regularDataSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
+assert.match(regularDataSource, /schoolViolencePenaltyRequired: true/);
+assert.match(regularDataSource, /\[전공개방\] 창의ICT공과대학/);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
 assert.match(recommendationSource, /seenUniversities\.size >= 5/);
@@ -146,6 +149,13 @@ assert.equal(result.calculationVerified, true);
 assert.equal(result.missingRules.length, 0);
 assert.ok(Math.abs(result.totalScore - 811.194175) < 0.000001);
 assert.ok(result.appliedComponents.includes("미인정 결석 일수 출결 환산"));
+
+const cauWithViolenceRequirement = calculateRegularAdmission(
+  { ...cauNatural, schoolViolencePenaltyRequired: true, schoolViolencePenaltyNote: "학교폭력 조치사항 입력 필요" },
+  sampleScore,
+);
+assert.equal(cauWithViolenceRequirement.calculationVerified, false);
+assert.ok(cauWithViolenceRequirement.missingRules.some((rule) => rule.includes("학교폭력")));
 
 const missingTable = calculateRegularAdmission(
   { ...cauNatural, inquiryConversionTable: undefined },
