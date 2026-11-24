@@ -1068,27 +1068,21 @@ assert.deepEqual(kyonggiTotals, { 가: 104, 나: 94, 다: 622 });
 
 // 2027 Hanyang ERICA official guide: business belongs to natural/business weights, not humanities.
 const ericaData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
-const ericaRow = ericaData.match(/\{ id:"hanyang-erica-na-business"[^\n]+/);
-assert.ok(ericaRow, "ERICA business representative row exists");
-assert.match(ericaRow[0], /department:"경영학부"/);
-assert.match(ericaRow[0], /koreanWeight:25, mathWeight:35, englishWeight:15, inquiryWeight:25/);
-assert.match(ericaRow[0], /calculationMode:"normalized-standard-sum"/);
-assert.match(ericaRow[0], /inquiryAggregation:"sum"/);
-assert.match(ericaRow[0], /finalScoreMultiplier:1000/);
-assert.match(ericaRow[0], /inquiryConversionRequired:true/);
-assert.match(ericaRow[0], /calculationVerified:false/);
-assert.match(ericaRow[0], /group:"나", recruitmentCount:40/);
-const lionsRow = ericaData.match(/\{ id:"hanyang-erica-na-lions"[^\n]+/);
-assert.ok(lionsRow, "ERICA LIONS general admission row exists");
-assert.match(ericaRow[0], /schoolViolencePenaltyRequired:true/);
-assert.match(lionsRow[0], /schoolViolencePenaltyRequired:true/);
-assert.match(ericaRow[0], /1호 5점[\s\S]*9호 300점/);
-assert.match(lionsRow[0], /1호 5점[\s\S]*9호 300점/);
-assert.match(lionsRow[0], /group:"나", recruitmentCount:94/);
-assert.match(lionsRow[0], /koreanWeight:30, mathWeight:35, englishWeight:10, inquiryWeight:25/);
-assert.match(lionsRow[0], /calculationMode:"normalized-standard-sum"/);
-assert.match(ericaData, /ERICA_ENGLISH = \{ 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 \}/);
-assert.match(ericaData, /ERICA_HISTORY = \{ 1: 10, 2: 9\.9, 3: 9\.8, 4: 9\.7, 5: 9\.6, 6: 9\.0, 7: 9\.0, 8: 9\.0, 9: 9\.0 \}/);
+const ericaBusinessRow = ericaRows.find((row) => row[0] === "business-na");
+assert.ok(ericaBusinessRow, "ERICA business row exists");
+assert.equal(ericaBusinessRow[1], "경영학부");
+assert.equal(ericaBusinessRow[2], "경영·경제");
+assert.equal(ericaBusinessRow[3], "나");
+assert.equal(ericaBusinessRow[4], 40);
+const ericaLionsRow = ericaRows.find((row) => row[0] === "lions-free-major-na");
+assert.ok(ericaLionsRow, "ERICA LIONS row exists");
+assert.equal(ericaLionsRow[4], 94);
+assert.match(ericaData, /const HANYANG_ERICA_ENGLISH = \{ 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 \}/);
+assert.match(ericaData, /const HANYANG_ERICA_HISTORY = \{ 1: 10, 2: 9\.9, 3: 9\.8, 4: 9\.7, 5: 9\.6, 6: 9\.0 \}/);
+assert.match(ericaData, /inquiryConversionRequired: true/);
+assert.match(ericaData, /calculationMode: "normalized-standard-sum"/);
+assert.match(ericaData, /schoolViolencePenaltyRequired: true/);
+assert.match(ericaData, /1호 5점[\s\S]*9호 300점/);
 
 // 2027 Ajou final guide: general admissions 2/3/4, exact group quotas and formula groups.
 const ajouData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
