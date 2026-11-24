@@ -806,6 +806,7 @@ assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
 
 // 서울여대 2027: 상위 3개 영역(영어 포함) 및 20% 수학 가산·누락 입력 방어
 
+
 const swuTopThree = calculateRegularAdmission({
   ...normFixture, scoreMetric:"백분위", subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},
   subjectMaximumScores:{korean:100,math:100,inquiry:100}, inquirySubjects:1, inquiryAggregation:"best",
@@ -820,9 +821,9 @@ assert.equal(swuTopThree.calculationVerified,false);
 assert.ok(swuTopThree.missingRules.some(rule=>rule.includes("실기평가")));
 assert.ok(swuTopThree.missingRules.some(rule=>rule.includes("학교폭력")));
 const swuData=readFileSync(new URL("../lib/regular/data2027-seoulwomen.ts",import.meta.url),"utf8");
-const swuRows=[...swuData.matchAll(/\\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\\d+),"([^"]+)"\\]/g)];
+const swuRows=[...swuData.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\d+),"([^"]+)"\]/g)];
 assert.equal(swuRows.length,44);
 const swuTotals=swuRows.reduce((a,r)=>(a[r[4]]+=Number(r[5]),a),{가:0,나:0,다:0});
 assert.deepEqual(swuTotals,{가:277,나:190,다:261});
-assert.match(swuData,/areas:\\["korean","math","english","inquiry"\\],count:3,weight:40/);
-assert.match(swuData,/mathChoiceBonusRate:\\{미적분:0\\.2,기하:0\\.2/);
+assert.ok(swuData.includes('areas:["korean","math","english","inquiry"],count:3,weight:40'));
+assert.ok(swuData.includes('mathChoiceBonusRate:{미적분:0.2,기하:0.2'));
