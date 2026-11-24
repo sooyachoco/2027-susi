@@ -794,7 +794,7 @@ const hansungTopTwo = calculateRegularAdmission({
   koreanHistoryGradePoints:{1:10,2:10,3:10,4:10,5:8,6:6,7:4,8:2,9:0},
 }, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2,koreanHistoryGrade:5});
 assert.equal(hansungTopTwo.calculationVerified,true);
-assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2))<0.000001);
+assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2)*1000)<0.000001);
 assert.ok(hansungTopTwo.appliedComponents.includes("지정 영역 상위 2개 자동 선택 반영"));
 
 const hansungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
