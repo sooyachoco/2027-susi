@@ -124,6 +124,8 @@ export type RegularRecommendation = {
   tier: RegularTier;
   reason: string;
   calculationVerified: boolean;
+  hasComparableBenchmark: boolean;
+  benchmarkGap: number | null;
   missingRules: string[];
   appliedComponents: string[];
 };
