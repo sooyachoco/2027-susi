@@ -20,6 +20,11 @@ assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCo
 assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
+const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
+assert.match(repositorySource, /getRegularAdmissionSourceAudit/);
+assert.match(repositorySource, /sourceRows\.length/);
+assert.match(repositorySource, /duplicateIds: Object\.entries\(counts\)/);
+assert.match(regularAuditSource, /getRegularAdmissionSourceAudit/);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
 assert.match(recommendationSource, /seenUniversitiesAcrossGroups/);
