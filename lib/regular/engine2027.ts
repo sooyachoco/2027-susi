@@ -257,7 +257,7 @@ export function calculateRegularAdmission(
         else areaScores.push(value / max);
       }
       if (areaScores.length === config.areas.length) {
-        normalized = [...areaScores].sort((a, b) => b - a).slice(0, config.count).reduce((sum, value) => sum + value * config.weight / 100, 0);
+        normalized = [...areaScores].sort((a, b) => b - a).slice(0, config.count).reduce((sum, value) => sum + value * config.weight / 100, 0) + (config.areas.includes("english") ? 0 : (englishNormalized ?? 0) * admission.englishWeight / 100);
         appliedComponents.push(`지정 영역 상위 ${config.count}개 자동 선택 반영`);
       }
     }
