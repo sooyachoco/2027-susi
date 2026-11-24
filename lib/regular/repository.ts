@@ -5,6 +5,7 @@ import { seoulwomenAdmissions2027 } from "./data2027-seoulwomen";
 import { regularAdmissions2027Gyeonggi } from "./data2027-gyeonggi";
 import { regularAdmissions2027Gachon } from "./data2027-gachon";
 import { regularAdmissions2027Incheon } from "./data2027-incheon";
+import { seoultechAdmissions2027 } from "./data2027-seoultech";
 import type { RegularAdmission } from "./types";
 
 const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -17,6 +18,7 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027Gyeonggi,
   ...regularAdmissions2027Gachon,
   ...regularAdmissions2027Incheon,
+  ...seoultechAdmissions2027,
 ];
 
 function isExcludedAdmission(item: RegularAdmission) {
