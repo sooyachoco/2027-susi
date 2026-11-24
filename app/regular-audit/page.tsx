@@ -7,6 +7,7 @@ type AuditData = {
   generatedAt: string;
   scope: string;
   totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
+  universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
   quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number };
   issueCounts: Record<string, number>;
   issues: Record<string, AuditItem[] | { id: string; count: number }[]>;
@@ -81,6 +82,15 @@ export default function RegularAuditPage() {
           <div className="grid">
             {Object.entries(data.totals.byRegion).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name}</div><strong>{count}</strong></article>)}
             {Object.entries(data.totals.byGroup).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name}군</div><strong>{count}</strong></article>)}
+          </div>
+        </section>
+        <section className="section">
+          <div className="sectionHead"><div><h2>대학별 데이터 확보 현황</h2><div className="muted">대학별 모집단위 수, 모집인원 확보, 환산식 검증, 비교 가능한 전년도 기준점</div></div></div>
+          <div style={{ display: "grid", gap: 10 }}>
+            {data.universityCoverage.map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}><strong>{school.universityName}</strong><span className="muted">{school.region} · {school.admissions}개 모집단위 / {school.departments}개 학과명</span></div>
+              <div className="muted" style={{ marginTop: 7 }}>모집인원 {school.withRecruitmentCount}/{school.admissions} · 환산식 검증 {school.calculationVerified}/{school.admissions} · 비교 기준점 {school.benchmarkComparable}/{school.admissions}</div>
+            </article>)}
           </div>
         </section>
         <section className="section">
