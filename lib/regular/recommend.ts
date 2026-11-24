@@ -194,16 +194,18 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
   }
   for (const [group, items] of rankedByGroup) rankedByGroup.set(group, rankWithinGroup(items));
 
-  // 한 모집군에서 한 대학의 여러 학과가 결과를 독점하지 않도록 대학별 대표 학과를 추린다.
-  // 모집군마다 최대 5개 대학을 보여주며, 기준점이 없는 대학도 '판정 보류' 후보로 남긴다.
+  // 같은 대학이 가·나·다군에 중복 노출되어 추천 슬롯을 독점하지 않도록 전체 군에서 한 번만 선택한다.
+  // 군별 최대 5개 대학을 유지하되, 기준점이 없는 대학은 '판정 보류'로 구분해 후보에 남긴다.
   const selected: ScoredAdmission[] = [];
+  const seenUniversitiesAcrossGroups = new Set<string>();
   for (const group of ["가", "나", "다"] as const) {
-    const seenUniversities = new Set<string>();
+    let groupCount = 0;
     for (const candidate of rankedByGroup.get(group) ?? []) {
-      if (seenUniversities.has(candidate.admission.universityId)) continue;
-      seenUniversities.add(candidate.admission.universityId);
+      if (seenUniversitiesAcrossGroups.has(candidate.admission.universityId)) continue;
+      seenUniversitiesAcrossGroups.add(candidate.admission.universityId);
       selected.push(candidate);
-      if (seenUniversities.size >= 5) break;
+      groupCount += 1;
+      if (groupCount >= 5) break;
     }
   }
 
@@ -265,6 +267,8 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     for (const n of candidates[1]) {
       for (const d of candidates[2]) {
         const items: [ScoredAdmission, ScoredAdmission, ScoredAdmission] = [a, n, d];
+        // 가·나·다군 조합은 서로 다른 대학으로 구성해 한 대학 중복 지원을 막는다.
+        if (new Set(items.map((item) => item.admission.universityId)).size !== 3) continue;
         const score = scoreAdmissionSet(items);
         if (!best || score > best.score) best = { items, score };
       }
