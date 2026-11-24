@@ -238,7 +238,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
 export function recommendRegularPortfolio(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularPortfolioRecommendation | null {
   if (!isRegularProfileComplete(profile)) return null;
 
-  const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission));
+  const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission);
