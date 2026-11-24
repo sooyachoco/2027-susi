@@ -42,6 +42,18 @@ const sangmyungRowsMatch = seoulExtraSource.match(/const SANGMYUNG_ROWS = (\[[\s
 const sungshinRowsMatch = seoulExtraSource.match(/const SUNGSHIN_ROWS = (\[[\s\S]*?\]) as const;/);
 const dongdukRowsMatch = seoulExtraSource.match(/const DONGDUK_ROWS = (\[[\s\S]*?\]) as const;/);
 const myongjiRowsMatch = seoulExtraSource.match(/const MYONGJI_ROWS = (\[[\s\S]*?\]) as const;/);
+const sogangSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
+const sogangRowsMatch = sogangSource.match(/const SOGANG_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(sogangRowsMatch);
+const sogangRows = JSON.parse(sogangRowsMatch[1]);
+assert.equal(sogangRows.length, 23);
+assert.deepEqual(sogangRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 0, 나: 513, 다: 110, total: 623 });
+assert.match(sogangSource, /SOGANG_ENGLISH = \{ 1:100, 2:99\.5, 3:98\.5, 4:97, 5:95, 6:92\.5, 7:89\.5, 8:86, 9:82 \}/);
+assert.match(sogangSource, /inquiryConversionRequired: true/);
 assert.ok(myongjiRowsMatch);
 const myongjiRows = JSON.parse(myongjiRowsMatch[1]);
 assert.equal(myongjiRows.length, 6);
