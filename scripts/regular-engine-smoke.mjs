@@ -20,7 +20,21 @@ assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCo
 assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
-const donggukSource = readFileSync(new URL("../lib/regular/data2027-dongguk.ts", import.meta.url), "utf8");
+const konkukSource = readFileSync(new URL("../lib/regular/data2027-konkuk.ts", import.meta.url), "utf8");
+const konkukRowsMatch = konkukSource.match(/const KONKUK_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(konkukRowsMatch);
+const konkukRows = JSON.parse(konkukRowsMatch[1]);
+assert.equal(konkukRows.length, 54);
+assert.deepEqual(konkukRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 545, 나: 467, 다: 318, total: 1330 });
+assert.equal(konkukRows.filter((row) => row.field === "practical").reduce((sum,row)=>sum+row.recruitmentCount,0), 234);
+assert.match(konkukSource, /englishMaximumScore: 200/);
+assert.match(konkukSource, /alternateWeighting: free/);
+assert.match(konkukSource, /topAreaWeights: arts/);
+assert.equal(konkukSource.includes("대표"), false);
 const donggukRowsMatch = donggukSource.match(/const DONGGUK_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(donggukRowsMatch);
 const donggukRows = JSON.parse(donggukRowsMatch[1]);
