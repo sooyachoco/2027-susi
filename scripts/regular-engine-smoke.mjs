@@ -10,6 +10,9 @@ const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
+assert.match(recommendationSource, /seenUniversities\.size >= 5/);
+const portfolioSource = readFileSync(new URL("../lib/regular/portfolio.ts", import.meta.url), "utf8");
+assert.match(portfolioSource, /comparableUniversitiesByGroup\.every\(\(count\) => count >= 3\)/);
 assert.match(regularAuditSource, /mode === "weighted-sum-with-additive-bonuses"\) return false/);
 assert.match(regularAuditSource, /invalidBenchmarkMetadata/);
 const source = readFileSync(enginePath, "utf8");
