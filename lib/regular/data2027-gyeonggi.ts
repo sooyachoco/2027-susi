@@ -117,10 +117,11 @@ const kyonggiAdmissions: RegularAdmission[] = KYONGGI_ROWS.map(([key, department
   sourceUrl: KYONGGI_SOURCE, verifiedAt: "2026-11-23",
 }));
 
-// 2027 정시 경기권 1차 데이터. 대표 모집단위 기준이며 세부 학과별 예외는 note에 표시.
-export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
+// 2027 정시 경기권 데이터: 아주대·경기대 원천 행과 한양대 ERICA 공식 모집요강 행을 결합.
+const regularAdmissions2027GyeonggiBase: RegularAdmission[] = [
   ...ajouAdmissions,
   ...kyonggiAdmissions,
+];
 
 const HANYANG_ERICA_ROWS = [
   { id: "architecture-major-ga", department: "건축학부 건축학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural2" },
@@ -205,6 +206,10 @@ const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map((row) 
     verifiedAt: "2026-11-25",
   };
 });
+
+export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
+  ...regularAdmissions2027GyeonggiBase,
   ...hanyangEricaAdmissions,
-  // 한국항공대 2027 공식 모집요강 공개 확인. 세부표 추출 검증 전까지 미등록.
 ];
+
+// 한국항공대 2027 공식 모집요강은 별도 세부 모집단위·환산 규칙 검증 후 등록한다.
