@@ -267,7 +267,7 @@ main { padding: 18px 22px 70px; }
     radial-gradient(ellipse at 60% 75%, rgba(255, 235, 193, .22), transparent 30%),
     #fffaf8;
 }
-.app { max-width: 1240px; }
+.regular-home.app { max-width: 1240px; }
 .regular-home .topbar {
   padding: 20px 28px 17px;
   backdrop-filter: blur(16px);
@@ -282,9 +282,9 @@ main { padding: 18px 22px 70px; }
   background: linear-gradient(145deg, #a996df, #f29b9b);
   box-shadow: 0 7px 16px rgba(170, 143, 206, .24);
 }
-.topbar strong { color: #43374f; letter-spacing: -1px; }
-main { padding: 24px 28px 78px; }
-.hero { gap: 20px; align-items: stretch; }
+.regular-home .topbar strong { color: #43374f; letter-spacing: -1px; }
+.regular-home main { padding: 24px 28px 78px; }
+.regular-home .hero { gap: 20px; align-items: stretch; }
 .regular-home .heroCopy {
   min-height: 390px;
   padding: 48px 52px;
@@ -337,8 +337,8 @@ main { padding: 24px 28px 78px; }
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.hero p { max-width: 610px; color: #817889; font-size: 15px; line-height: 1.85; }
-.heroPills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
+.regular-home .hero p { max-width: 610px; color: #817889; font-size: 15px; line-height: 1.85; }
+.regular-home .heroPills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
 .regular-home .heroPills span {
   padding: 8px 12px;
   border: 1px solid rgba(232,218,235,.9);
@@ -352,9 +352,9 @@ main { padding: 24px 28px 78px; }
   display: flex; align-items: center; gap: 10px;
   margin-top: 25px; color: #8f8493; font-size: 11px;
 }
-.heroDataLine strong { color: #64566f; font-size: 12px; }
-.heroDataLine i { width: 3px; height: 3px; border-radius: 50%; background: #c5b7ce; }
-.heroDataLine span { margin-left: 3px; color: #a69ba9; }
+.regular-home .heroDataLine strong { color: #64566f; font-size: 12px; }
+.regular-home .heroDataLine i { width: 3px; height: 3px; border-radius: 50%; background: #c5b7ce; }
+.regular-home .heroDataLine span { margin-left: 3px; color: #a69ba9; }
 .regular-home .scoreHero {
   min-height: 390px;
   padding: 30px;
@@ -376,14 +376,14 @@ main { padding: 24px 28px 78px; }
   font-size: 104px;
   filter: none;
 }
-.scoreCardTop { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.regular-home .scoreCardTop { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
 .regular-home .scoreCardIcon {
   display: grid; place-items: center; width: 40px; height: 40px;
   border-radius: 14px; background: rgba(255,255,255,.68);
   color: #a18acb; font-size: 22px;
 }
-.scoreCardLabel { color: #9b8eae; font-size: 10px; font-weight: 900; letter-spacing: .16em; }
-.scoreHero .muted { margin-top: 30px; color: #80738f; font-weight: 700; }
+.regular-home .scoreCardLabel { color: #9b8eae; font-size: 10px; font-weight: 900; letter-spacing: .16em; }
+.regular-home .scoreHero .muted { margin-top: 30px; color: #80738f; font-weight: 700; }
 .regular-home .bigScore {
   margin: 4px 0 0;
   color: #7563a5;
@@ -391,17 +391,17 @@ main { padding: 24px 28px 78px; }
   line-height: 1;
   letter-spacing: -6px;
 }
-.scoreCardCaption { color: #746983; font-size: 14px; font-weight: 800; }
-.scoreCardFoot { display: flex; gap: 8px; margin-top: 25px; position: relative; z-index: 1; }
+.regular-home .scoreCardCaption { color: #746983; font-size: 14px; font-weight: 800; }
+.regular-home .scoreCardFoot { display: flex; gap: 8px; margin-top: 25px; position: relative; z-index: 1; }
 .regular-home .scoreCardFoot span {
   min-width: 52px; padding: 8px 12px; text-align: center;
   border: 1px solid rgba(255,255,255,.7); border-radius: 11px;
   background: rgba(255,255,255,.46); color: #8a7a9e; font-size: 11px; font-weight: 900;
 }
-.section { margin-top: 38px; }
-.sectionHead { margin-bottom: 17px; }
-.section h2 { color: #44394f; font-size: 26px; letter-spacing: -1.2px; }
-.sectionHead .muted { margin-top: 6px; }
+.regular-home .section { margin-top: 38px; }
+.regular-home .sectionHead { margin-bottom: 17px; }
+.regular-home .section h2 { color: #44394f; font-size: 26px; letter-spacing: -1.2px; }
+.regular-home .sectionHead .muted { margin-top: 6px; }
 .regular-home .panel {
   border: 1px solid #eee6f0;
   border-radius: 23px;
@@ -419,8 +419,8 @@ main { padding: 24px 28px 78px; }
   border-radius: 17px;
   background: linear-gradient(100deg, #faf6ff, #fff8f5);
 }
-.field { gap: 9px; }
-.field label { color: #665a70; font-size: 12px; letter-spacing: -.1px; }
+.regular-home .field { gap: 9px; }
+.regular-home .field label { color: #665a70; font-size: 12px; letter-spacing: -.1px; }
 .regular-home .field input, .regular-home .field select {
   min-height: 48px;
   padding: 13px 15px;
@@ -441,16 +441,16 @@ main { padding: 24px 28px 78px; }
   box-shadow: 0 9px 20px rgba(177,143,214,.24);
   letter-spacing: -.2px;
 }
-.primary:hover:not(:disabled) { box-shadow: 0 13px 25px rgba(177,143,214,.3); }
+.regular-home .primary:hover:not(:disabled) { box-shadow: 0 13px 25px rgba(177,143,214,.3); }
 .regular-home .secondary {
   border-color: #e9e0ed;
   border-radius: 12px;
   background: rgba(255,255,255,.86);
   color: #756780;
 }
-.secondary:hover { background: #faf5ff; border-color: #d9c9ed; }
-.six > .panel { padding: 26px; border-radius: 23px; }
-.six > .panel:hover { box-shadow: 0 17px 40px rgba(94,72,105,.12); }
+.regular-home .secondary:hover { background: #faf5ff; border-color: #d9c9ed; }
+.regular-home .six > .panel { padding: 26px; border-radius: 23px; }
+.regular-home .six > .panel:hover { box-shadow: 0 17px 40px rgba(94,72,105,.12); }
 .regular-home .balance {
   border-color: #eee5f3;
   background: linear-gradient(120deg, #fff, #fbf7ff 65%, #fff7f2);
@@ -465,29 +465,29 @@ main { padding: 24px 28px 78px; }
   background: rgba(255,255,255,.67);
   color: #817687;
 }
-.footer { color: #b0a4b4; padding-bottom: 12px; }
+.regular-home .footer { color: #b0a4b4; padding-bottom: 12px; }
 @media (max-width: 760px) {
-  .topbar { padding: 14px 15px 13px; }
-  .topbar:after { left: 15px; right: 15px; }
-  main { padding: 16px 14px 56px; }
-  .hero { gap: 13px; }
-  .heroCopy { min-height: auto; padding: 31px 24px 34px; border-radius: 25px; }
-  .heroCopy:after { right: 18px; bottom: 12px; font-size: 54px; }
-  .hero h1 { margin-top: 18px; font-size: 37px; letter-spacing: -2px; }
-  .hero p { font-size: 13px; line-height: 1.8; }
-  .heroPills { gap: 6px; margin-top: 18px; }
-  .heroPills span { padding: 7px 9px; font-size: 10px; }
-  .heroDataLine { flex-wrap: wrap; margin-top: 20px; }
-  .scoreHero { min-height: 250px; padding: 23px; border-radius: 25px; }
-  .scoreHero .muted { margin-top: 19px; }
-  .bigScore { font-size: 76px; }
-  .scoreHero:after { bottom: 50px; font-size: 76px; }
-  .section { margin-top: 30px; }
-  .section h2 { font-size: 22px; }
-  .form { padding: 17px; gap: 14px; }
-  .form > .field:first-child { padding: 14px; }
-  .primary { width: 100%; }
-  .section > div[style*="justify-content: flex-end"] { display: block !important; }
+  .regular-home .topbar { padding: 14px 15px 13px; }
+  .regular-home .topbar:after { left: 15px; right: 15px; }
+  .regular-home main { padding: 16px 14px 56px; }
+  .regular-home .hero { gap: 13px; }
+  .regular-home .heroCopy { min-height: auto; padding: 31px 24px 34px; border-radius: 25px; }
+  .regular-home .heroCopy:after { right: 18px; bottom: 12px; font-size: 54px; }
+  .regular-home .hero h1 { margin-top: 18px; font-size: 37px; letter-spacing: -2px; }
+  .regular-home .hero p { font-size: 13px; line-height: 1.8; }
+  .regular-home .heroPills { gap: 6px; margin-top: 18px; }
+  .regular-home .heroPills span { padding: 7px 9px; font-size: 10px; }
+  .regular-home .heroDataLine { flex-wrap: wrap; margin-top: 20px; }
+  .regular-home .scoreHero { min-height: 250px; padding: 23px; border-radius: 25px; }
+  .regular-home .scoreHero .muted { margin-top: 19px; }
+  .regular-home .bigScore { font-size: 76px; }
+  .regular-home .scoreHero:after { bottom: 50px; font-size: 76px; }
+  .regular-home .section { margin-top: 30px; }
+  .regular-home .section h2 { font-size: 22px; }
+  .regular-home .form { padding: 17px; gap: 14px; }
+  .regular-home .form > .field:first-child { padding: 14px; }
+  .regular-home .primary { width: 100%; }
+  .regular-home .section > div[style*="justify-content: flex-end"] { display: block !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
