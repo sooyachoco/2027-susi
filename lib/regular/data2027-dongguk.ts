@@ -417,7 +417,7 @@ export const donggukAdmissions2027: RegularAdmission[] = DONGGUK_ROWS.map((row) 
     majorGroup: row.field === "practical-sport" ? "예체능·체육"
       : row.field === "practical-sculpture" ? "예체능"
       : row.field === "natural1" || row.field === "natural2" || row.field === "natural3" ? "자연·공학"
-      : row.department === "경영대학" ? "경영·경제"
+      : row.department.startsWith("경영대학") ? "경영·경제"
       : "인문·사회",
     group: row.group,
     recruitmentCount: row.recruitmentCount,
