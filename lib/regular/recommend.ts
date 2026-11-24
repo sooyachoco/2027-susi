@@ -182,6 +182,10 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
+    benchmarkYear: admission.benchmarkYear,
+    benchmarkCutline70: admission.benchmarkCutline70,
+    benchmarkSourceUrl: admission.benchmarkSourceUrl,
+    benchmarkDepartment: admission.benchmarkDepartment,
     missingRules: result.missingRules,
     appliedComponents: result.appliedComponents,
   }));
@@ -235,6 +239,10 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
+    benchmarkYear: admission.benchmarkYear,
+    benchmarkCutline70: admission.benchmarkCutline70,
+    benchmarkSourceUrl: admission.benchmarkSourceUrl,
+    benchmarkDepartment: admission.benchmarkDepartment,
     missingRules: result.missingRules,
     appliedComponents: result.appliedComponents,
   })) as [RegularRecommendation, RegularRecommendation, RegularRecommendation];

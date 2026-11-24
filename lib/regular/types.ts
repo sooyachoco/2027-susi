@@ -128,6 +128,10 @@ export type RegularRecommendation = {
   calculationVerified: boolean;
   hasComparableBenchmark: boolean;
   benchmarkGap: number | null;
+  benchmarkYear?: number;
+  benchmarkCutline70?: number;
+  benchmarkSourceUrl?: string;
+  benchmarkDepartment?: string;
   missingRules: string[];
   appliedComponents: string[];
 };

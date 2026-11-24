@@ -72,12 +72,13 @@ export default function Page() {
               <span>{rec.hasComparableBenchmark ? "전년도 기준점 비교 가능" : "비교 가능한 기준점 없음"}</span>
             </div>
             {rec.hasComparableBenchmark && rec.benchmarkGap != null && <div className="benchmarkGap">
-              기준점 대비 <strong>{rec.benchmarkGap > 0 ? "+" : ""}{rec.benchmarkGap.toFixed(1)}점</strong>
+              {rec.benchmarkYear ? `${rec.benchmarkYear}학년도 70%컷 대비` : "기준점 대비"} <strong>{rec.benchmarkGap > 0 ? "+" : ""}{rec.benchmarkGap.toFixed(1)}점</strong>
             </div>}
             <div className="balanceText candidateReason">{rec.reason}</div>
             {rec.missingRules.length > 0 && <div className="alert candidateAlert">추가 확인: {rec.missingRules.join(" · ")}</div>}
             {rec.appliedComponents.length > 0 && <div className="appliedRules">반영 항목: {rec.appliedComponents.join(" · ")}</div>}
             <a className="secondary candidateSource" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer">공식 모집요강 확인 ↗</a>
+            {rec.benchmarkSourceUrl && <a className="secondary candidateSource" href={rec.benchmarkSourceUrl} target="_blank" rel="noreferrer">{rec.benchmarkYear}학년도 입시결과 확인 ↗</a>}
           </article>)}
         </div>
         <div className="alert" style={{marginTop:16}}>⚠️ 환산점수는 실제 합격선이나 합격 확률이 아닙니다. 대학별 세부 환산식·선택과목 가산점·학생부 반영은 최종 모집요강과 대조해야 합니다.</div>
