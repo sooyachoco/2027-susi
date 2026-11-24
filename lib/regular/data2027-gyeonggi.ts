@@ -165,10 +165,10 @@ const HANYANG_ERICA_HISTORY = { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9.0 } 
 const HANYANG_ERICA_SOURCE = "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp";
 
 const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map(([id, department, majorGroup, group, recruitmentCount, field]) => {
-  const natural1 = row.field === "natural1";
-  const natural2 = row.field === "natural2";
-  const humanities = row.field === "humanities";
-  const lions = row.field === "lions";
+  const natural1 = field === "natural1";
+  const natural2 = field === "natural2";
+  const humanities = field === "humanities";
+  const lions = field === "lions";
   const weights = lions
     ? { koreanWeight: 30, mathWeight: 35, englishWeight: 10, inquiryWeight: 25 }
     : humanities
@@ -180,10 +180,10 @@ const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map(([id, 
     universityId: "hanyang-erica",
     universityName: "한양대학교 ERICA",
     region: "경기",
-    department: row.department,
-    majorGroup: row.majorGroup,
-    group: row.group,
-    recruitmentCount: row.recruitmentCount,
+    department: department,
+    majorGroup: majorGroup,
+    group: group,
+    recruitmentCount: recruitmentCount,
     scoreMetric: "표준점수",
     subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "표준점수" },
     calculationMode: "normalized-standard-sum",
@@ -201,7 +201,7 @@ const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map(([id, 
     calculationVerified: false,
     schoolViolencePenaltyRequired: true,
     schoolViolencePenaltyNote: "학교폭력 조치사항은 총점 1,000점에서 감점: 1호 5점, 2호 10점, 3호 15점, 4·5호 30점, 6·7호 100점, 8호 200점, 9호 300점. 조치사항 입력 전 최종 판정 보류.",
-    note: `2027 정시 일반전형 ${row.group}군 ${row.recruitmentCount}명. ${natural1 ? "자연1" : natural2 ? "자연2" : humanities ? "인문" : lions ? "LIONS 전계열" : "상경"} 반영비율 국${weights.koreanWeight}·수${weights.mathWeight}·영${weights.englishWeight}·탐${weights.inquiryWeight}(탐구 2과목). ${natural1 ? "과탐 과목당 변환표준점수 3% 가산" : humanities ? "사탐 과목당 변환표준점수 3% 가산" : "탐구 가산점 없음"}. 영어 등급환산, 한국사 등급별 가산점 반영. 2027 탐구 변환표준점수표 및 국어·수학 표준점수 최고점은 2026-12-18 이후 공지 예정이므로 환산점수 판정 보류.`,
+    note: `2027 정시 일반전형 ${group}군 ${recruitmentCount}명. ${natural1 ? "자연1" : natural2 ? "자연2" : humanities ? "인문" : lions ? "LIONS 전계열" : "상경"} 반영비율 국${weights.koreanWeight}·수${weights.mathWeight}·영${weights.englishWeight}·탐${weights.inquiryWeight}(탐구 2과목). ${natural1 ? "과탐 과목당 변환표준점수 3% 가산" : humanities ? "사탐 과목당 변환표준점수 3% 가산" : "탐구 가산점 없음"}. 영어 등급환산, 한국사 등급별 가산점 반영. 2027 탐구 변환표준점수표 및 국어·수학 표준점수 최고점은 2026-12-18 이후 공지 예정이므로 환산점수 판정 보류.`,
     sourceUrl: HANYANG_ERICA_SOURCE,
     verifiedAt: "2026-11-25",
   };
