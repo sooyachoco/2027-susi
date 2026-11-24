@@ -173,10 +173,17 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
   }
   for (const [group, items] of rankedByGroup) rankedByGroup.set(group, rankWithinGroup(items));
 
+  // 한 모집군에서 한 대학의 여러 학과가 결과를 독점하지 않도록 대학별 대표 학과를 추린다.
+  // 모집군마다 최대 5개 대학을 보여주며, 기준점이 없는 대학도 '판정 보류' 후보로 남긴다.
   const selected: ScoredAdmission[] = [];
   for (const group of ["가", "나", "다"] as const) {
-    const candidate = rankedByGroup.get(group)?.[0];
-    if (candidate) selected.push(candidate);
+    const seenUniversities = new Set<string>();
+    for (const candidate of rankedByGroup.get(group) ?? []) {
+      if (seenUniversities.has(candidate.admission.universityId)) continue;
+      seenUniversities.add(candidate.admission.universityId);
+      selected.push(candidate);
+      if (seenUniversities.size >= 5) break;
+    }
   }
 
   return selected.map(({ admission, result, score, fit, reference, gap, tier }) => ({
