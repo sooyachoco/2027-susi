@@ -23,6 +23,66 @@ const sandbox = { exports: {}, require };
 vm.runInNewContext(compiled, sandbox, { filename: "engine2027.cjs" });
 const { calculateRegularAdmission } = sandbox.exports;
 
+// Exercise the actual recommendation function with synthetic admissions:
+// 6 universities per group, each with 2 departments. Results must retain 5
+// distinct universities per group rather than allowing one university to fill all slots.
+const strategyPath = fileURLToPath(new URL("../lib/regular/strategy2027.ts", import.meta.url));
+const recommendationPath = fileURLToPath(new URL("../lib/regular/recommend.ts", import.meta.url));
+function loadTsModule(path, modules = {}) {
+  const compiledModule = ts.transpileModule(readFileSync(path, "utf8"), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+  }).outputText;
+  const moduleSandbox = { exports: {}, require: (name) => modules[name] ?? require(name) };
+  vm.runInNewContext(compiledModule, moduleSandbox, { filename: path });
+  return moduleSandbox.exports;
+}
+const strategyModule = loadTsModule(strategyPath, { "./engine2027": sandbox.exports });
+const recommendationModule = loadTsModule(recommendationPath, {
+  "./engine2027": sandbox.exports,
+  "./strategy2027": strategyModule,
+});
+const syntheticAdmissions = ["가", "나", "다"].flatMap((group) =>
+  Array.from({ length: 6 }, (_, universityIndex) =>
+    Array.from({ length: 2 }, (_, departmentIndex) => ({
+      id: `synthetic-${group}-${universityIndex}-${departmentIndex}`,
+      universityId: `synthetic-university-${group}-${universityIndex}`,
+      universityName: `테스트대학 ${group}-${universityIndex}`,
+      region: "서울",
+      department: `테스트학과 ${departmentIndex}`,
+      majorGroup: "전체",
+      group,
+      recruitmentCount: 10,
+      scoreMetric: "백분위",
+      koreanWeight: 30,
+      mathWeight: 30,
+      englishWeight: 20,
+      inquiryWeight: 20,
+      inquirySubjects: 2,
+      calculationVerified: false,
+    })),
+  ).flat(),
+);
+const syntheticProfile = {
+  desiredMajor: "경영학",
+  koreanStandard: 130, koreanPercentile: 90,
+  mathStandard: 130, mathPercentile: 90,
+  inquiry1Standard: 60, inquiry2Standard: 60,
+  inquiry1Percentile: 90, inquiry2Percentile: 90,
+  englishGrade: 2, koreanHistoryGrade: 2,
+  mathChoice: "미적분", inquiryType: "사탐",
+  inquiry1Type: "사탐", inquiry2Type: "사탐",
+  inquiry1ScienceLevel: "미선택", inquiry2ScienceLevel: "미선택",
+  unexcusedAbsenceDays: null,
+};
+const syntheticRecommendations = recommendationModule.recommendRegular(syntheticProfile, syntheticAdmissions);
+assert.equal(syntheticRecommendations.length, 15);
+for (const group of ["가", "나", "다"]) {
+  const groupRecommendations = syntheticRecommendations.filter((item) => item.group === group);
+  assert.equal(groupRecommendations.length, 5);
+  assert.equal(new Set(groupRecommendations.map((item) => item.admissionId.split("-").slice(0, 3).join("-") + "-" + item.admissionId.split("-")[2])).size, 5);
+  assert.equal(new Set(groupRecommendations.map((item) => item.universityName)).size, 5);
+}
+
 const cauNatural = {
   id: "cau-engine-smoke",
   universityId: "cau",
