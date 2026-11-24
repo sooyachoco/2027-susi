@@ -24,7 +24,17 @@ const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.
 assert.match(seoultechSource, /서울과학기술대학교/);
 assert.match(seoultechSource, /calculationVerified: false/);
 assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
-assert.equal((seoultechSource.match(/"(?:ga|na|da)-[a-z-]+"/g) ?? []).length, 49);
+const seoultechRows = [...seoultechSource.matchAll(/\\[\\s*"(?:ga|na|da)-[^"]+",\\s*"[^"]+",\\s*"([가나다])",\\s*(\\d+),\\s*"([^"]+)"\\s*\\]/g)];
+assert.equal(seoultechRows.length, 49);
+const seoultechTotals = seoultechRows.reduce((totals, row) => {
+  const group = row[1];
+  const count = Number(row[2]);
+  const type = row[3];
+  if (type.endsWith("Practical")) totals.practical += count;
+  else totals[group] += count;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, practical: 0 });
+assert.deepEqual(seoultechTotals, { 가: 304, 나: 277, 다: 61, practical: 126 });
 assert.match(seoultechSource, /koreanHistoryRequired: true/);
 assert.match(seoultechSource, /0\.07/);
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
