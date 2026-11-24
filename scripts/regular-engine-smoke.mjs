@@ -11,6 +11,9 @@ const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.
 const regularDataSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
 assert.match(regularDataSource, /schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /\[전공개방\] 창의ICT공과대학/);
+assert.match(regularDataSource, /id: "cau-seoul-ga-psychology"[\s\S]*?recruitmentCount: 19/);
+assert.match(regularDataSource, /id: "cau-seoul-na-industrial-security"[\s\S]*?recruitmentCount: 28/);
+assert.equal((regularDataSource.match(/id: "cau-seoul-/g) ?? []).length, 3);
 const recommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
 assert.match(recommendationSource, /전년도 환산식 변경으로 기준점 비교 불가/);
 assert.match(recommendationSource, /seenUniversities\.size >= 5/);
