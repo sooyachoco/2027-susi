@@ -1,7 +1,6 @@
 import { regularAdmissions2027 } from "./data2027";
 import { regularAdmissions2027Batch2 } from "./data2027Batch2";
 import { regularAdmissions2027SeoulExtra } from "./data2027-extra-seoul";
-import { seoulwomenAdmissions2027 } from "./data2027-seoulwomen";
 import { regularAdmissions2027Gyeonggi } from "./data2027-gyeonggi";
 import { regularAdmissions2027Gachon } from "./data2027-gachon";
 import { regularAdmissions2027Incheon } from "./data2027-incheon";
@@ -13,7 +12,6 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027,
   ...regularAdmissions2027Batch2,
   ...regularAdmissions2027SeoulExtra,
-  ...seoulwomenAdmissions2027,
   ...regularAdmissions2027Gyeonggi,
   ...regularAdmissions2027Gachon,
   ...regularAdmissions2027Incheon,

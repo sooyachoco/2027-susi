@@ -251,15 +251,15 @@ export function calculateRegularAdmission(
       const config = admission.topAreaWeights;
       const areaScores: number[] = [];
       for (const area of config.areas) {
-        const value = area === "korean" ? korean : area === "math" ? math : area === "english" ? englishNormalized : inquiry;
-        const max = area === "korean" ? koreanMax : area === "math" ? mathMax : area === "english" ? 1 : inquiryMax;
+        const value = area === "korean" ? korean : area === "math" ? math : inquiry;
+        const max = area === "korean" ? koreanMax : area === "math" ? mathMax : inquiryMax;
         if (typeof value !== "number" || typeof max !== "number" || max <= 0) missingRules.push(`상위 ${config.count}개 영역 반영에 필요한 ${area} 기준점수 미확보`);
         else areaScores.push(value / max);
       }
-      if (areaScores.length === config.areas.length) {
-        normalized = [...areaScores].sort((a, b) => b - a).slice(0, config.count).reduce((sum, value) => sum + value * config.weight / 100, 0);
+      if (areaScores.length === config.areas.length && englishNormalized != null) {
+        normalized = [...areaScores].sort((a, b) => b - a).slice(0, config.count).reduce((sum, value) => sum + value * config.weight / 100, 0) + englishNormalized * admission.englishWeight / 100;
         appliedComponents.push(`지정 영역 상위 ${config.count}개 자동 선택 반영`);
-      }
+      } else if (englishNormalized == null) missingRules.push("상위 영역 반영에 필요한 영어 환산점수 미입력");
     }
     if (admission.rankedAreaWeights?.length) {
       if (typeof koreanMax === "number" && typeof mathMax === "number" && inquiryNormalized != null && englishNormalized != null) {
