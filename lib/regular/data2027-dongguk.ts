@@ -40,18 +40,18 @@ const DONGGUK_ROWS = [
     "department": "물리학과",
     "group": "가",
     "recruitmentCount": 8,
-    "field": "natural3"
+    "field": "natural1"
   },
   {
     "key": "ga-public-admin",
-    "department": "정치행정학부 행정학",
+    "department": "정치행정학부 행정학전공",
     "group": "가",
     "recruitmentCount": 15,
     "field": "humanities"
   },
   {
     "key": "ga-north-korea",
-    "department": "정치행정학부 북한학",
+    "department": "정치행정학부 북한학전공",
     "group": "가",
     "recruitmentCount": 4,
     "field": "humanities"
@@ -72,7 +72,7 @@ const DONGGUK_ROWS = [
   },
   {
     "key": "ga-media",
-    "department": "사회·언론정보학부 미디어커뮤니케이션학",
+    "department": "사회언론정보학부 미디어커뮤니케이션학전공",
     "group": "가",
     "recruitmentCount": 19,
     "field": "humanities"
@@ -170,7 +170,7 @@ const DONGGUK_ROWS = [
   },
   {
     "key": "na-korean-writing",
-    "department": "국어국문·문예창작학부",
+    "department": "국어국문문예창작학부",
     "group": "나",
     "recruitmentCount": 12,
     "field": "humanities"
@@ -219,14 +219,14 @@ const DONGGUK_ROWS = [
   },
   {
     "key": "na-political-science",
-    "department": "정치행정학부 정치외교학",
+    "department": "정치행정학부 정치외교학전공",
     "group": "나",
     "recruitmentCount": 13,
     "field": "humanities"
   },
   {
     "key": "na-sociology",
-    "department": "사회·언론정보학부 사회학",
+    "department": "사회언론정보학부 사회학전공",
     "group": "나",
     "recruitmentCount": 8,
     "field": "humanities"
@@ -284,8 +284,15 @@ const DONGGUK_ROWS = [
     "key": "na-computer-ai",
     "department": "컴퓨터·AI학부",
     "group": "나",
-    "recruitmentCount": 80,
+    "recruitmentCount": 73,
     "field": "natural3"
+  },
+  {
+    "key": "na-computer-ai-humanities",
+    "department": "컴퓨터·AI학부(인문)",
+    "group": "나",
+    "recruitmentCount": 7,
+    "field": "humanities"
   },
   {
     "key": "na-system-semiconductor",
@@ -303,7 +310,7 @@ const DONGGUK_ROWS = [
   },
   {
     "key": "na-sculpture",
-    "department": "미술학부 조소전공",
+    "department": "조소전공",
     "group": "나",
     "recruitmentCount": 15,
     "field": "practical-sculpture"
@@ -317,14 +324,14 @@ const DONGGUK_ROWS = [
   },
   {
     "key": "da-business",
-    "department": "경영대학",
+    "department": "경영대학(광역화 모집단위)",
     "group": "다",
     "recruitmentCount": 99,
     "field": "humanities"
   },
   {
     "key": "da-biosystems",
-    "department": "바이오시스템대학",
+    "department": "바이오시스템대학(광역화 모집단위)",
     "group": "다",
     "recruitmentCount": 24,
     "field": "natural3"
@@ -369,7 +376,7 @@ const DONGGUK_ROWS = [
     "department": "가정교육과",
     "group": "다",
     "recruitmentCount": 11,
-    "field": "natural2"
+    "field": "humanities"
   },
   {
     "key": "da-open-humanities",
@@ -451,7 +458,7 @@ export const donggukAdmissions2027: RegularAdmission[] = DONGGUK_ROWS.map((row) 
   };
 });
 
-if (donggukAdmissions2027.length !== 54 ||
+if (donggukAdmissions2027.length !== 55 ||
     donggukAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 1166) {
   throw new Error("동국대 2027 일반전형 모집단위·인원 검증 실패");
 }
