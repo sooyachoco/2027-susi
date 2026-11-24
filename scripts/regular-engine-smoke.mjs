@@ -636,6 +636,27 @@ const inuExact = calculateRegularAdmission({
 }, { ...sampleScore, englishGrade: 2 });
 assert.equal(inuExact.calculationVerified, true);
 
+// Incheon 2027: weighted-average engine already produces the official 1,000-point scale.
+// Official formula: 99*3.5 + 98*3 + 96*1.25 + 99*1.25 + English(2)=98 => 982.25.
+const incheonWeightedAverage = calculateRegularAdmission({
+  ...normFixture,
+  id: "incheon-weighted-average-smoke",
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  calculationMode: "weighted-average",
+  koreanWeight: 35,
+  mathWeight: 30,
+  englishWeight: 10,
+  inquiryWeight: 25,
+  inquirySubjects: 2,
+  inquiryAggregation: "mean",
+  finalScoreMultiplier: 1,
+  englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
+  calculationVerified: true,
+}, { ...sampleScore, koreanPercentile: 99, mathPercentile: 98, inquiry1Percentile: 96, inquiry2Percentile: 99, englishGrade: 2 });
+assert.ok(Math.abs(incheonWeightedAverage.totalScore - 982.25) < 0.000001);
+assert.equal(incheonWeightedAverage.calculationVerified, true);
+
 const kmouExact = calculateRegularAdmission({
   ...normFixture, calculationMode: "weighted-sum-with-additive-bonuses",
   koreanWeight: 130, mathWeight: 90, englishWeight: 0, inquiryWeight: 80, inquirySubjects: 2, inquiryAggregation: "sum",
@@ -741,7 +762,7 @@ assert.ok(!ajouRows.some((row) => row[2] === "의학과" || row[2] === "국방�
 
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
-assert.match(incheonData, /finalScoreMultiplier: 1000/);
+assert.match(incheonData, /finalScoreMultiplier: 1/);
 assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
 assert.match(incheonData, /id: "early-childhood", department: "유아교육과", group: "가", count: 9/);
 assert.match(incheonData, /id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural"/);
