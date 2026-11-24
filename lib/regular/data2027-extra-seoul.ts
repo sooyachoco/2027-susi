@@ -92,11 +92,288 @@ export const duksungAdmissions2027: RegularAdmission[] = [
   { id:"dukseong-seoul-da-free-major", universityId:"dukseong-seoul", universityName:"덕성여자대학교", region:"서울", department:"미래인재대학(자유전공학부)", majorGroup:"자율전공", group:"다", recruitmentCount:100, scoreMetric:"백분위", subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},koreanWeight:30,mathWeight:25,englishWeight:25,inquiryWeight:20,inquirySubjects:1,inquiryAggregation:"best",calculationMode:"normalized-standard-sum",subjectMaximumScores:{korean:100,math:100,inquiry:100},rankedAreaWeights:[30,25,25,20],finalScoreMultiplier:900,gradeAdjustmentsAfterFinalMultiplier:true,englishGradeTable:DUKSUNG_ENGLISH,koreanHistoryRequired:true,koreanHistoryGradePoints:DUKSUNG_HISTORY_II,studentRecordWeight:10,schoolViolencePenaltyRequired:true,calculationVerified:false,sourceUrl:DUKSUNG_SOURCE,verifiedAt:"2026-11-24",note:"수능우수전형Ⅱ. 수능 900점 + 학생부 교과 100점. 백분위 상위순 30·25·25·20. 학생부 교과 및 학교폭력 조치사항 미입력으로 전체 전형 점수 산출 보류." }
 ];
 
-// 2027 정시 수도권 확장 1차 — 서울 비신학 대학
+// 2027학년도 광운대학교 정시 일반학생전형: 모집요강 p.7 모집단위·인원, p.4~5 수능 반영방법
+const KWANGWOON_SOURCE = "https://iphak.kw.ac.kr/mojib/mojib.php?m_type=JEONGSI&m_year=2027";
+const KWANGWOON_ENGLISH = { 1:200, 2:198, 3:195, 4:190, 5:182, 6:170, 7:158, 8:146, 9:0 } as const;
+const KWANGWOON_HISTORY = { 1:10, 2:10, 3:10, 4:10, 5:9.8, 6:9.6, 7:9.4, 8:9.2, 9:9 } as const;
+const KWANGWOON_ROWS = [
+  {
+    "key": "ga-electronic",
+    "department": "전자공학과",
+    "group": "가",
+    "recruitmentCount": 18,
+    "field": "natural"
+  },
+  {
+    "key": "ga-telecom",
+    "department": "전자통신공학과",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "natural"
+  },
+  {
+    "key": "ga-electronic-convergence",
+    "department": "전자융합공학과",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "natural"
+  },
+  {
+    "key": "ga-electrical",
+    "department": "전기공학과",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "natural"
+  },
+  {
+    "key": "ga-electronic-materials",
+    "department": "전자재료공학과",
+    "group": "가",
+    "recruitmentCount": 5,
+    "field": "natural"
+  },
+  {
+    "key": "ga-semiconductor-system",
+    "department": "반도체시스템공학부 반도체시스템공학전공",
+    "group": "가",
+    "recruitmentCount": 20,
+    "field": "natural"
+  },
+  {
+    "key": "ga-computer-info",
+    "department": "컴퓨터정보공학부",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "ga-software",
+    "department": "소프트웨어학부",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "ga-information-convergence",
+    "department": "정보융합학부",
+    "group": "가",
+    "recruitmentCount": 9,
+    "field": "info"
+  },
+  {
+    "key": "ga-robot-ai",
+    "department": "로봇학부 AI로봇전공",
+    "group": "가",
+    "recruitmentCount": 26,
+    "field": "natural"
+  },
+  {
+    "key": "ga-architecture",
+    "department": "건축학과(5년제)",
+    "group": "가",
+    "recruitmentCount": 12,
+    "field": "natural"
+  },
+  {
+    "key": "ga-architecture-engineering",
+    "department": "건축공학과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "natural"
+  },
+  {
+    "key": "ga-chemical-engineering",
+    "department": "화학공학과",
+    "group": "가",
+    "recruitmentCount": 9,
+    "field": "natural"
+  },
+  {
+    "key": "ga-environment",
+    "department": "환경공학과",
+    "group": "가",
+    "recruitmentCount": 6,
+    "field": "natural"
+  },
+  {
+    "key": "ga-math",
+    "department": "수학과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "natural"
+  },
+  {
+    "key": "ga-electronic-bio-physics",
+    "department": "전자바이오물리학과",
+    "group": "가",
+    "recruitmentCount": 7,
+    "field": "natural"
+  },
+  {
+    "key": "ga-chemistry",
+    "department": "화학과",
+    "group": "가",
+    "recruitmentCount": 8,
+    "field": "natural"
+  },
+  {
+    "key": "na-korean",
+    "department": "국어국문학과",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "humanities"
+  },
+  {
+    "key": "na-english",
+    "department": "영어영문학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "na-media",
+    "department": "미디어커뮤니케이션학부",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "humanities"
+  },
+  {
+    "key": "na-industrial-psychology",
+    "department": "산업심리학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "na-northeast-asian",
+    "department": "동북아문화산업학부",
+    "group": "나",
+    "recruitmentCount": 10,
+    "field": "humanities"
+  },
+  {
+    "key": "na-public-admin",
+    "department": "행정학과",
+    "group": "나",
+    "recruitmentCount": 8,
+    "field": "humanities"
+  },
+  {
+    "key": "na-law",
+    "department": "법학부",
+    "group": "나",
+    "recruitmentCount": 14,
+    "field": "humanities"
+  },
+  {
+    "key": "na-international",
+    "department": "국제학부",
+    "group": "나",
+    "recruitmentCount": 6,
+    "field": "humanities"
+  },
+  {
+    "key": "na-business",
+    "department": "경영학부 경영학전공",
+    "group": "나",
+    "recruitmentCount": 18,
+    "field": "business"
+  },
+  {
+    "key": "na-bigdata-business",
+    "department": "경영학부 빅데이터경영전공",
+    "group": "나",
+    "recruitmentCount": 14,
+    "field": "business"
+  },
+  {
+    "key": "na-trade",
+    "department": "국제통상학부",
+    "group": "나",
+    "recruitmentCount": 9,
+    "field": "business"
+  },
+  {
+    "key": "da-sports",
+    "department": "스포츠융합과학과",
+    "group": "다",
+    "recruitmentCount": 22,
+    "field": "sports"
+  },
+  {
+    "key": "da-autonomous-natural",
+    "department": "자율전공학부(자연)",
+    "group": "다",
+    "recruitmentCount": 257,
+    "field": "natural"
+  },
+  {
+    "key": "da-autonomous-humanities",
+    "department": "자율전공학부(인문)",
+    "group": "다",
+    "recruitmentCount": 146,
+    "field": "humanities"
+  }
+] as const;
+const kwangwoonAdmissions2027: RegularAdmission[] = KWANGWOON_ROWS.map((row) => {
+  const business = row.field === "business";
+  const humanities = row.field === "humanities";
+  const sports = row.field === "sports";
+  const natural = row.field === "natural";
+  const info = row.field === "info";
+  const weights = sports
+    ? { koreanWeight:40, mathWeight:0, englishWeight:30, inquiryWeight:30 }
+    : business
+      ? { koreanWeight:30, mathWeight:30, englishWeight:20, inquiryWeight:20 }
+      : humanities
+        ? { koreanWeight:30, mathWeight:25, englishWeight:20, inquiryWeight:25 }
+        : { koreanWeight:20, mathWeight:35, englishWeight:20, inquiryWeight:25 };
+  return {
+    id: `kwangwoon-seoul-${row.key}`,
+    universityId: "kwangwoon-seoul",
+    universityName: "광운대학교",
+    region: "서울",
+    department: row.department,
+    majorGroup: sports ? "예체능·체육" : humanities || business ? "인문·사회" : "자연·공학",
+    group: row.group,
+    recruitmentCount: row.recruitmentCount,
+    scoreMetric: "표준점수",
+    subjectMetrics: { korean:"표준점수", math:"표준점수", inquiry:"백분위" },
+    ...weights,
+    inquirySubjects: 2,
+    inquiryAggregation: "sum",
+    inquiryConversionRequired: true,
+    koreanHistoryRequired: true,
+    englishGradeTable: KWANGWOON_ENGLISH,
+    koreanHistoryGradePoints: KWANGWOON_HISTORY,
+    finalScoreMultiplier: 1000,
+    gradeAdjustmentsAfterFinalMultiplier: true,
+    mathChoiceBonusRequired: natural && !info,
+    mathChoiceBonusRate: natural && !info ? { "미적분":0.03, "기하":0.03 } : undefined,
+    inquiryTypeBonusRequired: natural && !info,
+    inquiryTypeBonusRate: natural && !info ? { "사탐":0, "과탐":0.03, "직탐":0 } : undefined,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "일반학생전형 전형총점 1,000점 기준: 1~3호 각 3점, 4~5호 각 30점, 6~7호 각 50점 감점, 8~9호 부적격. 해당 입력·결격 처리가 구현되기 전까지 최종 판정 보류.",
+    practicalEvaluationRequired: sports,
+    studentRecordWeight: sports ? 30 : undefined,
+    calculationVerified: false,
+    sourceUrl: KWANGWOON_SOURCE,
+    verifiedAt: "2026-11-24",
+    note: sports
+      ? "스포츠융합과학과 일반학생전형: 수능40%·학생부30%·실기30%, 국어40·영어30·탐구30(수학 미반영). 탐구 변환점수, 학생부, 실기 및 학교폭력 반영까지 엔진 검증 전 최종 판정 보류."
+      : "2027 정시 일반학생전형. 국어·수학 표준점수, 영어 등급별 변환점수, 탐구 2과목 백분위 기반 대학 자체 변환표준점수 합산. 한국사 가산점 반영. 자연계열은 미적분·기하 수학 및 과학탐구 가산점 3%(정보융합학부 제외). 탐구 변환표와 가산 처리, 학교폭력 조치사항 처리 검증 전 최종 판정 보류."
+  };
+});
+const kwangwoonTotals = kwangwoonAdmissions2027.reduce<Record<"가"|"나"|"다",number>>(
+  (totals,row) => ({...totals,[row.group]:totals[row.group]+(row.recruitmentCount ?? 0)}),
+  {가:0,나:0,다:0},
+);
+if (kwangwoonAdmissions2027.length !== 31 || kwangwoonTotals.가 !== 164 || kwangwoonTotals.나 !== 111 || kwangwoonTotals.다 !== 425) {
+  throw new Error("광운대 2027 일반학생전형 모집단위·군별 인원 합계 검증 실패");
+}
+
 export const regularAdmissions2027SeoulExtra: RegularAdmission[] = [
-  { id:"kwangwoon-seoul-ga-natural", universityId:"kwangwoon-seoul", universityName:"광운대학교", region:"서울", department:"자연·공학계열 대표", majorGroup:"자연·공학", group:"가", scoreMetric:"표준점수", koreanWeight:20, mathWeight:35, englishWeight:20, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"sum", inquiryConversionRequired:true, koreanHistoryRequired:true, calculationVerified:false, note:"2027 광운대 정시 자연계열 기준 국20·수35·영20·탐25. 국어·수학 표준점수, 영어 200점 환산, 탐구 백분위 기반 자체 변환표준점수 2과목 합산. 미적분·기하 및 과탐 가산점은 모집단위 예외가 있어 세부 확인과 변환표 반영 전 계산 보류.", sourceUrl:"https://iphak.kw.ac.kr/", verifiedAt:"2026-09-27" },
-  { id:"kwangwoon-seoul-na-humanities", universityId:"kwangwoon-seoul", universityName:"광운대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"표준점수", koreanWeight:30, mathWeight:25, englishWeight:20, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"sum", inquiryConversionRequired:true, koreanHistoryRequired:true, calculationVerified:false, note:"2027 광운대 정시 인문계열(경영·국제통상 제외) 기준 국30·수25·영20·탐25. 경영·국제통상은 국30·수30·영20·탐20으로 별도 분리 필요. 탐구 자체 변환표준점수와 영어 200점 환산표 반영 전 계산 보류.", sourceUrl:"https://iphak.kw.ac.kr/", verifiedAt:"2026-09-27" },
-  { id:"snut-seoul-ga-natural", universityId:"snut-seoul", universityName:"서울과학기술대학교", region:"서울", department:"자연·공학계열 대표", majorGroup:"자연·공학", group:"가", scoreMetric:"표준점수", koreanWeight:20, mathWeight:35, englishWeight:20, inquiryWeight:25, inquirySubjects:2, inquiryAggregation:"mean", inquiryConversionRequired:true, koreanHistoryRequired:true, calculationVerified:false, note:"2027 서울과기대 정시 일반전형 자연·공학계열 대표 반영비율 국20·수35·영20·탐25. 탐구 변환 및 영어 등급 환산, 세부 모집단위별 가산점 확인 전까지 계산 검증 보류. 모집단위별 모집군·인원은 개별 행으로 분리 필요.", sourceUrl:"https://admission.seoultech.ac.kr/", verifiedAt:"2026-09-27" },
+  ...kwangwoonAdmissions2027,
   { id:"myongji-seoul-na-humanities", universityId:"myongji-seoul", universityName:"명지대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"나", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://iphak.mju.ac.kr/", verifiedAt:"2026-09-27" },
   { id:"sangmyung-seoul-ga-humanities", universityId:"sangmyung-seoul", universityName:"상명대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://admission.smu.ac.kr/", verifiedAt:"2026-09-27" },
   { id:"sungshin-seoul-ga-humanities", universityId:"sungshin-seoul", universityName:"성신여자대학교", region:"서울", department:"인문계열 대표", majorGroup:"인문·어문", group:"가", scoreMetric:"백분위", koreanWeight:35, mathWeight:25, englishWeight:15, inquiryWeight:25, inquirySubjects:2, note:"2027 정시 대표 인문계열.", sourceUrl:"https://ipsi.sungshin.ac.kr/", verifiedAt:"2026-09-27" },
