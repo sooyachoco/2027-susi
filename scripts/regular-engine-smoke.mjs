@@ -652,6 +652,8 @@ const incheonWeightedAverage = calculateRegularAdmission({
   inquirySubjects: 2,
   inquiryAggregation: "mean",
   finalScoreMultiplier: 1,
+  koreanHistoryRequired: false,
+  koreanHistoryGradePoints: undefined,
   englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
   calculationVerified: true,
 }, { ...sampleScore, koreanPercentile: 99, mathPercentile: 98, inquiry1Percentile: 96, inquiry2Percentile: 99, englishGrade: 2 });

@@ -50,6 +50,12 @@ function getCutline(admission: RegularAdmission): number | undefined {
   return raw;
 }
 
+function getBenchmarkGapLabel(admission: RegularAdmission, gap: number): string {
+  const label = admission.benchmarkYear && admission.benchmarkCutline70 != null
+    ? `${admission.benchmarkYear}학년도 최종등록자 70%컷`
+    : "기준점";
+  return `${label} 대비 ${gap >= 0 ? "+" : ""}${gap.toFixed(1)}`;
+}
 function isExcludedMajor(admission: RegularAdmission): boolean {
   const text = `${admission.universityName} ${admission.department} ${admission.majorGroup}`.replace(/\s+/g, "");
   return /신학|신학대|목회|기독교학/.test(text);
@@ -172,7 +178,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
     score,
     recruitmentCount: admission.recruitmentCount,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    reason: `${admission.group}군 · ${admission.department} · 대학별 반영식 참고지수 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
@@ -225,7 +231,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     score,
     recruitmentCount: admission.recruitmentCount,
     tier,
-    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · 기준점 대비 ${((result.totalScore - reference) >= 0 ? "+" : "")}${(result.totalScore - reference).toFixed(1)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
+    reason: `${admission.group}군 · ${admission.department} · ${admission.scoreMetric} 환산 ${result.totalScore.toFixed(1)}점 · 전공 적합도 ${fit > 0 ? "높음" : "보통"}${reference != null ? ` · ${getBenchmarkGapLabel(admission, result.totalScore - reference)}` : ` · 판정 보류${result.missingRules.length ? ` · 미반영: ${result.missingRules.join(", ")}` : " · 공식 환산식/기준점 비교 검증 전"}`}`,
     calculationVerified: result.calculationVerified,
     hasComparableBenchmark: reference != null,
     benchmarkGap: gap,
