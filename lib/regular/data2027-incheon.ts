@@ -2,6 +2,65 @@ import type { RegularAdmission } from "./types";
 
 const SOURCE = "https://edukorean.inu.ac.kr/bbs/inu/2767/394469/download";
 const ENGLISH = { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 } as const;
+const BENCHMARK_SOURCE = "https://admission.inu.ac.kr/detail.do?board_seq=15141&categoryid=53&menuurl=7o6CZK4SE%2FZm%2Fkm5uoXMkQ%3D%3D&pageNo=1&userpwd=";
+const BENCHMARK_2026: Record<string, { department: string; cutline70: number }> = {
+  "design": { department: "디자인학부", cutline70: 815 },
+  "korean-language": { department: "국어국문학과", cutline70: 795.5 },
+  "english-language": { department: "영어영문학과", cutline70: 792.5 },
+  "german-language": { department: "독어독문학과", cutline70: 788.5 },
+  "french-language": { department: "불어불문학과", cutline70: 788.3 },
+  "japanese-culture": { department: "일본지역문화학과", cutline70: 780.5 },
+  "chinese-studies": { department: "중어중국학과", cutline70: 787.3 },
+  "social-welfare": { department: "사회복지학과", cutline70: 788 },
+  "media-communication": { department: "미디어커뮤니케이션학과", cutline70: 805 },
+  "library-information": { department: "문헌정보학과", cutline70: 795.8 },
+  "creative-talent": { department: "창의인재개발학과", cutline70: 795.3 },
+  "mechanical-engineering": { department: "기계공학과", cutline70: 810 },
+  "electrical-engineering": { department: "전기공학과", cutline70: 812 },
+  "electronic-semiconductor": { department: "전자공학부", cutline70: 822.5 },
+  "industrial-management": { department: "산업경영공학과", cutline70: 802.5 },
+  "materials-engineering": { department: "신소재공학과", cutline70: 807.5 },
+  "safety-engineering": { department: "안전공학과", cutline70: 798 },
+  "energy-chemical": { department: "에너지화학공학과", cutline70: 813 },
+  "bio-robot": { department: "바이오-로봇시스템공학과", cutline70: 807.5 },
+  "business": { department: "경영학부", cutline70: 802.5 },
+  "data-science": { department: "데이터과학과", cutline70: 799.3 },
+  "tax-accounting": { department: "세무회계학과", cutline70: 804.3 },
+  "korean-education": { department: "국어교육과", cutline70: 821.3 },
+  "english-education": { department: "영어교육과", cutline70: 801.3 },
+  "japanese-education": { department: "일어교육과", cutline70: 796 },
+  "math-education": { department: "수학교육과", cutline70: 834.5 },
+  "early-childhood": { department: "유아교육과", cutline70: 782 },
+  "history-education": { department: "역사교육과", cutline70: 833.3 },
+  "ethics-education": { department: "윤리교육과", cutline70: 807.8 },
+  "life-science": { department: "생명과학전공", cutline70: 797 },
+  "molecular-biomedicine": { department: "분자의생명전공", cutline70: 803.5 },
+  "biotechnology": { department: "생명공학전공", cutline70: 817 },
+  "nano-bio": { department: "나노바이오공학전공", cutline70: 806 },
+  "free-major-humanities": { department: "자유전공학부(인문)", cutline70: 805 },
+  "free-major-natural": { department: "자유전공학부(자연)", cutline70: 815 },
+  "mathematics": { department: "수학과", cutline70: 806 },
+  "physics": { department: "물리학과", cutline70: 799 },
+  "chemistry": { department: "화학과", cutline70: 807.5 },
+  "fashion-industry": { department: "패션산업학과", cutline70: 791.5 },
+  "oceanography": { department: "해양학과", cutline70: 793 },
+  "public-administration": { department: "행정학과", cutline70: 795.5 },
+  "political-science": { department: "정치외교학과", cutline70: 797.8 },
+  "economics": { department: "경제학과", cutline70: 814.3 },
+  "global-trade": { department: "Global Trade & Service학부", cutline70: 801.5 },
+  "consumer-studies": { department: "소비자학과", cutline70: 785.3 },
+  "computer-ai": { department: "컴퓨터공학부", cutline70: 816 },
+  "ai-communications": { department: "정보통신공학과", cutline70: 814.5 },
+  "ai-systems": { department: "임베디드시스템공학과", cutline70: 809.5 },
+  "urban-administration": { department: "도시행정학과", cutline70: 800.3 },
+  "civil-environment": { department: "건설환경공학전공", cutline70: 803.5 },
+  "environment-engineering": { department: "환경공학전공", cutline70: 811 },
+  "urban-engineering": { department: "도시공학과", cutline70: 806.5 },
+  "architecture-engineering": { department: "도시건축학부", cutline70: 805 },
+  "northeast-asia-trade": { department: "동북아국제통상전공", cutline70: 839 },
+  "smart-logistics": { department: "스마트물류공학전공", cutline70: 815 },
+  "law": { department: "법학부", cutline70: 807.5 },
+};
 
 // 2027학년도 인천대학교 최종 정시모집요강 일반학생전형.
 // 수능 100% 인문·자연 모집단위만 우선 반영. 실기 혼합 모집단위는 별도 검증 전까지 제외.
@@ -68,6 +127,7 @@ const rows: Row[] = [
 export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) => {
   const humanities = row.field === "humanities";
   const design = row.field === "design";
+  const benchmark = BENCHMARK_2026[row.id];
   return {
     id: `inu-2027-${row.group}-${row.id}`,
     universityId: "incheon-national",
@@ -88,7 +148,12 @@ export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) =
     englishGradeTable: ENGLISH,
     finalScoreMultiplier: 1,
     calculationVerified: true,
-    benchmarkComparable: false,
+    benchmarkYear: benchmark ? 2026 : undefined,
+    benchmarkCutline70: benchmark?.cutline70,
+    benchmarkTotalScore: benchmark ? 1000 : undefined,
+    benchmarkDepartment: benchmark?.department,
+    benchmarkSourceUrl: benchmark ? BENCHMARK_SOURCE : undefined,
+    benchmarkComparable: Boolean(benchmark),
     note: design ? "2027 최종 모집요강 일반학생전형 디자인학부 기준. 수능 100%, 국45·수15·탐구30·영10. 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용." : row.id === "smart-logistics" ? "2027 최종 모집요강 일반학생전형 스마트물류공학전공 기준. 수능 반영표에서 동북아국제통상물류학부로 묶여 자연계열 반영비율(국25·수35·탐30·영10)을 적용." : "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문(패션산업 포함)은 국35·수30·탐25·영10, 자연·동북아국제통상물류학부는 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가.",
     sourceUrl: SOURCE,
     verifiedAt: "2026-11-23",

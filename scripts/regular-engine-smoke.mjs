@@ -9,6 +9,7 @@ const ts = require("typescript");
 const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.meta.url));
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
 assert.match(regularAuditSource, /mode === "weighted-sum-with-additive-bonuses"\) return false/);
+assert.match(regularAuditSource, /invalidBenchmarkMetadata/);
 const source = readFileSync(enginePath, "utf8");
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
@@ -763,6 +764,11 @@ assert.ok(!ajouRows.some((row) => row[2] === "의학과" || row[2] === "국방�
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
 assert.match(incheonData, /finalScoreMultiplier: 1/);
+assert.match(incheonData, /benchmarkYear: benchmark \? 2026 : undefined/);
+assert.match(incheonData, /benchmarkCutline70: benchmark\?\.cutline70/);
+assert.match(incheonData, /benchmarkSourceUrl: benchmark \? BENCHMARK_SOURCE : undefined/);
+assert.match(incheonData, /"northeast-asia-trade": \{ department: "동북아국제통상전공", cutline70: 839 \}/);
+assert.equal((incheonData.match(/department: "[^"]+", cutline70:/g) ?? []).length, 56);
 assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
 assert.match(incheonData, /id: "early-childhood", department: "유아교육과", group: "가", count: 9/);
 assert.match(incheonData, /id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural"/);

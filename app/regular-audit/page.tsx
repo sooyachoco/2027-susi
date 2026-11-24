@@ -22,6 +22,7 @@ const LABELS: Record<string, string> = {
   invalidMultipliers: "환산 배율 오류",
   invalidConversionTables: "환산표 값 오류",
   invalidSourceMetadata: "출처 URL·검증일 오류",
+  invalidBenchmarkMetadata: "전년도 기준점 출처·만점 오류",
   missingEnglishGradeTable: "영어 등급 환산표 누락",
   missingKoreanHistoryTable: "한국사 환산표 누락",
   missingInquiryConversionTable: "탐구 변환표 누락",

@@ -85,6 +85,15 @@ export async function GET() {
       (mathNeedsMaximum && !(maxima?.math && maxima.math > 0)) ||
       (inquiryNeedsMaximum && !(maxima?.inquiry && maxima.inquiry > 0));
   });
+  const invalidBenchmarkMetadata = admissions.filter((item) => {
+    if (item.benchmarkComparable !== true) return false;
+    const hasCutline = [item.benchmarkCutline70, item.benchmarkCutline95, item.expectedCutline, item.expectedCutline70, item.expectedCutline95]
+      .some((value) => typeof value === "number" && Number.isFinite(value));
+    return !Number.isInteger(item.benchmarkYear) || !item.benchmarkSourceUrl?.trim() ||
+      !/^https?:\/\//i.test(item.benchmarkSourceUrl) ||
+      !(typeof item.benchmarkTotalScore === "number" && Number.isFinite(item.benchmarkTotalScore) && item.benchmarkTotalScore > 0) ||
+      !hasCutline;
+  });
   const missingBenchmark = admissions.filter(
     (item) => item.benchmarkComparable !== true ||
       item.calculationVerified !== true ||
@@ -128,6 +137,7 @@ export async function GET() {
       calculationUnverified: unverifiedCalculation.length,
       benchmarkComparable: admissions.filter((item) =>
         item.benchmarkComparable === true && item.calculationVerified === true &&
+        Boolean(item.benchmarkSourceUrl) && Number.isFinite(item.benchmarkTotalScore) &&
         (item.benchmarkCutline70 != null || item.benchmarkCutline95 != null ||
           item.expectedCutline != null || item.expectedCutline70 != null || item.expectedCutline95 != null),
       ).length,
@@ -144,6 +154,7 @@ export async function GET() {
       invalidMultipliers: invalidMultipliers.length,
       invalidConversionTables: invalidConversionTables.length,
       invalidSourceMetadata: invalidSourceMetadata.length,
+      invalidBenchmarkMetadata: invalidBenchmarkMetadata.length,
       missingEnglishGradeTable: missingEnglishTable.length,
       missingKoreanHistoryTable: missingHistoryTable.length,
       missingInquiryConversionTable: missingInquiryConversion.length,
@@ -163,6 +174,7 @@ export async function GET() {
       invalidMultipliers: summarize(invalidMultipliers),
       invalidConversionTables: summarize(invalidConversionTables),
       invalidSourceMetadata: summarize(invalidSourceMetadata),
+      invalidBenchmarkMetadata: summarize(invalidBenchmarkMetadata),
       missingEnglishGradeTable: summarize(missingEnglishTable),
       missingKoreanHistoryTable: summarize(missingHistoryTable),
       missingInquiryConversionTable: summarize(missingInquiryConversion),
