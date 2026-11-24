@@ -52,7 +52,7 @@ assert.equal(konkukSource.includes("대표"), false);
 const donggukRowsMatch = donggukSource.match(/const DONGGUK_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(donggukRowsMatch);
 const donggukRows = JSON.parse(donggukRowsMatch[1]);
-assert.equal(donggukRows.length, 54);
+assert.equal(donggukRows.length, 55);
 assert.deepEqual(donggukRows.reduce((totals, row) => {
   totals[row.group] += row.recruitmentCount;
   totals.total += row.recruitmentCount;
