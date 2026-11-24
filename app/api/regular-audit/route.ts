@@ -1,10 +1,11 @@
-import { getRegularAdmissions } from "@/lib/regular/repository";
+import { getRegularAdmissions, getRegularAdmissionSourceAudit } from "@/lib/regular/repository";
 
 const TARGET_REGIONS = ["서울", "경기", "인천"] as const;
 const GROUPS = ["가", "나", "다"] as const;
 
 export async function GET() {
   const admissions = getRegularAdmissions();
+  const sourceAudit = getRegularAdmissionSourceAudit();
   const byRegion = Object.fromEntries(
     TARGET_REGIONS.map((region) => [region, admissions.filter((item) => item.region === region).length]),
   );
@@ -103,12 +104,8 @@ export async function GET() {
   const unverifiedCalculation = admissions.filter((item) => item.calculationVerified !== true);
   const missingMethodNotes = admissions.filter((item) => !item.note?.trim());
   const placeholderDepartments = admissions.filter((item) => /대표/.test(item.department));
-  const duplicateIds = Object.entries(
-    admissions.reduce<Record<string, number>>((counts, item) => {
-      counts[item.id] = (counts[item.id] ?? 0) + 1;
-      return counts;
-    }, {}),
-  ).filter(([, count]) => count > 1).map(([id, count]) => ({ id, count }));
+  // Check raw source rows, not the deduplicated recommendation repository.
+  const duplicateIds = sourceAudit.duplicateIds;
 
   const summarize = (items: typeof admissions) => items.map((item) => ({
     id: item.id,
@@ -142,6 +139,8 @@ export async function GET() {
     scope: "2027 정시 / 서울·경기·인천",
     totals: {
       admissions: admissions.length,
+      sourceRows: sourceAudit.sourceRows,
+      uniqueSourceIds: sourceAudit.uniqueIds,
       universities: new Set(admissions.map((item) => item.universityId)).size,
       byRegion,
       byGroup,
