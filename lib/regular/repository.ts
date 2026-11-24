@@ -37,3 +37,24 @@ export function getRegularAdmissions(): RegularAdmission[] {
 export function findRegularAdmission(id: string): RegularAdmission | undefined {
   return getRegularAdmissions().find((item) => item.id === id);
 }
+
+/**
+ * Audits the raw source rows before getRegularAdmissions() deduplicates them.
+ * This keeps cross-file ID collisions visible to the audit API.
+ */
+export function getRegularAdmissionSourceAudit() {
+  const sourceRows = ALL_REGULAR_ADMISSIONS_2027.filter((item) =>
+    TARGET_REGIONS.has(item.region) && !isExcludedAdmission(item),
+  );
+  const counts = sourceRows.reduce<Record<string, number>>((result, item) => {
+    result[item.id] = (result[item.id] ?? 0) + 1;
+    return result;
+  }, {});
+  return {
+    sourceRows: sourceRows.length,
+    uniqueIds: Object.keys(counts).length,
+    duplicateIds: Object.entries(counts)
+      .filter(([, count]) => count > 1)
+      .map(([id, count]) => ({ id, count })),
+  };
+}
