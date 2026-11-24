@@ -31,6 +31,19 @@ export async function GET() {
         (item.rankedAreaWeights.some((weight) => !Number.isFinite(weight) || weight < 0) ||
           item.rankedAreaWeights.length === 0));
   });
+  const invalidWeightTotals = admissions.filter((item) => {
+    const groups = [
+      [item.koreanWeight, item.mathWeight, item.englishWeight, item.inquiryWeight],
+      item.alternateWeighting
+        ? [item.alternateWeighting.koreanWeight, item.alternateWeighting.mathWeight,
+            item.alternateWeighting.englishWeight, item.alternateWeighting.inquiryWeight]
+        : null,
+    ].filter((weights): weights is number[] => weights != null);
+    return groups.some((weights) =>
+      weights.every((weight) => Number.isFinite(weight)) &&
+      Math.abs(weights.reduce((sum, weight) => sum + weight, 0) - 100) > 0.1,
+    );
+  });
   const invalidMultipliers = admissions.filter((item) =>
     [item.subjectScoreMultiplier, item.finalScoreMultiplier].some((value) =>
       value != null && (!Number.isFinite(value) || value <= 0),
@@ -122,7 +135,7 @@ export async function GET() {
       missingRecruitmentCount: missingRecruitment.length,
       zeroRecruitmentCount: zeroRecruitment.length,
       invalidRecruitmentCount: invalidRecruitmentCount.length,
-      invalidWeights: invalidWeights.length,
+      invalidWeights: invalidWeights.length,\n      invalidWeightTotals: invalidWeightTotals.length,
       invalidMultipliers: invalidMultipliers.length,
       invalidConversionTables: invalidConversionTables.length,
       invalidSourceMetadata: invalidSourceMetadata.length,
@@ -140,7 +153,7 @@ export async function GET() {
       missingRecruitmentCount: summarize(missingRecruitment),
       zeroRecruitmentCount: summarize(zeroRecruitment),
       invalidRecruitmentCount: summarize(invalidRecruitmentCount),
-      invalidWeights: summarize(invalidWeights),
+      invalidWeights: summarize(invalidWeights),\n      invalidWeightTotals: summarize(invalidWeightTotals),
       invalidMultipliers: summarize(invalidMultipliers),
       invalidConversionTables: summarize(invalidConversionTables),
       invalidSourceMetadata: summarize(invalidSourceMetadata),
