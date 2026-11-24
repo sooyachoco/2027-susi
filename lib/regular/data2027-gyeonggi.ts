@@ -89,15 +89,15 @@ const ajouAdmissions: RegularAdmission[] = AJOU_ROWS.map((row) => {
     ...AJOU_BASE,
     ...weights,
     id: `ajou-${row.id}`,
-    department: row.department,
-    majorGroup: row.majorGroup,
-    group: row.group,
-    recruitmentCount: row.recruitmentCount,
+    department,
+    majorGroup,
+    group,
+    recruitmentCount,
     mathChoiceBonusRequired: natural,
     mathChoiceBonusRate: natural ? { 미적분: 0.03, 기하: 0.03, 확률과통계: 0 } : undefined,
     inquiryTypeBonusRequired: natural,
     inquiryTypeBonusRate: natural ? { 사탐: 0, 과탐: 0.03, 직탐: 0 } : undefined,
-    note: `2027 아주대 ${row.admissionType} 기준. ${row.department} ${row.group}군 ${row.recruitmentCount}명. ${natural ? "자연1 국20·수35·영15·탐30, 미적분·기하 수학 표준점수 3% 및 과탐 탐구변환점수 3% 가산." : humanitiesBusiness ? "인문1 국25·수40·영15·탐20." : "인문2 국35·수25·영15·탐25."} 국어·수학 표준점수, 탐구 백분위 기반 자체변환점수 2과목, 영어 등급환산, 한국사 5등급부터 감점. 탐구 변환표와 해당 수능 최고점 확정 전이므로 계산 판정 보류.`,
+    note: `2027 아주대 ${row.admissionType} 기준. ${row.department} ${group}군 ${recruitmentCount}명. ${natural ? "자연1 국20·수35·영15·탐30, 미적분·기하 수학 표준점수 3% 및 과탐 탐구변환점수 3% 가산." : humanitiesBusiness ? "인문1 국25·수40·영15·탐20." : "인문2 국35·수25·영15·탐25."} 국어·수학 표준점수, 탐구 백분위 기반 자체변환점수 2과목, 영어 등급환산, 한국사 5등급부터 감점. 탐구 변환표와 해당 수능 최고점 확정 전이므로 계산 판정 보류.`,
   };
 });
 
@@ -124,47 +124,47 @@ const regularAdmissions2027GyeonggiBase: RegularAdmission[] = [
 ];
 
 const HANYANG_ERICA_ROWS = [
-  { id: "architecture-major-ga", department: "건축학부 건축학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural2" },
-  { id: "architecture-engineering-ga", department: "건축학부 건축공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural1" },
-  { id: "civil-environment-ga", department: "건설환경공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 14, field: "natural1" },
-  { id: "transport-logistics-ga", department: "교통·물류공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural2" },
-  { id: "electronic-engineering-ga", department: "전자공학부", majorGroup: "자연·공학", group: "가", recruitmentCount: 50, field: "natural1" },
-  { id: "battery-materials-ga", department: "배터리소재화학공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 31, field: "natural1" },
-  { id: "mechanical-engineering-ga", department: "기계공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 32, field: "natural1" },
-  { id: "industrial-management-ga", department: "산업경영공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural2" },
-  { id: "computer-major-ga", department: "컴퓨터전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 22, field: "natural2" },
-  { id: "intelligent-cloud-ga", department: "지능형클라우드전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 6, field: "natural2" },
-  { id: "ict-convergence-ga", department: "ICT융합학부", majorGroup: "자연·공학", group: "가", recruitmentCount: 19, field: "natural2" },
-  { id: "math-data-ga", department: "수리데이터사이언스학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 10, field: "natural1" },
-  { id: "nextgen-semiconductor-ga", department: "차세대반도체융합공학부(학부모집)", majorGroup: "자연·공학", group: "가", recruitmentCount: 19, field: "natural1" },
-  { id: "semiconductor-display-ga", department: "반도체·디스플레이공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural1" },
-  { id: "molecular-medicine-ga", department: "분자의약전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 13, field: "natural1" },
-  { id: "bio-nano-ga", department: "바이오나노공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 12, field: "natural1" },
-  { id: "intelligent-system-ga", department: "지능형시스템공학전공", majorGroup: "자연·공학", group: "가", recruitmentCount: 22, field: "natural1" },
-  { id: "global-culture-ga", department: "글로벌문화통상학부", majorGroup: "인문·사회", group: "가", recruitmentCount: 32, field: "humanities" },
-  { id: "advertising-ga", department: "광고홍보학과", majorGroup: "인문·사회", group: "가", recruitmentCount: 20, field: "humanities" },
-  { id: "economics-ga", department: "경제학부", majorGroup: "경영·경제", group: "가", recruitmentCount: 28, field: "business" },
-  { id: "insurance-actuarial-ga", department: "보험계리학과", majorGroup: "경영·경제", group: "가", recruitmentCount: 11, field: "natural1" },
-  { id: "robotics-na", department: "로봇공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 20, field: "natural1" },
-  { id: "energy-bio-na", department: "에너지바이오학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 19, field: "natural1" },
-  { id: "marine-convergence-na", department: "해양융합공학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 11, field: "natural1" },
-  { id: "computer-faculty-na", department: "컴퓨터학부(학부모집)", majorGroup: "자연·공학", group: "나", recruitmentCount: 8, field: "natural2" },
-  { id: "artificial-intelligence-na", department: "인공지능학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 30, field: "natural1" },
-  { id: "pharmacy-na", department: "약학과", majorGroup: "자연·공학", group: "나", recruitmentCount: 10, field: "natural1" },
-  { id: "semiconductor-materials-na", department: "신소재·반도체공학전공", majorGroup: "자연·공학", group: "나", recruitmentCount: 20, field: "natural1" },
-  { id: "bio-pharma-faculty-na", department: "바이오신약융합학부(학부모집)", majorGroup: "자연·공학", group: "나", recruitmentCount: 24, field: "natural1" },
-  { id: "media-na", department: "미디어학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 20, field: "humanities" },
-  { id: "cultural-anthropology-na", department: "문화인류학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 11, field: "humanities" },
-  { id: "culture-contents-na", department: "문화콘텐츠학과", majorGroup: "인문·사회", group: "나", recruitmentCount: 12, field: "humanities" },
-  { id: "business-na", department: "경영학부", majorGroup: "경영·경제", group: "나", recruitmentCount: 40, field: "business" },
-  { id: "lions-free-major-na", department: "LIONS자율전공학부(전계열)", majorGroup: "자유전공", group: "나", recruitmentCount: 94, field: "lions" },
+  ["architecture-major-ga","건축학부 건축학전공","자연·공학","가",13,"natural2"],
+  ["architecture-engineering-ga","건축학부 건축공학전공","자연·공학","가",13,"natural1"],
+  ["civil-environment-ga","건설환경공학과","자연·공학","가",14,"natural1"],
+  ["transport-logistics-ga","교통·물류공학과","자연·공학","가",12,"natural2"],
+  ["electronic-engineering-ga","전자공학부","자연·공학","가",50,"natural1"],
+  ["battery-materials-ga","배터리소재화학공학과","자연·공학","가",31,"natural1"],
+  ["mechanical-engineering-ga","기계공학과","자연·공학","가",32,"natural1"],
+  ["industrial-management-ga","산업경영공학과","자연·공학","가",13,"natural2"],
+  ["computer-major-ga","컴퓨터전공","자연·공학","가",22,"natural2"],
+  ["intelligent-cloud-ga","지능형클라우드전공","자연·공학","가",6,"natural2"],
+  ["ict-convergence-ga","ICT융합학부","자연·공학","가",19,"natural2"],
+  ["math-data-ga","수리데이터사이언스학과","자연·공학","가",10,"natural1"],
+  ["nextgen-semiconductor-ga","차세대반도체융합공학부(학부모집)","자연·공학","가",19,"natural1"],
+  ["semiconductor-display-ga","반도체·디스플레이공학전공","자연·공학","가",12,"natural1"],
+  ["molecular-medicine-ga","분자의약전공","자연·공학","가",13,"natural1"],
+  ["bio-nano-ga","바이오나노공학전공","자연·공학","가",12,"natural1"],
+  ["intelligent-system-ga","지능형시스템공학전공","자연·공학","가",22,"natural1"],
+  ["global-culture-ga","글로벌문화통상학부","인문·사회","가",32,"humanities"],
+  ["advertising-ga","광고홍보학과","인문·사회","가",20,"humanities"],
+  ["economics-ga","경제학부","경영·경제","가",28,"business"],
+  ["insurance-actuarial-ga","보험계리학과","경영·경제","가",11,"natural1"],
+  ["robotics-na","로봇공학과","자연·공학","나",20,"natural1"],
+  ["energy-bio-na","에너지바이오학과","자연·공학","나",19,"natural1"],
+  ["marine-convergence-na","해양융합공학과","자연·공학","나",11,"natural1"],
+  ["computer-faculty-na","컴퓨터학부(학부모집)","자연·공학","나",8,"natural2"],
+  ["artificial-intelligence-na","인공지능학과","자연·공학","나",30,"natural1"],
+  ["pharmacy-na","약학과","자연·공학","나",10,"natural1"],
+  ["semiconductor-materials-na","신소재·반도체공학전공","자연·공학","나",20,"natural1"],
+  ["bio-pharma-faculty-na","바이오신약융합학부(학부모집)","자연·공학","나",24,"natural1"],
+  ["media-na","미디어학과","인문·사회","나",20,"humanities"],
+  ["cultural-anthropology-na","문화인류학과","인문·사회","나",11,"humanities"],
+  ["culture-contents-na","문화콘텐츠학과","인문·사회","나",12,"humanities"],
+  ["business-na","경영학부","경영·경제","나",40,"business"],
+  ["lions-free-major-na","LIONS자율전공학부(전계열)","자유전공","나",94,"lions"],
 ] as const;
 
 const HANYANG_ERICA_ENGLISH = { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 } as const;
 const HANYANG_ERICA_HISTORY = { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9.0 } as const;
 const HANYANG_ERICA_SOURCE = "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp";
 
-const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map((row) => {
+const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map(([id, department, majorGroup, group, recruitmentCount, field]) => {
   const natural1 = row.field === "natural1";
   const natural2 = row.field === "natural2";
   const humanities = row.field === "humanities";
@@ -176,7 +176,7 @@ const hanyangEricaAdmissions: RegularAdmission[] = HANYANG_ERICA_ROWS.map((row) 
       : { koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25 };
   const inquiryBonus = natural1 ? { 과탐: 0.03 } : humanities ? { 사탐: 0.03 } : undefined;
   return {
-    id: `hanyang-erica-${row.id}`,
+    id: `hanyang-erica-${id}`,
     universityId: "hanyang-erica",
     universityName: "한양대학교 ERICA",
     region: "경기",
