@@ -102,6 +102,7 @@ export async function GET() {
   );
   const unverifiedCalculation = admissions.filter((item) => item.calculationVerified !== true);
   const missingMethodNotes = admissions.filter((item) => !item.note?.trim());
+  const placeholderDepartments = admissions.filter((item) => /대표/.test(item.department));
   const duplicateIds = Object.entries(
     admissions.reduce<Record<string, number>>((counts, item) => {
       counts[item.id] = (counts[item.id] ?? 0) + 1;
@@ -177,6 +178,7 @@ export async function GET() {
       missingSubjectMaximumScores: missingMaximumScores.length,
       missingComparableBenchmark: missingBenchmark.length,
       missingMethodNotes: missingMethodNotes.length,
+      placeholderDepartments: placeholderDepartments.length,
       duplicateIds: duplicateIds.length,
       integrityErrors: integrityErrors.length,
     },
@@ -197,6 +199,7 @@ export async function GET() {
       missingSubjectMaximumScores: summarize(missingMaximumScores),
       missingComparableBenchmark: summarize(missingBenchmark),
       missingMethodNotes: summarize(missingMethodNotes),
+      placeholderDepartments: summarize(placeholderDepartments),
       duplicateIds,
       integrityErrors: summarize(integrityErrors),
     },
