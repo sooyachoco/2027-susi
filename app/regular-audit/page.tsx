@@ -21,7 +21,6 @@ const LABELS: Record<string, string> = {
   missingSubjectMaximumScores: "영역별 최고점 누락",
   missingComparableBenchmark: "비교 가능한 전년도 기준점 누락",
   missingMethodNotes: "전형 설명 누락",
-  missingSource: "공식 출처 누락",
   duplicateIds: "중복 데이터 ID",
   integrityErrors: "데이터 무결성 오류",
 };
