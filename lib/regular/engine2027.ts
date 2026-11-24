@@ -426,7 +426,7 @@ export function calculateRegularAdmission(
   }
 
   if (admission.schoolViolencePenaltyRequired) missingRules.push(admission.schoolViolencePenaltyNote ?? "학교폭력 조치사항 입력 필요(대학별 감점·결격 기준 적용)");
-  if (admission.practicalEvaluationRequired) missingRules.push("실기평가 점수 미입력(전형 총점의 40%)");
+  if (admission.practicalEvaluationRequired) missingRules.push(admission.practicalEvaluationNote ?? "실기평가 점수 미입력(대학별 실기 반영비율 적용 필요)");
 
   if (admission.mathChoiceBonusRequired && !admission.mathChoiceBonusRate) {
     const points = score.mathType ? admission.mathChoiceBonusPoints?.[score.mathType] : undefined;
