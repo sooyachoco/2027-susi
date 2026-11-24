@@ -267,8 +267,6 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     for (const n of candidates[1]) {
       for (const d of candidates[2]) {
         const items: [ScoredAdmission, ScoredAdmission, ScoredAdmission] = [a, n, d];
-        // 가·나·다군 조합은 서로 다른 대학으로 구성해 한 대학 중복 지원을 막는다.
-        if (new Set(items.map((item) => item.admission.universityId)).size !== 3) continue;
         const score = scoreAdmissionSet(items);
         if (!best || score > best.score) best = { items, score };
       }
