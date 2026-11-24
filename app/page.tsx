@@ -22,7 +22,7 @@ export default function Page() {
     setProfile((prev) => ({ ...prev, ...patch }));
   };
 
-  return <div className="app">
+  return <div className="app regular-home">
     <header className="topbar">
       <div><div className="eyebrow">2027 ADMISSION</div><strong>정시합격</strong></div>
       <div style={{display:"flex",gap:8,alignItems:"center"}}><a className="secondary" href="/regular-audit">데이터 검증</a><a className="secondary" href="/susi">기존 수시 보기</a></div>
