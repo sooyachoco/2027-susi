@@ -57,6 +57,7 @@ const kwangwoonTotals = kwangwoonRows.reduce((totals, row) => {
 assert.deepEqual(kwangwoonTotals, { 가: 164, 나: 111, 다: 425 });
 assert.equal(kwangwoonRows.some((row) => /대표/.test(row.department)), false);
 assert.match(seoulExtraSource, /KWANGWOON_ENGLISH = \{ 1:200, 2:198, 3:195, 4:190, 5:182, 6:170, 7:158, 8:146, 9:0 \}/);
+assert.match(seoulExtraSource, /englishMaximumScore: 200/);
 assert.match(seoulExtraSource, /schoolViolencePenaltyRequired: true/);
 assert.match(seoulExtraSource, /calculationVerified: false/);
 assert.equal(seoulExtraSource.includes('department:"자연·공학계열 대표"'), false);
@@ -229,6 +230,37 @@ const sampleScore = {
   unexcusedAbsenceDays: 4,
 };
 
+const 200PointEnglishScale = calculateRegularAdmission({
+  id: "english-200-point-scale",
+  universityId: "scale-test",
+  universityName: "영어 200점 환산 테스트",
+  region: "서울",
+  department: "테스트학과",
+  majorGroup: "전체",
+  group: "가",
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  koreanWeight: 25,
+  mathWeight: 25,
+  englishWeight: 25,
+  inquiryWeight: 25,
+  inquirySubjects: 1,
+  calculationMode: "normalized-standard-sum",
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  englishGradeTable: { 1: 200, 2: 180, 3: 160 },
+  englishMaximumScore: 200,
+  finalScoreMultiplier: 1000,
+  calculationVerified: true,
+  sourceUrl: "https://example.invalid",
+  verifiedAt: "2026-11-24",
+}, {
+  korean: 100, koreanPercentile: 100,
+  math: 100, mathPercentile: 100,
+  englishGrade: 1,
+  inquiry1: 100, inquiry1Percentile: 100,
+});
+assert.equal(200PointEnglishScale.baseScore, 1000, "200-point English conversion must be normalized against 200, not 100");
+assert.equal(200PointEnglishScale.calculationVerified, true);
 const result = calculateRegularAdmission(cauNatural, sampleScore);
 assert.equal(result.calculationVerified, true);
 assert.equal(result.missingRules.length, 0);
