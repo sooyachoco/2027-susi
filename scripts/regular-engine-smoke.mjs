@@ -230,7 +230,7 @@ const sampleScore = {
   unexcusedAbsenceDays: 4,
 };
 
-const 200PointEnglishScale = calculateRegularAdmission({
+const englishScale200Point = calculateRegularAdmission({
   id: "english-200-point-scale",
   universityId: "scale-test",
   universityName: "영어 200점 환산 테스트",
@@ -259,8 +259,8 @@ const 200PointEnglishScale = calculateRegularAdmission({
   englishGrade: 1,
   inquiry1: 100, inquiry1Percentile: 100,
 });
-assert.equal(200PointEnglishScale.baseScore, 1000, "200-point English conversion must be normalized against 200, not 100");
-assert.equal(200PointEnglishScale.calculationVerified, true);
+assert.equal(englishScale200Point.baseScore, 1000, "200-point English conversion must be normalized against 200, not 100");
+assert.equal(englishScale200Point.calculationVerified, true);
 const result = calculateRegularAdmission(cauNatural, sampleScore);
 assert.equal(result.calculationVerified, true);
 assert.equal(result.missingRules.length, 0);
