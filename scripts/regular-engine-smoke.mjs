@@ -41,6 +41,12 @@ const recommendationModule = loadTsModule(recommendationPath, {
   "./engine2027": sandbox.exports,
   "./strategy2027": strategyModule,
 });
+
+assert.equal(recommendationModule.majorFit("컴퓨터공학", { department: "컴퓨터공학부", majorGroup: "자연·공학" }), 10);
+assert.equal(recommendationModule.majorFit("심리학", { department: "심리학과", majorGroup: "인문·사회" }), 10);
+assert.equal(recommendationModule.majorFit("경영학", { department: "경영학부", majorGroup: "경영·경제" }), 10);
+assert.equal(recommendationModule.majorFit("심리학", { department: "기계공학과", majorGroup: "자연·공학" }), 0);
+assert.equal(recommendationModule.majorFit("AI", { department: "인공지능학과", majorGroup: "자연·공학" }), 9);
 const syntheticAdmissions = ["가", "나", "다"].flatMap((group) =>
   Array.from({ length: 6 }, (_, universityIndex) =>
     Array.from({ length: 2 }, (_, departmentIndex) => ({
