@@ -14,6 +14,7 @@ export async function GET() {
 
   const missingSource = admissions.filter((item) => !item.sourceUrl?.trim());
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
+  const zeroRecruitment = admissions.filter((item) => item.recruitmentCount === 0);
   const missingEnglishTable = admissions.filter(
     (item) => item.englishWeight > 0 && !item.englishGradeTable,
   );
@@ -87,6 +88,7 @@ export async function GET() {
     issueCounts: {
       missingSource: missingSource.length,
       missingRecruitmentCount: missingRecruitment.length,
+      zeroRecruitmentCount: zeroRecruitment.length,
       missingEnglishGradeTable: missingEnglishTable.length,
       missingKoreanHistoryTable: missingHistoryTable.length,
       missingInquiryConversionTable: missingInquiryConversion.length,
@@ -99,6 +101,7 @@ export async function GET() {
     issues: {
       missingSource: summarize(missingSource),
       missingRecruitmentCount: summarize(missingRecruitment),
+      zeroRecruitmentCount: summarize(zeroRecruitment),
       missingEnglishGradeTable: summarize(missingEnglishTable),
       missingKoreanHistoryTable: summarize(missingHistoryTable),
       missingInquiryConversionTable: summarize(missingInquiryConversion),
