@@ -38,6 +38,14 @@ assert.deepEqual(seoultechTotals, { 가: 304, 나: 277, 다: 61, practical: 126 
 assert.match(seoultechSource, /koreanHistoryRequired: true/);
 assert.match(seoultechSource, /0\.07/);
 const seoulExtraSource = readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts", import.meta.url), "utf8");
+const sangmyungRowsMatch = seoulExtraSource.match(/const SANGMYUNG_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(sangmyungRowsMatch);
+const sangmyungRows = JSON.parse(sangmyungRowsMatch[1]);
+assert.equal(sangmyungRows.length, 28);
+assert.equal(sangmyungRows.reduce((sum, row) => sum + row.recruitmentCount, 0), 489);
+assert.equal(sangmyungRows.every((row) => row.group === "나"), true);
+assert.equal(sangmyungRows.some((row) => /대표/.test(row.department)), false);
+assert.match(seoulExtraSource, /SANGMYUNG_ENGLISH = \{ 1:100, 2:98, 3:96, 4:94, 5:90, 6:80, 7:60, 8:40, 9:0 \}/);
 const kwangwoonRowsMatch = seoulExtraSource.match(/const KWANGWOON_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(kwangwoonRowsMatch, "Kwangwoon source rows must be present as a literal audit-friendly table");
 const kwangwoonRows = JSON.parse(kwangwoonRowsMatch[1]);
