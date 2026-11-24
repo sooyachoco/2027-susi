@@ -41,6 +41,17 @@ const seoulExtraSource = readFileSync(new URL("../lib/regular/data2027-extra-seo
 const sangmyungRowsMatch = seoulExtraSource.match(/const SANGMYUNG_ROWS = (\[[\s\S]*?\]) as const;/);
 const sungshinRowsMatch = seoulExtraSource.match(/const SUNGSHIN_ROWS = (\[[\s\S]*?\]) as const;/);
 const dongdukRowsMatch = seoulExtraSource.match(/const DONGDUK_ROWS = (\[[\s\S]*?\]) as const;/);
+const myongjiRowsMatch = seoulExtraSource.match(/const MYONGJI_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(myongjiRowsMatch);
+const myongjiRows = JSON.parse(myongjiRowsMatch[1]);
+assert.equal(myongjiRows.length, 6);
+assert.deepEqual(myongjiRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 150, 나: 196, 다: 82, total: 428 });
+assert.equal(myongjiRows.some((row) => /대표/.test(row.department)), false);
+assert.match(seoulExtraSource, /MYONGJI_ENGLISH = \{ 1:100, 2:98, 3:96, 4:90, 5:80, 6:60, 7:40, 8:20, 9:0 \}/);
 assert.ok(dongdukRowsMatch);
 const dongdukRows = JSON.parse(dongdukRowsMatch[1]);
 assert.equal(dongdukRows.length, 7);
