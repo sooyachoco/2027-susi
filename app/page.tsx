@@ -55,17 +55,29 @@ export default function Page() {
           <h3 style={{margin:"8px 0 4px"}}>{portfolio.style === "기초 후보형" ? "모집군별 참고 후보" : "가·나·다군 통합 지원 조합"}</h3>
           <div className="balanceText">{portfolio.summary}</div>
         </div>
-        <div className="six">
-          {portfolio.recommendations.map((rec) => <article className="panel" key={rec.admissionId}>
-            <div className="eyebrow">{rec.group}군 · {rec.tier}</div>
-            <h3 style={{margin:"8px 0 4px"}}>{rec.universityName}</h3>
-            <div className="muted">{rec.department}{rec.recruitmentCount != null ? ` · 모집인원 ${rec.recruitmentCount}명` : ""}</div>
-            <div style={{fontSize:32,fontWeight:800,marginTop:16}}>{rec.score}<small style={{fontSize:14,fontWeight:500}}> 참고 계산값</small></div>
-            <div className="balanceText" style={{marginTop:10}}>{rec.reason}</div>
-            <div className="muted" style={{marginTop:10}}>환산식 검증: {rec.calculationVerified ? "완료" : "미완료"}</div>
-            {rec.missingRules.length > 0 && <div className="alert" style={{marginTop:8}}>확인 필요: {rec.missingRules.join(" · ")}</div>}
-            {rec.appliedComponents.length > 0 && <div className="muted" style={{marginTop:8}}>반영 항목: {rec.appliedComponents.join(" · ")}</div>}
-            <a className="secondary" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer" style={{display:"inline-block",marginTop:14}}>모집요강 확인 ↗</a>
+        <div className="six resultCards">
+          {portfolio.recommendations.map((rec) => <article className="panel candidateCard" key={rec.admissionId}>
+            <div className="candidateTop">
+              <span className={`groupTag group-${rec.group}`}>{rec.group}군</span>
+              <span className={`tierTag tier-${rec.tier === "판정 보류" ? "pending" : rec.tier}`}>{rec.tier}</span>
+            </div>
+            <h3>{rec.universityName}</h3>
+            <div className="candidateDepartment">{rec.department}{rec.recruitmentCount != null ? ` · 모집인원 ${rec.recruitmentCount}명` : ""}</div>
+            <div className="candidateScore">
+              <strong>{rec.calculationVerified ? rec.score.toLocaleString("ko-KR") : "검증 전"}</strong>
+              <span>{rec.calculationVerified ? "대학별 환산 참고점수" : "공식 환산식 확인 필요"}</span>
+            </div>
+            <div className={`verificationLine ${rec.calculationVerified ? "verified" : "unverified"}`}>
+              <span>{rec.calculationVerified ? "✓ 환산식 검증 완료" : "△ 환산식 검증 미완료"}</span>
+              <span>{rec.hasComparableBenchmark ? "전년도 기준점 비교 가능" : "비교 가능한 기준점 없음"}</span>
+            </div>
+            {rec.hasComparableBenchmark && rec.benchmarkGap != null && <div className="benchmarkGap">
+              기준점 대비 <strong>{rec.benchmarkGap > 0 ? "+" : ""}{rec.benchmarkGap.toFixed(1)}점</strong>
+            </div>}
+            <div className="balanceText candidateReason">{rec.reason}</div>
+            {rec.missingRules.length > 0 && <div className="alert candidateAlert">추가 확인: {rec.missingRules.join(" · ")}</div>}
+            {rec.appliedComponents.length > 0 && <div className="appliedRules">반영 항목: {rec.appliedComponents.join(" · ")}</div>}
+            <a className="secondary candidateSource" href={admissions.find((a) => a.id === rec.admissionId)?.sourceUrl} target="_blank" rel="noreferrer">공식 모집요강 확인 ↗</a>
           </article>)}
         </div>
         <div className="alert" style={{marginTop:16}}>⚠️ 환산점수는 실제 합격선이나 합격 확률이 아닙니다. 대학별 세부 환산식·선택과목 가산점·학생부 반영은 최종 모집요강과 대조해야 합니다.</div>
