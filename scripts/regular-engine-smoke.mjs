@@ -20,7 +20,21 @@ assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCo
 assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
 assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
 assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
-const seoultechSource = readFileSync(new URL("../lib/regular/data2027-seoultech.ts", import.meta.url), "utf8");
+const donggukSource = readFileSync(new URL("../lib/regular/data2027-dongguk.ts", import.meta.url), "utf8");
+const donggukRowsMatch = donggukSource.match(/const DONGGUK_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(donggukRowsMatch);
+const donggukRows = JSON.parse(donggukRowsMatch[1]);
+assert.equal(donggukRows.length, 54);
+assert.deepEqual(donggukRows.reduce((totals, row) => {
+  totals[row.group] += row.recruitmentCount;
+  totals.total += row.recruitmentCount;
+  return totals;
+}, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 439, 나: 418, 다: 309, total: 1166 });
+assert.equal(donggukRows.filter((row) => row.group === "다").length, 10);
+assert.match(donggukSource, /studentRecordWeight: row.group === "다" \? 10/);
+assert.match(donggukSource, /practicalEvaluationRequired: practical/);
+assert.match(donggukSource, /inquiryConversionRequired: true/);
+assert.equal(donggukSource.includes("대표"), false);
 assert.match(seoultechSource, /서울과학기술대학교/);
 assert.match(seoultechSource, /calculationVerified: false/);
 assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
