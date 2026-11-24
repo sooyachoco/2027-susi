@@ -234,7 +234,7 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
   const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
-    const fit = majorFit(profile.desiredMajor, admission.majorGroup);
+    const fit = majorFit(profile.desiredMajor, admission);
     const reference = result.calculationVerified ? getCutline(admission) : undefined;
     const gap = reference == null ? null : result.totalScore - reference;
     const score = Math.round(result.totalScore * 10) / 10;
