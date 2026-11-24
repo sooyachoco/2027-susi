@@ -28,6 +28,8 @@ const portfolioSource = readFileSync(new URL("../lib/regular/portfolio.ts", impo
 assert.match(portfolioSource, /comparableUniversitiesByGroup\.every\(\(count\) => count >= 3\)/);
 assert.match(regularAuditSource, /mode === "weighted-sum-with-additive-bonuses"\) return false/);
 assert.match(regularAuditSource, /invalidBenchmarkMetadata/);
+assert.match(regularAuditSource, /placeholderDepartments/);
+assert.match(regularAuditSource, /\/대표\//);
 const source = readFileSync(enginePath, "utf8");
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
