@@ -301,7 +301,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
   },
   {
     id: "cau-seoul-da-changict", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
-    department: "창의ICT공과대학", majorGroup: "컴퓨터·소프트웨어", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 35, englishWeight: 0, inquiryWeight: 35,
+    department: "[전공개방] 창의ICT공과대학", majorGroup: "컴퓨터·소프트웨어", group: "다", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 35, englishWeight: 0, inquiryWeight: 35,
     inquirySubjects: 2, inquiryAggregation: "sum" as const, recruitmentCount: 150,
     subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
     calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 5, finalScoreMultiplier: 0.9,
@@ -311,8 +311,10 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.6, 6: 9.2, 7: 8.8, 8: 8.4, 9: 8 },
     studentRecordWeight: 10, attendanceScoreByAbsenceDays: [{ maxDays: 4, score: 100 }, { maxDays: 9, score: 99.5 }, { maxDays: 365, score: 99 }],
-    note: "2027 공식 요강의 산식 구조 반영: (국어 표준점수×비율×5 + 수학 표준점수×비율×5 + 탐구 변환표준점수 합×비율×5 + 영어·한국사 등급별 가산점)×0.9. 탐구 변환표준점수는 후속 공지 전이며, 탐구 과목별 5% 가산·출결 10% 입력이 남아 있어 최종 환산 및 합격판정은 보류.",
-    sourceUrl: CAU_SOURCE, verifiedAt: "2026-09-27",
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "학교폭력 조치사항 1호 감점 없음, 2호 10점, 4호 50점, 6호 100점 감점, 9호 부적격(총점 1,000점 기준). 세부 호수별 감점 규칙과 지원자별 조치사항 입력이 미지원되어 최종 검증 보류.",
+    note: "2027 정시 수능(일반) 다군 [전공개방] 창의ICT공과대학 150명. 수능 90%+출결 10%. 수능 산식은 (국어 표준점수×비율×5 + 수학 표준점수×비율×5 + 탐구 변환표준점수 합×비율×5 + 영어·한국사 등급별 가산점)×0.9. 자연계열은 과탐 각 과목 변환표준점수 5% 가산. 탐구 변환표준점수표 후속 공지 전, 출결 및 학교폭력 조치사항 입력 미지원으로 최종 환산·합격판정 보류.",
+    sourceUrl: CAU_SOURCE, verifiedAt: "2026-11-24",
   },
   {
     id: "khu-seoul-ga-humanities", universityId: "khu-seoul", universityName: "경희대학교", region: "서울",
