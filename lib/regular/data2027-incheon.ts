@@ -86,7 +86,7 @@ export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) =
     inquirySubjects: 2,
     inquiryAggregation: "mean",
     englishGradeTable: ENGLISH,
-    finalScoreMultiplier: 10,
+    finalScoreMultiplier: 1000,
     calculationVerified: true,
     benchmarkComparable: false,
     note: design ? "2027 최종 모집요강 일반학생전형 디자인학부 기준. 수능 100%, 국45·수15·탐구30·영10. 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용." : row.id === "smart-logistics" ? "2027 최종 모집요강 일반학생전형 스마트물류공학전공 기준. 수능 반영표에서 동북아국제통상물류학부로 묶여 자연계열 반영비율(국25·수35·탐30·영10)을 적용." : "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문(패션산업 포함)은 국35·수30·탐25·영10, 자연·동북아국제통상물류학부는 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가.",
