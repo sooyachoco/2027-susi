@@ -15,7 +15,12 @@ type AuditData = {
 const LABELS: Record<string, string> = {
   missingSource: "공식 출처 누락",
   missingRecruitmentCount: "모집인원 누락",
-  zeroRecruitmentCount: "모집인원 0명 · 조건부/미모집",\n  invalidRecruitmentCount: "모집인원 값 오류",\n  invalidWeights: "영역별 반영비율 오류",\n  invalidMultipliers: "환산 배율 오류",\n  invalidConversionTables: "환산표 값 오류",\n  invalidSourceMetadata: "출처 URL·검증일 오류",
+  zeroRecruitmentCount: "모집인원 0명 · 조건부/미모집",
+  invalidRecruitmentCount: "모집인원 값 오류",
+  invalidWeights: "영역별 반영비율 오류",
+  invalidMultipliers: "환산 배율 오류",
+  invalidConversionTables: "환산표 값 오류",
+  invalidSourceMetadata: "출처 URL·검증일 오류",
   missingEnglishGradeTable: "영어 등급 환산표 누락",
   missingKoreanHistoryTable: "한국사 환산표 누락",
   missingInquiryConversionTable: "탐구 변환표 누락",
