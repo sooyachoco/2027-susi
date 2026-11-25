@@ -1621,6 +1621,24 @@ assert.deepEqual(
   [...admissionDataFiles].sort(),
   "every repository data source must be covered by the cross-file ID audit",
 );
+// Every exported 2027 admission dataset array must be imported and spread into
+// the active repository. This prevents source-only datasets from silently
+// disappearing from recommendation results.
+for (const path of admissionDataFiles) {
+  const source = readFileSync(new URL(path, import.meta.url), "utf8");
+  const datasetExports = [...source.matchAll(/export\\s+const\\s+(\\w+Admissions2027)\\b/g)].map((match) => match[1]);
+  for (const datasetName of datasetExports) {
+    assert.match(
+      repositoryRegistrationSource,
+      new RegExp(`import\\\\s+\\\\{\\\\s*${datasetName}\\\\s*\\\\}\\\\s+from\\\\s+["']\\\\./${path.split("/").pop().replace(/\\.ts$/, "")}["']`),
+      `${datasetName} must be imported into the active repository`,
+    );
+    assert.ok(
+      repositoryRegistrationSource.includes(`...${datasetName}`),
+      `${datasetName} must be spread into ALL_REGULAR_ADMISSIONS_2027`,
+    );
+  }
+}
 const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.ts")).flatMap((path) => {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
   // SNU/Yonsei/Korea use local row keys inside mapping tables; audit their final
