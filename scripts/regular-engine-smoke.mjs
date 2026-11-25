@@ -17,6 +17,9 @@ assert.match(regularRecommendationSource, /keywords: \["체육", "스포츠", "�
 assert.match(regularRecommendationSource, /keywords: \["공연", "연극", "영화", "연기", "뮤지컬"\], groups: \["예체능·공연"\]/);
 assert.match(regularAuditSource, /const effectiveTotal = config\.count \* config\.weight/);
 assert.match(regularAuditSource, /config\.areas\.includes\("english"\) \? 0 : item\.englishWeight/);
+assert.match(regularAuditSource, /config\.areas\.includes\("inquiry"\) \? 0 : item\.inquiryWeight/);
+assert.match(regularAuditSource, /const effectiveTotal = config\.count \* config\.weight/);
+assert.match(engineSource, /config\.areas\.includes\("inquiry"\) \? 0 : \(inquiryNormalized \?\? 0\) \* admission\.inquiryWeight/);
 assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /pendingEnglishTable/);
@@ -1631,18 +1634,39 @@ const hansungTopTwo = calculateRegularAdmission({
 assert.equal(hansungTopTwo.calculationVerified,true);
 assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2)*1000)<0.000001);
 assert.ok(hansungTopTwo.appliedComponents.includes("지정 영역 상위 2개 자동 선택 반영"));
+assert.equal(hansungTopTwo.bonus, 8);
+
+const hansungPainting = calculateRegularAdmission({
+  ...normFixture, scoreMetric:"백분위",
+  subjectMetrics:{korean:"백분위",math:"백분위",inquiry:"백분위"},
+  subjectMaximumScores:{korean:100,math:100,inquiry:100}, inquirySubjects:1, inquiryAggregation:"best",
+  koreanWeight:40, mathWeight:40, englishWeight:40, inquiryWeight:20,
+  topAreaWeights:{areas:["korean","math"],count:1,weight:40},
+  finalScoreMultiplier:300, englishGradeTable:{1:100,2:97,3:94,4:80,5:70,6:55,7:40,8:25,9:10},
+  koreanHistoryGradePoints:{1:1,2:1,3:1,4:1,5:0.8,6:0.6,7:0.4,8:0.2,9:0},
+  schoolViolencePenaltyRequired:true, practicalEvaluationRequired:true,
+}, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2,koreanHistoryGrade:5});
+assert.ok(Math.abs(hansungPainting.baseScore-(0.9*0.4+0.97*0.4+0.7*0.2)*300)<0.000001);
+assert.equal(hansungPainting.bonus,8);
+assert.equal(hansungPainting.calculationVerified,false);
+assert.ok(hansungPainting.missingRules.some(rule=>rule.includes("실기")));
 
 const hansungRepository=readFileSync(new URL("../lib/regular/repository.ts",import.meta.url),"utf8");
 assert.match(hansungRepository, /import \{ hansungAdmissions2027 \} from "\.\/data2027-extra-seoul"/);
 assert.match(hansungRepository, /\.\.\.hansungAdmissions2027/);
 const hansungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
 const hansungRows=[...hansungData.matchAll(/key":"([^"]+)"[^}]*"group":"([가나다])"[^}]*"recruitmentCount":(\d+)/g)];
-assert.equal(hansungRows.length,16);
+assert.equal(hansungRows.length,18);
 assert.match(hansungData, /schoolViolencePenaltyRequired: true/);
 assert.match(hansungData, /1~3호 0점, 4호 100점, 5호 200점, 6호 300점, 7호 400점 감점, 8~9호 불합격/);
 assert.match(hansungData, /calculationVerified: false/);
 const hansungTotals=hansungRows.reduce((totals,row)=>{totals[row[2]]+=Number(row[3]);return totals;},{가:0,나:0,다:0});
-assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
+assert.deepEqual(hansungTotals,{가:247,나:75,다:185});
+const hansungPracticalRows=[...hansungData.matchAll(/"field":"practical"/g)];
+assert.equal(hansungPracticalRows.length,2);
+assert.match(hansungData, /finalScoreMultiplier:300/);
+assert.match(hansungData, /practicalEvaluationRequired:true/);
+assert.match(hansungData, /const HANSUNG_HISTORY = \{ 1:1, 2:1, 3:1, 4:1, 5:0\.8, 6:0\.6, 7:0\.4, 8:0\.2, 9:0 \}/);
 
 
 // 서울여대 2027: 상위 3개 영역(영어 포함) 및 20% 수학 가산·누락 입력 방어
