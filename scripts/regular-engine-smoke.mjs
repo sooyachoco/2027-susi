@@ -15,6 +15,8 @@ assert.match(cutlineFunctionSource, /benchmarkCutline70 \?\? admission\.expected
 assert.doesNotMatch(cutlineFunctionSource, /benchmarkCutline95|expectedCutline95/);
 assert.match(regularRecommendationSource, /keywords: \["체육", "스포츠", "운동"\], groups: \["예체능·체육"\]/);
 assert.match(regularRecommendationSource, /keywords: \["공연", "연극", "영화", "연기", "뮤지컬"\], groups: \["예체능·공연"\]/);
+assert.match(regularAuditSource, /const effectiveTotal = config\.count \* config\.weight/);
+assert.match(regularAuditSource, /config\.areas\.includes\("english"\) \? 0 : item\.englishWeight/);
 assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /pendingEnglishTable/);
