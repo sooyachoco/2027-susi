@@ -290,6 +290,8 @@ assert.match(regularAuditSource, /mode === "weighted-sum-with-additive-bonuses"\
 assert.match(regularAuditSource, /invalidBenchmarkMetadata/);
 assert.match(regularAuditSource, /genericSourceUrl/);
 assert.match(regularAuditPageSource, /genericSourceUrl/);
+assert.match(regularAuditSource, /nonUniversitySourceDomain/);
+assert.match(regularAuditPageSource, /nonUniversitySourceDomain/);
 assert.match(regularAuditSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /\/대표\//);
 const source = readFileSync(enginePath, "utf8");
