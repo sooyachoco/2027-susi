@@ -80,6 +80,8 @@ for (const source of [yonseiPendingSource, koreaPendingSource, skkuPendingSource
 assert.match(skkuPendingSource, /englishConversionPending: true/);
 const regularDataSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
 assert.match(regularDataSource, /schoolViolencePenaltyRequired: true/);
+assert.equal((regularDataSource.match(/id: "hongik-seoul-da-(?:humanities|natural)"[\s\S]*?schoolViolencePenaltyRequired: true/g) ?? []).length, 2);
+assert.equal((regularDataSource.match(/id: "hongik-seoul-da-(?:humanities|natural)"[\s\S]*?calculationVerified: false/g) ?? []).length, 2);
 // Legacy representative rows must not coexist with dedicated university datasets.
 for (const legacyUniversityId of ["hufs-seoul-ga-humanities", "snu-seoul", "yonsei-seoul", "korea-seoul", "hanyang-seoul", "uos-seoul", "skku-seoul", "kwangwoon-seoul", "sangmyung-seoul", "sungshin-seoul", "myongji-seoul", "duksung-seoul", "ajou-suwon", "kyonggi-suwon", "hanyang-erica", "inu-incheon"]) {
   assert.equal(regularDataSource.includes(legacyUniversityId), false, `legacy representative data remains: ${legacyUniversityId}`);
