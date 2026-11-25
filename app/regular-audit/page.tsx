@@ -8,7 +8,7 @@ type AuditData = {
   scope: string;
   totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
   universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
-  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number };
+  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number; requiresAdditionalEligibilityInput: number };
   issueCounts: Record<string, number>;
   issues: Record<string, AuditItem[] | { id: string; count: number }[]>;
 };
@@ -36,6 +36,7 @@ const LABELS: Record<string, string> = {
   missingMethodNotes: "전형 설명 누락",
   duplicateIds: "중복 데이터 ID",
   integrityErrors: "데이터 무결성 오류",
+  placeholderDepartments: "임시 대표학과 데이터",
 };
 
 export default function RegularAuditPage() {
@@ -107,6 +108,7 @@ export default function RegularAuditPage() {
             <article className="panel stat"><div className="muted">실기점수 입력 필요 모집단위</div><strong>{data.quality.requiresPracticalEvaluation}</strong></article>
             <article className="panel stat"><div className="muted">면접점수 입력 필요 모집단위</div><strong>{data.quality.requiresInterviewEvaluation}</strong></article>
             <article className="panel stat"><div className="muted">학교폭력 조치 확인 필요</div><strong>{data.quality.requiresSchoolViolenceInput}</strong></article>
+            <article className="panel stat"><div className="muted">별도 자격·신체검사 확인 필요</div><strong>{data.quality.requiresAdditionalEligibilityInput}</strong></article>
           </div>
         </section>
         <section className="section">
