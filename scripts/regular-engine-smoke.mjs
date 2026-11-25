@@ -43,7 +43,7 @@ assert.match(sookmyungSource, /practicalEvaluationNote: practical/);
 assert.ok(sookmyungSource.includes('const csatShare = field === "sports" ? 60 : field === "design" ? 60 : field === "painting" ? 30 : field === "music" ? 20 : field === "composition" ? 40 : field === "dance" ? 30 : 100;'), "숙명여대 실기계열별 수능 반영비율이 유지되어야 함");
 assert.match(sookmyungSource, /sookmyungAdmissions2027/);
 const sookmyungRepositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
-assert.match(sookmyungRepositorySource, /\\.\\.\\.sookmyungAdmissions2027/);
+assert.ok(sookmyungRepositorySource.includes("...sookmyungAdmissions2027"), "숙명여대 정시 데이터가 전체 정시 데이터에 포함되어야 함");
 
 const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
 assert.match(snueSource, /recruitmentCount: 108/);
