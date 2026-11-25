@@ -1,7 +1,6 @@
 import type { RegularAdmission } from "./types";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
-const YONSEI_SOURCE = "https://admission.yonsei.ac.kr/seoul/admission/html/main/main.asp";
 const KOREA_SOURCE = "https://oku.korea.ac.kr/";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
@@ -371,46 +370,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     studentRecordWeight: 10, curriculumEvaluationRequired: true, recruitmentCount: 50,
     note: "2027 정시 한양인터칼리지학부: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 당해 연도 최고점·탐구 변환표·학생부 평가 미입력으로 최종 환산 보류.",
     sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-  },
-  {
-    id: "yonsei-seoul-ga-type1-humanities", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
-    department: "인문계열(유형 I)", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 150, mathWeight: 100, englishWeight: 0, inquiryWeight: 100, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 950 / 800,
-    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
-    inquiryConversionRequired: true, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0.03, "과탐": 0, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 95, 3: 87.5, 4: 75, 5: 60, 6: 40, 7: 25, 8: 12.5, 9: 5 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
-    studentRecordWeight: 50, curriculumEvaluationRequired: true,
-    benchmarkYear: 2025, benchmarkCutline70: 695.0553, benchmarkTotalScore: 1000, benchmarkDepartment: "사학과", recruitmentCount: 22,
-    note: "2027 서울캠퍼스 정시 일반전형 유형 I 공식 산식 구조: 국어 표준점수×1.5 + 수학 표준점수 + 탐구 변환점수 합 + 영어 등급점수, 합계×950/800. 사탐 과목별 변환점수 3% 가산. 학생부 교과 50점 및 출결 감점은 별도 입력이 없어 최종 점수·합격판정 보류. 탐구 변환점수표는 2026-12-11 공개 예정.",
-    sourceUrl: "https://admission.yonsei.ac.kr/seoul/admission/html/counsel/dataView.asp?BBS_NO=3519&s_data=", verifiedAt: "2026-11-18",
-  },
-  {
-    id: "yonsei-seoul-ga-type2-natural", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
-    department: "자연계열(유형 II)", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 100, mathWeight: 150, englishWeight: 0, inquiryWeight: 150, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 950 / 900,
-    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
-    inquiryConversionRequired: true, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 95, 3: 87.5, 4: 75, 5: 60, 6: 40, 7: 25, 8: 12.5, 9: 5 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
-    studentRecordWeight: 50, curriculumEvaluationRequired: true,
-    note: "2027 서울캠퍼스 정시 일반전형 유형 II 공식 산식 구조: 국어 표준점수 + 수학 표준점수×1.5 + 탐구 변환점수 합×1.5 + 영어 등급점수, 합계×950/900. 과탐 과목별 변환점수 3% 가산. 학생부 교과 50점 및 출결 감점은 별도 입력이 없어 최종 점수·합격판정 보류. 탐구 변환점수표는 2026-12-11 공개 예정.",
-    sourceUrl: "https://admission.yonsei.ac.kr/seoul/admission/html/counsel/dataView.asp?BBS_NO=3519&s_data=", verifiedAt: "2026-11-18",
-  },
-  {
-    id: "yonsei-seoul-ga-type3-integrated", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
-    department: "통합계열(유형 III)", majorGroup: "전체", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 100, mathWeight: 100, englishWeight: 0, inquiryWeight: 50, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 950 / 600,
-    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
-    inquiryConversionRequired: true,
-    englishGradeTable: { 1: 100, 2: 95, 3: 87.5, 4: 75, 5: 60, 6: 40, 7: 25, 8: 12.5, 9: 5 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
-    studentRecordWeight: 50, curriculumEvaluationRequired: true,
-    note: "2027 서울캠퍼스 정시 일반전형 유형 III 공식 산식 구조: 국어 표준점수 + 수학 표준점수 + 탐구 변환점수 합×0.5 + 영어 등급점수, 합계×950/600(상경·생활과학·간호 기준). 탐구 가산점 없음. 학생부 교과 50점 및 출결 감점은 별도 입력이 없어 최종 점수·합격판정 보류. 탐구 변환점수표는 2026-12-11 공개 예정.",
-    sourceUrl: "https://admission.yonsei.ac.kr/seoul/admission/html/counsel/dataView.asp?BBS_NO=3519&s_data=", verifiedAt: "2026-11-18",
   },
   {
     id: "korea-seoul-ga-natural-general", universityId: "korea-seoul", universityName: "고려대학교", region: "서울",
