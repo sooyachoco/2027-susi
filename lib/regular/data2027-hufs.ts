@@ -6,7 +6,8 @@ import type { RegularAdmission } from "./types";
 const HUFS_SOURCE = "https://ipsi.aljal.kr/univ/hufs/2027/jeongsi";
 const HUFS_ENGLISH_20 = { 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 } as const;
 const HUFS_ENGLISH_15 = { 1:150, 2:148.5, 3:145.5, 4:141, 5:135, 6:127.5, 7:112.5, 8:90, 9:0 } as const;
-const HUFS_HISTORY = { 1:0, 2:0, 3:0, 4:-0.2, 5:-0.4, 6:-0.6, 7:-0.8, 8:-1, 9:-2 } as const;
+// Engine history adjustments are multiplied by 10; store 1/10 of the official final-total deductions.
+const HUFS_HISTORY = { 1:0, 2:0, 3:0, 4:-0.02, 5:-0.04, 6:-0.06, 7:-0.08, 8:-0.1, 9:-0.2 } as const;
 
 type Row = { campus: "seoul" | "global"; group: "가" | "나" | "다"; key: string; department: string; count: number; field: "A" | "B" | "N" };
 const HUFS_ROWS: Row[] = [
