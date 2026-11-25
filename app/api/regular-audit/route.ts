@@ -73,6 +73,19 @@ export async function GET() {
       return false;
     }
   });
+  const genericSourceUniversitySummary = [...new Map(genericSourceUrl.map((item) => [item.universityId, item.universityName])).entries()]
+    .map(([universityId, universityName]) => {
+      const rows = genericSourceUrl.filter((item) => item.universityId === universityId);
+      return {
+        universityId,
+        universityName,
+        region: rows[0]?.region ?? "",
+        count: rows.length,
+        sourceUrl: rows[0]?.sourceUrl ?? "",
+        departments: [...new Set(rows.map((item) => item.department))],
+      };
+    })
+    .sort((a, b) => b.count - a.count || a.universityName.localeCompare(b.universityName, "ko"));
   // University admissions sources should resolve to a university-controlled academic domain.
   // Third-party mirrors may help discovery, but are not accepted as the primary source of record.
   const nonUniversitySourceDomain = admissions.filter((item) => {
@@ -189,6 +202,7 @@ export async function GET() {
       byGroup,
     },
     universityCoverage,
+    genericSourceUniversitySummary,
     quality: {
       calculationVerified: admissions.length - unverifiedCalculation.length,
       calculationUnverified: unverifiedCalculation.length,
