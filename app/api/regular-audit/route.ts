@@ -68,7 +68,7 @@ export async function GET() {
     if (!item.sourceUrl?.trim()) return false;
     try {
       const url = new URL(item.sourceUrl);
-      return url.protocol.startsWith("http") && url.pathname.replace(/\\/+$/, "") === "" && !url.search;
+      return url.protocol.startsWith("http") && url.pathname === "/" && !url.search;
     } catch {
       return false;
     }
