@@ -340,6 +340,7 @@ export const khuInternationalAdmissions2027: RegularAdmission[] = KHU_INTERNATIO
     finalScoreMultiplier: 1,
     gradeAdjustmentsAfterFinalMultiplier: true,
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     inquiryTypeBonusRequired: natural,
     inquiryTypeBonusRate: natural ? { "사탐":0, "과탐":0, "직탐":0 } : undefined,
     inquiryTypeBonusPerSubject: natural ? { "과탐":4 } : undefined,
