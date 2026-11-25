@@ -10,6 +10,13 @@ const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
 const regularDataSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
 assert.match(regularDataSource, /schoolViolencePenaltyRequired: true/);
+// Legacy representative rows must not coexist with dedicated university datasets.
+for (const legacyUniversityId of ["snu-seoul", "yonsei-seoul", "korea-seoul", "hanyang-seoul", "uos-seoul", "skku-seoul", "kwangwoon-seoul", "sangmyung-seoul", "sungshin-seoul", "myongji-seoul", "duksung-seoul", "ajou-suwon", "kyonggi-suwon", "hanyang-erica", "inu-incheon"]) {
+  assert.equal(regularDataSource.includes(legacyUniversityId), false, `legacy representative data remains: ${legacyUniversityId}`);
+}
+const batch2Source = readFileSync(new URL("../lib/regular/data2027Batch2.ts", import.meta.url), "utf8");
+assert.match(batch2Source, /regularAdmissions2027Batch2: RegularAdmission\[\] = \[\]/);
+
 assert.match(regularDataSource, /\[전공개방\] 창의ICT공과대학/);
 assert.match(regularDataSource, /id: "cau-seoul-ga-psychology"[\s\S]*?recruitmentCount: 19/);
 assert.match(regularDataSource, /id: "cau-seoul-na-industrial-security"[\s\S]*?recruitmentCount: 28/);
