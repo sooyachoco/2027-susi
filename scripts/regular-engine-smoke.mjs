@@ -31,7 +31,7 @@ const samyukRows = [...samyukSource.matchAll(/\\{ key: "([^"]+)", department: "(
 assert.equal(samyukRows.length, 23);
 assert.equal(new Set(samyukRows.map((row) => row[1])).size, 23);
 assert.equal(samyukRows.reduce((sum, row) => sum + Number(row[4]), 0), 245);
-assert.deepEqual(samyukRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 89, 나: 85, 다: 71 });
+assert.deepEqual(samyukRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 105, 나: 85, 다: 55 });
 assert.match(samyukSource, /rankedAreaWeights: \\[35, 25, 25, 15\\]/);
 assert.match(samyukSource, /englishGradeTable: SAMYUK_ENGLISH/);
 assert.match(samyukSource, /mathChoiceBonusRate: \\{ 미적분: 0\\.03, 기하: 0\\.03, 확률과통계: 0 \\}/);
@@ -1490,3 +1490,28 @@ const samyukRanked = calculateRegularAdmission({
 }, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2});
 assert.ok(samyukRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
 assert.equal(samyukRanked.calculationVerified, false);
+const samyukNaturalBonus = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 35, mathWeight: 25, englishWeight: 25, inquiryWeight: 15,
+  inquirySubjects: 1, calculationMode: "normalized-standard-sum",
+  rankedAreaWeights: [35,25,25,15], englishGradeTable: {1:98,2:95,3:92,4:87,5:82,6:70,7:50,8:40,9:30},
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.03, 기하: 0.03, 확률과통계: 0 },
+}, {...sampleScore,mathPercentile:80,mathType:"미적분",englishGrade:2});
+assert.ok(samyukNaturalBonus.appliedComponents.includes("수학 선택과목 표준점수 가산율"));
+const samyukPharmacy = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 25, mathWeight: 30, englishWeight: 25, inquiryWeight: 20,
+  inquirySubjects: 2, inquiryAggregation: "mean", calculationMode: "normalized-standard-sum",
+  englishGradeTable: {1:98,2:95,3:92,4:87,5:82,6:70,7:50,8:40,9:30},
+  mathChoiceBonusRequired: true, mathChoiceBonusRate: { 미적분: 0.05, 기하: 0.05, 확률과통계: 0 },
+  inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { 사탐: 0, 과탐: 0.03, 직탐: 0 },
+  inquiryBonusRequiresSameType: "과탐",
+}, {...sampleScore,mathType:"기하",inquiry1Type:"과탐",inquiry2Type:"과탐",englishGrade:2});
+assert.ok(samyukPharmacy.appliedComponents.includes("수학 선택과목 표준점수 가산율"));
+assert.ok(samyukPharmacy.appliedComponents.includes("탐구 과목별 선택유형 가산율·과목별 고정 가산점"));
