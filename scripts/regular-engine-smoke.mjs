@@ -430,6 +430,25 @@ assert.equal(
   "the optimized 가·나·다 portfolio must use three distinct universities",
 );
 
+// A 95% cutoff cannot be substituted into thresholds calibrated to the 70% cutoff.
+const ninetyFiveOnlyAdmission = {
+  ...repeatedUniversityPortfolioAdmissions[0],
+  id: "benchmark-95-only",
+  universityId: "benchmark-95-only-university",
+  universityName: "95% 기준점 테스트대학",
+  benchmarkCutline70: undefined,
+  benchmarkCutline95: 800,
+};
+const ninetyFiveOnlyRecommendation = recommendationModule.recommendRegular(
+  syntheticProfile,
+  [ninetyFiveOnlyAdmission],
+);
+assert.equal(ninetyFiveOnlyRecommendation.length, 1);
+assert.equal(ninetyFiveOnlyRecommendation[0].calculationVerified, true);
+assert.equal(ninetyFiveOnlyRecommendation[0].hasComparableBenchmark, false);
+assert.equal(ninetyFiveOnlyRecommendation[0].tier, "판정 보류");
+assert.match(ninetyFiveOnlyRecommendation[0].reason, /비교 가능한 전년도 기준점 없음/);
+
 const cauNatural = {
   id: "cau-engine-smoke",
   universityId: "cau",
