@@ -6,10 +6,10 @@ const ERICA_HISTORY = { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9.0, 7: 9.0, 8
 const SOURCES = {
   gachon: "https://admission.gachon.ac.kr/admission/html/regular/guide.asp",
   ajou: "https://www.iajou.ac.kr/notice/view.php?bn=78759",
-  kyonggi: "https://enter.kyonggi.ac.kr/",
+  kyonggi: "https://enter.kyonggi.ac.kr/cms/FR_BBS_CON/BoardView.do?BBS_SEQ=4376&BOARD_SEQ=1&CONTENTS_NO=3&MENU_ID=210&SITE_NO=2",
   dankook: "https://ipsi.dankook.ac.kr/jukjeon/",
   erica: "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp",
-  kau: "https://ibhak.kau.ac.kr/",
+  kau: "https://ibhak.kau.ac.kr/admission/html/regular/guide.asp",
 };
 
 const AJOU_ENGLISH = { 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 } as const;
