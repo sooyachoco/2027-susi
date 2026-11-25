@@ -272,6 +272,8 @@ export function recommendRegularPortfolio(profile: RegularStudentProfile, admiss
     for (const n of candidates[1]) {
       for (const d of candidates[2]) {
         const items: [ScoredAdmission, ScoredAdmission, ScoredAdmission] = [a, n, d];
+        // One university must not occupy multiple application-group slots in the same portfolio.
+        if (new Set(items.map((item) => item.admission.universityId)).size !== 3) continue;
         const score = scoreAdmissionSet(items);
         if (!best || score > best.score) best = { items, score };
       }
