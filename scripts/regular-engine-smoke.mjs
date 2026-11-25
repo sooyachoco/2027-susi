@@ -453,6 +453,7 @@ const englishScale200Point = calculateRegularAdmission({
   englishGradeTable: { 1: 200, 2: 180, 3: 160 },
   englishMaximumScore: 200,
   finalScoreMultiplier: 1000,
+  schoolViolencePenaltyRequired: false,
   calculationVerified: true,
   sourceUrl: "https://example.invalid",
   verifiedAt: "2026-11-24",
