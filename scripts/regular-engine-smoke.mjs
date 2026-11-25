@@ -1267,6 +1267,11 @@ const dankookData = readFileSync(new URL("../lib/regular/data2027.ts", import.me
 assert.match(dankookData, /DANKOOK_ENGLISH = \{ 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 \}/);
 assert.match(dankookData, /DANKOOK_HISTORY = \{ 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 \}/);
 assert.match(dankookData, /schoolViolencePenaltyRequired: true/);
+assert.match(dankookData, /calculationVerified: true,\s*benchmarkComparable: false/);
+assert.match(dankookData, /inquirySubjects: 2, inquiryAggregation: "mean"/);
+assert.match(dankookData, /schoolViolencePenaltyNote: "2027 정시 모집요강 p\.29의 학교폭력 조치사항 반영표\(총점 1,000점 기준\): 1~3호 감점 없음, 4~5호 10점 감점, 6~7호 30점 감점, 8~9호 50점 감점\./);
+assert.match(dankookData, /2027학년도 정시 모집요강 배포본\(2026\.09\.04\) pp\.28-30 대조 완료/);
+assert.match(dankookData, /sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-25"/);
 const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
 const dankookRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
 assert.equal(dankookRows.length, 40);
