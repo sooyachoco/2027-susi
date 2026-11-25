@@ -108,7 +108,7 @@ export default function RegularAuditPage() {
           </div>
         </section>
         <section className="section">
-          <div className="sectionHead"><div><h2>공식 발표 대기</h2><div className="muted">대학이 수능 성적 발표 이후 별도로 공개하는 변환표입니다. 현재 누락 오류로 집계하지 않습니다.</div></div></div>
+          <div className="sectionHead"><div><h2>공식 발표 대기</h2><div className="muted">대학별 변환표와 2027 수능 성적 발표 후 확정되는 영역별 최고점입니다. 현재 누락 오류로 집계하지 않습니다.</div></div></div>
           <div style={{ display: "grid", gap: 10 }}>
             {["pendingEnglishGradeTable", "pendingInquiryConversionTable", "pendingSubjectMaximumScores"].map((key) => {
               const count = data.issueCounts[key] ?? 0;
