@@ -1149,6 +1149,7 @@ const mandatoryMathResult = calculateRegularAdmission({
   inquirySubjects: 2, inquiryAggregation: "best",
   englishGradeTable: { 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 },
   englishMaximumScore: 100,
+  koreanHistoryRequired: false,
   rankedAreaWeights: [45, 35, 20],
   rankedAreaRequired: ["math"],
   finalScoreMultiplier: 500,
