@@ -114,6 +114,7 @@ export const yonseiAdmissions2027: RegularAdmission[] = YONSEI_ROWS.map((row) =>
     inquiryConversionRequired: true,
     inquiryTypeBonusRequired: Boolean(inquiryBonus),
     inquiryTypeBonusRate: inquiryBonus,
+    inquiryBonusRequiresSameType: typeI ? "사탐" : typeII ? "과탐" : undefined,
     englishGradeTable: YONSEI_ENGLISH,
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: YONSEI_HISTORY,
