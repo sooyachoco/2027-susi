@@ -94,7 +94,7 @@ export const hanyangSeoulAdmissions2027: RegularAdmission[] = HANYANG_ROWS.map((
             ? { koreanWeight: 50, mathWeight: 0, englishWeight: 30, inquiryWeight: 20 }
             : { koreanWeight: 35, mathWeight: 30, englishWeight: 10, inquiryWeight: 25 };
   const englishTable = natural ? HANYANG_ENGLISH_NATURAL : HANYANG_ENGLISH_HUMANITIES;
-  const historyTable = natural ? HANYANG_HISTORY_NATURAL : practical ? HANYANG_HISTORY_ARTS : HANYANG_HISTORY_HUMANITIES;
+  const historyTable = natural ? HANYANG_HISTORY_NATURAL : (practical || sportsManagement) ? HANYANG_HISTORY_ARTS : HANYANG_HISTORY_HUMANITIES;
   const inquirySubjects = sportsManagement || sportsScience || drama ? 1 : music ? 1 : 2;
   const inquiryRequired = weights.inquiryWeight > 0;
   const finalMultiplier = music
