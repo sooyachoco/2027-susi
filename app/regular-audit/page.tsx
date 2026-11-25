@@ -32,6 +32,7 @@ const LABELS: Record<string, string> = {
   missingSubjectMaximumScores: "영역별 최고점 미확보",
   pendingSubjectMaximumScores: "2027 수능 영역별 최고점 발표 대기",
   missingComparableBenchmark: "비교 가능한 전년도 기준점 누락",
+  untrackedSchoolViolencePolicy: "학교폭력 반영 규칙 검토 상태 미기록",
   missingMethodNotes: "전형 설명 누락",
   duplicateIds: "중복 데이터 ID",
   integrityErrors: "데이터 무결성 오류",
