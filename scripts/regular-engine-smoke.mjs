@@ -189,11 +189,11 @@ const sungshinRowsMatch = seoulExtraSource.match(/const SUNGSHIN_ROWS = (\[[\s\S
 const dongdukRowsMatch = seoulExtraSource.match(/const DONGDUK_ROWS = (\[[\s\S]*?\]) as const;/);
 const myongjiRowsMatch = seoulExtraSource.match(/const MYONGJI_ROWS = (\[[\s\S]*?\]) as const;/);
 const sogangSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
-const sogangRowsMatch = sogangSource.match(/const SOGANG_ROWS = (\[[\s\S]*?\]) as const;/);
-assert.ok(sogangRowsMatch);
-const sogangRows = JSON.parse(sogangRowsMatch[1]);
-assert.equal(sogangRows.length, 23);
-assert.deepEqual(sogangRows.reduce((totals, row) => {
+const sogangAdmissionsRows2027Match = sogangSource.match(/const SOGANG_ROWS = (\[[\s\S]*?\]) as const;/);
+assert.ok(sogangAdmissionsRows2027Match);
+const sogangAdmissionsRows2027 = JSON.parse(sogangAdmissionsRows2027Match[1]);
+assert.equal(sogangAdmissionsRows2027.length, 23);
+assert.deepEqual(sogangAdmissionsRows2027.reduce((totals, row) => {
   totals[row.group] += row.recruitmentCount;
   totals.total += row.recruitmentCount;
   return totals;
@@ -738,18 +738,18 @@ assert.ok(Math.abs(sogangResult.totalScore - sogangExpected) < 0.000001);
 assert.equal(sogangResult.calculationVerified, true);
 
 const sogangDataModule = loadTsModule(fileURLToPath(new URL("../lib/regular/data2027.ts", import.meta.url)));
-const sogangRows = sogangDataModule.regularAdmissions2027.filter((row) => row.universityId === "sogang-seoul");
-assert.equal(sogangRows.length, 23, "서강대 정시 일반전형 모집단위는 23개여야 함");
-assert.equal(sogangRows.reduce((sum, row) => sum + (row.recruitmentCount ?? 0), 0), 623, "서강대 일반전형 계획인원은 623명이어야 함");
-assert.deepEqual(sogangRows.reduce((totals, row) => { totals[row.group] += row.recruitmentCount ?? 0; return totals; }, { 나: 0, 다: 0 }), { 나: 513, 다: 110 });
-assert.equal(new Set(sogangRows.map((row) => row.department)).size, 23);
-assert.ok(sogangRows.every((row) => row.sourceUrl === "https://admission.sogang.ac.kr/enter/html/counsel/noticeView.asp?idx=26982"));
-assert.ok(sogangRows.every((row) => row.koreanWeight === 110 && row.mathWeight === 130 && row.inquiryWeight === 60));
-assert.ok(sogangRows.every((row) => row.languageMathMode === "고득점 우선"));
-assert.ok(sogangRows.every((row) => row.inquiryConversionRequired === true && row.inquiryConversionPending === true));
-assert.ok(sogangRows.every((row) => row.calculationVerified === false), "탐구 변환표·지원자별 학교폭력 확인 전에는 최종 계산 검증을 통과시키지 않음");
-assert.equal(JSON.stringify(sogangRows[0].englishGradeTable), JSON.stringify({ 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 }));
-assert.equal(JSON.stringify(sogangRows[0].koreanHistoryGradePoints), JSON.stringify({ 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 }));
+const sogangAdmissionsRows2027 = sogangDataModule.regularAdmissions2027.filter((row) => row.universityId === "sogang-seoul");
+assert.equal(sogangAdmissionsRows2027.length, 23, "서강대 정시 일반전형 모집단위는 23개여야 함");
+assert.equal(sogangAdmissionsRows2027.reduce((sum, row) => sum + (row.recruitmentCount ?? 0), 0), 623, "서강대 일반전형 계획인원은 623명이어야 함");
+assert.deepEqual(sogangAdmissionsRows2027.reduce((totals, row) => { totals[row.group] += row.recruitmentCount ?? 0; return totals; }, { 나: 0, 다: 0 }), { 나: 513, 다: 110 });
+assert.equal(new Set(sogangAdmissionsRows2027.map((row) => row.department)).size, 23);
+assert.ok(sogangAdmissionsRows2027.every((row) => row.sourceUrl === "https://admission.sogang.ac.kr/enter/html/counsel/noticeView.asp?idx=26982"));
+assert.ok(sogangAdmissionsRows2027.every((row) => row.koreanWeight === 110 && row.mathWeight === 130 && row.inquiryWeight === 60));
+assert.ok(sogangAdmissionsRows2027.every((row) => row.languageMathMode === "고득점 우선"));
+assert.ok(sogangAdmissionsRows2027.every((row) => row.inquiryConversionRequired === true && row.inquiryConversionPending === true));
+assert.ok(sogangAdmissionsRows2027.every((row) => row.calculationVerified === false), "탐구 변환표·지원자별 학교폭력 확인 전에는 최종 계산 검증을 통과시키지 않음");
+assert.equal(JSON.stringify(sogangAdmissionsRows2027[0].englishGradeTable), JSON.stringify({ 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 }));
+assert.equal(JSON.stringify(sogangAdmissionsRows2027[0].koreanHistoryGradePoints), JSON.stringify({ 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 }));
 
 const ewhaPending = calculateRegularAdmission({
   ...sogang,
