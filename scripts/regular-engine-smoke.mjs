@@ -41,6 +41,15 @@ assert.match(samyukSource, /학교폭력 조치사항 입력 필요/);
 assert.match(samyukSource, /calculationVerified: false/);
 assert.match(samyukSource, /음악학과·아트앤디자인학과 27명/);
 
+const gachonSource = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
+assert.match(gachonSource, /schoolViolencePenaltyRequired: true/);
+assert.match(gachonSource, /calculationVerified: false/);
+assert.match(gachonSource, /4~5호 각 10점, 6~7호 각 20점/);
+const incheonSource = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
+assert.match(incheonSource, /schoolViolencePenaltyRequired: true/);
+assert.match(incheonSource, /calculationVerified: false/);
+assert.match(incheonSource, /2~3호 5% 감점, 4~5호 10% 감점, 6~9호 부적격/);
+
 const hufsSource = readFileSync(new URL("../lib/regular/data2027-hufs.ts", import.meta.url), "utf8");
 const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])" \}/g)];
 assert.equal(hufsRows.length, 89);
