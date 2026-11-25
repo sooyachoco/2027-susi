@@ -1236,7 +1236,7 @@ const koreaRows = [...koreaRowsText.matchAll(/\{ id: "([^"]+)", department: "([^
 assert.equal(koreaRows.length, 64);
 assert.equal(new Set(koreaRows.map((row) => row[1])).size, 64);
 assert.equal(koreaRows.reduce((sum, row) => sum + Number(row[4]), 0), 1030);
-assert.deepEqual(koreaRows.reduce((totals, row) => { totals[row[5]] = (totals[row[5]] ?? 0) + Number(row[4]); return totals; }, {}), { humanities: 451, natural: 464, medical: 20, physical: 40, design: 35, cyber: 20 });
+assert.deepEqual(koreaRows.reduce((totals, row) => { totals[row[5]] = (totals[row[5]] ?? 0) + Number(row[4]); return totals; }, {}), { humanities: 451, natural: 442, contract-natural: 22, medical: 20, physical: 40, design: 35, cyber: 20 });
 assert.match(koreaData, /finalScoreMultiplier: multiplier/);
 assert.match(koreaData, /inquiryConversionRequired: true/);
 assert.match(koreaData, /inquiryTypeBonusRate: scienceBonus/);
