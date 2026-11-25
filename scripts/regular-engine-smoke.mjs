@@ -1626,11 +1626,11 @@ assert.deepEqual(
 // disappearing from recommendation results.
 for (const path of admissionDataFiles) {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
-  const datasetExports = [...source.matchAll(/export\\s+const\\s+(\\w+Admissions2027)\\b/g)].map((match) => match[1]);
+  const datasetExports = [...source.matchAll(/export\s+const\s+(\w+Admissions2027)\b/g)].map((match) => match[1]);
   for (const datasetName of datasetExports) {
     assert.match(
       repositoryRegistrationSource,
-      new RegExp(`import\\\\s+\\\\{\\\\s*${datasetName}\\\\s*\\\\}\\\\s+from\\\\s+["']\\\\./${path.split("/").pop().replace(/\\.ts$/, "")}["']`),
+      repositoryRegistrationSource.includes(\`import { \${datasetName} } from "./\${path.split("/").pop().replace(/\.ts$/, "")}"\`),
       `${datasetName} must be imported into the active repository`,
     );
     assert.ok(
