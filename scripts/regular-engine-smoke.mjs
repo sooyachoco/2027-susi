@@ -1279,6 +1279,23 @@ assert.match(uosData, /studentRecordWeight/);
 assert.match(uosData, /학교폭력 조치사항 감점: 1~3호 1점, 4~5호 10점, 6~7호 20점, 8~9호 30점/);
 assert.match(uosData, /calculationVerified: false/);
 
+// 2027 성균관대 정시 수능위주 일반전형: 모집단위별 가·나·다군 정원 검증
+const skkuData = readFileSync(new URL("../lib/regular/data2027-skku.ts", import.meta.url), "utf8");
+const skkuRowsText = skkuData.slice(skkuData.indexOf("const SKKU_ROWS = ["), skkuData.indexOf("] as const;"));
+const skkuRows = [...skkuRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", recruitmentCount: (\d+), kind: "([^"]+)", group: "([^"]+)" \}/g)];
+assert.equal(skkuRows.length, 30);
+assert.equal(new Set(skkuRows.map((row) => row[1])).size, 30);
+assert.equal(skkuRows.reduce((sum, row) => sum + Number(row[4]), 0), 1463);
+assert.deepEqual(skkuRows.reduce((totals, row) => { totals[row[6]] = (totals[row[6]] ?? 0) + Number(row[4]); return totals; }, {}), { 가: 615, 나: 673, 다: 175 });
+assert.deepEqual(skkuRows.reduce((totals, row) => { totals[row[5]] = (totals[row[5]] ?? 0) + Number(row[4]); return totals; }, {}), { a45: 306, a40: 190, n35: 288, n45: 385, d45: 90, d35: 85, aMed: 16, art: 75, sport: 28 });
+assert.match(skkuData, /inquiryConversionRequired: true/);
+assert.match(skkuData, /inquiryTypeBonusRate: scienceBonus/);
+assert.match(skkuData, /mathChoiceBonusRate: mathBonus/);
+assert.match(skkuData, /additionalEligibilityRequired: additionalEligibility/);
+assert.match(skkuData, /practicalEvaluationRequired: hasPractical/);
+assert.match(skkuData, /학교폭력 조치사항: 1호 100점 감점, 2~9호는 전형 총점 0점 처리/);
+assert.match(skkuData, /calculationVerified: false/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-snu.ts",
@@ -1286,6 +1303,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-korea.ts",
   "../lib/regular/data2027-hanyang.ts",
   "../lib/regular/data2027-uos.ts",
+  "../lib/regular/data2027-skku.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
