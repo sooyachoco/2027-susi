@@ -1235,10 +1235,28 @@ assert.match(yonseiData, /additionalEligibilityRequired: interview/);
 assert.match(yonseiData, /calculationVerified: false/);
 assert.match(yonseiData, /2026-12-11/);
 
+// 2027 고려대 서울캠퍼스 정시 일반전형: 가군 모집단위별 정원·계열 산식 검증
+const koreaData = readFileSync(new URL("../lib/regular/data2027-korea.ts", import.meta.url), "utf8");
+const koreaRowsText = koreaData.slice(koreaData.indexOf("const KOREA_ROWS = ["), koreaData.indexOf("] as const;"));
+const koreaRows = [...koreaRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", recruitmentCount: (\d+), kind: "([^"]+)" \}/g)];
+assert.equal(koreaRows.length, 64);
+assert.equal(new Set(koreaRows.map((row) => row[1])).size, 64);
+assert.equal(koreaRows.reduce((sum, row) => sum + Number(row[4]), 0), 1030);
+assert.deepEqual(koreaRows.reduce((totals, row) => { totals[row[5]] = (totals[row[5]] ?? 0) + Number(row[4]); return totals; }, {}), { humanities: 451, natural: 464, medical: 20, physical: 40, design: 35, cyber: 20 });
+assert.match(koreaData, /finalScoreMultiplier: multiplier/);
+assert.match(koreaData, /inquiryConversionRequired: true/);
+assert.match(koreaData, /inquiryTypeBonusRate: scienceBonus/);
+assert.match(koreaData, /gradeAdjustmentsAfterFinalMultiplier: true/);
+assert.match(koreaData, /practicalEvaluationRequired: practical/);
+assert.match(koreaData, /additionalEligibilityRequired: medicine \\|\\| cyber/);
+assert.match(koreaData, /1호 1점, 2호 1점, 3호 1점, 4호 3점, 5호 3점, 6호 7점, 7호 7점, 8호 20점, 9호 20점/);
+assert.match(koreaData, /calculationVerified: false/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027-yonsei.ts",
+  "../lib/regular/data2027-korea.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
