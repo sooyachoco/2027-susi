@@ -446,7 +446,11 @@ export function calculateRegularAdmission(
     }
   }
 
-  if (admission.schoolViolencePenaltyRequired) missingRules.push(admission.schoolViolencePenaltyNote ?? "학교폭력 조치사항 입력 필요(대학별 감점·결격 기준 적용)");
+  if (admission.schoolViolencePenaltyRequired == null) {
+    missingRules.push("2027 정시 학교폭력 반영 규칙 검토 상태 미기록");
+  } else if (admission.schoolViolencePenaltyRequired) {
+    missingRules.push(admission.schoolViolencePenaltyNote ?? "학교폭력 조치사항 입력 필요(대학별 감점·결격 기준 적용)");
+  }
   if (admission.practicalEvaluationRequired) missingRules.push(admission.practicalEvaluationNote ?? "실기평가 점수 미입력(대학별 실기 반영비율 적용 필요)");
   if (admission.interviewEvaluationRequired) missingRules.push(admission.interviewEvaluationNote ?? "면접평가 점수 미입력(대학별 면접 반영비율 적용 필요)");
   if (admission.additionalEligibilityRequired) missingRules.push(admission.additionalEligibilityNote ?? "대학별 별도 자격·신체검사 합격 여부 확인 필요");
