@@ -343,6 +343,7 @@ const kwangwoonAdmissions2027: RegularAdmission[] = KWANGWOON_ROWS.map((row) => 
     inquirySubjects: 2,
     inquiryAggregation: "sum",
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     koreanHistoryRequired: true,
     englishGradeTable: KWANGWOON_ENGLISH,
     englishMaximumScore: 200,
