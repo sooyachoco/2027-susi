@@ -728,6 +728,7 @@ const sookmyung = {
   scoreMetric: "표준점수",
   calculationMode: "normalized-standard-sum",
   subjectScoreMultiplier: 1,
+  schoolViolencePenaltyRequired: false,
   calculationVerified: true,
   koreanWeight: 35,
   mathWeight: 25,
