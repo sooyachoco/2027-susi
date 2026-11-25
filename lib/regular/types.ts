@@ -98,6 +98,10 @@ export type RegularAdmission = {
   practicalEvaluationRequired?: boolean;
   /** Accurate missing-score message for practical components with university-specific weights. */
   practicalEvaluationNote?: string;
+  /** Requires a separate pass/fail eligibility check that is not a CSAT score component. */
+  additionalEligibilityRequired?: boolean;
+  /** Exact university-specific eligibility requirement shown when the check is not recorded. */
+  additionalEligibilityNote?: string;
   inquiryTopSubjectBonusRate?: number;
   inquiryTopSubjectBonusType?: "사탐" | "과탐" | "직탐";
   studentRecordWeight?: number;
