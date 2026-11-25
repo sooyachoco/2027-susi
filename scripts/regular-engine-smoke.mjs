@@ -748,8 +748,8 @@ assert.ok(sogangRows.every((row) => row.koreanWeight === 110 && row.mathWeight =
 assert.ok(sogangRows.every((row) => row.languageMathMode === "고득점 우선"));
 assert.ok(sogangRows.every((row) => row.inquiryConversionRequired === true && row.inquiryConversionPending === true));
 assert.ok(sogangRows.every((row) => row.calculationVerified === false), "탐구 변환표·지원자별 학교폭력 확인 전에는 최종 계산 검증을 통과시키지 않음");
-assert.deepEqual(sogangRows[0].englishGradeTable, { 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 });
-assert.deepEqual(sogangRows[0].koreanHistoryGradePoints, { 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 });
+assert.equal(JSON.stringify(sogangRows[0].englishGradeTable), JSON.stringify({ 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 }));
+assert.equal(JSON.stringify(sogangRows[0].koreanHistoryGradePoints), JSON.stringify({ 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 }));
 
 const ewhaPending = calculateRegularAdmission({
   ...sogang,
