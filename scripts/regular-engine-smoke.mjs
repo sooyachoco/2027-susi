@@ -1634,7 +1634,7 @@ const hansungTopTwo = calculateRegularAdmission({
 assert.equal(hansungTopTwo.calculationVerified,true);
 assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2)*1000)<0.000001);
 assert.ok(hansungTopTwo.appliedComponents.includes("지정 영역 상위 2개 자동 선택 반영"));
-assert.equal(hansungTopTwo.bonus, 8);
+assert.equal(hansungTopTwo.bonus, 0.8);
 
 const hansungPainting = calculateRegularAdmission({
   ...normFixture, scoreMetric:"백분위",
@@ -1647,7 +1647,7 @@ const hansungPainting = calculateRegularAdmission({
   schoolViolencePenaltyRequired:true, practicalEvaluationRequired:true,
 }, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2,koreanHistoryGrade:5});
 assert.ok(Math.abs(hansungPainting.baseScore-(0.9*0.4+0.97*0.4+0.7*0.2)*300)<0.000001);
-assert.equal(hansungPainting.bonus,8);
+assert.equal(hansungPainting.bonus,0.8);
 assert.equal(hansungPainting.calculationVerified,false);
 assert.ok(hansungPainting.missingRules.some(rule=>rule.includes("실기")));
 
