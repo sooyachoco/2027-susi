@@ -68,8 +68,8 @@ assert.match(incheonSource, /calculationVerified: false/);
 assert.match(incheonSource, /2~3호 5% 감점, 4~5호 10% 감점, 6~9호 부적격/);
 
 const hufsSource = readFileSync(new URL("../lib/regular/data2027-hufs.ts", import.meta.url), "utf8");
-const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])" \}/g)];
-assert.equal(hufsRows.length, 89);
+const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global|songdo)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])" \}/g)];
+assert.equal(hufsRows.length, 90);
 assert.equal(new Set(hufsRows.map((row) => row[3])).size, 89);
 const hufsTotals = hufsRows.reduce((totals, row) => {
   totals[row[1]][row[2]] += Number(row[4]);
@@ -77,15 +77,16 @@ const hufsTotals = hufsRows.reduce((totals, row) => {
   totals.groups[row[2]] += Number(row[4]);
   totals.total += Number(row[4]);
   return totals;
-}, { seoul:{가:0,나:0,다:0,total:0}, global:{가:0,나:0,다:0,total:0}, groups:{가:0,나:0,다:0}, total:0 });
+}, { seoul:{가:0,나:0,다:0,total:0}, global:{가:0,나:0,다:0,total:0}, songdo:{가:0,나:0,다:0,total:0}, groups:{가:0,나:0,다:0}, total:0 });
 assert.deepEqual(hufsTotals, {
   seoul:{가:160,나:312,다:75,total:547},
   global:{가:37,나:336,다:337,total:710},
-  groups:{가:197,나:648,다:412},
-  total:1257,
+  songdo:{가:0,나:0,다:20,total:20},
+  groups:{가:197,나:648,다:432},
+  total:1277,
 });
-assert.equal(hufsRows.some((row) => /songdo|global-bio/.test(row[3])), false);
-assert.equal(hufsSource.includes('department:"글로벌바이오 & 비즈니스융합학부"'), false);
+assert.equal(hufsRows.some((row) => row[1] === "다" && row[3] === "global-bio-business-songdo" && Number(row[4]) === 20 && row[5] === "B"), true);
+assert.match(hufsSource, /majorGroup: row\.majorGroup \?\? \(row\.field === "N"/);
 assert.match(hufsSource, /inquiryConversionRequired: true/);
 assert.match(hufsSource, /inquiryConversionPending: true/);
 assert.match(hufsSource, /HUFS_ENGLISH_20 = \{ 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 \}/);

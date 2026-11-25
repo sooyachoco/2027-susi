@@ -1,7 +1,7 @@
 import type { RegularAdmission } from "./types";
 
 // 2027 한국외국어대학교 정시 일반전형. 수시 이월 전 모집요강 p.18-19 기준.
-// 서울·글로벌(용인) 캠퍼스만 등록하고 송도캠퍼스 20명은 수도권 범위 외로 제외.
+// 서울·글로벌(용인)·송도(인천) 캠퍼스 일반전형 모집단위를 모두 등록한다.
 // 탐구 변환표준점수와 2027 국어·수학 표준점수 최고점은 발표 전이므로 계산 검증은 보류한다.
 const HUFS_SOURCE = "https://ipsi.aljal.kr/univ/hufs/2027/jeongsi";
 const HUFS_ENGLISH_20 = { 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 } as const;
@@ -9,7 +9,7 @@ const HUFS_ENGLISH_15 = { 1:150, 2:148.5, 3:145.5, 4:141, 5:135, 6:127.5, 7:112.
 // Engine history adjustments are multiplied by 10; store 1/10 of the official final-total deductions.
 const HUFS_HISTORY = { 1:0, 2:0, 3:0, 4:-0.02, 5:-0.04, 6:-0.06, 7:-0.08, 8:-0.1, 9:-0.2 } as const;
 
-type Row = { campus: "seoul" | "global"; group: "가" | "나" | "다"; key: string; department: string; count: number; field: "A" | "B" | "N" };
+type Row = { campus: "seoul" | "global" | "songdo"; group: "가" | "나" | "다"; key: string; department: string; count: number; field: "A" | "B" | "N"; majorGroup?: string };
 const HUFS_ROWS: Row[] = [
   { campus:"seoul", group:"가", key:"ellt", department:"ELLT학과", count:14, field:"B" },
   { campus:"seoul", group:"가", key:"malay-indonesia", department:"말레이·인도네시아학과", count:5, field:"A" },
@@ -99,7 +99,8 @@ const HUFS_ROWS: Row[] = [
   { campus:"global", group:"다", key:"culture-technology-college", department:"Culture & Technology융합대학[통합모집]", count:30, field:"A" },
   { campus:"global", group:"다", key:"finance-ai", department:"Finance & AI융합학부", count:5, field:"B" },
   { campus:"global", group:"다", key:"ai-convergence-global", department:"AI융합대학(글로벌)[통합모집]", count:25, field:"N" },
-  { campus:"global", group:"다", key:"free-major-global", department:"자유전공학부(글로벌)", count:102, field:"A" },
+  { campus:"global", group:"다", key:"free-major-global", department:"자유전공학부(글로벌)", count:102, field:"A" },,
+  { campus:"songdo", group:"다", key:"global-bio-business-songdo", department:"글로벌바이오 & 비즈니스융합학부", count:20, field:"B", majorGroup:"자연·공학" },
 ];
 
 export const hufsAdmissions2027: RegularAdmission[] = HUFS_ROWS.map((row) => {
@@ -107,11 +108,11 @@ export const hufsAdmissions2027: RegularAdmission[] = HUFS_ROWS.map((row) => {
   const english20 = row.field === "A";
   return {
     id: `hufs-${row.campus}-${row.group}-${row.key}`,
-    universityId: row.campus === "seoul" ? "hufs-seoul" : "hufs-global",
+    universityId: row.campus === "seoul" ? "hufs-seoul" : row.campus === "songdo" ? "hufs-songdo" : "hufs-global",
     universityName: "한국외국어대학교",
-    region: row.campus === "seoul" ? "서울" : "경기",
+    region: row.campus === "seoul" ? "서울" : row.campus === "songdo" ? "인천" : "경기",
     department: row.department,
-    majorGroup: row.field === "N" ? "자연·공학" : row.field === "B" ? "경영·경제" : "인문·사회",
+    majorGroup: row.majorGroup ?? (row.field === "N" ? "자연·공학" : row.field === "B" ? "경영·경제" : "인문·사회"),
     group: row.group,
     recruitmentCount: row.count,
     scoreMetric: "표준점수",
