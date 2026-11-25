@@ -1,6 +1,5 @@
 import type { RegularAdmission } from "./types";
 
-const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
 const CAU_SOURCE = "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=cau2027.pdf&sfn=20260901055935966_c1b3b13829d64e208b27824d73e5eee2.pdf";
@@ -247,42 +246,6 @@ if (sogangAdmissions2027.length !== 23 || sogangAdmissions2027.reduce((sum,row)=
 }
 
 export const regularAdmissions2027: RegularAdmission[] = [
-  ...(["가", "나"] as const).flatMap((group) => [
-    {
-      id: `hanyang-seoul-${group}-humanities`, universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
-      department: "인문계열", majorGroup: "인문·어문", group, scoreMetric: "표준점수" as const,
-      koreanWeight: 35, mathWeight: 30, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2 as const, inquiryAggregation: "sum" as const,
-      calculationMode: "normalized-standard-sum" as const, finalScoreMultiplier: 900, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
-      englishGradeTable: { 1: 100, 2: 96, 3: 90, 4: 82, 5: 72, 6: 60, 7: 46, 8: 30, 9: 12 },
-      koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.1, 5: -0.2, 6: -0.3, 7: -0.4, 8: -0.5, 9: -0.6 },
-      studentRecordWeight: 10, curriculumEvaluationRequired: true,
-      note: "2027 정시 인문계열: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학30·영어10·탐구25. 영어 등급점수와 한국사 감점표 반영. 탐구 변환표 및 당해 연도 영역별 최고점, 학생부 평가 미입력으로 최종 환산 보류.",
-      sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-    },
-    {
-      id: `hanyang-seoul-${group}-natural`, universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
-      department: "자연계열", majorGroup: "자연·공학", group, scoreMetric: "표준점수" as const,
-      koreanWeight: 25, mathWeight: 40, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2 as const, inquiryAggregation: "sum" as const,
-      calculationMode: "normalized-standard-sum" as const, finalScoreMultiplier: 900, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
-      englishGradeTable: { 1: 100, 2: 98, 3: 94, 4: 88, 5: 80, 6: 70, 7: 58, 8: 44, 9: 28 },
-      koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.1, 6: -0.2, 7: -0.3, 8: -0.4, 9: -0.5 },
-      studentRecordWeight: 10, curriculumEvaluationRequired: true,
-      recruitmentCount: 18, benchmarkYear: 2025, benchmarkCutline70: 941.99, benchmarkDepartment: "건축학부",
-      note: "2027 정시 자연계열: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어25·수학40·영어10·탐구25. 영어 등급점수와 한국사 감점 반영. 탐구 변환표·당해 연도 최고점·학생부 평가 미입력으로 최종 환산 보류. 전년도 70%컷은 별도 벤치마크.",
-      sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-    },
-    {
-      id: `hanyang-seoul-${group}-business`, universityId: "hanyang-seoul", universityName: "한양대학교", region: "서울",
-      department: "상경계열", majorGroup: "경영·경제", group, scoreMetric: "표준점수" as const,
-      koreanWeight: 35, mathWeight: 35, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2 as const, inquiryAggregation: "sum" as const,
-      calculationMode: "normalized-standard-sum" as const, finalScoreMultiplier: 900, gradeAdjustmentsAfterFinalMultiplier: true, inquiryConversionRequired: true,
-      englishGradeTable: { 1: 100, 2: 96, 3: 90, 4: 82, 5: 72, 6: 60, 7: 46, 8: 30, 9: 12 },
-      koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.1, 5: -0.2, 6: -0.3, 7: -0.4, 8: -0.5, 9: -0.6 },
-      studentRecordWeight: 10, curriculumEvaluationRequired: true,
-      note: "2027 정시 상경계열: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 영어 등급점수·한국사 감점 반영. 탐구 변환표·당해 연도 최고점·학생부 평가 미입력으로 최종 환산 보류.",
-      sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-    },
-  ]),
   {
     id: "skku-seoul-na-business", universityId: "skku-seoul", universityName: "성균관대학교", region: "서울",
     department: "경영학과", majorGroup: "경영·경제", group: "나", scoreMetric: "백분위",
