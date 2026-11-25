@@ -63,7 +63,7 @@ assert.match(hufsSource, /inquiryConversionRequired: true/);
 assert.match(hufsSource, /inquiryConversionPending: true/);
 assert.match(hufsSource, /HUFS_ENGLISH_20 = \{ 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 \}/);
 assert.match(hufsSource, /HUFS_ENGLISH_15 = \{ 1:150, 2:148\.5, 3:145\.5, 4:141, 5:135, 6:127\.5, 7:112\.5, 8:90, 9:0 \}/);
-assert.match(hufsSource, /HUFS_HISTORY = \{ 1:0, 2:0, 3:0, 4:-0\.2, 5:-0\.4, 6:-0\.6, 7:-0\.8, 8:-1, 9:-2 \}/);
+assert.match(hufsSource, /HUFS_HISTORY = \{ 1:0, 2:0, 3:0, 4:-0\.02, 5:-0\.04, 6:-0\.06, 7:-0\.08, 8:-0\.1, 9:-0\.2 \}/);
 assert.match(hufsSource, /schoolViolencePenaltyRequired: true/);
 assert.match(hufsSource, /calculationVerified: false/);
 
