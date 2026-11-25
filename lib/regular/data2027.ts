@@ -1,7 +1,6 @@
 import type { RegularAdmission } from "./types";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
-const KOREA_SOURCE = "https://oku.korea.ac.kr/";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
 const CAU_SOURCE = "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=cau2027.pdf&sfn=20260901055935966_c1b3b13829d64e208b27824d73e5eee2.pdf";
@@ -370,32 +369,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     studentRecordWeight: 10, curriculumEvaluationRequired: true, recruitmentCount: 50,
     note: "2027 정시 한양인터칼리지학부: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 당해 연도 최고점·탐구 변환표·학생부 평가 미입력으로 최종 환산 보류.",
     sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-  },
-  {
-    id: "korea-seoul-ga-natural-general", universityId: "korea-seoul", universityName: "고려대학교", region: "서울",
-    department: "자연·의학계열(가정교육·간호 제외)", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 100, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 1000 / 640,
-    inquiryConversionRequired: true, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 },
-    englishGradeTable: { 1: 0, 2: -3, 3: -6, 4: -9, 5: -12, 6: -15, 7: -18, 8: -21, 9: -24 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -2 },
-    gradeAdjustmentsAfterFinalMultiplier: true,
-    note: "2027 서울캠퍼스 일반전형 자연·의학(가정교육·간호 제외) 공식 수능 원점수 구조: 국어 표준점수 + 수학 표준점수×1.2 + 탐구 대학 자체 변환점수 합, 이를 1,000점 만점으로 환산한 뒤 영어·한국사 등급별 감점. 과탐 응시자는 과목별 변환점수 3% 가산. 탐구 변환표 미등록으로 최종 환산 보류.",
-    sourceUrl: "https://oku.korea.ac.kr/oku/cms/FR_BBS_CON/BoardView.do?BBS_SEQ=1806&BOARD_SEQ=5&CONTENTS_NO=&MENU_ID=750&SITE_NO=2", verifiedAt: "2026-11-18",
-  },
-  {
-    id: "korea-seoul-ga-humanities-general", universityId: "korea-seoul", universityName: "고려대학교", region: "서울",
-    department: "인문·체능·가정교육·간호계열", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 100, mathWeight: 100, englishWeight: 0, inquiryWeight: 80, inquirySubjects: 2, inquiryAggregation: "sum" as const,
-    subjectMetrics: { korean: "표준점수", math: "표준점수", inquiry: "백분위" },
-    calculationMode: "weighted-sum-with-additive-bonuses" as const, subjectScoreMultiplier: 1, finalScoreMultiplier: 1000 / 560,
-    inquiryConversionRequired: true,
-    englishGradeTable: { 1: 0, 2: -3, 3: -6, 4: -9, 5: -12, 6: -15, 7: -18, 8: -21, 9: -24 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -2 },
-    gradeAdjustmentsAfterFinalMultiplier: true,
-    note: "2027 서울캠퍼스 일반전형 인문·체능·가정교육·간호 계열 공식 수능 원점수 구조: 국어 표준점수 + 수학 표준점수 + 탐구 대학 자체 변환점수 합×0.8, 이를 1,000점 만점으로 환산한 뒤 영어·한국사 등급별 감점. 탐구 변환표 미등록으로 최종 환산 보류.",
-    sourceUrl: "https://oku.korea.ac.kr/oku/cms/FR_BBS_CON/BoardView.do?BBS_SEQ=1806&BOARD_SEQ=5&CONTENTS_NO=&MENU_ID=750&SITE_NO=2", verifiedAt: "2026-11-18",
   },
   {
     id: "uos-seoul-ga-humanities1", universityId: "uos-seoul", universityName: "서울시립대학교", region: "서울",
