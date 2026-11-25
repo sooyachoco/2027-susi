@@ -29,7 +29,8 @@ const LABELS: Record<string, string> = {
   missingKoreanHistoryTable: "한국사 환산표 미확보",
   missingInquiryConversionTable: "탐구 변환표 미확보",
   pendingInquiryConversionTable: "탐구 변환표 발표 대기",
-  missingSubjectMaximumScores: "영역별 최고점 누락",
+  missingSubjectMaximumScores: "영역별 최고점 미확보",
+  pendingSubjectMaximumScores: "2027 수능 영역별 최고점 발표 대기",
   missingComparableBenchmark: "비교 가능한 전년도 기준점 누락",
   missingMethodNotes: "전형 설명 누락",
   duplicateIds: "중복 데이터 ID",
@@ -109,7 +110,7 @@ export default function RegularAuditPage() {
         <section className="section">
           <div className="sectionHead"><div><h2>공식 발표 대기</h2><div className="muted">대학이 수능 성적 발표 이후 별도로 공개하는 변환표입니다. 현재 누락 오류로 집계하지 않습니다.</div></div></div>
           <div style={{ display: "grid", gap: 10 }}>
-            {["pendingEnglishGradeTable", "pendingInquiryConversionTable"].map((key) => {
+            {["pendingEnglishGradeTable", "pendingInquiryConversionTable", "pendingSubjectMaximumScores"].map((key) => {
               const count = data.issueCounts[key] ?? 0;
               const label = LABELS[key];
               const items = data.issues[key] ?? [];
