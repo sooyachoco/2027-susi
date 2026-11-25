@@ -1252,11 +1252,28 @@ assert.match(koreaData, /additionalEligibilityRequired: medicine \|\| cyber/);
 assert.match(koreaData, /1호 1점, 2호 1점, 3호 1점, 4호 3점, 5호 3점, 6호 7점, 7호 7점, 8호 20점, 9호 20점/);
 assert.match(koreaData, /calculationVerified: false/);
 
+// 2027 한양대 서울캠퍼스 정시 일반전형: 모집단위별 가·나·다군 인원 및 실기 구분 검증
+const hanyangData = readFileSync(new URL("../lib/regular/data2027-hanyang.ts", import.meta.url), "utf8");
+const hanyangRowsText = hanyangData.slice(hanyangData.indexOf("const HANYANG_ROWS = ["), hanyangData.indexOf("] as const;"));
+const hanyangRows = [...hanyangRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", recruitmentCount: (\d+), kind: "([^"]+)", group: "([^"]+)" \}/g)];
+assert.equal(hanyangRows.length, 60);
+assert.equal(new Set(hanyangRows.map((row) => row[1])).size, 60);
+assert.equal(hanyangRows.reduce((sum, row) => sum + Number(row[4]), 0), 1297);
+assert.deepEqual(hanyangRows.reduce((totals, row) => { totals[row[6]] = (totals[row[6]] ?? 0) + Number(row[4]); return totals; }, {}), { 가: 628, 나: 619, 다: 50 });
+assert.match(hanyangData, /studentRecordWeight: standard \? 10 : 0/);
+assert.match(hanyangData, /curriculumEvaluationRequired: standard/);
+assert.match(hanyangData, /inquiryConversionRequired: inquiryRequired/);
+assert.match(hanyangData, /practicalEvaluationRequired: practical/);
+assert.match(hanyangData, /additionalEligibilityRequired: contract/);
+assert.match(hanyangData, /학교폭력 조치사항: 1호 30점, 2·3호 100점, 4·5호 200점, 6·7호 300점 감점/);
+assert.match(hanyangData, /calculationVerified: false/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027-yonsei.ts",
   "../lib/regular/data2027-korea.ts",
+  "../lib/regular/data2027-hanyang.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
