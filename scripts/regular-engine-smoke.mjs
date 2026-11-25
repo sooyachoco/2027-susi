@@ -1124,6 +1124,47 @@ assert.match(kauData, /항공신체검사 1종 합격 여부/);
 assert.match(readFileSync(new URL("../lib/regular/types.ts", import.meta.url), "utf8"), /additionalEligibilityRequired\?: boolean/);
 assert.match(readFileSync(new URL("../lib/regular/engine2027.ts", import.meta.url), "utf8"), /if \(admission\.additionalEligibilityRequired\) missingRules\.push/);
 
+// 2027 한국공학대: 일반학생1·2 전형별 모집인원 및 수학 필수 상위 3개 영역 산식
+const kutData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+const kutRowsText = kutData.slice(kutData.indexOf("const KUT_ROWS = ["), kutData.indexOf("const KUT_SCHOOL_VIOLENCE_NOTE"));
+const kutRows = [...kutRowsText.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\d+),(\d+),"([^"]+)"\]/g)];
+assert.equal(kutRows.length, 27);
+const kutGeneral1 = kutRows.reduce((totals, row) => (totals[row[3]] += Number(row[5]), totals.total += Number(row[5]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
+const kutGeneral2 = kutRows.reduce((totals, row) => (totals[row[3]] += Number(row[6]), totals.total += Number(row[6]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
+assert.deepEqual(kutGeneral1, { 가: 66, 나: 128, 다: 86, total: 280 });
+assert.deepEqual(kutGeneral2, { 가: 0, 나: 98, 다: 71, total: 169 });
+assert.match(kutData, /KUT_ENGLISH = \{ 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 \}/);
+assert.match(kutData, /KUT_MATH_BONUS = \{ 미적분: 0\.1, 기하: 0\.1, 확률과통계: 0 \}/);
+assert.match(kutData, /rankedAreaWeights: \[45, 35, 20\]/);
+assert.match(kutData, /rankedAreaRequired: \["math"\]/);
+assert.match(kutData, /학교폭력 조치사항은 500점 환산총점에서 1호 10점/);
+
+const mandatoryMathResult = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  calculationMode: "normalized-standard-sum",
+  koreanWeight: 25, mathWeight: 25, englishWeight: 25, inquiryWeight: 25,
+  inquirySubjects: 2, inquiryAggregation: "best",
+  englishGradeTable: { 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 },
+  englishMaximumScore: 100,
+  rankedAreaWeights: [45, 35, 20],
+  rankedAreaRequired: ["math"],
+  finalScoreMultiplier: 500,
+  mathChoiceBonusRequired: true,
+  mathChoiceBonusRate: { 미적분: 0.1, 기하: 0.1, 확률과통계: 0 },
+  calculationVerified: true,
+}, {
+  ...sampleScore,
+  koreanPercentile: 99, mathPercentile: 50,
+  inquiry1Percentile: 95, inquiry2Percentile: 80,
+  englishGrade: 2, mathType: "확률과통계",
+});
+assert.equal(mandatoryMathResult.calculationVerified, true);
+assert.ok(Math.abs(mandatoryMathResult.totalScore - ((0.99 * 0.45) + (0.95 * 0.35) + (0.5 * 0.2)) * 500) < 0.000001);
+assert.ok(mandatoryMathResult.appliedComponents.includes("필수 영역 포함 4개 영역 성적순 가중치 배정"));
+
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
 assert.match(incheonData, /finalScoreMultiplier: 1/);
