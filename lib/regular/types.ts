@@ -63,6 +63,10 @@ export type RegularAdmission = {
   /** Exact official conversion table: percentile (0-100) -> converted inquiry score. */
   inquiryConversionTable?: Record<string, number>;
   inquiryConversionRequired?: boolean;
+  /** Official table is scheduled for release after CSAT results; not an input-data defect yet. */
+  inquiryConversionPending?: boolean;
+  /** Official English grade conversion is announced separately after CSAT results. */
+  englishConversionPending?: boolean;
   koreanHistoryRequired?: boolean;
   mathChoiceBonusRequired?: boolean;
   inquiryTypeBonusRequired?: boolean;
