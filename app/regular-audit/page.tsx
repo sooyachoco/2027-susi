@@ -8,6 +8,7 @@ type AuditData = {
   scope: string;
   totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
   universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
+  genericSourceUniversitySummary: Array<{ universityId: string; universityName: string; region: string; count: number; sourceUrl: string; departments: string[] }>;
   quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number; requiresAdditionalEligibilityInput: number };
   issueCounts: Record<string, number>;
   issues: Record<string, AuditItem[] | { id: string; count: number }[]>;
@@ -97,6 +98,22 @@ export default function RegularAuditPage() {
             {data.universityCoverage.map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}><strong>{school.universityName}</strong><span className="muted">{school.region} · {school.admissions}개 모집단위 / {school.departments}개 학과명</span></div>
               <div className="muted" style={{ marginTop: 7 }}>모집인원 {school.withRecruitmentCount}/{school.admissions} · 환산식 검증 {school.calculationVerified}/{school.admissions} · 비교 기준점 {school.benchmarkComparable}/{school.admissions}</div>
+            </article>)}
+          </div>
+        </section>
+        <section className="section">
+          <div className="sectionHead"><div><h2>출처 정비 우선순위</h2><div className="muted">입학처 메인 주소만 연결된 모집단위를 대학별로 묶었습니다. 같은 대학은 원문 주소 하나를 확인한 뒤 해당 모집단위 전체에 반영할 수 있습니다.</div></div></div>
+          <div className="grid">
+            <article className="panel stat"><div className="muted">정비 대상 모집단위</div><strong>{data.issueCounts.genericSourceUrl ?? 0}</strong></article>
+            <article className="panel stat"><div className="muted">정비 대상 대학</div><strong>{data.genericSourceUniversitySummary.length}</strong></article>
+          </div>
+          <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
+            {data.genericSourceUniversitySummary.map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+                <strong>{school.universityName}</strong><span className="muted">{school.region} · {school.count}개 모집단위</span>
+              </div>
+              <div className="muted" style={{ marginTop: 7 }}>{school.departments.join(" · ")}</div>
+              <a href={school.sourceUrl} target="_blank" rel="noreferrer">현재 등록된 입학처 주소 열기</a>
             </article>)}
           </div>
         </section>
