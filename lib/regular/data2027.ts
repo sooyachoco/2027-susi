@@ -25,6 +25,9 @@ const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department
     inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05, "직탐": 0 },
   } : {}),
   calculationVerified: false,
+  benchmarkComparable: false,
+  schoolViolencePenaltyRequired: true,
+  schoolViolencePenaltyNote: "학교폭력 조치사항은 2027 정시 최종 요강의 전형별 적용 기준 확인 필요. 조치사항 입력 전 최종 판정 보류.",
   note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? "건축학전공 제외 자연계열 수학 미적분·기하 및 과탐 각 5% 가산." : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영.`,
   sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
 }));
