@@ -67,9 +67,16 @@ function getCutline(admission: RegularAdmission): number | undefined {
   if (admission.benchmarkComparable !== true || admission.calculationVerified !== true) return undefined;
   // A 95% cutoff is not interchangeable with a 70% cutoff; never feed it into the same tier thresholds.
   const raw = admission.benchmarkCutline70 ?? admission.expectedCutline70 ?? admission.expectedCutline;
-  if (raw == null) return undefined;
-  if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) return (raw / admission.benchmarkTotalScore) * 1000;
-  return raw;
+  const total = admission.benchmarkTotalScore;
+  // A comparison is only meaningful when its year, official source and original score scale are recorded.
+  if (
+    !Number.isInteger(admission.benchmarkYear) ||
+    !admission.benchmarkSourceUrl?.trim() ||
+    !/^https?:\/\//i.test(admission.benchmarkSourceUrl) ||
+    typeof total !== "number" || !Number.isFinite(total) || total <= 0 ||
+    typeof raw !== "number" || !Number.isFinite(raw) || raw < 0 || raw > total
+  ) return undefined;
+  return (raw / total) * 1000;
 }
 
 function getBenchmarkHoldLabel(admission: RegularAdmission, result: ReturnType<typeof calculateRegularAdmission>): string {
