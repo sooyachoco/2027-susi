@@ -266,14 +266,32 @@ export function calculateRegularAdmission(
     }
     if (admission.rankedAreaWeights?.length) {
       if (typeof koreanMax === "number" && typeof mathMax === "number" && inquiryNormalized != null && englishNormalized != null) {
-        const ranked = [
-          korean / koreanMax,
-          math / mathMax,
-          englishNormalized,
-          inquiryNormalized,
-        ].sort((a, b) => b - a);
-        normalized = admission.rankedAreaWeights.reduce((sum, weight, index) => sum + (ranked[index] ?? 0) * weight / 100, 0);
-        appliedComponents.push("4개 영역 성적순 가중치 배정");
+        const areaValues = [
+          { area: "korean" as const, value: korean / koreanMax },
+          { area: "math" as const, value: math / mathMax },
+          { area: "english" as const, value: englishNormalized },
+          { area: "inquiry" as const, value: inquiryNormalized },
+        ];
+        const requiredAreas = admission.rankedAreaRequired ?? [];
+        const requiredValues = areaValues.filter((item) => requiredAreas.includes(item.area));
+        if (requiredValues.length !== requiredAreas.length || requiredAreas.length > admission.rankedAreaWeights.length) {
+          missingRules.push("성적순 영역 가중치에 필수 포함 영역을 반영할 수 없음");
+        } else {
+          const optionalValues = areaValues
+            .filter((item) => !requiredAreas.includes(item.area))
+            .sort((a, b) => b.value - a.value);
+          const selectedValues = [
+            ...requiredValues,
+            ...optionalValues.slice(0, admission.rankedAreaWeights.length - requiredValues.length),
+          ].sort((a, b) => b.value - a.value);
+          normalized = admission.rankedAreaWeights.reduce(
+            (sum, weight, index) => sum + (selectedValues[index]?.value ?? 0) * weight / 100,
+            0,
+          );
+          appliedComponents.push(requiredAreas.length
+            ? "필수 영역 포함 4개 영역 성적순 가중치 배정"
+            : "4개 영역 성적순 가중치 배정");
+        }
       } else {
         missingRules.push("성적순 영역 가중치 계산에 필요한 4개 영역 점수 미입력");
       }
