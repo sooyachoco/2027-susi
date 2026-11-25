@@ -14,12 +14,6 @@ assert.match(regularDataSource, /\[전공개방\] 창의ICT공과대학/);
 assert.match(regularDataSource, /id: "cau-seoul-ga-psychology"[\s\S]*?recruitmentCount: 19/);
 assert.match(regularDataSource, /id: "cau-seoul-na-industrial-security"[\s\S]*?recruitmentCount: 28/);
 assert.equal((regularDataSource.match(/id: "cau-seoul-/g) ?? []).length, 3);
-assert.equal((regularDataSource.match(/id: "uos-seoul-/g) ?? []).length, 6);
-assert.match(regularDataSource, /id: "uos-seoul-na-humanities2"[\s\S]*?group: "나"/);
-assert.match(regularDataSource, /id: "uos-seoul-ga-natural"[\s\S]*?recruitmentCount: 22/);
-assert.match(regularDataSource, /id: "uos-seoul-na-natural"[\s\S]*?recruitmentCount: 54[\s\S]*?schoolViolencePenaltyRequired: true/);
-assert.match(regularDataSource, /id: "uos-seoul-na-business"[\s\S]*?recruitmentCount: 67/);
-assert.match(regularDataSource, /id: "uos-seoul-na-computer-science"[\s\S]*?recruitmentCount: 20/);
 const khuInternationalSource = readFileSync(new URL("../lib/regular/data2027-khu-international.ts", import.meta.url), "utf8");
 const khuInternationalRowsMatch = khuInternationalSource.match(/const KHU_INTERNATIONAL_ROWS = (\[[\s\S]*?\]) as const;/);
 assert.ok(khuInternationalRowsMatch);
@@ -1268,12 +1262,29 @@ assert.match(hanyangData, /additionalEligibilityRequired: contract/);
 assert.match(hanyangData, /학교폭력 조치사항: 1호 30점, 2·3호 100점, 4·5호 200점, 6·7호 300점 감점/);
 assert.match(hanyangData, /calculationVerified: false/);
 
+// 2027 서울시립대 정시 일반전형: 모집단위별 가·나군 인원 및 예체능 별도요소 검증
+const uosData = readFileSync(new URL("../lib/regular/data2027-uos.ts", import.meta.url), "utf8");
+const uosRowsText = uosData.slice(uosData.indexOf("const UOS_ROWS = ["), uosData.indexOf("] as const;"));
+const uosRows = [...uosRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", recruitmentCount: (\d+), kind: "([^"]+)", group: "([^"]+)" \}/g)];
+assert.equal(uosRows.length, 45);
+assert.equal(new Set(uosRows.map((row) => row[1])).size, 45);
+assert.equal(uosRows.reduce((sum, row) => sum + Number(row[4]), 0), 785);
+assert.deepEqual(uosRows.reduce((totals, row) => { totals[row[6]] = (totals[row[6]] ?? 0) + Number(row[4]); return totals; }, {}), { 가: 219, 나: 566 });
+assert.deepEqual(uosRows.reduce((totals, row) => { totals[row[5]] = (totals[row[5]] ?? 0) + Number(row[4]); return totals; }, {}), { humanities1: 217, natural: 356, humanities2: 95, sports: 30, design: 29, sculpture: 36, music: 22 });
+assert.match(uosData, /inquiryBonusRequiresSameType: typeI \? "사탐" : natural \? "과탐"/);
+assert.match(uosData, /practicalEvaluationRequired: practical/);
+assert.match(uosData, /additionalEligibilityRequired: interview/);
+assert.match(uosData, /studentRecordWeight/);
+assert.match(uosData, /학교폭력 조치사항 감점: 1~3호 1점, 4~5호 10점, 6~7호 20점, 8~9호 30점/);
+assert.match(uosData, /calculationVerified: false/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027-yonsei.ts",
   "../lib/regular/data2027-korea.ts",
   "../lib/regular/data2027-hanyang.ts",
+  "../lib/regular/data2027-uos.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
