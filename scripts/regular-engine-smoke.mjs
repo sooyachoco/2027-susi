@@ -1357,8 +1357,13 @@ assert.deepEqual(
   "every repository data source must be covered by the cross-file ID audit",
 );
 const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.ts")).flatMap((path) => {
-  const text = readFileSync(new URL(path, import.meta.url), "utf8");
-  return [...text.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
+  const source = readFileSync(new URL(path, import.meta.url), "utf8");
+  // SNU/Yonsei/Korea use local row keys inside mapping tables; audit their final
+  // globally-prefixed admission IDs instead of those intentionally repeated keys.
+  const generatedIds = [...source.matchAll(/\bid:\s*`([^\`]*\$\{[^}]+\}[^\`]*)`/g)]
+    .map((match) => match[1]);
+  if (generatedIds.length > 0) return generatedIds;
+  return [...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
 });
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
