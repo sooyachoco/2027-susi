@@ -1225,7 +1225,7 @@ assert.match(yonseiData, /inquiryConversionRequired: true/);
 assert.match(yonseiData, /inquiryTypeBonusRate: inquiryBonus/);
 assert.match(yonseiData, /studentRecordWeight: sports \? 0 : 50/);
 assert.match(yonseiData, /practicalEvaluationRequired: sports/);
-assert.match(yonseiData, /additionalEligibilityRequired: interview \\|\\| contract/);
+assert.match(yonseiData, /additionalEligibilityRequired: interview \|\| contract/);
 assert.match(yonseiData, /calculationVerified: false/);
 assert.match(yonseiData, /2026-12-11/);
 
@@ -1242,7 +1242,7 @@ assert.match(koreaData, /inquiryConversionRequired: true/);
 assert.match(koreaData, /inquiryTypeBonusRate: scienceBonus/);
 assert.match(koreaData, /gradeAdjustmentsAfterFinalMultiplier: true/);
 assert.match(koreaData, /practicalEvaluationRequired: practical/);
-assert.match(koreaData, /additionalEligibilityRequired: medicine \|\| cyber/);
+assert.match(koreaData, /additionalEligibilityRequired: medicine \|\| cyber \|\| contract/);
 assert.match(koreaData, /학교폭력 조치사항은 2027 정시 최종 요강의 전형별 적용 기준/);
 assert.match(koreaData, /calculationVerified: false/);
 
