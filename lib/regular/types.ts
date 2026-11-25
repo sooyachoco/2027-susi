@@ -102,6 +102,10 @@ export type RegularAdmission = {
   schoolViolencePenaltyNote?: string;
   /** Requires the practical-exam score; CSAT-only subtotal is not the final admission score. */
   practicalEvaluationRequired?: boolean;
+  /** Requires a separately scored interview; a CSAT-only subtotal is not a final admission score. */
+  interviewEvaluationRequired?: boolean;
+  /** Exact missing interview-score message. */
+  interviewEvaluationNote?: string;
   /** Accurate missing-score message for practical components with university-specific weights. */
   practicalEvaluationNote?: string;
   /** Requires a separate pass/fail eligibility check that is not a CSAT score component. */
