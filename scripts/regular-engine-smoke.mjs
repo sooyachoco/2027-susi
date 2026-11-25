@@ -1628,6 +1628,9 @@ assert.equal(hansungTopTwo.calculationVerified,true);
 assert.ok(Math.abs(hansungTopTwo.baseScore-(0.9*0.4+0.8*0.4+0.97*0.2)*1000)<0.000001);
 assert.ok(hansungTopTwo.appliedComponents.includes("지정 영역 상위 2개 자동 선택 반영"));
 
+const hansungRepository=readFileSync(new URL("../lib/regular/repository.ts",import.meta.url),"utf8");
+assert.match(hansungRepository, /import \{ hansungAdmissions2027 \} from "\.\/data2027-extra-seoul"/);
+assert.match(hansungRepository, /\.\.\.hansungAdmissions2027/);
 const hansungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
 const hansungRows=[...hansungData.matchAll(/key":"([^"]+)"[^}]*"group":"([가나다])"[^}]*"recruitmentCount":(\d+)/g)];
 assert.equal(hansungRows.length,16);
