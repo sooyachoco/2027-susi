@@ -400,7 +400,7 @@ export const regularAdmissions2027: RegularAdmission[] = [
     englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 90, 5: 85, 6: 80, 7: 75, 8: 70, 9: 0 },
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
     note: "2027 인문계·자유전공(A): 국어40·수학30·영어10·탐구20. 영어 등급별 배점, 한국사 5등급부터 감점. 국민대 산식 세부 배점·최종 환산 총점에 맞춘 공식 환산식 검증 전이므로 점수는 참고지수이며 판정 보류.",
-    sourceUrl: "https://admission.kookmin.ac.kr/", verifiedAt: "2026-11-19",
+    sourceUrl: "https://admission.kookmin.ac.kr/onschedule/application.php", verifiedAt: "2026-11-19",
   },
   {
     id: "sejong-seoul-ga-humanities", universityId: "sejong-seoul", universityName: "세종대학교", region: "서울",
@@ -1015,6 +1015,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 90, 5: 85, 6: 80, 7: 75, 8: 70, 9: 0 },
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -1 },
     note: "2027 자연계·자유전공(B): 국어30·수학40·영어10·탐구20. 수학 미적분·기하 및 과탐은 각 과목별 표준점수 5% 가산. 영어 등급별 배점, 한국사 5등급부터 감점. 국민대 공식 환산식·최종 총점 단위 검증 전까지 참고지수로만 제공.",
-    sourceUrl: "https://admission.kookmin.ac.kr/", verifiedAt: "2026-11-19",
+    sourceUrl: "https://admission.kookmin.ac.kr/onschedule/application.php", verifiedAt: "2026-11-19",
   }
 ];
