@@ -770,13 +770,17 @@ const normFixture = {
   koreanWeight: 40, mathWeight: 30, englishWeight: 10, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
   inquiryConversionRequired: false, englishGradeTable: { 1: 100, 2: 98.5, 3: 97, 4: 95, 5: 92.5, 6: 90, 7: 85, 8: 80, 9: 75 },
   koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -1, 6: -1.75, 7: -3, 8: -4.25, 9: -5 },
-  gradeAdjustmentsAfterFinalMultiplier: true, calculationVerified: true,
+  gradeAdjustmentsAfterFinalMultiplier: true, schoolViolencePenaltyRequired: false, calculationVerified: true,
 };
 const konkukA = calculateRegularAdmission({ ...normFixture }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukB = calculateRegularAdmission({ ...normFixture, koreanWeight: 30, mathWeight: 40 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukFree = calculateRegularAdmission({ ...normFixture, languageMathMode: "고득점 우선" }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 assert.equal(konkukFree.baseScore, Math.max(konkukA.baseScore, konkukB.baseScore));
 assert.equal(konkukFree.calculationVerified, true);
+
+const untrackedSchoolViolence = calculateRegularAdmission({ ...normFixture, schoolViolencePenaltyRequired: undefined }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
+assert.equal(untrackedSchoolViolence.calculationVerified, false);
+assert.ok(untrackedSchoolViolence.missingRules.includes("2027 정시 학교폭력 반영 규칙 검토 상태 미기록"));
 
 const donggukNatural = calculateRegularAdmission({
   ...normFixture, koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25,
