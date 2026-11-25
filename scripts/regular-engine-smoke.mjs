@@ -13,6 +13,8 @@ const regularRecommendationSource = readFileSync(new URL("../lib/regular/recomme
 const cutlineFunctionSource = regularRecommendationSource.match(/function getCutline\([\s\S]*?\n\}/)?.[0] ?? "";
 assert.match(cutlineFunctionSource, /benchmarkCutline70 \?\? admission\.expectedCutline70 \?\? admission\.expectedCutline/);
 assert.doesNotMatch(cutlineFunctionSource, /benchmarkCutline95|expectedCutline95/);
+assert.match(regularRecommendationSource, /keywords: \["체육", "스포츠", "운동"\], groups: \["예체능·체육"\]/);
+assert.match(regularRecommendationSource, /keywords: \["공연", "연극", "영화", "연기", "뮤지컬"\], groups: \["예체능·공연"\]/);
 assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /pendingEnglishTable/);
@@ -1418,14 +1420,21 @@ assert.equal((incheonData.match(/department: "[^"]+", cutline70:/g) ?? []).lengt
 assert.match(incheonData, /id: "design", department: "디자인학부", group: "가", count: 14, field: "design"/);
 assert.match(incheonData, /id: "early-childhood", department: "유아교육과", group: "가", count: 9/);
 assert.match(incheonData, /id: "smart-logistics", department: "스마트물류공학전공", group: "다", count: 7, field: "natural"/);
-const incheonRows = [...incheonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", group: "([가나다])", count: (\d+), field: "([^"]+)" \}/g)];
+const incheonRows = [...incheonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", group: "([가나다])", count: (\d+), field: "([^"]+)"(?:, [^}]+)? \}/g)];
 const incheonTotals = incheonRows.reduce((totals, row) => {
   totals[row[3]] += Number(row[4]);
   return totals;
 }, { 가: 0, 나: 0, 다: 0 });
-assert.equal(incheonRows.length, 56);
-assert.deepEqual(incheonTotals, { 가: 348, 나: 64, 다: 277 });
-assert.ok(!incheonRows.some((row) => ["스포츠과학부", "스포츠의학부", "체육교육과", "공연예술학과"].includes(row[2])));
+assert.equal(incheonRows.length, 60);
+assert.equal(new Set(incheonRows.map((row) => row[1])).size, 60);
+assert.deepEqual(incheonTotals, { 가: 405, 나: 64, 다: 285 });
+assert.match(incheonData, /id: "sports-science", department: "스포츠과학부", group: "가", count: 27, field: "natural", majorGroup: "예체능·체육", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 400, practicalMaximum: 600/);
+assert.match(incheonData, /id: "sports-medicine", department: "스포츠의학부", group: "가", count: 23, field: "natural", majorGroup: "예체능·체육", koreanWeight: 40, mathWeight: 0, englishWeight: 20, inquiryWeight: 40, csatMaximum: 600, practicalMaximum: 400/);
+assert.match(incheonData, /id: "physical-education", department: "체육교육과", group: "가", count: 7, field: "natural", majorGroup: "예체능·체육", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 500, practicalMaximum: 500/);
+assert.match(incheonData, /id: "performing-arts", department: "공연예술학과", group: "다", count: 8, field: "humanities", majorGroup: "예체능·공연", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 300, practicalMaximum: 700/);
+assert.match(incheonData, /finalScoreMultiplier: \(row.csatMaximum \?\? 1000\) \/ 1000/);
+assert.match(incheonData, /practicalEvaluationRequired: row.practicalMaximum != null/);
+assert.match(incheonData, /practicalEvaluationNote: row.practicalNote/);
 
 // 2027 Gachon official guide: group assignments are read from the General Admission 1 columns.
 const gachonData = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");

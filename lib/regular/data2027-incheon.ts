@@ -63,10 +63,26 @@ const BENCHMARK_2026: Record<string, { department: string; cutline70: number }> 
 };
 
 // 2027학년도 인천대학교 최종 정시모집요강 일반학생전형.
-// 수능 100% 인문·자연 모집단위만 우선 반영. 실기 혼합 모집단위는 별도 검증 전까지 제외.
-type Row = { id: string; department: string; group: "가" | "나" | "다"; count: number; field: "humanities" | "natural" | "design" };
+// 수능 100% 모집단위와 실기 병행 모집단위를 모두 등록하고, 실기 미입력 모집단위는 최종 판정을 보류한다.
+type Row = {
+  id: string;
+  department: string;
+  group: "가" | "나" | "다";
+  count: number;
+  field: "humanities" | "natural" | "design";
+  majorGroup?: string;
+  koreanWeight?: number;
+  mathWeight?: number;
+  englishWeight?: number;
+  inquiryWeight?: number;
+  csatMaximum?: number;
+  practicalMaximum?: number;
+  practicalNote?: string;
+};
 const rows: Row[] = [
   { id: "design", department: "디자인학부", group: "가", count: 14, field: "design" },
+  { id: "sports-science", department: "스포츠과학부", group: "가", count: 27, field: "natural", majorGroup: "예체능·체육", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 400, practicalMaximum: 600, practicalNote: "수능 400점(40%) + 실기 600점(60%) 반영. 실질 반영비율은 수능 62.5%, 실기 37.5%. 실기 점수 입력 전 최종 점수·합격 판정 보류." },
+  { id: "sports-medicine", department: "스포츠의학부", group: "가", count: 23, field: "natural", majorGroup: "예체능·체육", koreanWeight: 40, mathWeight: 0, englishWeight: 20, inquiryWeight: 40, csatMaximum: 600, practicalMaximum: 400, practicalNote: "수능 600점(60%) + 실기 400점(40%) 반영. 실기 점수 입력 전 최종 점수·합격 판정 보류." },
   { id: "korean-language", department: "국어국문학과", group: "가", count: 6, field: "humanities" },
   { id: "english-language", department: "영어영문학과", group: "가", count: 11, field: "humanities" },
   { id: "german-language", department: "독어독문학과", group: "가", count: 6, field: "humanities" },
@@ -92,6 +108,7 @@ const rows: Row[] = [
   { id: "english-education", department: "영어교육과", group: "가", count: 6, field: "humanities" },
   { id: "japanese-education", department: "일어교육과", group: "가", count: 6, field: "humanities" },
   { id: "math-education", department: "수학교육과", group: "가", count: 8, field: "natural" },
+  { id: "physical-education", department: "체육교육과", group: "가", count: 7, field: "natural", majorGroup: "예체능·체육", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 500, practicalMaximum: 500, practicalNote: "수능 500점(50%) + 실기 500점(50%) 반영. 실기 점수 입력 전 최종 점수·합격 판정 보류." },
   { id: "early-childhood", department: "유아교육과", group: "가", count: 9, field: "humanities" },
   { id: "history-education", department: "역사교육과", group: "가", count: 3, field: "humanities" },
   { id: "ethics-education", department: "윤리교육과", group: "가", count: 3, field: "humanities" },
@@ -101,6 +118,7 @@ const rows: Row[] = [
   { id: "nano-bio", department: "생명공학부(나노바이오공학전공)", group: "가", count: 7, field: "natural" },
   { id: "free-major-humanities", department: "자유전공학부(인문)", group: "나", count: 26, field: "humanities" },
   { id: "free-major-natural", department: "자유전공학부(자연)", group: "나", count: 38, field: "natural" },
+  { id: "performing-arts", department: "공연예술학과", group: "다", count: 8, field: "humanities", majorGroup: "예체능·공연", koreanWeight: 45, mathWeight: 0, englishWeight: 10, inquiryWeight: 45, csatMaximum: 300, practicalMaximum: 700, practicalNote: "실기/실적 일반학생전형. 수능 300점(30%) + 실기 700점(70%) 반영. 실기 점수 입력 전 최종 점수·합격 판정 보류." },
   { id: "mathematics", department: "수학과", group: "다", count: 9, field: "natural" },
   { id: "physics", department: "물리학과", group: "다", count: 12, field: "natural" },
   { id: "chemistry", department: "화학과", group: "다", count: 12, field: "natural" },
@@ -134,19 +152,21 @@ export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) =
     universityName: "인천대학교",
     region: "인천",
     department: row.department,
-    majorGroup: design || row.id === "fashion-industry" ? "예체능·디자인" : humanities ? "인문·사회" : "자연·공학",
+    majorGroup: row.majorGroup ?? (design || row.id === "fashion-industry" ? "예체능·디자인" : humanities ? "인문·사회" : "자연·공학"),
     group: row.group,
     recruitmentCount: row.count,
     scoreMetric: "백분위",
     subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: design ? 45 : humanities ? 35 : 25,
-    mathWeight: design ? 15 : humanities ? 30 : 35,
-    englishWeight: 10,
-    inquiryWeight: design ? 30 : humanities ? 25 : 30,
+    koreanWeight: row.koreanWeight ?? (design ? 45 : humanities ? 35 : 25),
+    mathWeight: row.mathWeight ?? (design ? 15 : humanities ? 30 : 35),
+    englishWeight: row.englishWeight ?? 10,
+    inquiryWeight: row.inquiryWeight ?? (design ? 30 : humanities ? 25 : 30),
     inquirySubjects: 2,
     inquiryAggregation: "mean",
     englishGradeTable: ENGLISH,
-    finalScoreMultiplier: 1,
+    finalScoreMultiplier: (row.csatMaximum ?? 1000) / 1000,
+    practicalEvaluationRequired: row.practicalMaximum != null,
+    practicalEvaluationNote: row.practicalNote,
     calculationVerified: false,
     schoolViolencePenaltyRequired: true,
     schoolViolencePenaltyNote: "2027 정시 전 전형: 1호 감점 없음, 2~3호 5% 감점, 4~5호 10% 감점, 6~9호 부적격. 모집단위별 만점 기준이며 조치사항 입력 기능이 없어 최종 판정 보류.",
@@ -156,8 +176,8 @@ export const regularAdmissions2027Incheon: RegularAdmission[] = rows.map((row) =
     benchmarkDepartment: benchmark?.department,
     benchmarkSourceUrl: benchmark ? BENCHMARK_SOURCE : undefined,
     benchmarkComparable: Boolean(benchmark),
-    note: design ? "2027 최종 모집요강 일반학생전형 디자인학부 기준. 수능 100%, 국45·수15·탐구30·영10. 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용." : row.id === "smart-logistics" ? "2027 최종 모집요강 일반학생전형 스마트물류공학전공 기준. 수능 반영표에서 동북아국제통상물류학부로 묶여 자연계열 반영비율(국25·수35·탐30·영10)을 적용." : "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문(패션산업 포함)은 국35·수30·탐25·영10, 자연·동북아국제통상물류학부는 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가.",
+    note: row.practicalNote ?? (design ? "2027 최종 모집요강 일반학생전형 디자인학부 기준. 수능 100%, 국45·수15·탐구30·영10. 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용." : row.id === "smart-logistics" ? "2027 최종 모집요강 일반학생전형 스마트물류공학전공 기준. 수능 반영표에서 동북아국제통상물류학부로 묶여 자연계열 반영비율(국25·수35·탐30·영10)을 적용." : "2027 최종 모집요강 일반학생전형 기준. 수능 100%, 탐구 2과목 평균(백분위), 영어 등급 환산(1~9등급: 100·98·95·80·70·60·30·10·0). 한국사는 필수 응시이며 점수 미반영, 동점자 처리에 사용. 인문(패션산업 포함)은 국35·수30·탐25·영10, 자연·동북아국제통상물류학부는 국25·수35·탐30·영10. 탐구 직업계열 및 제2외국어/한문 대체 불가."),
     sourceUrl: SOURCE,
-    verifiedAt: "2026-11-23",
+    verifiedAt: "2026-11-25",
   };
 });
