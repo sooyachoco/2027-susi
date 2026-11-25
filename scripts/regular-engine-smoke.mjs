@@ -35,7 +35,7 @@ assert.match(regularAuditSource, /benchmarkComparable: admissions\.filter\(hasCo
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
 const sookmyungSource = readFileSync(new URL("../lib/regular/data2027-sookmyung.ts", import.meta.url), "utf8");
 assert.match(sookmyungSource, /recruitmentCount/);
-assert.match(sookmyungSource, /totals\\.가 !== 648 \\|\\| totals\\.나 !== 408/);
+assert.ok(sookmyungSource.includes("activeRows.length !== 52 || totals.가 !== 648 || totals.나 !== 408 || totals.다 !== 0"));
 assert.match(sookmyungSource, /학교폭력 정량감점/);
 assert.match(sookmyungSource, /inquiryConversionPending: inquirySubjects === 2/);
 assert.match(sookmyungSource, /수능 성적 발표 후 공개 예정/);
