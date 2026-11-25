@@ -96,7 +96,7 @@ export const snuAdmissions2027: RegularAdmission[] = SNU_ROWS.map((row) => ({
   koreanHistoryRequired: true,
   koreanHistoryGradePoints: SNU_HISTORY,
   schoolViolencePenaltyRequired: true,
-  schoolViolencePenaltyNote: "학교폭력 관련 기재사항은 정성평가하여 최종점수에 반영할 수 있음. 관련 자료 확인 전 최종 판정 보류.",
+  schoolViolencePenaltyNote: "학교폭력 조치사항은 대학의 정시 최종 적용 기준과 지원자별 기재 내역 확인 필요. 세부 반영 및 조치사항 입력 전 최종 판정 보류.",
   additionalEligibilityRequired: row.additionalEligibilityRequired,
   additionalEligibilityNote: row.additionalEligibilityNote,
   calculationVerified: false,
