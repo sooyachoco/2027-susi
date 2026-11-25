@@ -1638,6 +1638,9 @@ assert.match(hansungRepository, /\.\.\.hansungAdmissions2027/);
 const hansungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
 const hansungRows=[...hansungData.matchAll(/key":"([^"]+)"[^}]*"group":"([가나다])"[^}]*"recruitmentCount":(\d+)/g)];
 assert.equal(hansungRows.length,16);
+assert.match(hansungData, /schoolViolencePenaltyRequired: true/);
+assert.match(hansungData, /1~3호 0점, 4호 100점, 5호 200점, 6호 300점, 7호 400점 감점, 8~9호 불합격/);
+assert.match(hansungData, /calculationVerified: false/);
 const hansungTotals=hansungRows.reduce((totals,row)=>{totals[row[2]]+=Number(row[3]);return totals;},{가:0,나:0,다:0});
 assert.deepEqual(hansungTotals,{가:247,나:75,다:173});
 
