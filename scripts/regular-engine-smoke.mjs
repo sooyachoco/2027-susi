@@ -1298,7 +1298,7 @@ const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
 
-console.log("Regular scoring smoke tests passed: Central, SNU, Korea, Yonsei, Sogang and KHU formula samples, and missing-rule guards.");
+console.log("Regular scoring smoke tests passed: Seoul SNU, Yonsei, Korea, Hanyang and UOS coverage, plus scoring and missing-rule guards.");
 
 const hansungTopTwo = calculateRegularAdmission({
   ...normFixture,
