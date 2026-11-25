@@ -31,8 +31,8 @@ const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department
   sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
 }));
 
-// 2027학년도 서강대학교 정시 수능(일반) 모집단위: 공식 모집요강 p.8, p.34~35
-const SOGANG_SOURCE = "https://admission.sogang.ac.kr/";
+// 2027학년도 서강대학교 정시 수능(일반) 모집단위: 전형시행계획(2026.05.04. 수정1판) p.6, p.18, p.28
+const SOGANG_SOURCE = "https://admission.sogang.ac.kr/enter/html/counsel/noticeView.asp?idx=26982";
 const SOGANG_ENGLISH = { 1:100, 2:99.5, 3:98.5, 4:97, 5:95, 6:92.5, 7:89.5, 8:86, 9:82 } as const;
 const SOGANG_HISTORY = { 1:10, 2:10, 3:10, 4:10, 5:9.5, 6:9, 7:8.5, 8:8, 9:7.5 } as const;
 const SOGANG_ROWS = [
@@ -227,8 +227,8 @@ const sogangAdmissions2027: RegularAdmission[] = SOGANG_ROWS.map((row) => ({
   schoolViolencePenaltyNote: "전 전형: 학교폭력 1호 100점 감점, 2~9호 과락(선발 제외). 조치사항 입력 전 최종 판정 보류.",
   calculationVerified: false,
   sourceUrl: SOGANG_SOURCE,
-  verifiedAt: "2026-11-24",
-  note: "2027 정시 수능(일반). A형(K 1.1·M 1.3·탐구합 0.6)과 B형(K 1.3·M 1.1·탐구합 0.6) 중 높은 점수 자동 반영. 국어·수학 표준점수, 탐구 2과목 백분위 기반 자체 변환표준점수(성적 발표 후 공지), 영어·한국사 등급별 가산점. 탐구 변환표 미등록 및 학교폭력 조치사항 미입력으로 판정 보류."
+  verifiedAt: "2026-11-25",
+  note: "2027 정시 수능(일반). 서강대 2027학년도 전형시행계획(2026.05.04. 수정1판) 기준. A형(K 1.1·M 1.3·탐구합 0.6)과 B형(K 1.3·M 1.1·탐구합 0.6) 중 높은 점수 자동 반영. 국어·수학 표준점수, 탐구 2과목 백분위 기반 자체 변환표준점수, 영어·한국사 등급별 가산점. 탐구 변환표 미발표 및 학교폭력 조치사항 입력 미지원으로 최종 판정 보류. 최종 모집요강과 이월 인원으로 모집인원 재확인 필요."
 }));
 if (sogangAdmissions2027.length !== 23 || sogangAdmissions2027.reduce((sum,row)=>sum+(row.recruitmentCount ?? 0),0) !== 623) {
   throw new Error("서강대 2027 일반전형 모집단위·인원 검증 실패");
