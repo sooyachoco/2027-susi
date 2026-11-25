@@ -73,6 +73,17 @@ export async function GET() {
       return false;
     }
   });
+  // University admissions sources should resolve to a university-controlled academic domain.
+  // Third-party mirrors may help discovery, but are not accepted as the primary source of record.
+  const nonUniversitySourceDomain = admissions.filter((item) => {
+    if (!item.sourceUrl?.trim()) return false;
+    try {
+      const hostname = new URL(item.sourceUrl).hostname.toLowerCase();
+      return !hostname.endsWith(".ac.kr") && !hostname.endsWith(".edu");
+    } catch {
+      return false;
+    }
+  });
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
   const zeroRecruitment = admissions.filter((item) => item.recruitmentCount === 0);
   const missingEnglishTable = admissions.filter(
@@ -200,6 +211,7 @@ export async function GET() {
       invalidConversionTables: invalidConversionTables.length,
       invalidSourceMetadata: invalidSourceMetadata.length,
       genericSourceUrl: genericSourceUrl.length,
+      nonUniversitySourceDomain: nonUniversitySourceDomain.length,
       invalidBenchmarkMetadata: invalidBenchmarkMetadata.length,
       missingEnglishGradeTable: missingEnglishTable.length,
       pendingEnglishGradeTable: pendingEnglishTable.length,
@@ -226,6 +238,7 @@ export async function GET() {
       invalidConversionTables: summarize(invalidConversionTables),
       invalidSourceMetadata: summarize(invalidSourceMetadata),
       genericSourceUrl: genericSourceUrl.map((item) => ({ ...summarize([item])[0], sourceUrl: item.sourceUrl })),
+      nonUniversitySourceDomain: nonUniversitySourceDomain.map((item) => ({ ...summarize([item])[0], sourceUrl: item.sourceUrl })),
       invalidBenchmarkMetadata: summarize(invalidBenchmarkMetadata),
       missingEnglishGradeTable: summarize(missingEnglishTable),
       pendingEnglishGradeTable: summarize(pendingEnglishTable),
