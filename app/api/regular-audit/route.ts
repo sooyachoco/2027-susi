@@ -43,7 +43,8 @@ export async function GET() {
     if (item.topAreaWeights) {
       const config = item.topAreaWeights;
       const effectiveTotal = config.count * config.weight +
-        (config.areas.includes("english") ? 0 : item.englishWeight);
+        (config.areas.includes("english") ? 0 : item.englishWeight) +
+        (config.areas.includes("inquiry") ? 0 : item.inquiryWeight);
       return Number.isFinite(effectiveTotal) && Math.abs(effectiveTotal - 100) > 0.1;
     }
     const groups = [
