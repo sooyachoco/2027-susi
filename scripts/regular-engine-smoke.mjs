@@ -1223,6 +1223,7 @@ assert.equal(yonseiRows.reduce((sum, row) => sum + Number(row[5]), 0), 1373);
 assert.deepEqual(yonseiRows.reduce((totals, row) => { totals[row[4]] = (totals[row[4]] ?? 0) + Number(row[5]); return totals; }, {}), { I: 473, II: 548, II_MED: 47, III: 206, III_INT: 48, SPORT_PE: 27, SPORT_APP: 24 });
 assert.match(yonseiData, /inquiryConversionRequired: true/);
 assert.match(yonseiData, /inquiryTypeBonusRate: inquiryBonus/);
+assert.match(yonseiData, /inquiryBonusRequiresSameType: typeI \? "사탐" : typeII \? "과탐"/);
 assert.match(yonseiData, /studentRecordWeight: sports \? 0 : 50/);
 assert.match(yonseiData, /practicalEvaluationRequired: sports/);
 assert.match(yonseiData, /additionalEligibilityRequired: interview \|\| contract/);
