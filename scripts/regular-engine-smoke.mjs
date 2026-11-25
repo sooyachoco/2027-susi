@@ -13,6 +13,11 @@ assert.match(regularAuditSource, /pendingInquiryConversion/);
 assert.match(regularAuditSource, /2026-12-11T00:00:00\+09:00/);
 assert.match(regularAuditSource, /pendingMaximumScores/);
 assert.match(regularAuditSource, /pendingSubjectMaximumScores/);
+assert.match(regularAuditSource, /requiresInterviewEvaluation/);
+const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
+assert.match(snueSource, /recruitmentCount: 108/);
+assert.match(snueSource, /interviewEvaluationRequired: true/);
+assert.match(snueSource, /additionalEligibilityRequired: true/);
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
 const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
@@ -1340,6 +1345,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-dongguk.ts",
   "../lib/regular/data2027-konkuk.ts",
   "../lib/regular/data2027-khu-international.ts",
+  "../lib/regular/data2027-snue.ts",
 ];
 const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 const registeredDataFiles = [...repositorySource.matchAll(/from "\.\/(data2027[^"]+)"/g)]
