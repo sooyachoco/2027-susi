@@ -1212,15 +1212,16 @@ assert.equal(snuRows.length, 59);
 assert.equal(new Set(snuRows.map((row) => row[1])).size, 59);
 assert.equal(snuRows.reduce((sum, row) => sum + Number(row[4]), 0), 1056);
 assert.ok(snuRows.every((row) => row[5] === "true" || row[5] === "false"));
-assert.match(snuData, /koreanWeight: 100,[\\s\\S]*mathWeight: 120,[\\s\\S]*inquiryWeight: 80/);
+assert.match(snuData, /koreanWeight: 100,[\s\S]*mathWeight: 120,[\s\S]*inquiryWeight: 80/);
 assert.match(snuData, /studentRecordWeight: 20/);
 assert.match(snuData, /cohortNormalizationRequired: true/);
-assert.match(snuData, /scienceCombinationBonusPoints: \\{ "I\\+I": 0, "I\\+II": 3, "II\\+II": 5 \\}/);
+assert.match(snuData, /scienceCombinationBonusPoints: \{ "I\+I": 0, "I\+II": 3, "II\+II": 5 \}/);
 assert.match(snuData, /calculationVerified: false/);
 assert.match(snuData, /additionalEligibilityRequired: row.additionalEligibilityRequired/);
 
 const admissionDataFiles = [
-  "../lib/regular/data2027.ts",\n  "../lib/regular/data2027-snu.ts",
+  "../lib/regular/data2027.ts",
+  "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
