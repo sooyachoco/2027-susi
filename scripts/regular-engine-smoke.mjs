@@ -1268,14 +1268,18 @@ assert.match(dankookData, /DANKOOK_HISTORY = \{ 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6:
 assert.match(dankookData, /schoolViolencePenaltyRequired: true/);
 const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
 const dankookRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
-assert.equal(dankookRows.length, 39);
+assert.equal(dankookRows.length, 40);
 const dankookTotals = dankookRows.reduce((totals, row) => {
   totals[row[1]] += Number(row[2]);
   return totals;
 }, { 가: 0, 나: 0, 다: 0 });
-assert.deepEqual(dankookTotals, { 가: 220, 나: 280, 다: 267 });
+assert.deepEqual(dankookTotals, { 가: 220, 나: 280, 다: 297 });
 assert.match(dankookData, /\["mobile-systems-da","모바일시스템공학과","자연·공학","다",18,20,35,15,30,"N"\]/);
 assert.match(dankookData, /\["business-na","경영학부","경영·경제","나",61,25,35,20,20,"BIZ"\]/);
+assert.match(dankookData, /\["physical-education-da","체육교육과","교육·체육","다",30,40,10,20,30,"N"\]/);
+assert.match(dankookData, /finalScoreMultiplier: department === "체육교육과" \? 700 : 1000/);
+assert.match(dankookData, /체육교육과는 수능 700점 \+ 실기 300점 반영/);
+assert.match(dankookData, /practicalEvaluationRequired: true/);
 
 // 2027 경기대 일반학생Ⅰ 비실기: 모집단위별 군·인원·계열 반영비율 데이터 검사
 const kyonggiData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
