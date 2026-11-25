@@ -1036,6 +1036,7 @@ assert.equal(keimyungExact.calculationVerified, true);
 const dankookData = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
 assert.match(dankookData, /DANKOOK_ENGLISH = \{ 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 \}/);
 assert.match(dankookData, /DANKOOK_HISTORY = \{ 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 \}/);
+assert.match(dankookData, /schoolViolencePenaltyRequired: true/);
 const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
 const dankookRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
 assert.equal(dankookRows.length, 39);
