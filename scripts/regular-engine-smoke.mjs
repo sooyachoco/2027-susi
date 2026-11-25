@@ -1411,7 +1411,7 @@ assert.ok(mandatoryMathResult.appliedComponents.includes("필수 영역 포함 4
 
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
-assert.match(incheonData, /finalScoreMultiplier: 1/);
+assert.match(incheonData, /finalScoreMultiplier: \(row\.csatMaximum \?\? 1000\) \/ 1000/);
 assert.match(incheonData, /benchmarkYear: benchmark \? 2026 : undefined/);
 assert.match(incheonData, /benchmarkCutline70: benchmark\?\.cutline70/);
 assert.match(incheonData, /benchmarkSourceUrl: benchmark \? BENCHMARK_SOURCE : undefined/);
