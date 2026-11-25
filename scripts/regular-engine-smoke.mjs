@@ -26,6 +26,21 @@ assert.match(seokyeongSource, /englishGradeTable: SEOKYEONG_ENGLISH/);
 assert.match(seokyeongSource, /koreanHistoryGradePoints: SEOKYEONG_HISTORY/);
 assert.match(seokyeongSource, /schoolViolencePenaltyRequired: true/);
 assert.match(seokyeongSource, /calculationVerified: false/);
+const samyukSource = readFileSync(new URL("../lib/regular/data2027-samyuk.ts", import.meta.url), "utf8");
+const samyukRows = [...samyukSource.matchAll(/\\{ key: "([^"]+)", department: "([^"]+)", group: "([가나다])", count: (\\d+), field: "([^"]+)" \\}/g)];
+assert.equal(samyukRows.length, 23);
+assert.equal(new Set(samyukRows.map((row) => row[1])).size, 23);
+assert.equal(samyukRows.reduce((sum, row) => sum + Number(row[4]), 0), 245);
+assert.deepEqual(samyukRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 89, 나: 85, 다: 71 });
+assert.match(samyukSource, /rankedAreaWeights: \\[35, 25, 25, 15\\]/);
+assert.match(samyukSource, /englishGradeTable: SAMYUK_ENGLISH/);
+assert.match(samyukSource, /mathChoiceBonusRate: \\{ 미적분: 0\\.03, 기하: 0\\.03, 확률과통계: 0 \\}/);
+assert.match(samyukSource, /inquiryBonusRequiresSameType: "과탐"/);
+assert.match(samyukSource, /practicalEvaluationRequired: true/);
+assert.match(samyukSource, /학교폭력 조치사항 입력 필요/);
+assert.match(samyukSource, /calculationVerified: false/);
+assert.match(samyukSource, /음악학과·아트앤디자인학과 27명/);
+
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
 const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
@@ -1355,6 +1370,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-khu-international.ts",
   "../lib/regular/data2027-snue.ts",
   "../lib/regular/data2027-seokyeong.ts",
+  "../lib/regular/data2027-samyuk.ts",
 ];
 const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 const registeredDataFiles = [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]*)"/g)]
@@ -1459,3 +1475,18 @@ assert.equal(
   0,
   "서울·경기·인천 외 대학은 정시 추천 후보에 포함되면 안 된다",
 );
+
+const samyukRanked = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 35, mathWeight: 25, englishWeight: 25, inquiryWeight: 15,
+  inquirySubjects: 1, inquiryAggregation: "mean",
+  calculationMode: "normalized-standard-sum",
+  rankedAreaWeights: [35, 25, 25, 15],
+  englishGradeTable: {1:98,2:95,3:92,4:87,5:82,6:70,7:50,8:40,9:30},
+  finalScoreMultiplier: 1000,
+}, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2});
+assert.ok(samyukRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
+assert.equal(samyukRanked.calculationVerified, false);
