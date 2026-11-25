@@ -98,19 +98,28 @@ export async function GET() {
   const missingMaximumScores = scoreResultsReleased ? maximumScoresNeeded : [];
   const invalidBenchmarkMetadata = admissions.filter((item) => {
     if (item.benchmarkComparable !== true) return false;
-    const hasCutline = [item.benchmarkCutline70, item.benchmarkCutline95, item.expectedCutline, item.expectedCutline70, item.expectedCutline95]
-      .some((value) => typeof value === "number" && Number.isFinite(value));
+    const cutlines = [item.benchmarkCutline70, item.benchmarkCutline95, item.expectedCutline, item.expectedCutline70, item.expectedCutline95]
+      .filter((value): value is number => typeof value === "number");
     return !Number.isInteger(item.benchmarkYear) || !item.benchmarkSourceUrl?.trim() ||
       !/^https?:\/\//i.test(item.benchmarkSourceUrl) ||
       !(typeof item.benchmarkTotalScore === "number" && Number.isFinite(item.benchmarkTotalScore) && item.benchmarkTotalScore > 0) ||
-      !hasCutline;
+      cutlines.length === 0 ||
+      cutlines.some((value) => !Number.isFinite(value) || value < 0 || value > (item.benchmarkTotalScore ?? 0));
   });
-  const missingBenchmark = admissions.filter(
-    (item) => item.benchmarkComparable !== true ||
-      item.calculationVerified !== true ||
-      // Tier thresholds are calibrated to a 70% cutoff; 95% cutoffs are tracked separately, not substituted.
-      (item.benchmarkCutline70 == null && item.expectedCutline70 == null && item.expectedCutline == null),
-  );
+  // A 70% cutoff is required for the current tier thresholds. 95% cutoffs remain visible as source data,
+  // but are never treated as equivalent and cannot increase comparable-benchmark coverage.
+  const hasComparableBenchmark70 = (item: typeof admissions[number]) => {
+    const cutline = item.benchmarkCutline70 ?? item.expectedCutline70 ?? item.expectedCutline;
+    const total = item.benchmarkTotalScore;
+    return item.benchmarkComparable === true &&
+      item.calculationVerified === true &&
+      Number.isInteger(item.benchmarkYear) &&
+      Boolean(item.benchmarkSourceUrl?.trim()) &&
+      /^https?:\/\//i.test(item.benchmarkSourceUrl ?? "") &&
+      typeof total === "number" && Number.isFinite(total) && total > 0 &&
+      typeof cutline === "number" && Number.isFinite(cutline) && cutline >= 0 && cutline <= total;
+  };
+  const missingBenchmark = admissions.filter((item) => !hasComparableBenchmark70(item));
   const unverifiedCalculation = admissions.filter((item) => item.calculationVerified !== true);
   // Every 2027 admission row must explicitly record whether school-violence rules apply.
   // "false" is an explicit reviewed decision; undefined is an unreviewed policy state.
@@ -142,7 +151,7 @@ export async function GET() {
         departments: new Set(rows.map((item) => item.department)).size,
         withRecruitmentCount: rows.filter((item) => item.recruitmentCount != null).length,
         calculationVerified: rows.filter((item) => item.calculationVerified === true).length,
-        benchmarkComparable: rows.filter((item) => item.benchmarkComparable === true && item.calculationVerified === true).length,
+        benchmarkComparable: rows.filter(hasComparableBenchmark70).length,
       };
     })
     .sort((a, b) => a.region.localeCompare(b.region, "ko") || a.universityName.localeCompare(b.universityName, "ko"));
@@ -162,12 +171,7 @@ export async function GET() {
     quality: {
       calculationVerified: admissions.length - unverifiedCalculation.length,
       calculationUnverified: unverifiedCalculation.length,
-      benchmarkComparable: admissions.filter((item) =>
-        item.benchmarkComparable === true && item.calculationVerified === true &&
-        Boolean(item.benchmarkSourceUrl) && Number.isFinite(item.benchmarkTotalScore) &&
-        (item.benchmarkCutline70 != null || item.benchmarkCutline95 != null ||
-          item.expectedCutline != null || item.expectedCutline70 != null || item.expectedCutline95 != null),
-      ).length,
+      benchmarkComparable: admissions.filter(hasComparableBenchmark70).length,
       withRecruitmentCount: admissions.length - missingRecruitment.length,
       withSource: admissions.length - missingSource.length,
       requiresPracticalEvaluation: admissions.filter((item) => item.practicalEvaluationRequired === true).length,
