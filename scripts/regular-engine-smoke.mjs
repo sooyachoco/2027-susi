@@ -1393,7 +1393,7 @@ const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
 
-console.log("Regular scoring smoke tests passed: Seoul SNU, Yonsei, Korea, Hanyang, UOS and SKKU coverage, plus scoring and missing-rule guards.");
+console.log("Regular scoring smoke tests passed: Seoul SNU, Yonsei, Korea, Hanyang, UOS, SKKU, SNUE, Seokyeong and Samyook coverage, including Samyook recruitment totals, ranked-area weighting, pharmacy bonuses, practical/interview guards and missing-rule checks.");
 
 const hansungTopTwo = calculateRegularAdmission({
   ...normFixture,
