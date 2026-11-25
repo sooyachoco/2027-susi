@@ -1423,7 +1423,11 @@ assert.match(gachonData, /2026학년도는 국어·수학·영어 상위 3개 �
 assert.match(gachonData, /id: "tourism"[^\n]*group: "가"[^\n]*recruitmentCount: 15/);
 assert.match(gachonData, /id: "accounting"[^\n]*group: "나"[^\n]*recruitmentCount: 15/);
 assert.match(gachonData, /id: "business"[^\n]*group: "다"[^\n]*recruitmentCount: 38/);
-const gachonRows = [...gachonData.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+)/g)];
+const gachonGeneral1Text = gachonData.slice(
+  gachonData.indexOf("const rows: Row[] = ["),
+  gachonData.indexOf("];", gachonData.indexOf("const rows: Row[] = [")) + 2,
+);
+const gachonRows = [...gachonGeneral1Text.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+)/g)];
 const gachonTotals = gachonRows.reduce((totals, row) => {
   totals[row[4]] += Number(row[5]);
   return totals;
