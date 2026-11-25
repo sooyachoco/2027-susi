@@ -414,6 +414,7 @@ const cauNatural = {
     { maxDays: 9, score: 99.5 },
     { maxDays: 365, score: 99 },
   ],
+  schoolViolencePenaltyRequired: false,
   calculationVerified: true,
 };
 
