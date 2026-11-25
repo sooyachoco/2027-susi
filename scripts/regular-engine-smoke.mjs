@@ -85,7 +85,7 @@ assert.deepEqual(hufsTotals, {
   groups:{가:197,나:648,다:432},
   total:1277,
 });
-assert.equal(hufsRows.some((row) => row[1] === "다" && row[3] === "global-bio-business-songdo" && Number(row[4]) === 20 && row[5] === "B"), true);
+assert.equal(hufsRows.some((row) => row[2] === "다" && row[3] === "global-bio-business-songdo" && Number(row[4]) === 20 && row[5] === "B"), true);
 assert.match(hufsSource, /majorGroup: row\.majorGroup \?\? \(row\.field === "N"/);
 assert.match(hufsSource, /inquiryConversionRequired: true/);
 assert.match(hufsSource, /inquiryConversionPending: true/);
