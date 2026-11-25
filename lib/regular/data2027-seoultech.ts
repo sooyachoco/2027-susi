@@ -5,6 +5,9 @@ import type { RegularAdmission } from "./types";
 // 점수 산식의 표준점수 최고점·영어 가상표준점수의 환산 단위·한국사 감산 및
 // 학교폭력 감점의 지원자별 입력을 엔진에서 완전히 검증하기 전까지 판정은 보류한다.
 const SEOULTECH_SOURCE = "https://admission.seoultech.ac.kr/";
+// 2027 정시 모집요강 p.40: 영어 가상 표준점수, 한국사 등급별 감산 점수.
+const SEOULTECH_ENGLISH = { 1:135, 2:132, 3:128, 4:120, 5:100, 6:80, 7:60, 8:30, 9:0 } as const;
+const SEOULTECH_HISTORY = { 1:0, 2:0, 3:0, 4:-1, 5:-2, 6:-3, 7:-4, 8:-5, 9:-10 } as const;
 const rows = [
   [
     "ga-free-engineering",
@@ -392,6 +395,9 @@ export const seoultechAdmissions2027: RegularAdmission[] = rows.map(([key, depar
     practicalEvaluationRequired: practical,
     practicalEvaluationNote: practical ? "실기평가 점수 미입력(모집단위별 실기 배점·반영비율 적용 필요)" : undefined,
     koreanHistoryRequired: true,
+    englishGradeTable: SEOULTECH_ENGLISH,
+    englishMaximumScore: 135,
+    koreanHistoryGradePoints: SEOULTECH_HISTORY,
     inquiryTypeBonusRequired: type === "natural",
     inquiryTypeBonusRate: type === "natural" ? { 사탐: 0, 과탐: 0.07, 직탐: 0 } : undefined,
     schoolViolencePenaltyRequired: true,
