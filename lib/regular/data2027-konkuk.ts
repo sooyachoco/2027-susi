@@ -2,7 +2,7 @@ import type { RegularAdmission } from "./types";
 
 // 2027학년도 건국대학교 서울캠퍼스 정시 수능(KU일반학생) 모집단위.
 // 모집인원은 공식 정시모집요강 p.9~10 기준(수시 이월 전).
-const KONKUK_SOURCE = "https://www.konkuk.ac.kr/bbs/admission/6282/1204956/artclView.do";
+const KONKUK_SOURCE = "https://enter.konkuk.ac.kr/";
 const KONKUK_ENGLISH = { 1:200, 2:197, 3:194, 4:190, 5:185, 6:180, 7:170, 8:160, 9:150 } as const;
 const KONKUK_HISTORY = { 1:0, 2:0, 3:0, 4:0, 5:-1, 6:-1.75, 7:-3, 8:-4.25, 9:-5 } as const;
 const KONKUK_ROWS = [
