@@ -99,7 +99,7 @@ const HUFS_ROWS: Row[] = [
   { campus:"global", group:"다", key:"culture-technology-college", department:"Culture & Technology융합대학[통합모집]", count:30, field:"A" },
   { campus:"global", group:"다", key:"finance-ai", department:"Finance & AI융합학부", count:5, field:"B" },
   { campus:"global", group:"다", key:"ai-convergence-global", department:"AI융합대학(글로벌)[통합모집]", count:25, field:"N" },
-  { campus:"global", group:"다", key:"free-major-global", department:"자유전공학부(글로벌)", count:102, field:"A" },,
+  { campus:"global", group:"다", key:"free-major-global", department:"자유전공학부(글로벌)", count:102, field:"A" },
   { campus:"songdo", group:"다", key:"global-bio-business-songdo", department:"글로벌바이오 & 비즈니스융합학부", count:20, field:"B", majorGroup:"자연·공학" },
 ];
 

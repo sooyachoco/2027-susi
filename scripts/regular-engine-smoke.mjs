@@ -68,9 +68,9 @@ assert.match(incheonSource, /calculationVerified: false/);
 assert.match(incheonSource, /2~3호 5% 감점, 4~5호 10% 감점, 6~9호 부적격/);
 
 const hufsSource = readFileSync(new URL("../lib/regular/data2027-hufs.ts", import.meta.url), "utf8");
-const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global|songdo)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])" \}/g)];
+const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global|songdo)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])"(?:, majorGroup:"[^"]+")? \}/g)];
 assert.equal(hufsRows.length, 90);
-assert.equal(new Set(hufsRows.map((row) => row[3])).size, 89);
+assert.equal(new Set(hufsRows.map((row) => row[3])).size, 90);
 const hufsTotals = hufsRows.reduce((totals, row) => {
   totals[row[1]][row[2]] += Number(row[4]);
   totals[row[1]].total += Number(row[4]);
