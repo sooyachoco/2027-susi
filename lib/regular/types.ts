@@ -89,6 +89,8 @@ export type RegularAdmission = {
   mathInquiryMode?: "고득점 우선";
   alternateWeighting?: { koreanWeight: number; mathWeight: number; englishWeight: number; inquiryWeight: number };
   rankedAreaWeights?: number[];
+  /** Areas that must remain in the ranked subset, e.g. math when the top 3 include mandatory math. */
+  rankedAreaRequired?: Array<"korean" | "math" | "english" | "inquiry">;
   topAreaWeights?: { areas: Array<"korean" | "math" | "english" | "inquiry">; count: number; weight: number };
   /** Requires an applicant-specific school-violence penalty/disqualification input. */
   schoolViolencePenaltyRequired?: boolean;
