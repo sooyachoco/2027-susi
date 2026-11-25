@@ -1604,6 +1604,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-dongguk.ts",
   "../lib/regular/data2027-konkuk.ts",
   "../lib/regular/data2027-khu-international.ts",
+  "../lib/regular/data2027-sookmyung.ts",
   "../lib/regular/data2027-snue.ts",
   "../lib/regular/data2027-seokyeong.ts",
   "../lib/regular/data2027-samyuk.ts",
