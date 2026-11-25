@@ -104,6 +104,7 @@ export default function RegularAuditPage() {
             <article className="panel stat"><div className="muted">모집인원 확보</div><strong>{data.quality.withRecruitmentCount}</strong></article>
             <article className="panel stat"><div className="muted">공식 출처 확보</div><strong>{data.quality.withSource}</strong></article>
             <article className="panel stat"><div className="muted">실기점수 입력 필요 모집단위</div><strong>{data.quality.requiresPracticalEvaluation}</strong></article>
+            <article className="panel stat"><div className="muted">면접점수 입력 필요 모집단위</div><strong>{data.quality.requiresInterviewEvaluation}</strong></article>
             <article className="panel stat"><div className="muted">학교폭력 조치 확인 필요</div><strong>{data.quality.requiresSchoolViolenceInput}</strong></article>
           </div>
         </section>
