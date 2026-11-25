@@ -112,6 +112,9 @@ export async function GET() {
         item.expectedCutline == null && item.expectedCutline70 == null && item.expectedCutline95 == null),
   );
   const unverifiedCalculation = admissions.filter((item) => item.calculationVerified !== true);
+  // Every 2027 admission row must explicitly record whether school-violence rules apply.
+  // "false" is an explicit reviewed decision; undefined is an unreviewed policy state.
+  const untrackedSchoolViolencePolicy = admissions.filter((item) => item.schoolViolencePenaltyRequired == null);
   const missingMethodNotes = admissions.filter((item) => !item.note?.trim());
   const placeholderDepartments = admissions.filter((item) => /대표/.test(item.department));
   // Check raw source rows, not the deduplicated recommendation repository.
@@ -191,6 +194,7 @@ export async function GET() {
       missingSubjectMaximumScores: missingMaximumScores.length,
       pendingSubjectMaximumScores: pendingMaximumScores.length,
       missingComparableBenchmark: missingBenchmark.length,
+      untrackedSchoolViolencePolicy: untrackedSchoolViolencePolicy.length,
       missingMethodNotes: missingMethodNotes.length,
       placeholderDepartments: placeholderDepartments.length,
       duplicateIds: duplicateIds.length,
@@ -215,6 +219,7 @@ export async function GET() {
       missingSubjectMaximumScores: summarize(missingMaximumScores),
       pendingSubjectMaximumScores: summarize(pendingMaximumScores),
       missingComparableBenchmark: summarize(missingBenchmark),
+      untrackedSchoolViolencePolicy: summarize(untrackedSchoolViolencePolicy),
       missingMethodNotes: summarize(missingMethodNotes),
       placeholderDepartments: summarize(placeholderDepartments),
       duplicateIds,
