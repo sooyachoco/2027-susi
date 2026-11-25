@@ -51,17 +51,17 @@ export const hansungAdmissions2027: RegularAdmission[] = HANSUNG_ROWS.map((row) 
   };
   if (row.field === "engineering") return {
     ...common, koreanWeight:25, mathWeight:35, englishWeight:20, inquiryWeight:20,
-    note: "주간 공학계열. 국어25·수학35·탐구1과목20·영어20. 학교폭력 조치사항 감점은 별도 적용 여부 미입력으로 최종 계산 검증 보류."
+    note: "주간 공학계열. 국어25·수학35·탐구1과목20·영어20. 학교폭력 조치사항별 감점·결격은 지원자별 입력 및 점수 적용 미지원으로 최종 판정 보류."
   };
   if (row.field === "autonomous") return {
     ...common, koreanWeight:40, mathWeight:30, englishWeight:20, inquiryWeight:10,
     rankedAreaWeights:[40,30,20,10],
-    note: "상상력인재학부: 국어·수학·영어·탐구 백분위 성적순 40·30·20·10. 학교폭력 조치사항 감점은 별도 적용 여부 미입력으로 최종 계산 검증 보류."
+    note: "상상력인재학부: 국어·수학·영어·탐구 백분위 성적순 40·30·20·10. 학교폭력 조치사항별 감점·결격은 지원자별 입력 및 점수 적용 미지원으로 최종 판정 보류."
   };
   if (row.field === "night") return {
     ...common, koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:40,
     topAreaWeights:{ areas:["korean","math","inquiry"], count:2, weight:40 },
-    note: "야간 모집단위: 국어·수학·탐구 3개 영역 중 상위 2개를 각각 40%, 영어20%. 학교폭력 조치사항 감점은 별도 적용 여부 미입력으로 최종 계산 검증 보류."
+    note: "야간 모집단위: 국어·수학·탐구 3개 영역 중 상위 2개를 각각 40%, 영어20%. 학교폭력 조치사항별 감점·결격은 지원자별 입력 및 점수 적용 미지원으로 최종 판정 보류."
   };
   if (row.field === "practical") return {
     ...common, koreanWeight:40, mathWeight:40, englishWeight:40, inquiryWeight:20,
@@ -73,7 +73,7 @@ export const hansungAdmissions2027: RegularAdmission[] = HANSUNG_ROWS.map((row) 
   };
   return {
     ...common, koreanWeight:35, mathWeight:25, englishWeight:20, inquiryWeight:20,
-    note: "주간 인문·사회·디자인계열. 국어35·수학25·탐구1과목20·영어20. 학교폭력 조치사항 감점은 별도 적용 여부 미입력으로 최종 계산 검증 보류."
+    note: "주간 인문·사회·디자인계열. 국어35·수학25·탐구1과목20·영어20. 학교폭력 조치사항별 감점·결격은 지원자별 입력 및 점수 적용 미지원으로 최종 판정 보류."
   };
 });
 
