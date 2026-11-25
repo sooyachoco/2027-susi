@@ -108,8 +108,8 @@ export async function GET() {
   const missingBenchmark = admissions.filter(
     (item) => item.benchmarkComparable !== true ||
       item.calculationVerified !== true ||
-      (item.benchmarkCutline70 == null && item.benchmarkCutline95 == null &&
-        item.expectedCutline == null && item.expectedCutline70 == null && item.expectedCutline95 == null),
+      // Tier thresholds are calibrated to a 70% cutoff; 95% cutoffs are tracked separately, not substituted.
+      (item.benchmarkCutline70 == null && item.expectedCutline70 == null && item.expectedCutline == null),
   );
   const unverifiedCalculation = admissions.filter((item) => item.calculationVerified !== true);
   // Every 2027 admission row must explicitly record whether school-violence rules apply.
