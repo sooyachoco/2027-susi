@@ -247,7 +247,6 @@ assert.match(seoulExtraSource, /calculationVerified: false/);
 assert.equal(seoulExtraSource.includes('department:"자연·공학계열 대표"'), false);
 assert.equal(seoulExtraSource.includes('서울과학기술대학교", region:"서울", department:"자연·공학계열 대표"'), false);
 
-const gyeonggiSource = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
 const ericaRowsMatch = gyeonggiSource.match(/const HANYANG_ERICA_ROWS = (\[[\s\S]*?\n\]) as const;/);
 assert.ok(ericaRowsMatch, "Hanyang ERICA 2027 regular rows must be a literal audit-friendly table");
 const ericaRows = JSON.parse(ericaRowsMatch[1].replace(/,\s*\]$/, "]"));
