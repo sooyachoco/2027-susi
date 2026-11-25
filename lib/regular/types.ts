@@ -1,17 +1,22 @@
 export type AdmissionGroup = "가" | "나" | "다";
-export type ScoreMetric = "백분위" | "표준점수";
+export type ScoreMetric = "백분위" | "표준점수" | "등급";
+export type GradeConversionTable = Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, number>>;
 export type RegularTier = "상향" | "소신" | "적정" | "안정" | "판정 보류";
 
 export type RegularStudentProfile = {
   desiredMajor: string;
   koreanStandard: number | null;
   koreanPercentile: number | null;
+  koreanGrade?: number | null;
   mathStandard: number | null;
   mathPercentile: number | null;
+  mathGrade?: number | null;
   inquiry1Standard: number | null;
   inquiry2Standard: number | null;
   inquiry1Percentile: number | null;
   inquiry2Percentile: number | null;
+  inquiry1Grade?: number | null;
+  inquiry2Grade?: number | null;
   englishGrade: number | null;
   koreanHistoryGrade: number | null;
   mathChoice: "확통" | "미적분" | "기하" | "미선택";
@@ -41,6 +46,8 @@ export type RegularAdmission = {
   /** Legacy fallback only. Prefer subjectMetrics for independently selected subject scales. */
   scoreMetric: ScoreMetric;
   subjectMetrics?: RegularSubjectMetrics;
+  /** Official grade-to-score tables for grade-based subject metrics. */
+  subjectGradeTables?: { korean?: GradeConversionTable; math?: GradeConversionTable; inquiry?: GradeConversionTable };
   /** Published maximum standard/conversion score for each domain; never substitute prior-year maxima. */
   subjectMaximumScores?: { korean?: number; math?: number; inquiry?: number };
   koreanWeight: number;
@@ -158,12 +165,16 @@ export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
   desiredMajor: "",
   koreanStandard: null,
   koreanPercentile: null,
+  koreanGrade: null,
   mathStandard: null,
   mathPercentile: null,
+  mathGrade: null,
   inquiry1Standard: null,
   inquiry2Standard: null,
   inquiry1Percentile: null,
   inquiry2Percentile: null,
+  inquiry1Grade: null,
+  inquiry2Grade: null,
   englishGrade: null,
   koreanHistoryGrade: null,
   mathChoice: "미선택",

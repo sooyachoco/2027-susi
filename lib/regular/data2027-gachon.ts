@@ -2,9 +2,8 @@ import type { RegularAdmission } from "./types";
 
 const SOURCE = "https://admission.gachon.ac.kr/upload/BBS0021/20261113172843MBT5BA.PDF";
 
-// 2027학년도 최종 정시모집요강 일반전형 1.
-// 모집군별 상세 모집인원 표(요강 38·40·42쪽)와 수능 반영방법(38·40·42쪽)을 기준으로 정리.
-// 일반전형 2는 국어·수학·탐구까지 등급 지표를 쓰므로 별도 산식 구현 전 이 데이터셋에 혼합하지 않는다.
+// 2027학년도 최종 정시모집요강 일반전형 1·2.
+// 일반전형 1은 백분위 중심, 일반전형 2는 국어·수학·탐구까지 등급 환산표를 적용하므로 별도 데이터로 분리한다.
 const COMMON = {
   universityId: "gachon-seongnam",
   universityName: "가천대학교",
@@ -111,6 +110,63 @@ const rows: Row[] = [
   { id: "biologics", department: "바이오로직스학과", majorGroup: "자연·공학", group: "다", recruitmentCount: 30 },
 ];
 
+const GENERAL2_ROWS: Row[] = [
+  { id: "finance-bigdata", department: "금융·빅데이터학부", majorGroup: "경영·경제", group: "가", recruitmentCount: 12 },
+  { id: "law-college", department: "법과대학", majorGroup: "사회·법", group: "가", recruitmentCount: 18 },
+  { id: "chemical-bio-battery", department: "화공생명배터리공학부", majorGroup: "자연·공학", group: "가", recruitmentCount: 27 },
+  { id: "computer-engineering", department: "컴퓨터공학과", majorGroup: "자연·공학", group: "가", recruitmentCount: 18 },
+  { id: "ai-humanities-college", department: "AI인문대학", majorGroup: "인문·어문", group: "나", recruitmentCount: 27 },
+  { id: "semiconductor-college", department: "반도체대학", majorGroup: "자연·공학", group: "나", recruitmentCount: 25 },
+  { id: "nursing", department: "간호학과", majorGroup: "보건", group: "나", recruitmentCount: 30 },
+  { id: "business", department: "경영학과", majorGroup: "경영·경제", group: "다", recruitmentCount: 15 },
+  { id: "mechanical-engineering", department: "기계공학부", majorGroup: "자연·공학", group: "다", recruitmentCount: 22 },
+  { id: "artificial-intelligence", department: "인공지능학과", majorGroup: "자연·공학", group: "다", recruitmentCount: 21 },
+  { id: "biologics", department: "바이오로직스학과", majorGroup: "자연·공학", group: "다", recruitmentCount: 15 },
+];
+
+const gachonGeneral2GroupTotals = GENERAL2_ROWS.reduce<Record<"가" | "나" | "다", number>>(
+  (totals, row) => ({ ...totals, [row.group]: totals[row.group] + row.recruitmentCount }),
+  { 가: 0, 나: 0, 다: 0 },
+);
+if (gachonGeneral2GroupTotals.가 !== 75 || gachonGeneral2GroupTotals.나 !== 82 || gachonGeneral2GroupTotals.다 !== 73) {
+  throw new Error("가천대 2027 일반전형 2 모집군별 인원 합계가 공식 요강과 일치하지 않습니다.");
+}
+
+const GACHON_GENERAL2_GRADE_TABLE = { 1: 100, 2: 96, 3: 89, 4: 77, 5: 60, 6: 40, 7: 23, 8: 11, 9: 4 } as const;
+const GACHON_GENERAL2_COMMON = {
+  universityId: "gachon-seongnam",
+  universityName: "가천대학교",
+  region: "경기",
+  scoreMetric: "등급" as const,
+  subjectMetrics: { korean: "등급" as const, math: "등급" as const, inquiry: "등급" as const },
+  subjectGradeTables: {
+    korean: GACHON_GENERAL2_GRADE_TABLE,
+    math: GACHON_GENERAL2_GRADE_TABLE,
+    inquiry: GACHON_GENERAL2_GRADE_TABLE,
+  },
+  koreanWeight: 40,
+  mathWeight: 30,
+  englishWeight: 20,
+  inquiryWeight: 10,
+  inquirySubjects: 1 as const,
+  inquiryAggregation: "best" as const,
+  calculationMode: "normalized-standard-sum" as const,
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  languageMathMode: "고득점 우선" as const,
+  englishInquiryMode: "고득점 우선" as const,
+  finalScoreMultiplier: 1000,
+  gradeAdjustmentsAfterFinalMultiplier: true,
+  englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
+  koreanHistoryRequired: false,
+  calculationVerified: false,
+  schoolViolencePenaltyRequired: true,
+  schoolViolencePenaltyNote: "2027 정시 수능위주: 1~3호 감점 없음, 4~5호 각 10점, 6~7호 각 20점, 8~9호 각 100점 감점(1,000점 만점 기준). 조치사항 입력 미지원으로 최종 판정 보류.",
+  benchmarkComparable: false,
+  note: "2027학년도 가천대 최종 정시모집요강 일반전형 2. 국어·수학 중 고득점 영역에 40/30, 영어·탐구(1과목) 중 고득점 영역에 20/10 반영. 국어·수학·탐구 등급표 100/96/89/77/60/40/23/11/4, 영어 등급표 98/95/92/86/80/60/50/40/30. 한국사는 응시 필수로 표기되어 있으나 별도 가산·감점 배점은 확인되지 않아 점수에 더하지 않음. 학교폭력 조치사항 입력 미지원으로 최종 판정 보류.",
+  sourceUrl: SOURCE,
+  verifiedAt: "2026-11-25",
+};
+
 const groupTotals = rows.reduce<Record<"가" | "나" | "다", number>>(
   (totals, row) => ({ ...totals, [row.group]: totals[row.group] + row.recruitmentCount }),
   { 가: 0, 나: 0, 다: 0 },
@@ -119,7 +175,7 @@ if (groupTotals.가 !== 347 || groupTotals.나 !== 346 || groupTotals.다 !== 37
   throw new Error("가천대 2027 일반전형 1 모집군별 인원 합계가 공식 요강과 일치하지 않습니다.");
 }
 
-export const regularAdmissions2027Gachon: RegularAdmission[] = rows.map((row) => {
+const general1Admissions: RegularAdmission[] = rows.map((row) => {
   if (row.medical) {
     return {
       ...MEDICAL,
@@ -139,3 +195,14 @@ export const regularAdmissions2027Gachon: RegularAdmission[] = rows.map((row) =>
     recruitmentCount: row.recruitmentCount,
   };
 });
+
+const general2Admissions: RegularAdmission[] = GENERAL2_ROWS.map((row) => ({
+  ...GACHON_GENERAL2_COMMON,
+  id: `gachon-general2-${row.id}-${row.group}`,
+  department: row.department,
+  majorGroup: row.majorGroup,
+  group: row.group,
+  recruitmentCount: row.recruitmentCount,
+}));
+
+export const regularAdmissions2027Gachon: RegularAdmission[] = [...general1Admissions, ...general2Admissions];

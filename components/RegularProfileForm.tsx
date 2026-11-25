@@ -32,12 +32,16 @@ export function RegularProfileForm({ profile, onChange }: Props) {
     </select></div>
     {numberField("kor-standard", "국어 표준점수", profile.koreanStandard, (v) => onChange({ koreanStandard: v }), 0, 200, "예: 135")}
     {numberField("kor-percentile", "국어 백분위", profile.koreanPercentile, (v) => onChange({ koreanPercentile: v }), 0, 100, "예: 96")}
+    {numberField("kor-grade", "국어 등급 (등급 반영 대학만)", profile.koreanGrade, (v) => onChange({ koreanGrade: v }), 1, 9, "1~9등급")}
     {numberField("math-standard", "수학 표준점수", profile.mathStandard, (v) => onChange({ mathStandard: v }), 0, 200, "예: 140")}
     {numberField("math-percentile", "수학 백분위", profile.mathPercentile, (v) => onChange({ mathPercentile: v }), 0, 100, "예: 98")}
+    {numberField("math-grade", "수학 등급 (등급 반영 대학만)", profile.mathGrade, (v) => onChange({ mathGrade: v }), 1, 9, "1~9등급")}
     {numberField("inq1-standard", "탐구 1 표준점수", profile.inquiry1Standard, (v) => onChange({ inquiry1Standard: v }), 0, 100, "예: 65")}
     {numberField("inq2-standard", "탐구 2 표준점수", profile.inquiry2Standard, (v) => onChange({ inquiry2Standard: v }), 0, 100, "예: 64")}
     {numberField("inq1", "탐구 1 백분위", profile.inquiry1Percentile, (v) => onChange({ inquiry1Percentile: v }), 0, 100, "예: 95")}
+    {numberField("inq1-grade", "탐구 1 등급 (등급 반영 대학만)", profile.inquiry1Grade, (v) => onChange({ inquiry1Grade: v }), 1, 9, "1~9등급")}
     {numberField("inq2", "탐구 2 백분위", profile.inquiry2Percentile, (v) => onChange({ inquiry2Percentile: v }), 0, 100, "예: 93")}
+    {numberField("inq2-grade", "탐구 2 등급 (등급 반영 대학만)", profile.inquiry2Grade, (v) => onChange({ inquiry2Grade: v }), 1, 9, "1~9등급")}
     <div className="field"><label htmlFor="english-grade">영어 등급</label><select id="english-grade" value={profile.englishGrade ?? ""} onChange={(e) => onChange({ englishGrade: e.target.value ? Number(e.target.value) : null })}><option value="">선택하세요</option>{Array.from({ length: 9 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}등급</option>)}</select></div>
     <div className="field"><label htmlFor="history-grade">한국사 등급</label><select id="history-grade" value={profile.koreanHistoryGrade ?? ""} onChange={(e) => onChange({ koreanHistoryGrade: e.target.value ? Number(e.target.value) : null })}><option value="">선택하세요</option>{Array.from({ length: 9 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}등급</option>)}</select></div>
     <div className="field"><label htmlFor="math-choice">수학 선택과목</label><select id="math-choice" value={profile.mathChoice} onChange={(e) => onChange({ mathChoice: e.target.value as RegularStudentProfile["mathChoice"] })}><option value="미선택">선택하세요</option><option value="확통">확률과 통계</option><option value="미적분">미적분</option><option value="기하">기하</option></select></div>

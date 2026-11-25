@@ -1,15 +1,19 @@
-import type { RegularAdmission, ScoreMetric } from "./types";
+import type { GradeConversionTable, RegularAdmission, ScoreMetric } from "./types";
 
 export type RegularStudentScore = {
   korean: number;
   koreanPercentile?: number;
+  koreanGrade?: number;
   math: number;
   mathPercentile?: number;
+  mathGrade?: number;
   englishGrade: number;
   inquiry1: number;
   inquiry1Percentile?: number;
   inquiry2: number;
   inquiry2Percentile?: number;
+  inquiry1Grade?: number;
+  inquiry2Grade?: number;
   koreanHistoryGrade?: number;
   mathType?: "미적분" | "기하" | "확률과통계";
   inquiryType?: "사탐" | "과탐" | "혼합";
@@ -46,16 +50,25 @@ function metricValue(
   percentile: number | undefined,
   metric: ScoreMetric,
   maxStandard: number,
+  grade?: number,
+  gradeTable?: GradeConversionTable,
 ): number {
-  const value = metric === "백분위" ? percentile : standard;
+  const value = metric === "백분위"
+    ? percentile
+    : metric === "등급"
+      ? gradePoints(gradeTable, grade)
+      : standard;
   if (value == null || !Number.isFinite(value)) return 0;
-  return metric === "백분위" ? clamp(value, 0, 100) : clamp(value, 0, maxStandard);
+  return metric === "백분위" || metric === "등급"
+    ? clamp(value, 0, 100)
+    : clamp(value, 0, maxStandard);
 }
 
 function inquiryValue(
   admission: RegularAdmission,
   standard: number,
   percentile: number | undefined,
+  grade?: number,
 ): number | undefined {
   if (admission.inquiryConversionRequired && !admission.inquiryConversionTable) {
     return undefined;
@@ -74,11 +87,12 @@ function inquiryValue(
   }
 
   const metric = admission.subjectMetrics?.inquiry ?? admission.scoreMetric;
+  if (metric === "등급") return gradePoints(admission.subjectGradeTables?.inquiry, grade);
   return metricValue(standard, percentile, metric, 100);
 }
 
 function gradePoints(
-  table: RegularAdmission["englishGradeTable"] | RegularAdmission["koreanHistoryGradePoints"],
+  table: GradeConversionTable | RegularAdmission["englishGradeTable"] | RegularAdmission["koreanHistoryGradePoints"],
   grade: number | undefined,
 ): number | undefined {
   if (!validGrade(grade) || !table) return undefined;
@@ -100,8 +114,14 @@ export function calculateRegularAdmission(
 
   const koreanMetric = admission.subjectMetrics?.korean ?? admission.scoreMetric;
   const mathMetric = admission.subjectMetrics?.math ?? admission.scoreMetric;
-  const korean = metricValue(score.korean, score.koreanPercentile, koreanMetric, 200);
-  let math = metricValue(score.math, score.mathPercentile, mathMetric, 200);
+  const korean = metricValue(score.korean, score.koreanPercentile, koreanMetric, 200, score.koreanGrade, admission.subjectGradeTables?.korean);
+  let math = metricValue(score.math, score.mathPercentile, mathMetric, 200, score.mathGrade, admission.subjectGradeTables?.math);
+  if (koreanMetric === "등급" && gradePoints(admission.subjectGradeTables?.korean, score.koreanGrade) == null) {
+    missingRules.push("국어 등급 입력 또는 대학별 국어 등급 환산표 미등록");
+  }
+  if (mathMetric === "등급" && gradePoints(admission.subjectGradeTables?.math, score.mathGrade) == null) {
+    missingRules.push("수학 등급 입력 또는 대학별 수학 등급 환산표 미등록");
+  }
   if (admission.mathChoiceBonusRequired) {
     const rate = score.mathType ? admission.mathChoiceBonusRate?.[score.mathType] : undefined;
     if (typeof rate !== "number") missingRules.push("수학 선택과목 가산율 규칙 미입력");
@@ -111,9 +131,9 @@ export function calculateRegularAdmission(
     if (typeof rate === "number") { math *= 1 + rate; appliedComponents.push("수학 선택과목 표준점수 가산율"); }
   }
 
-  let inquiry1 = inquiryValue(admission, score.inquiry1, score.inquiry1Percentile);
+  let inquiry1 = inquiryValue(admission, score.inquiry1, score.inquiry1Percentile, score.inquiry1Grade);
   let inquiry2 = admission.inquirySubjects === 2
-    ? inquiryValue(admission, score.inquiry2, score.inquiry2Percentile)
+    ? inquiryValue(admission, score.inquiry2, score.inquiry2Percentile, score.inquiry2Grade)
     : undefined;
 
   if (admission.inquiryTypeBonusRequired) {
@@ -162,7 +182,9 @@ export function calculateRegularAdmission(
     missingRules.push(
       admission.inquiryConversionRequired
         ? "탐구 변환표준점수표 미등록 또는 백분위 매칭 실패"
-        : "탐구 점수 입력·환산값 확인 필요",
+        : (admission.subjectMetrics?.inquiry ?? admission.scoreMetric) === "등급"
+          ? "탐구 등급 입력 또는 대학별 탐구 등급 환산표 미등록"
+          : "탐구 점수 입력·환산값 확인 필요",
     );
   }
 
@@ -185,12 +207,12 @@ export function calculateRegularAdmission(
     const maxima = admission.subjectMaximumScores;
     const koreanMetricForMax = admission.subjectMetrics?.korean ?? admission.scoreMetric;
     const mathMetricForMax = admission.subjectMetrics?.math ?? admission.scoreMetric;
-    const koreanMax = koreanMetricForMax === "백분위" ? 100 : maxima?.korean;
-    const mathMax = mathMetricForMax === "백분위" ? 100 : maxima?.math;
+    const koreanMax = koreanMetricForMax === "백분위" || koreanMetricForMax === "등급" ? 100 : maxima?.korean;
+    const mathMax = mathMetricForMax === "백분위" || mathMetricForMax === "등급" ? 100 : maxima?.math;
     const inquiryMetricForMax = admission.subjectMetrics?.inquiry ?? admission.scoreMetric;
     const inquiryMax = admission.inquiryConversionRequired || admission.inquiryConversionTable
       ? maxima?.inquiry
-      : inquiryMetricForMax === "백분위" ? 100 : maxima?.inquiry;
+      : inquiryMetricForMax === "백분위" || inquiryMetricForMax === "등급" ? 100 : maxima?.inquiry;
     if (!(typeof koreanMax === "number" && koreanMax > 0)) missingRules.push("당해 연도 국어 표준점수 최고점 미확보");
     if (!(typeof mathMax === "number" && mathMax > 0)) missingRules.push("당해 연도 수학 표준점수 최고점 미확보");
     if (admission.inquiryWeight > 0 && !(typeof inquiryMax === "number" && inquiryMax > 0)) {
@@ -500,6 +522,6 @@ export function calculateRegularAdmission(
 }
 
 export function normalizeScoreForComparison(score: number, metric: ScoreMetric) {
-  if (metric === "백분위") return clamp(score, 0, 100);
+  if (metric === "백분위" || metric === "등급") return clamp(score, 0, 100);
   return Math.max(0, score);
 }

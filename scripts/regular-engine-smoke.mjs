@@ -966,6 +966,41 @@ const gachonGeneral = calculateRegularAdmission({
 assert.equal(gachonGeneral.calculationVerified, true);
 assert.ok(gachonGeneral.appliedComponents.includes("영어·탐구 고득점 영역 가중치 선택"));
 
+const gachonGeneral2 = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "등급",
+  subjectMetrics: { korean: "등급", math: "등급", inquiry: "등급" },
+  subjectGradeTables: {
+    korean: { 1: 100, 2: 96, 3: 89, 4: 77, 5: 60, 6: 40, 7: 23, 8: 11, 9: 4 },
+    math: { 1: 100, 2: 96, 3: 89, 4: 77, 5: 60, 6: 40, 7: 23, 8: 11, 9: 4 },
+    inquiry: { 1: 100, 2: 96, 3: 89, 4: 77, 5: 60, 6: 40, 7: 23, 8: 11, 9: 4 },
+  },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 40, mathWeight: 30, englishWeight: 20, inquiryWeight: 10,
+  inquirySubjects: 1, inquiryAggregation: "best",
+  languageMathMode: "고득점 우선", englishInquiryMode: "고득점 우선",
+  englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
+  koreanHistoryRequired: false, schoolViolencePenaltyRequired: false,
+  calculationVerified: true,
+}, { ...sampleScore, koreanGrade: 2, mathGrade: 1, inquiry1Grade: 2, englishGrade: 3 });
+assert.equal(gachonGeneral2.baseScore, 972);
+assert.equal(gachonGeneral2.calculationVerified, true);
+assert.ok(gachonGeneral2.appliedComponents.includes("국어·수학 A/B 고득점 조합 선택"));
+assert.ok(gachonGeneral2.appliedComponents.includes("영어·탐구 고득점 영역 가중치 선택"));
+
+const gachonGeneral2Missing = calculateRegularAdmission({
+  ...normFixture, scoreMetric: "등급",
+  subjectMetrics: { korean: "등급", math: "등급", inquiry: "등급" },
+  subjectGradeTables: { korean: { 1: 100 }, math: { 1: 100 }, inquiry: { 1: 100 } },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+  koreanWeight: 40, mathWeight: 30, englishWeight: 20, inquiryWeight: 10,
+  inquirySubjects: 1, inquiryAggregation: "best",
+  englishGradeTable: { 1: 98, 2: 95, 3: 92, 4: 86, 5: 80, 6: 60, 7: 50, 8: 40, 9: 30 },
+  koreanHistoryRequired: false, schoolViolencePenaltyRequired: false,
+}, { ...sampleScore, englishGrade: 3 });
+assert.equal(gachonGeneral2Missing.calculationVerified, false);
+assert.ok(gachonGeneral2Missing.missingRules.some((rule) => rule.includes("국어 등급 입력")));
+
 const kyonggiHumanities = calculateRegularAdmission({
   ...normFixture, scoreMetric: "백분위", subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
   subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
@@ -1398,6 +1433,19 @@ assert.equal(new Set(gachonRows.map((row) => row[1])).size, 47);
 assert.match(gachonData, /languageMathMode: undefined/);
 assert.match(gachonData, /englishInquiryMode: undefined/);
 assert.deepEqual(gachonTotals, { 가: 347, 나: 346, 다: 378 });
+
+const gachonGeneral2Text = gachonData.slice(
+  gachonData.indexOf("const GENERAL2_ROWS = ["),
+  gachonData.indexOf("];", gachonData.indexOf("const GENERAL2_ROWS = [")) + 2,
+);
+const gachonGeneral2Rows = [...gachonGeneral2Text.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+) \}/g)];
+assert.equal(gachonGeneral2Rows.length, 11);
+assert.equal(new Set(gachonGeneral2Rows.map((row) => row[1])).size, 11);
+const gachonGeneral2Totals = gachonGeneral2Rows.reduce((totals, row) => { totals[row[4]] += Number(row[5]); return totals; }, { 가: 0, 나: 0, 다: 0 });
+assert.deepEqual(gachonGeneral2Totals, { 가: 75, 나: 82, 다: 73 });
+assert.match(gachonData, /scoreMetric: "등급"/);
+assert.match(gachonData, /subjectGradeTables:/);
+assert.match(gachonData, /calculationVerified: false);
 
 // 2027 서울대 정시 일반전형: 공식 요강의 모집단위별 일반전형 인원과 군·환산 보류 조건 검증
 const snuData = readFileSync(new URL("../lib/regular/data2027-snu.ts", import.meta.url), "utf8");
