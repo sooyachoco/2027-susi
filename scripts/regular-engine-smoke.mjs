@@ -1121,7 +1121,7 @@ assert.match(kauData, /schoolViolencePenaltyRequired: true/);
 assert.match(kauData, /학교폭력 조치 4~7호는 환산총점의 10% 감점, 8~9호는 불합격 처리/);
 assert.match(kauData, /additionalEligibilityRequired: id === "flight-operation-na"/);
 assert.match(kauData, /항공신체검사 1종 합격 여부/);
-assert.match(kauData, /additionalEligibilityRequired\?: boolean/);
+assert.match(readFileSync(new URL("../lib/regular/types.ts", import.meta.url), "utf8"), /additionalEligibilityRequired\?: boolean/);
 assert.match(readFileSync(new URL("../lib/regular/engine2027.ts", import.meta.url), "utf8"), /if \(admission\.additionalEligibilityRequired\) missingRules\.push/);
 
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
