@@ -1129,8 +1129,8 @@ const kutData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", impo
 const kutRowsText = kutData.slice(kutData.indexOf("const KUT_ROWS = ["), kutData.indexOf("const KUT_SCHOOL_VIOLENCE_NOTE"));
 const kutRows = [...kutRowsText.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\d+),(\d+),"([^"]+)"\]/g)];
 assert.equal(kutRows.length, 27);
-const kutGeneral1 = kutRows.reduce((totals, row) => (totals[row[3]] += Number(row[5]), totals.total += Number(row[5]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
-const kutGeneral2 = kutRows.reduce((totals, row) => (totals[row[3]] += Number(row[6]), totals.total += Number(row[6]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
+const kutGeneral1 = kutRows.reduce((totals, row) => (totals[row[4]] += Number(row[5]), totals.total += Number(row[5]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
+const kutGeneral2 = kutRows.reduce((totals, row) => (totals[row[4]] += Number(row[6]), totals.total += Number(row[6]), totals), { 가: 0, 나: 0, 다: 0, total: 0 });
 assert.deepEqual(kutGeneral1, { 가: 66, 나: 128, 다: 86, total: 280 });
 assert.deepEqual(kutGeneral2, { 가: 0, 나: 98, 다: 71, total: 169 });
 assert.match(kutData, /KUT_ENGLISH = \{ 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 \}/);
