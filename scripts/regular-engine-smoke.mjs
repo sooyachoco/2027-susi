@@ -18,6 +18,7 @@ assert.match(regularAuditSource, /pendingMaximumScores/);
 assert.match(regularAuditSource, /pendingSubjectMaximumScores/);
 assert.match(regularAuditSource, /untrackedSchoolViolencePolicy/);
 assert.match(regularAuditSource, /schoolViolencePenaltyRequired == null/);
+assert.match(regularAuditSource, /benchmarkCutline70 == null && item\.expectedCutline70 == null && item\.expectedCutline == null/);
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
 const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
 assert.match(snueSource, /recruitmentCount: 108/);
@@ -448,6 +449,21 @@ assert.equal(ninetyFiveOnlyRecommendation[0].calculationVerified, true);
 assert.equal(ninetyFiveOnlyRecommendation[0].hasComparableBenchmark, false);
 assert.equal(ninetyFiveOnlyRecommendation[0].tier, "판정 보류");
 assert.match(ninetyFiveOnlyRecommendation[0].reason, /비교 가능한 전년도 기준점 없음/);
+
+const incompleteBenchmarkAdmission = {
+  ...repeatedUniversityPortfolioAdmissions[0],
+  id: "benchmark-missing-source",
+  universityId: "benchmark-missing-source-university",
+  universityName: "출처 누락 기준점 테스트대학",
+  benchmarkSourceUrl: undefined,
+};
+const incompleteBenchmarkRecommendation = recommendationModule.recommendRegular(
+  syntheticProfile,
+  [incompleteBenchmarkAdmission],
+);
+assert.equal(incompleteBenchmarkRecommendation[0].calculationVerified, true);
+assert.equal(incompleteBenchmarkRecommendation[0].hasComparableBenchmark, false);
+assert.equal(incompleteBenchmarkRecommendation[0].tier, "판정 보류");
 
 const cauNatural = {
   id: "cau-engine-smoke",
