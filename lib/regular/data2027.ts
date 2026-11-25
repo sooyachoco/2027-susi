@@ -1,7 +1,6 @@
 import type { RegularAdmission } from "./types";
 
 const HANYANG_SOURCE = "https://go.hanyang.ac.kr/web/mojib/mojib.do?m_type=JEONGSI";
-const SNU_SOURCE = "https://admission.snu.ac.kr/undergraduate/regular/guide";
 const YONSEI_SOURCE = "https://admission.yonsei.ac.kr/seoul/admission/html/main/main.asp";
 const KOREA_SOURCE = "https://oku.korea.ac.kr/";
 const UOS_SOURCE = "https://admission.uos.ac.kr/admissionNew/html/jungsi/info.do?menuid=2002002001000000000";
@@ -372,18 +371,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     studentRecordWeight: 10, curriculumEvaluationRequired: true, recruitmentCount: 50,
     note: "2027 정시 한양인터칼리지학부: 수능 90%+학생부종합평가 10%. 수능 반영비율 국어35·수학35·영어10·탐구20. 당해 연도 최고점·탐구 변환표·학생부 평가 미입력으로 최종 환산 보류.",
     sourceUrl: HANYANG_SOURCE, verifiedAt: "2026-11-19",
-  },
-  {
-    id: "snu-seoul-na-general", universityId: "snu-seoul", universityName: "서울대학교", region: "서울",
-    department: "일반전형 모집단위", majorGroup: "전체", group: "나", scoreMetric: "표준점수", koreanWeight: 100, mathWeight: 120, englishWeight: 0, inquiryWeight: 80,
-    inquirySubjects: 2, inquiryAggregation: "sum" as const, calculationMode: "weighted-sum-with-additive-bonuses" as const,
-    subjectScoreMultiplier: 1, finalScoreMultiplier: 1, studentRecordWeight: 20,
-    curriculumEvaluationRequired: true, cohortNormalizationRequired: true, scienceCombinationAdjustmentRequired: true, scienceCombinationBonusPoints: { "I+I": 0, "I+II": 3, "II+II": 5 },
-    englishGradeTable: { 1: 0, 2: -0.5, 3: -2, 4: -4, 5: -6, 6: -8, 7: -10, 8: -12, 9: -14 },
-    koreanHistoryRequired: true,
-    koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: -0.4, 5: -0.8, 6: -1.2, 7: -1.6, 8: -2, 9: -2.4 },
-    note: "2027 공식 요강의 수능 원점수 구조 반영: 국어 표준점수 + 수학 표준점수×1.2 + 탐구 표준점수 합×0.8, 영어·한국사 감점. 과탐 조정점수, 모집단위별 1단계 최고·최저점 기반 상대 환산, 2단계 교과평가 20점이 남아 있어 최종 환산·합격판정은 보류.",
-    sourceUrl: SNU_SOURCE, verifiedAt: "2026-11-18",
   },
   {
     id: "yonsei-seoul-ga-type1-humanities", universityId: "yonsei-seoul", universityName: "연세대학교", region: "서울",
