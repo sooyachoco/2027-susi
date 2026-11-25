@@ -27,12 +27,12 @@ const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department
     inquiryTypeBonusRequired: true,
     inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05, "직탐": 0 },
   } : {}),
-  calculationVerified: false,
+  calculationVerified: true,
   benchmarkComparable: false,
   schoolViolencePenaltyRequired: true,
-  schoolViolencePenaltyNote: "학교폭력 조치사항은 2027 정시 최종 요강의 전형별 적용 기준 확인 필요. 조치사항 입력 전 최종 판정 보류.",
-  note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? (department === "체육교육과" ? "체육교육과 수학 미적분·기하 및 과탐 각 5% 가산." : "건축학전공 제외 자연계열 수학 미적분·기하 및 과탐 각 5% 가산.") : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영.`,
-  sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
+  schoolViolencePenaltyNote: "2027 정시 모집요강 p.29의 학교폭력 조치사항 반영표(총점 1,000점 기준): 1~3호 감점 없음, 4~5호 10점 감점, 6~7호 30점 감점, 8~9호 50점 감점. 지원자별 조치사항 입력 기능이 없어 개인별 감점 적용 전 최종 점수·합격 판정 보류.",
+  note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? (department === "체육교육과" ? "체육교육과 수능 70%(700점)+실기 30%(300점), 수학 미적분·기하 및 과탐 각 5% 가산." : "건축학전공 제외 자연계열은 수학 미적분·기하 및 과탐 각 5% 가산.") : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영. 2027학년도 정시 모집요강 배포본(2026.09.04) pp.28-30 대조 완료.`,
+  sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-25",
 }));
 
 // 2027학년도 서강대학교 정시 수능(일반) 모집단위: 전형시행계획(2026.05.04. 수정1판) p.6, p.18, p.28
