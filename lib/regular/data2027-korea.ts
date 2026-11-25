@@ -3,7 +3,7 @@ import type { RegularAdmission } from "./types";
 const KOREA_SOURCE = "https://oku.korea.ac.kr/oku/cms/FR_BBS_CON/BoardView.do?BBS_SEQ=1806&BOARD_SEQ=5&CONTENTS_NO=1&MENU_ID=750&SITE_NO=2";
 const KOREA_ENGLISH = { 1: 0, 2: -3, 3: -6, 4: -9, 5: -12, 6: -15, 7: -18, 8: -21, 9: -24 } as const;
 const KOREA_HISTORY = { 1: 0, 2: 0, 3: 0, 4: 0, 5: -0.2, 6: -0.4, 7: -0.6, 8: -0.8, 9: -2 } as const;
-const KOREA_SCHOOL_VIOLENCE = "학교폭력 조치사항 감점: 1호 1점, 2호 1점, 3호 1점, 4호 3점, 5호 3점, 6호 7점, 7호 7점, 8호 20점, 9호 20점. 지원자별 조치사항 입력 전 최종 판정 보류.";
+const KOREA_SCHOOL_VIOLENCE = "학교폭력 조치사항은 2027 정시 최종 요강의 전형별 적용 기준과 지원자별 기재 내역을 대조해야 함. 현재 세부 감점표·조치사항 입력이 없어 최종 판정 보류.";
 
 // 2027 고려대 서울캠퍼스 정시 일반전형 가군 모집단위별 인원. 교과우수전형은 별도 전형이므로 제외한다.
 const KOREA_ROWS = [
