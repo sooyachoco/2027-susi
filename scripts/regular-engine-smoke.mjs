@@ -33,6 +33,17 @@ assert.match(regularAuditSource, /const hasComparableBenchmark70/);
 assert.match(regularAuditSource, /benchmarkCutline70 \?\? item\.expectedCutline70 \?\? item\.expectedCutline/);
 assert.match(regularAuditSource, /benchmarkComparable: admissions\.filter\(hasComparableBenchmark70\)\.length/);
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
+const sookmyungSource = readFileSync(new URL("../lib/regular/data2027-sookmyung.ts", import.meta.url), "utf8");
+assert.match(sookmyungSource, /recruitmentCount/);
+assert.match(sookmyungSource, /totals\\.가 !== 648 \\|\\| totals\\.나 !== 408/);
+assert.match(sookmyungSource, /학교폭력 정량감점/);
+assert.match(sookmyungSource, /inquiryConversionPending: inquirySubjects === 2/);
+assert.match(sookmyungSource, /수능 성적 발표 후 공개 예정/);
+assert.match(sookmyungSource, /수능 30% \\+ 실기 70%/);
+assert.match(sookmyungSource, /sookmyungAdmissions2027/);
+const sookmyungRepositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
+assert.match(sookmyungRepositorySource, /\\.\\.\\.sookmyungAdmissions2027/);
+
 const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
 assert.match(snueSource, /recruitmentCount: 108/);
 assert.ok(snueSource.includes("https://admission.snue.ac.kr/pdfjs-2.12.313-dist/web/viewer.html?file=2027%ED%95%99%EB%85%84%EB%8F%84_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%8C%80%ED%95%99%EA%B5%90_%EC%A0%95%EC%8B%9C%EB%AA%A8%EC%A7%91_%EC%8B%A0%EC%9E%85%EC%83%9D_%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95.pdf"), "서울교대 source URL must open the official 2027 regular-guide PDF viewer");
