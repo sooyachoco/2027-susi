@@ -1101,6 +1101,29 @@ assert.match(ajouData, /mathChoiceBonusRate: natural \? \{ 미적분: 0.03, 기�
 assert.match(ajouData, /inquiryTypeBonusRate: natural \? \{ 사탐: 0, 과탐: 0.03/);
 assert.ok(!ajouRows.some((row) => row[2] === "의학과" || row[2] === "국방디지털융합학과"));
 
+// 2027 한국항공대 정시 일반학생전형: 군별 인원·표준점수 산식·별도 자격 확인
+const kauData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+const kauRowsText = kauData.slice(kauData.indexOf("const KAU_ROWS = ["), kauData.indexOf("const kauAdmissions"));
+const kauRows = [...kauRowsText.matchAll(/\["([^"]+)","([^"]+)","([^"]+)","([가나다])",(\d+),"([^"]+)"\]/g)];
+assert.equal(kauRows.length, 8);
+const kauTotals = kauRows.reduce((totals, row) => {
+  totals[row[4]] += Number(row[5]);
+  return totals;
+}, { 가: 0, 나: 0, 다: 0 });
+assert.deepEqual(kauTotals, { 가: 99, 나: 67, 다: 55 });
+assert.equal(kauRows.reduce((sum, row) => sum + Number(row[5]), 0), 221);
+assert.match(kauData, /KAU_ENGLISH = \{ 1: 136, 2: 134, 3: 132, 4: 127, 5: 122, 6: 117, 7: 112, 8: 107, 9: 102 \}/);
+assert.match(kauData, /KAU_HISTORY = \{ 1: 10, 2: 10, 3: 10, 4: 10, 5: 9\.9, 6: 9\.8, 7: 9\.7, 8: 9\.6, 9: 9\.5 \}/);
+assert.match(kauData, /subjectScoreMultiplier: 5/);
+assert.match(kauData, /inquiryAggregation: "best"/);
+assert.match(kauData, /inquiryTypeBonusRate: scienceBonus/);
+assert.match(kauData, /schoolViolencePenaltyRequired: true/);
+assert.match(kauData, /학교폭력 조치 4~7호는 환산총점의 10% 감점, 8~9호는 불합격 처리/);
+assert.match(kauData, /additionalEligibilityRequired: id === "flight-operation-na"/);
+assert.match(kauData, /항공신체검사 1종 합격 여부/);
+assert.match(kauData, /additionalEligibilityRequired\?: boolean/);
+assert.match(readFileSync(new URL("../lib/regular/engine2027.ts", import.meta.url), "utf8"), /if \(admission\.additionalEligibilityRequired\) missingRules\.push/);
+
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
 const incheonData = readFileSync(new URL("../lib/regular/data2027-incheon.ts", import.meta.url), "utf8");
 assert.match(incheonData, /finalScoreMultiplier: 1/);
