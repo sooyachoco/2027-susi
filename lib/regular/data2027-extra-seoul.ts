@@ -41,6 +41,8 @@ export const hansungAdmissions2027: RegularAdmission[] = HANSUNG_ROWS.map((row) 
     englishGradeTable: HANSUNG_ENGLISH,
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: HANSUNG_HISTORY,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "학교폭력 조치사항: 1~3호 0점, 4호 100점, 5호 200점, 6호 300점, 7호 400점 감점, 8~9호 불합격(사정제외). 총점 1,000점 기준. 지원자별 조치사항 입력 및 감점·결격 적용은 아직 미지원이므로 최종 합격판정 보류.",
     calculationVerified: false,
     sourceUrl: HANSUNG_SOURCE,
     verifiedAt: "2026-11-24",
