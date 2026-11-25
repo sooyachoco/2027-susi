@@ -41,6 +41,10 @@ assert.match(samyukSource, /학교폭력 조치사항 입력 필요/);
 assert.match(samyukSource, /calculationVerified: false/);
 assert.match(samyukSource, /음악학과·아트앤디자인학과 27명/);
 
+const gyeonggiSource = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
+assert.match(gyeonggiSource, /schoolViolencePenaltyRequired: true/);
+assert.match(gyeonggiSource, /calculationVerified: false/);
+assert.match(gyeonggiSource, /경기대 2027 정시 학교폭력 조치사항별 감점/);
 const gachonSource = readFileSync(new URL("../lib/regular/data2027-gachon.ts", import.meta.url), "utf8");
 assert.match(gachonSource, /schoolViolencePenaltyRequired: true/);
 assert.match(gachonSource, /calculationVerified: false/);
