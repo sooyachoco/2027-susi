@@ -108,6 +108,7 @@ export const koreaAdmissions2027: RegularAdmission[] = KOREA_ROWS.map((row) => {
     finalScoreMultiplier: multiplier,
     gradeAdjustmentsAfterFinalMultiplier: true,
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     inquiryTypeBonusRequired: Boolean(scienceBonus),
     inquiryTypeBonusRate: scienceBonus,
     englishGradeTable: KOREA_ENGLISH,
