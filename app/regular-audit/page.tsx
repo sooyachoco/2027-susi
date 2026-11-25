@@ -107,9 +107,32 @@ export default function RegularAuditPage() {
           </div>
         </section>
         <section className="section">
-          <div className="sectionHead"><div><h2>보강이 필요한 항목</h2><div className="muted">항목을 펼치면 해당 모집단위를 확인할 수 있습니다.</div></div></div>
+          <div className="sectionHead"><div><h2>공식 발표 대기</h2><div className="muted">대학이 수능 성적 발표 이후 별도로 공개하는 변환표입니다. 현재 누락 오류로 집계하지 않습니다.</div></div></div>
           <div style={{ display: "grid", gap: 10 }}>
-            {Object.entries(LABELS).map(([key, label]) => {
+            {["pendingEnglishGradeTable", "pendingInquiryConversionTable"].map((key) => {
+              const count = data.issueCounts[key] ?? 0;
+              const label = LABELS[key];
+              const items = data.issues[key] ?? [];
+              return <details className="panel" key={key} style={{ padding: "16px 20px" }}>
+                <summary style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", gap: 12, fontWeight: 800 }}>
+                  <span>{label}</span><span>{count}건</span>
+                </summary>
+                {count === 0 ? <p className="muted">대기 항목 없음</p> : <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
+                  {items.map((item, index) => {
+                    const entry = item as AuditItem;
+                    return <div key={entry.id ?? index} className="balanceText" style={{ borderTop: "1px solid var(--line)", paddingTop: 8 }}>
+                      <strong>{entry.university}</strong> · {entry.region} · {entry.group}군<br />{entry.department}
+                    </div>;
+                  })}
+                </div>}
+              </details>;
+            })}
+          </div>
+        </section>
+        <section className="section">
+          <div className="sectionHead"><div><h2>실제 보강이 필요한 항목</h2><div className="muted">공식 발표 대기 항목은 제외했습니다. 항목을 펼치면 해당 모집단위를 확인할 수 있습니다.</div></div></div>
+          <div style={{ display: "grid", gap: 10 }}>
+            {Object.entries(LABELS).filter(([key]) => !key.startsWith("pending")).map(([key, label]) => {
               const count = data.issueCounts[key] ?? 0;
               const items = data.issues[key] ?? [];
               return <details className="panel" key={key} style={{ padding: "16px 20px" }}>
