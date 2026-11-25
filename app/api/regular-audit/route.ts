@@ -63,6 +63,16 @@ export async function GET() {
     !item.sourceUrl?.trim() || !/^https?:\/\//i.test(item.sourceUrl) ||
     !item.verifiedAt?.trim() || !Number.isFinite(Date.parse(item.verifiedAt)),
   );
+  // A university homepage is not a precise source for 2027 regular admissions data.
+  const genericSourceUrl = admissions.filter((item) => {
+    if (!item.sourceUrl?.trim()) return false;
+    try {
+      const url = new URL(item.sourceUrl);
+      return url.protocol.startsWith("http") && url.pathname.replace(/\\/+$/, "") === "" && !url.search;
+    } catch {
+      return false;
+    }
+  });
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
   const zeroRecruitment = admissions.filter((item) => item.recruitmentCount === 0);
   const missingEnglishTable = admissions.filter(
@@ -188,7 +198,7 @@ export async function GET() {
       invalidWeightTotals: invalidWeightTotals.length,
       invalidMultipliers: invalidMultipliers.length,
       invalidConversionTables: invalidConversionTables.length,
-      invalidSourceMetadata: invalidSourceMetadata.length,
+      invalidSourceMetadata: invalidSourceMetadata.length,\n      genericSourceUrl: genericSourceUrl.length,
       invalidBenchmarkMetadata: invalidBenchmarkMetadata.length,
       missingEnglishGradeTable: missingEnglishTable.length,
       pendingEnglishGradeTable: pendingEnglishTable.length,
@@ -213,7 +223,7 @@ export async function GET() {
       invalidWeightTotals: summarize(invalidWeightTotals),
       invalidMultipliers: summarize(invalidMultipliers),
       invalidConversionTables: summarize(invalidConversionTables),
-      invalidSourceMetadata: summarize(invalidSourceMetadata),
+      invalidSourceMetadata: summarize(invalidSourceMetadata),\n      genericSourceUrl: genericSourceUrl.map((item) => ({ ...summarize([item])[0], sourceUrl: item.sourceUrl })),
       invalidBenchmarkMetadata: summarize(invalidBenchmarkMetadata),
       missingEnglishGradeTable: summarize(missingEnglishTable),
       pendingEnglishGradeTable: summarize(pendingEnglishTable),
