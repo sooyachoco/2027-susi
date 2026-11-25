@@ -1332,10 +1332,24 @@ const admissionDataFiles = [
   "../lib/regular/data2027-skku.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
+  "../lib/regular/data2027-seoulwomen.ts",
   "../lib/regular/data2027-gyeonggi.ts",
   "../lib/regular/data2027-gachon.ts",
   "../lib/regular/data2027-incheon.ts",
+  "../lib/regular/data2027-seoultech.ts",
+  "../lib/regular/data2027-dongguk.ts",
+  "../lib/regular/data2027-konkuk.ts",
+  "../lib/regular/data2027-khu-international.ts",
 ];
+const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
+const registeredDataFiles = [...repositorySource.matchAll(/from "\.\/(data2027[^"]+)"/g)]
+  .map((match) => `../lib/regular/${match[1]}.ts`)
+  .filter((path) => !path.endsWith("types.ts"));
+assert.deepEqual(
+  [...registeredDataFiles].sort(),
+  [...admissionDataFiles].sort(),
+  "every repository data source must be covered by the cross-file ID audit",
+);
 const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.ts")).flatMap((path) => {
   const text = readFileSync(new URL(path, import.meta.url), "utf8");
   return [...text.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
