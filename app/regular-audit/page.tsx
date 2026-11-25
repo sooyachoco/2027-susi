@@ -8,7 +8,7 @@ type AuditData = {
   scope: string;
   totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
   universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
-  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresSchoolViolenceInput: number };
+  quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number };
   issueCounts: Record<string, number>;
   issues: Record<string, AuditItem[] | { id: string; count: number }[]>;
 };
