@@ -65,7 +65,8 @@ function toEngineScore(profile: RegularStudentProfile): RegularStudentScore {
 
 function getCutline(admission: RegularAdmission): number | undefined {
   if (admission.benchmarkComparable !== true || admission.calculationVerified !== true) return undefined;
-  const raw = admission.benchmarkCutline70 ?? admission.benchmarkCutline95 ?? admission.expectedCutline ?? admission.expectedCutline95 ?? admission.expectedCutline70;
+  // A 95% cutoff is not interchangeable with a 70% cutoff; never feed it into the same tier thresholds.
+  const raw = admission.benchmarkCutline70 ?? admission.expectedCutline70 ?? admission.expectedCutline;
   if (raw == null) return undefined;
   if (admission.benchmarkTotalScore && admission.benchmarkTotalScore > 0) return (raw / admission.benchmarkTotalScore) * 1000;
   return raw;
