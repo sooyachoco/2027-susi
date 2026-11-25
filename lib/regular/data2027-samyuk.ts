@@ -65,7 +65,7 @@ export const samyukAdmissions2027: RegularAdmission[] = SAMYUK_ROWS.map((row) =>
     inquiryAggregation: "mean",
     calculationMode: "normalized-standard-sum",
     ...(sports
-      ? { topAreaWeights: { areas: ["korean", "math", "english", "inquiry"], count: 2, weight: 50 } }
+      ? { topAreaWeights: { areas: ["korean", "math", "english", "inquiry"] as ("korean" | "math" | "english" | "inquiry")[], count: 2, weight: 50 } }
       : pharmacy
         ? {}
         : { rankedAreaWeights: [35, 25, 25, 15] }),
