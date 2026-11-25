@@ -39,7 +39,8 @@ assert.match(sookmyungSource, /totals\\.가 !== 648 \\|\\| totals\\.나 !== 408/
 assert.match(sookmyungSource, /학교폭력 정량감점/);
 assert.match(sookmyungSource, /inquiryConversionPending: inquirySubjects === 2/);
 assert.match(sookmyungSource, /수능 성적 발표 후 공개 예정/);
-assert.match(sookmyungSource, /수능 30% \\+ 실기 70%/);
+assert.match(sookmyungSource, /practicalEvaluationNote: practical/);
+assert.match(sookmyungSource, /field === "painting" \\? 30/);
 assert.match(sookmyungSource, /sookmyungAdmissions2027/);
 const sookmyungRepositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 assert.match(sookmyungRepositorySource, /\\.\\.\\.sookmyungAdmissions2027/);
