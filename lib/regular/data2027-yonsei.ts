@@ -92,6 +92,7 @@ export const yonseiAdmissions2027: RegularAdmission[] = YONSEI_ROWS.map((row) =>
       ? { 사탐: 0, 과탐: 0.03, 직탐: 0 }
       : undefined;
   const interview = medicine || international || physicalEducation;
+  const contract = row.id === "system-semiconductor" || row.id === "display-convergence";
   return {
     id: `yonsei-seoul-ga-${row.id}`,
     universityId: "yonsei-seoul",
@@ -122,8 +123,8 @@ export const yonseiAdmissions2027: RegularAdmission[] = YONSEI_ROWS.map((row) =>
     schoolViolencePenaltyNote: "2027 요강상 학교폭력 조치사항 감점: 1호 10점, 2호 25점, 3호 50점, 4호 100점. 조치사항별 최종 처리 확인 전 판정 보류.",
     practicalEvaluationRequired: sports,
     practicalEvaluationNote: physicalEducation ? "체육교육학과: 수능 850점+기본 운동능력 실기 100점+면접 50점. 실기점수 미입력으로 최종 환산 불가." : sportsIndustry ? "스포츠응용산업학과: 수능 900점+선택 실기능력 100점. 선택 종목 실기점수 미입력으로 최종 환산 불가." : undefined,
-    additionalEligibilityRequired: interview,
-    additionalEligibilityNote: medicine ? "의예과: 1단계 2.5배수 선발 후 면접 50점 반영. 면접 미응시 시 불합격." : international ? "국제계열: 1단계 3배수 선발 후 영어 제시문 기반 면접 50점 반영. 면접 미응시 시 불합격." : physicalEducation ? "체육교육학과: 교원의 자질·적성·인성을 확인하는 면접 50점 필수." : undefined,
+    additionalEligibilityRequired: interview || contract,
+    additionalEligibilityNote: medicine ? "의예과: 1단계 2.5배수 선발 후 면접 50점 반영. 면접 미응시 시 불합격." : international ? "국제계열: 1단계 3배수 선발 후 영어 제시문 기반 면접 50점 반영. 면접 미응시 시 불합격." : physicalEducation ? "체육교육학과: 교원의 자질·적성·인성을 확인하는 면접 50점 필수." : contract ? "계약학과(시스템반도체공학과·디스플레이융합공학과): 산학협력 계약 및 별도 지원자격·장학·취업연계 조건 확인 필요." : undefined,
     calculationVerified: false,
     benchmarkComparable: false,
     note: `2027 서울캠퍼스 정시 일반전형 ${row.kind} 유형 가군 ${row.recruitmentCount}명. ${typeI ? "유형 I: 국어 표준점수×1.5+수학 표준점수+탐구 변환점수 합, 총점×950/800. 사탐 과목별 변환점수 3% 가산." : typeII ? `유형 II: 국어 표준점수+수학 표준점수×1.5+탐구 변환점수 합×1.5, 총점×${medicine ? "1" : "950/900"}. 과탐 과목별 변환점수 3% 가산.` : "유형 III: 국어 표준점수+수학 표준점수+탐구 변환점수 합×0.5, 총점×950/600(국제계열은 900/600)."} 영어 등급점수 및 한국사 감점 반영. 탐구 변환점수표는 2026-12-11 수능 성적 통지 후 공지 예정이며 학생부 교과·출결, 학교폭력 및 별도 면접·실기 자료가 미입력되어 최종 판정 보류.`,
