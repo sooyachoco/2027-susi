@@ -1347,8 +1347,8 @@ const admissionDataFiles = [
   "../lib/regular/data2027-khu-international.ts",
   "../lib/regular/data2027-snue.ts",
 ];
-const repositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
-const registeredDataFiles = [...repositorySource.matchAll(/from "\.\/(data2027[^"]+)"/g)]
+const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
+const registeredDataFiles = [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]+)"/g)]
   .map((match) => `../lib/regular/${match[1]}.ts`)
   .filter((path) => !path.endsWith("types.ts"));
 assert.deepEqual(
