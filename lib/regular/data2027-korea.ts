@@ -74,9 +74,10 @@ const KOREA_ROWS = [
 ] as const;
 
 export const koreaAdmissions2027: RegularAdmission[] = KOREA_ROWS.map((row) => {
-  const natural = row.kind === "natural" || row.kind === "medical" || row.kind === "cyber";
+  const natural = row.kind === "natural" || row.kind === "medical" || row.kind === "cyber" || row.kind === "contract-natural";
   const medicine = row.kind === "medical";
   const cyber = row.kind === "cyber";
+  const contract = row.kind === "contract-natural";
   const physical = row.kind === "physical";
   const design = row.kind === "design";
   const practical = physical || design;
@@ -116,8 +117,8 @@ export const koreaAdmissions2027: RegularAdmission[] = KOREA_ROWS.map((row) => {
     schoolViolencePenaltyNote: KOREA_SCHOOL_VIOLENCE,
     practicalEvaluationRequired: practical,
     practicalEvaluationNote: physical ? "체육교육과: 수능 70%+실기 30%. 실기평가 점수 미입력으로 최종 환산 보류." : design ? "디자인조형학부: 수능 70%+실기 30%. 실기평가 점수 미입력으로 최종 환산 보류." : undefined,
-    additionalEligibilityRequired: medicine || cyber,
-    additionalEligibilityNote: medicine ? "의학과: 적성·인성 면접 필수(별도 배점 없음). 면접 미응시 또는 부적격 시 최종 판정 불가." : cyber ? "사이버국방학과: 수능 80%+군면접 20%. 연령·임관 결격사유, 수능최저, 신원조회·인성검사·신체검사·체력검정 확인 필요." : undefined,
+    additionalEligibilityRequired: medicine || cyber || contract,
+    additionalEligibilityNote: medicine ? "의학과: 적성·인성 면접 필수(별도 배점 없음). 면접 미응시 또는 부적격 시 최종 판정 불가." : cyber ? "사이버국방학과: 수능 80%+군면접 20%. 연령·임관 결격사유, 수능최저, 신원조회·인성검사·신체검사·체력검정 확인 필요." : contract ? "계약학과(반도체공학과·차세대통신학과): 산학협력 계약 및 별도 지원자격·장학·취업연계 조건 확인 필요." : undefined,
     calculationVerified: false,
     benchmarkComparable: false,
     note: `2027 고려대 서울캠퍼스 정시 일반전형 가군 ${row.recruitmentCount}명. ${natural || medicine || cyber ? "자연·의학 계열: 국어 표준점수+수학 표준점수×1.2+탐구 변환점수 합, 1,000점 환산. 과탐 응시 과목별 변환점수 3% 가산." : design ? "예능계열: 국어 표준점수+탐구 변환점수 합, 1,000점 환산 후 수능 70% 반영." : "인문·체능·가정교육·간호: 국어 표준점수+수학 표준점수+탐구 변환점수 합×0.8, 1,000점 환산."} 영어·한국사 등급별 감점은 환산총점에서 차감. 탐구 변환점수표 미등록, 실기·면접·학교폭력 입력 미지원으로 최종 판정 보류.`,
