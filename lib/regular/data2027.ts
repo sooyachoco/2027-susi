@@ -2,45 +2,9 @@ import type { RegularAdmission } from "./types";
 
 const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
 const CAU_SOURCE = "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=cau2027.pdf&sfn=20260901055935966_c1b3b13829d64e208b27824d73e5eee2.pdf";
-const KHU_SOURCE = "https://iphak.khu.ac.kr/";
 const EWHA_SOURCE = "https://admission.ewha.ac.kr/admission/html/regular/guide.asp";
-const KONKUK_SOURCE = "https://enter.konkuk.ac.kr/";
-const SEJONG_SOURCE = "https://ipsi.sejong.ac.kr/ipsi/regular/notice.do?articleNo=2779&mode=view";
-const KWANGWOON_SOURCE = "https://iphak.kw.ac.kr/";
 const SOONGSIL_SOURCE = "https://iphak.ssu.ac.kr/upload/SSU%281%29_261012134914.pdf";
 
-const GACHON_SOURCE = "https://admission.gachon.ac.kr/upload/BBS0021/20261113172843MBT5BA.PDF";
-const KYONGGI_SOURCE = "https://enter.kyonggi.ac.kr/";
-const MYONGJI_SOURCE = "https://iphak.mju.ac.kr/pages/?b=B_1_1&bn=30405&m=read&p=9";
-const SANGMYUNG_SOURCE = "https://admission.smu.ac.kr/";
-const DONGGUK_SOURCE = "https://ipsi.dongguk.edu/";
-const SOOKMYUNG_SOURCE = "https://admission.sookmyung.ac.kr/";
-const KOOKMIN_SOURCE = "https://admission.kookmin.ac.kr/";
-
-// 2027 정시 확인 데이터. 9월 공개 최종 모집요강/입학처 자료를 기준으로 순차 검증한다.
-// 현재 엔진은 모의지원 지수 단계이며, 대학별 변환표준점수·영어/한국사 세부 환산식은 별도 엔진으로 확장한다.
-const DANKOOK_SOURCE = "https://ipsi.dankook.ac.kr/bbs/filedown.php?bbsid=juk_info&file_seq=6904";
-const DANKOOK_ENGLISH = { 1: 100, 2: 98, 3: 95, 4: 85, 5: 70, 6: 40, 7: 15, 8: 5, 9: 0 } as const;
-const DANKOOK_HISTORY = { 1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1, 9: 0 } as const;
-const DANKOOK_ROWS = [["english-humanities-ga","영미인문학과","인문·어문","가",14,35,25,20,20,"B"],["media-communication-ga","미디어커뮤니케이션학부","인문·사회","가",14,35,25,20,20,"B"],["counseling-ga","상담학과","인문·사회","가",9,35,25,20,20,"B"],["international-business-ga","국제경영학과","경영·경제","가",22,25,35,20,20,"BIZ"],["electrical-electronics-ga","전자전기공학과","자연·공학","가",21,20,35,20,25,"N"],["convergence-semiconductor-ga","융합반도체공학과","자연·공학","가",18,20,35,20,25,"N"],["polymer-engineering-ga","고분자시스템공학부(고분자공학전공)","자연·공학","가",14,20,35,20,25,"N"],["convergence-materials-ga","고분자시스템공학부(융합소재공학전공)","자연·공학","가",10,20,35,20,25,"N"],["infrastructure-construction-ga","인프라건설공학과","자연·공학","가",24,20,35,20,25,"N"],["mechanical-engineering-ga","기계공학과","자연·공학","가",16,20,35,20,25,"N"],["chemical-engineering-ga","화학공학과","자연·공학","가",27,20,35,20,25,"N"],["architecture-engineering-ga","건축학부(건축공학전공)","자연·공학","가",11,20,35,20,25,"N"],["film-theory-ga","공연영화학부(영화전공 이론·연출·스탭)","예술·인문","가",15,35,25,20,20,"B"],["theatre-directing-ga","공연영화학부(연극전공 연출)","예술·인문","가",5,35,25,20,20,"B"],["korean-language-na","국어국문학과","인문·어문","나",14,35,25,20,20,"B"],["history-na","사학과","인문·어문","나",14,35,25,20,20,"B"],["philosophy-na","철학과","인문·어문","나",8,35,25,20,20,"B"],["law-na","법학과","인문·사회","나",24,35,25,20,20,"B"],["political-science-na","정치외교학과","인문·사회","나",11,35,25,20,20,"B"],["public-administration-na","행정학과","인문·사회","나",10,35,25,20,20,"B"],["urban-planning-real-estate-na","도시계획·부동산학부","인문·사회","나",13,35,25,20,20,"B"],["economics-na","경제학과","경영·경제","나",12,25,35,20,20,"BIZ"],["trade-na","무역학과","경영·경제","나",13,25,35,20,20,"BIZ"],["business-na","경영학부","경영·경제","나",61,25,35,20,20,"BIZ"],["architecture-five-year-na","건축학부(건축학전공(5년제))","자연·공학","나",15,35,25,20,20,"B"],["software-na","소프트웨어학과","자연·공학","나",13,20,35,15,30,"N"],["computer-engineering-na","컴퓨터공학과","자연·공학","나",13,20,35,15,30,"N"],["statistics-data-science-na","통계데이터사이언스학과","자연·공학","나",16,20,35,15,30,"N"],["cyber-security-na","사이버보안학과","자연·공학","나",16,20,35,15,30,"N"],["artificial-intelligence-na","인공지능학과","자연·공학","나",19,20,35,15,30,"N"],["ai-architecture-na","AI건축융합학과","자연·공학","나",8,20,35,15,30,"N"],["toegye-general-da","퇴계혁신칼리지(광역)","자율전공","다",145,30,30,20,20,"B"],["toegye-social-da","퇴계혁신칼리지(사회계열광역)","인문·사회","다",30,30,30,20,20,"B"],["mobile-systems-da","모바일시스템공학과","자연·공학","다",18,20,35,15,30,"N"],["toegye-engineering-da","퇴계혁신칼리지(공학계열광역)","자연·공학","다",20,20,35,20,25,"N"],["classical-education-da","한문교육과","교육","다",12,35,25,20,20,"B"],["special-education-da","특수교육과","교육","다",18,35,25,20,20,"B"],["math-education-da","수학교육과","교육·자연","다",10,20,35,15,30,"N"],["science-education-da","과학교육과","교육·자연","다",14,20,35,15,30,"N"]] as const;
-const dankookAdmissions: RegularAdmission[] = DANKOOK_ROWS.map(([key, department, majorGroup, group, recruitmentCount, koreanWeight, mathWeight, englishWeight, inquiryWeight, type]) => ({
-  id: `dankook-jukjeon-${key}`, universityId: "dankook-jukjeon", universityName: "단국대학교(죽전)", region: "경기",
-  department, majorGroup, group, recruitmentCount, scoreMetric: "백분위",
-  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-  koreanWeight, mathWeight, englishWeight, inquiryWeight, inquirySubjects: 2, inquiryAggregation: "mean",
-  calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-  finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-  englishGradeTable: DANKOOK_ENGLISH, koreanHistoryRequired: true, koreanHistoryGradePoints: DANKOOK_HISTORY,
-  ...(type === "N" ? {
-    mathChoiceBonusRequired: true,
-    mathChoiceBonusRate: { "미적분": 0.05, "기하": 0.05, "확률과통계": 0 },
-    inquiryTypeBonusRequired: true,
-    inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.05, "직탐": 0 },
-  } : {}),
-  calculationVerified: false,
-  note: `2027 죽전 수능위주 일반학생 ${group}군 ${recruitmentCount}명. 국어${koreanWeight}·수학${mathWeight}·영어${englishWeight}·탐구${inquiryWeight}, 백분위, 탐구 2과목 평균. ${type === "N" ? "건축학전공 제외 자연계열 수학 미적분·기하 및 과탐 각 5% 가산." : "계열별 일반 반영."} 영어 등급 환산 및 한국사 가산점 반영.`,
-  sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-23",
-}));
 
 // 2027학년도 서강대학교 정시 수능(일반) 모집단위: 공식 모집요강 p.8, p.34~35
 const SOGANG_SOURCE = "https://admission.sogang.ac.kr/";
@@ -491,31 +455,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     note: "2027 자연2계열·자유전공(자연): 국어20·수학35·영어15·탐구30. 미적분·기하 수학 표준점수 5%, 과탐 과목별 백분위 3% 가산. 표준점수 최고점·탐구 변환표 미확보.",
     sourceUrl: SOONGSIL_SOURCE, verifiedAt: "2026-11-19",
   },
-  ...dankookAdmissions,
-  {
-    id: "kyonggi-suwon-ga-humanities", universityId: "kyonggi-suwon", universityName: "경기대학교", region: "경기",
-    department: "인문·사회과학대학(B형)", majorGroup: "인문·어문", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 35, mathWeight: 30, englishWeight: 20, inquiryWeight: 15, inquirySubjects: 1, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: -0.5, 7: -0.5, 8: -1, 9: -1 },
-    note: "2027 일반학생Ⅰ B형: 국어35·수학30·영어20·탐구 상위1과목15. 백분위 기반, 영어 등급 환산, 한국사 6등급부터 감점.",
-    sourceUrl: KYONGGI_SOURCE, verifiedAt: "2026-11-19",
-  },
-  {
-    id: "kyonggi-suwon-ga-natural", universityId: "kyonggi-suwon", universityName: "경기대학교", region: "경기",
-    department: "소프트웨어경영·융합과학·창의공과(A형)", majorGroup: "자연·공학", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 30, mathWeight: 35, englishWeight: 20, inquiryWeight: 15, inquirySubjects: 1, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 100, 3: 96, 4: 92, 5: 80, 6: 70, 7: 60, 8: 50, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: -0.5, 7: -0.5, 8: -1, 9: -1 },
-    note: "2027 일반학생Ⅰ A형: 국어30·수학35·영어20·탐구 상위1과목15. 백분위 기반, 영어 등급 환산, 한국사 6등급부터 감점.",
-    sourceUrl: KYONGGI_SOURCE, verifiedAt: "2026-11-19",
-  },
   {
     id: "myongji-yongin-ga-natural", universityId: "myongji-yongin", universityName: "명지대학교(자연)", region: "경기",
     department: "자연공학계열", majorGroup: "자연·공학", group: "가", scoreMetric: "백분위",
@@ -528,52 +467,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 3, 2: 2.8, 3: 2.6, 4: 2.4, 5: 2.2, 6: 2, 7: 1.8, 8: 1.6, 9: 1.4 },
     note: "2027 자연공학계열: 국어25·수학35·영어20·탐구 상위1과목20. 과탐 선택 시 탐구 반영점수 10% 가산, 한국사 등급별 가산점.",
     sourceUrl: "https://iphak.mju.ac.kr/pages/?b=B_1_1&bn=30405&m=read&p=9", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "ajou-suwon-ga-natural1", universityId: "ajou-suwon", universityName: "아주대학교", region: "경기",
-    department: "자연1계열·약학과·자유전공(자연)", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 20, mathWeight: 35, englishWeight: 15, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true, mathChoiceBonusRequired: true, mathChoiceBonusRate: { "미적분": 0.03, "기하": 0.03, "확률과통계": 0 },
-    inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -5, 6: -10, 7: -20, 8: -30, 9: -40 },
-    note: "2027 자연1: 국어20·수학35·영어15·탐구30. 국어·수학 2027 표준점수 최고점 대비, 탐구 자체변환점수 합, 영어 150점표 비율환산. 미적분·기하 수학3%, 과탐 탐구3% 가산. 당해연도 최고점·탐구 변환표 미공개로 최종 환산 보류.",
-    sourceUrl: "https://www.iajou.ac.kr/notice/view.php?bn=78759&nPage=1", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "ajou-suwon-ga-natural2", universityId: "ajou-suwon", universityName: "아주대학교", region: "경기",
-    department: "의학과·국방디지털융합학과", majorGroup: "의약학·자연", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 20, mathWeight: 40, englishWeight: 10, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true, mathChoiceBonusRequired: true, mathChoiceBonusRate: { "미적분": 0.03, "기하": 0.03, "확률과통계": 0 },
-    inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -5, 6: -10, 7: -20, 8: -30, 9: -40 },
-    note: "2027 자연2: 국어20·수학40·영어10·탐구30. 의학과는 수능95%+면접5%, 국방디지털융합학과는 별도 단계전형. 미적분·기하 수학3%, 과탐 탐구3% 가산. 당해연도 최고점·탐구 변환표 미공개로 환산 보류.",
-    sourceUrl: "https://www.iajou.ac.kr/notice/view.php?bn=78759&nPage=1", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "ajou-suwon-ga-humanities1", universityId: "ajou-suwon", universityName: "아주대학교", region: "경기",
-    department: "경영대학·간호학과(일반전형4)", majorGroup: "경영·경제", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 25, mathWeight: 40, englishWeight: 15, inquiryWeight: 20, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true,
-    englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -5, 6: -10, 7: -20, 8: -30, 9: -40 },
-    note: "2027 인문1: 국어25·수학40·영어15·탐구20. 국어·수학 2027 표준점수 최고점, 탐구 자체변환점수 합, 영어 150점표 비율환산. 당해연도 최고점·탐구 변환표 미공개로 최종 환산 보류.",
-    sourceUrl: "https://www.iajou.ac.kr/notice/view.php?bn=78759&nPage=1", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "ajou-suwon-ga-humanities2", universityId: "ajou-suwon", universityName: "아주대학교", region: "경기",
-    department: "인문대학·사회과학대학·자유전공(인문)", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 35, mathWeight: 25, englishWeight: 15, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true,
-    englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 84, 5: 60, 6: 40, 7: 20, 8: 10, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -5, 6: -10, 7: -20, 8: -30, 9: -40 },
-    note: "2027 인문2: 국어35·수학25·영어15·탐구25. 국어·수학 2027 표준점수 최고점, 탐구 자체변환점수 합, 영어 150점표 비율환산. 당해연도 최고점·탐구 변환표 미공개로 최종 환산 보류.",
-    sourceUrl: "https://www.iajou.ac.kr/notice/view.php?bn=78759&nPage=1", verifiedAt: "2026-11-19",
   },
   {
     id: "inha-incheon-ga-humanities", universityId: "inha-incheon", universityName: "인하대학교", region: "인천",
@@ -671,39 +564,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     calculationVerified: true,
     note: "2027 서울캠퍼스 수능우수자 자연: 국어·수학 표준점수, 탐구 2과목 표준점수 합. 미적분·기하 수학 표준점수 3%, 과탐 과목별 표준점수 3% 가산. 영어 100점 환산점수 가중합 + 한국사 가산점.",
     sourceUrl: "https://www.hongik.ac.kr/kr/admission/recruitment-regular.do?articleNo=155914&mode=view", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "hanyang-erica-ga-natural", universityId: "hanyang-erica", universityName: "한양대학교 ERICA", region: "경기",
-    department: "자연계열·상경계열", majorGroup: "자연·공학", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 25, mathWeight: 35, englishWeight: 15, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0, "과탐": 0.03, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9 },
-    note: "2027 ERICA 자연·상경: 국어25·수학35·영어15·탐구25. 자연1 모집단위는 과탐 과목별 변환표준점수 3% 가산, 상경은 가산 없음. 당해연도 표준점수 최고점·탐구 변환표 미공개로 최종 환산 보류.",
-    sourceUrl: "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "hanyang-erica-ga-humanities", universityId: "hanyang-erica", universityName: "한양대학교 ERICA", region: "경기",
-    department: "인문계열", majorGroup: "인문·사회", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 30, mathWeight: 30, englishWeight: 15, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true, inquiryTypeBonusRequired: true, inquiryTypeBonusRate: { "사탐": 0.03, "과탐": 0, "직탐": 0 },
-    englishGradeTable: { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9 },
-    note: "2027 ERICA 인문: 국어30·수학30·영어15·탐구25. 사탐 과목별 변환표준점수 3% 가산. 당해연도 표준점수 최고점·탐구 변환표 미공개로 최종 환산 보류.",
-    sourceUrl: "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "hanyang-erica-ga-lions", universityId: "hanyang-erica", universityName: "한양대학교 ERICA", region: "경기",
-    department: "LIONS자율전공학부(전계열)", majorGroup: "전체", group: "가", scoreMetric: "표준점수",
-    koreanWeight: 30, mathWeight: 35, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "sum",
-    calculationMode: "normalized-standard-sum", finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    inquiryConversionRequired: true,
-    englishGradeTable: { 1: 100, 2: 99, 3: 96, 4: 91, 5: 80, 6: 60, 7: 40, 8: 20, 9: 0 },
-    koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 10, 2: 9.9, 3: 9.8, 4: 9.7, 5: 9.6, 6: 9 },
-    note: "2027 ERICA LIONS자율전공: 국어30·수학35·영어10·탐구25. 탐구 변환표·당해연도 최고점 미공개로 최종 환산 보류. 탐구 가산 없음.",
-    sourceUrl: "https://goerica.hanyang.ac.kr/admission/html/regular/guide.asp", verifiedAt: "2026-11-19",
   },
   {
     id: "pusan-busan-ga-humanities", universityId: "pusan-busan", universityName: "부산대학교", region: "부산",
@@ -967,42 +827,6 @@ export const regularAdmissions2027: RegularAdmission[] = [
     englishGradeTable: { 1: 100, 2: 98, 3: 96, 4: 94, 5: 92, 6: 90, 7: 88, 8: 86, 9: 84 },
     note: "2027 경상국립대 자연: 국어250·수학300·영어200·탐구250. 과탐Ⅰ·Ⅱ 또는 과탐Ⅱ·Ⅱ 조합은 탐구 점수 5% 가산. 당해연도 표준점수 최고점 미확보로 최종 환산 보류.",
     sourceUrl: "https://www.gnu.ac.kr/new/na/ntt/selectNttInfo.do?bbsId=1944&mi=4948&nttSn=8321449", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "inu-incheon-ga-humanities", universityId: "inu-incheon", universityName: "인천대학교", region: "인천",
-    department: "인문계열·패션산업학과", majorGroup: "인문·사회", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 35, mathWeight: 30, englishWeight: 10, inquiryWeight: 25, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
-    calculationVerified: true,
-    note: "2027 인천대 인문: 국어35·수학30·영어10·탐구2과목 평균25. 국어·수학·탐구 백분위, 영어 등급별 환산점수. 한국사는 필수 응시이나 점수 미반영.",
-    sourceUrl: "https://admission.inu.ac.kr/", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "inu-incheon-ga-natural", universityId: "inu-incheon", universityName: "인천대학교", region: "인천",
-    department: "자연계열·동북아국제통상물류학부", majorGroup: "자연·공학", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 25, mathWeight: 35, englishWeight: 10, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
-    calculationVerified: true,
-    note: "2027 인천대 자연: 국어25·수학35·영어10·탐구2과목 평균30. 백분위 활용, 영어 등급별 환산점수, 한국사는 필수 응시이나 점수 미반영.",
-    sourceUrl: "https://admission.inu.ac.kr/", verifiedAt: "2026-11-19",
-  },
-  {
-    id: "inu-incheon-ga-design", universityId: "inu-incheon", universityName: "인천대학교", region: "인천",
-    department: "디자인학부", majorGroup: "예체능·디자인", group: "가", scoreMetric: "백분위",
-    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
-    koreanWeight: 45, mathWeight: 15, englishWeight: 10, inquiryWeight: 30, inquirySubjects: 2, inquiryAggregation: "mean",
-    calculationMode: "normalized-standard-sum", subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
-    finalScoreMultiplier: 1000, gradeAdjustmentsAfterFinalMultiplier: true,
-    englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
-    calculationVerified: true,
-    note: "2027 인천대 디자인학부: 국어45·수학15·영어10·탐구2과목 평균30. 백분위 활용, 한국사 점수 미반영.",
-    sourceUrl: "https://admission.inu.ac.kr/", verifiedAt: "2026-11-19",
   },
   {
     id: "kmou-busan-ga-humanities", universityId: "kmou-busan", universityName: "국립한국해양대학교", region: "부산",
