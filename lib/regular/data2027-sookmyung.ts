@@ -125,6 +125,6 @@ export const sookmyungAdmissions2027: RegularAdmission[] = ROWS.map(([key, depar
 
 const activeRows = sookmyungAdmissions2027.filter((row) => row.recruitmentCount && row.recruitmentCount > 0);
 const totals = activeRows.reduce((acc, row) => { acc[row.group] += row.recruitmentCount ?? 0; return acc; }, { 가:0, 나:0, 다:0 });
-if (activeRows.length !== 52 || totals.가 !== 648 || totals.나 !== 408 || totals.다 !== 0) {
+if (activeRows.length !== 53 || totals.가 !== 648 || totals.나 !== 408 || totals.다 !== 0) {
   throw new Error(`숙명여대 2027 정시 일반학생 모집인원 검증 실패: rows=${activeRows.length}, totals=${JSON.stringify(totals)}`);
 }
