@@ -1091,6 +1091,7 @@ const incheonWeightedAverage = calculateRegularAdmission({
   koreanHistoryRequired: false,
   koreanHistoryGradePoints: undefined,
   englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 80, 5: 70, 6: 60, 7: 30, 8: 10, 9: 0 },
+  schoolViolencePenaltyRequired: false,
   calculationVerified: true,
 }, { ...sampleScore, koreanPercentile: 99, mathPercentile: 98, inquiry1Percentile: 96, inquiry2Percentile: 99, englishGrade: 2 });
 assert.ok(Math.abs(incheonWeightedAverage.totalScore - 982.25) < 0.000001);
