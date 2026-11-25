@@ -1219,9 +1219,26 @@ assert.match(snuData, /scienceCombinationBonusPoints: \{ "I\+I": 0, "I\+II": 3, 
 assert.match(snuData, /calculationVerified: false/);
 assert.match(snuData, /additionalEligibilityRequired: row.additionalEligibilityRequired/);
 
+// 2027 연세대 서울캠퍼스 정시 일반전형: 모집단위별 가군 정원·유형 검증
+const yonseiData = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
+const yonseiRowsText = yonseiData.slice(yonseiData.indexOf("const YONSEI_ROWS = ["), yonseiData.indexOf("] as const;"));
+const yonseiRows = [...yonseiRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", kind: "([^"]+)", recruitmentCount: (\d+) \}/g)];
+assert.equal(yonseiRows.length, 64);
+assert.equal(new Set(yonseiRows.map((row) => row[1])).size, 64);
+assert.equal(yonseiRows.reduce((sum, row) => sum + Number(row[5]), 0), 1373);
+assert.deepEqual(yonseiRows.reduce((totals, row) => { totals[row[4]] = (totals[row[4]] ?? 0) + Number(row[5]); return totals; }, {}), { I: 473, II: 548, II_MED: 47, III: 206, III_INT: 48, SPORT_PE: 27, SPORT_APP: 24 });
+assert.match(yonseiData, /inquiryConversionRequired: true/);
+assert.match(yonseiData, /inquiryTypeBonusRate: inquiryBonus/);
+assert.match(yonseiData, /studentRecordWeight: sports \? 0 : 50/);
+assert.match(yonseiData, /practicalEvaluationRequired: sports/);
+assert.match(yonseiData, /additionalEligibilityRequired: interview/);
+assert.match(yonseiData, /calculationVerified: false/);
+assert.match(yonseiData, /2026-12-11/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-snu.ts",
+  "../lib/regular/data2027-yonsei.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
