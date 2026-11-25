@@ -8,6 +8,17 @@ const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.meta.url));
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
+assert.match(regularAuditSource, /pendingEnglishTable/);
+assert.match(regularAuditSource, /pendingInquiryConversion/);
+assert.match(regularAuditSource, /englishConversionPending !== true/);
+assert.match(regularAuditSource, /inquiryConversionPending !== true/);
+const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
+const koreaPendingSource = readFileSync(new URL("../lib/regular/data2027-korea.ts", import.meta.url), "utf8");
+const skkuPendingSource = readFileSync(new URL("../lib/regular/data2027-skku.ts", import.meta.url), "utf8");
+for (const source of [yonseiPendingSource, koreaPendingSource, skkuPendingSource]) {
+  assert.match(source, /inquiryConversionPending: true/);
+}
+assert.match(skkuPendingSource, /englishConversionPending: true/);
 const regularDataSource = readFileSync(new URL("../lib/regular/data2027.ts", import.meta.url), "utf8");
 assert.match(regularDataSource, /schoolViolencePenaltyRequired: true/);
 // Legacy representative rows must not coexist with dedicated university datasets.
