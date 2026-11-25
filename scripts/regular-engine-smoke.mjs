@@ -12,6 +12,7 @@ assert.match(regularAuditSource, /pendingEnglishTable/);
 assert.match(regularAuditSource, /pendingInquiryConversion/);
 assert.match(regularAuditSource, /2026-12-11T00:00:00\+09:00/);
 assert.match(regularAuditSource, /pendingMaximumScores/);
+assert.match(regularAuditSource, /pendingSubjectMaximumScores/);
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
 const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
