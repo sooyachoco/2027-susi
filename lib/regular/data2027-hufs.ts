@@ -58,7 +58,7 @@ const HUFS_ROWS: Row[] = [
   { campus:"seoul", group:"나", key:"social-sciences-college", department:"사회과학대학[통합모집]", count:21, field:"B" },
   { campus:"seoul", group:"나", key:"international-trade", department:"국제통상학과", count:9, field:"B" },
   { campus:"seoul", group:"나", key:"economics", department:"경제학부", count:15, field:"B" },
-  { campus:"seoul", group:"나", key:"business-college", department:"상경대학[통합모집]", count:17, field:"B" },
+  { campus:"seoul", group:"나", key:"business-college-seoul", department:"상경대학[통합모집]", count:17, field:"B" },
   { campus:"seoul", group:"나", key:"language-diplomacy", department:"Language & Diplomacy학부", count:5, field:"B" },
   { campus:"global", group:"나", key:"philosophy", department:"철학과", count:10, field:"A" },
   { campus:"global", group:"나", key:"history", department:"사학과", count:10, field:"A" },
