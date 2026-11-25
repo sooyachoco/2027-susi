@@ -66,13 +66,19 @@ export async function GET() {
   const missingRecruitment = admissions.filter((item) => item.recruitmentCount == null);
   const zeroRecruitment = admissions.filter((item) => item.recruitmentCount === 0);
   const missingEnglishTable = admissions.filter(
-    (item) => item.englishWeight > 0 && !item.englishGradeTable,
+    (item) => item.englishWeight > 0 && !item.englishGradeTable && item.englishConversionPending !== true,
+  );
+  const pendingEnglishTable = admissions.filter(
+    (item) => item.englishWeight > 0 && !item.englishGradeTable && item.englishConversionPending === true,
   );
   const missingHistoryTable = admissions.filter(
     (item) => item.koreanHistoryRequired && !item.koreanHistoryGradePoints,
   );
   const missingInquiryConversion = admissions.filter(
-    (item) => item.inquiryConversionRequired && !item.inquiryConversionTable,
+    (item) => item.inquiryConversionRequired && !item.inquiryConversionTable && item.inquiryConversionPending !== true,
+  );
+  const pendingInquiryConversion = admissions.filter(
+    (item) => item.inquiryConversionRequired && !item.inquiryConversionTable && item.inquiryConversionPending === true,
   );
   const missingMaximumScores = admissions.filter((item) => {
     if ((item.calculationMode ?? "weighted-average") !== "normalized-standard-sum") return false;
@@ -173,8 +179,10 @@ export async function GET() {
       invalidSourceMetadata: invalidSourceMetadata.length,
       invalidBenchmarkMetadata: invalidBenchmarkMetadata.length,
       missingEnglishGradeTable: missingEnglishTable.length,
+      pendingEnglishGradeTable: pendingEnglishTable.length,
       missingKoreanHistoryTable: missingHistoryTable.length,
       missingInquiryConversionTable: missingInquiryConversion.length,
+      pendingInquiryConversionTable: pendingInquiryConversion.length,
       missingSubjectMaximumScores: missingMaximumScores.length,
       missingComparableBenchmark: missingBenchmark.length,
       missingMethodNotes: missingMethodNotes.length,
@@ -194,8 +202,10 @@ export async function GET() {
       invalidSourceMetadata: summarize(invalidSourceMetadata),
       invalidBenchmarkMetadata: summarize(invalidBenchmarkMetadata),
       missingEnglishGradeTable: summarize(missingEnglishTable),
+      pendingEnglishGradeTable: summarize(pendingEnglishTable),
       missingKoreanHistoryTable: summarize(missingHistoryTable),
       missingInquiryConversionTable: summarize(missingInquiryConversion),
+      pendingInquiryConversionTable: summarize(pendingInquiryConversion),
       missingSubjectMaximumScores: summarize(missingMaximumScores),
       missingComparableBenchmark: summarize(missingBenchmark),
       missingMethodNotes: summarize(missingMethodNotes),
