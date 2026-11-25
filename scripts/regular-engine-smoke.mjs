@@ -1366,7 +1366,7 @@ assert.ok(swuData.includes("inquiryWeight:0"), "상위 3개 반영 전형은 탐
 assert.ok(swuData.includes('mathChoiceBonusRate:{미적분:0.2,기하:0.2'));
 
 const duksungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
-const duksungRows=[...duksungData.matchAll(/id:"dukseong-seoul-[^"]+", universityId:"dukseong-seoul"[^\n]*group:"([가나다])", recruitmentCount:(\d+)/g)];
+const duksungRows=[...duksungData.matchAll(/id:"duksung-seoul-[^"]+", universityId:"duksung-seoul"[^\n]*group:"([가나다])", recruitmentCount:(\d+)/g)];
 assert.equal(duksungRows.length,10);
 const duksungTotals=duksungRows.reduce((a,r)=>(a[r[1]]+=Number(r[2]),a),{가:0,나:0,다:0});
 assert.deepEqual(duksungTotals,{가:159,나:225,다:100});
