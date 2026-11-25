@@ -112,6 +112,7 @@ export const yonseiAdmissions2027: RegularAdmission[] = YONSEI_ROWS.map((row) =>
     subjectScoreMultiplier: 1,
     finalScoreMultiplier: multiplier,
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     inquiryTypeBonusRequired: Boolean(inquiryBonus),
     inquiryTypeBonusRate: inquiryBonus,
     inquiryBonusRequiresSameType: typeI ? "사탐" : typeII ? "과탐" : undefined,
