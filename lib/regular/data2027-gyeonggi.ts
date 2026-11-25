@@ -172,11 +172,108 @@ const kauAdmissions: RegularAdmission[] = KAU_ROWS.map(([id, department, majorGr
   };
 });
 
+const KUT_ENGLISH = { 1: 100, 2: 96, 3: 92, 4: 88, 5: 80, 6: 60, 7: 30, 8: 20, 9: 10 } as const;
+const KUT_SOURCE = "https://iphak.tukorea.ac.kr/bbs/fileview.php?bbsid=guide&file_seq=2041&save_file_nm=guide_20261029152250_4347.pdf";
+const KUT_ROWS = [
+  ["ai-convergence-free-ga","AI융합 자율전공","자유전공","가",10,0,"engineering"],
+  ["computer-engineering-na","컴퓨터공학전공","자연·공학","나",11,8,"engineering"],
+  ["software-na","소프트웨어전공","자연·공학","다",10,9,"engineering"],
+  ["game-na","게임공학과","자연·공학","나",16,12,"engineering"],
+  ["artificial-intelligence-da","인공지능학과","자연·공학","다",6,5,"engineering"],
+  ["it-semiconductor-free-ga","IT반도체융합 자율전공","자유전공","가",10,0,"engineering"],
+  ["electronic-engineering-na","전자공학전공","자연·공학","나",16,12,"engineering"],
+  ["embedded-systems-da","임베디드시스템전공","자연·공학","다",11,8,"engineering"],
+  ["nano-semiconductor-da","나노반도체공학전공","자연·공학","다",10,9,"engineering"],
+  ["semiconductor-systems-na","반도체시스템전공","자연·공학","나",7,5,"engineering"],
+  ["smart-mechanical-free-ga","스마트기계융합 자율전공","자유전공","가",10,0,"engineering"],
+  ["mechanical-engineering-na","기계공학과","자연·공학","나",17,13,"engineering"],
+  ["mechanical-design-na","기계설계전공","자연·공학","나",11,8,"engineering"],
+  ["intelligent-mobility-da","지능형모빌리티전공","자연·공학","다",4,3,"engineering"],
+  ["mechatronics-da","메카트로닉스전공","자연·공학","다",12,10,"engineering"],
+  ["ai-robotics-na","AI로봇전공","자연·공학","나",5,5,"engineering"],
+  ["advanced-convergence-free-ga","첨단융합 자율전공","자유전공","가",10,0,"engineering"],
+  ["advanced-materials-na","신소재공학과","자연·공학","나",13,10,"engineering"],
+  ["bio-chemical-na","생명화학공학과","자연·공학","나",13,10,"engineering"],
+  ["electrical-engineering-da","전기공학전공","자연·공학","다",10,9,"engineering"],
+  ["energy-engineering-na","에너지공학전공","자연·공학","나",7,5,"engineering"],
+  ["business-free-ga","경영 자율전공","경영·경제","가",6,0,"business"],
+  ["business-da","경영학전공","경영·경제","다",9,6,"business"],
+  ["data-science-business-na","데이터사이언스경영전공","경영·경제","나",6,5,"business"],
+  ["it-business-na","IT경영전공","경영·경제","나",6,5,"business"],
+  ["industrial-design-da","산업디자인공학전공","디자인","다",14,12,"engineering"],
+  ["liberal-studies-ga","자유전공학부","자유전공","가",20,0,"engineering"],
+] as const;
+
+const KUT_SCHOOL_VIOLENCE_NOTE = "학교폭력 조치사항은 500점 환산총점에서 1호 10점, 2호 15점, 3호 20점, 4호 30점, 5호 45점, 6호 60점, 7호 80점, 8호 90점, 9호 100점 감점. 조치사항 입력 기능이 없어 최종 판정 보류.";
+const KUT_MATH_BONUS = { 미적분: 0.1, 기하: 0.1, 확률과통계: 0 } as const;
+const KUT_HISTORY_ZERO = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 } as const;
+
+const tukoreaAdmissions: RegularAdmission[] = KUT_ROWS.flatMap(([key, department, majorGroup, group, general1Count, general2Count, field]) => {
+  const business = field === "business";
+  const common = {
+    universityId: "tukorea",
+    universityName: "한국공학대학교",
+    region: "경기",
+    department,
+    majorGroup,
+    group,
+    scoreMetric: "백분위" as const,
+    inquirySubjects: 2 as const,
+    inquiryAggregation: "best" as const,
+    englishGradeTable: KUT_ENGLISH,
+    mathChoiceBonusRequired: true,
+    mathChoiceBonusRate: KUT_MATH_BONUS,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: KUT_SCHOOL_VIOLENCE_NOTE,
+    calculationVerified: true,
+    benchmarkComparable: false,
+    sourceUrl: KUT_SOURCE,
+    verifiedAt: "2026-11-25",
+  };
+  const rows: RegularAdmission[] = [];
+  if (general1Count > 0) {
+    rows.push({
+      ...common,
+      id: `tukorea-${key}-general1`,
+      recruitmentCount: general1Count,
+      koreanWeight: business ? 30 : 25,
+      mathWeight: business ? 30 : 35,
+      englishWeight: 20,
+      inquiryWeight: 20,
+      calculationMode: "weighted-average",
+      finalScoreMultiplier: 0.5,
+      koreanHistoryGradePoints: KUT_HISTORY_ZERO,
+      note: `2027 정시 수능 일반학생1 ${group}군 ${general1Count}명. 500점 만점, 백분위 활용, ${business ? "경영계열 국30·수30·영20·탐20." : "공학계열 국25·수35·영20·탐20."} 수학 미적분·기하 백분위 10% 가산. 탐구 2과목 중 상위 1과목 반영. 한국사 필수 응시. ${KUT_SCHOOL_VIOLENCE_NOTE}`,
+    });
+  }
+  if (general2Count > 0) {
+    rows.push({
+      ...common,
+      id: `tukorea-${key}-general2`,
+      recruitmentCount: general2Count,
+      koreanWeight: 25,
+      mathWeight: 25,
+      englishWeight: 25,
+      inquiryWeight: 25,
+      calculationMode: "normalized-standard-sum",
+      subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+      subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+      englishMaximumScore: 100,
+      rankedAreaWeights: [45, 35, 20],
+      rankedAreaRequired: ["math"],
+      finalScoreMultiplier: 500,
+      note: `2027 정시 수능 일반학생2 ${group}군 ${general2Count}명. 500점 만점, 수학 필수 포함 국어·영어·탐구 중 상위 2개를 추가해 3개 영역을 성적순으로 45%·35%·20% 반영. 수학 미적분·기하 백분위 10% 가산. 탐구 2과목 중 상위 1과목 반영. 한국사 필수 응시. ${KUT_SCHOOL_VIOLENCE_NOTE}`,
+    });
+  }
+  return rows;
+});
+
 // 2027 정시 경기권 데이터: 아주대·경기대 원천 행과 한양대 ERICA 공식 모집요강 행을 결합.
 const regularAdmissions2027GyeonggiBase: RegularAdmission[] = [
   ...ajouAdmissions,
   ...kyonggiAdmissions,
   ...kauAdmissions,
+  ...tukoreaAdmissions,
 ];
 
 const HANYANG_ERICA_ROWS = [
