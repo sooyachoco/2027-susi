@@ -1,6 +1,5 @@
 import type { RegularAdmission } from "./types";
 
-const HUFS_SOURCE = "https://admission.hufs.ac.kr/";
 const CAU_SOURCE = "https://admission.cau.ac.kr/file/pdfDown.pdf?ofn=cau2027.pdf&sfn=20260901055935966_c1b3b13829d64e208b27824d73e5eee2.pdf";
 const EWHA_SOURCE = "https://admission.ewha.ac.kr/admission/html/regular/guide.asp";
 const SOONGSIL_SOURCE = "https://iphak.ssu.ac.kr/upload/SSU%281%29_261012134914.pdf";
@@ -237,11 +236,6 @@ if (sogangAdmissions2027.length !== 23 || sogangAdmissions2027.reduce((sum,row)=
 
 export const regularAdmissions2027: RegularAdmission[] = [
   ...sogangAdmissions2027,
-  {
-    id: "hufs-seoul-ga-humanities", universityId: "hufs-seoul", universityName: "한국외국어대학교", region: "서울",
-    department: "인문A", majorGroup: "인문·어문", group: "가", scoreMetric: "표준점수", koreanWeight: 30, mathWeight: 30, englishWeight: 20, inquiryWeight: 20,
-    inquirySubjects: 2, benchmarkYear: 2025, benchmarkCutline70: 651.1, benchmarkTotalScore: 710, benchmarkDepartment: "ELLT학과", recruitmentCount: 21, note: "인문A 기준. 2025학년도 ELLT학과 정시 70%컷 651.1/710 벤치마크. 모집단위별 인문A/B 등 세부 적용 확인.", sourceUrl: HUFS_SOURCE, verifiedAt: "2026-09-29",
-  },
   {
     id: "cau-seoul-ga-psychology", universityId: "cau-seoul", universityName: "중앙대학교", region: "서울",
     department: "심리학과", majorGroup: "사회·법", group: "가", scoreMetric: "표준점수",
