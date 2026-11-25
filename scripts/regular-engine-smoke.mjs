@@ -1489,7 +1489,7 @@ const samyukRanked = calculateRegularAdmission({
   finalScoreMultiplier: 1000,
 }, {...sampleScore,koreanPercentile:90,mathPercentile:80,inquiry1Percentile:70,englishGrade:2});
 assert.ok(samyukRanked.appliedComponents.includes("4개 영역 성적순 가중치 배정"));
-assert.equal(samyukRanked.calculationVerified, false);
+assert.equal(samyukRanked.calculationVerified, true, "complete synthetic inputs should verify the ranked-area engine calculation");
 const samyukNaturalBonus = calculateRegularAdmission({
   ...normFixture,
   scoreMetric: "백분위",
