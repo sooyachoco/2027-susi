@@ -75,7 +75,6 @@ const YONSEI_ROWS = [
 export const yonseiAdmissions2027: RegularAdmission[] = YONSEI_ROWS.map((row) => {
   const typeI = row.kind === "I";
   const typeII = row.kind === "II" || row.kind === "II_MED";
-  const typeIII = row.kind === "III" || row.kind === "III_INT" || row.kind === "SPORT_PE" || row.kind === "SPORT_APP";
   const international = row.kind === "III_INT";
   const medicine = row.kind === "II_MED";
   const physicalEducation = row.kind === "SPORT_PE";
