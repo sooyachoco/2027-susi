@@ -18,6 +18,14 @@ const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", impor
 assert.match(snueSource, /recruitmentCount: 108/);
 assert.match(snueSource, /interviewEvaluationRequired: true/);
 assert.match(snueSource, /additionalEligibilityRequired: true/);
+const seokyeongSource = readFileSync(new URL("../lib/regular/data2027-seokyeong.ts", import.meta.url), "utf8");
+assert.match(seokyeongSource, /recruitmentCount: 16/);
+assert.match(seokyeongSource, /recruitmentCount: 60/);
+assert.match(seokyeongSource, /topAreaWeights: \{ areas: \["korean", "math", "inquiry"\], count: 2, weight: 40 \}/);
+assert.match(seokyeongSource, /englishGradeTable: SEOKYEONG_ENGLISH/);
+assert.match(seokyeongSource, /koreanHistoryGradePoints: SEOKYEONG_HISTORY/);
+assert.match(seokyeongSource, /schoolViolencePenaltyRequired: true/);
+assert.match(seokyeongSource, /calculationVerified: false/);
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
 const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
@@ -1346,6 +1354,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-konkuk.ts",
   "../lib/regular/data2027-khu-international.ts",
   "../lib/regular/data2027-snue.ts",
+  "../lib/regular/data2027-seokyeong.ts",
 ];
 const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 const registeredDataFiles = [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]*)"/g)]
