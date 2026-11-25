@@ -431,6 +431,7 @@ export const donggukAdmissions2027: RegularAdmission[] = DONGGUK_ROWS.map((row) 
     finalScoreMultiplier: csatShare * 10,
     gradeAdjustmentsAfterFinalMultiplier: true,
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     mathChoiceBonusRequired: mathBonus,
     mathChoiceBonusRate: mathBonus ? { "미적분":0.03, "기하":0.03, "확률과통계":0 } : undefined,
     inquiryTypeBonusRequired: scienceBonus,
