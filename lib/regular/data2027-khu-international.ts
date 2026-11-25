@@ -347,6 +347,8 @@ export const khuInternationalAdmissions2027: RegularAdmission[] = KHU_INTERNATIO
     englishGradeTable: KHU_ENGLISH,
     koreanHistoryRequired: true,
     koreanHistoryGradePoints: KHU_HISTORY,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "경희대 2027 정시 학교폭력 조치사항 입력 필요: 1~3호 전형 총점의 1%, 4~5호 5%, 6~7호 20%, 8호 40% 감점, 9호 결격. 수능위주·실기위주별 만점과 감점 점수 환산을 별도 적용해야 하므로 지원자 조치사항 및 전형 총점 확인 전 최종 판정 보류.",
     practicalEvaluationRequired: practical,
     practicalEvaluationNote: practical ? "실기평가 점수 미입력(실기위주 일반전형). 전형별 실기 배점 확인 전 판정 보류." : undefined,
     calculationVerified: false,
