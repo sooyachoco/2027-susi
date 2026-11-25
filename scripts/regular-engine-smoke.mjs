@@ -1204,8 +1204,23 @@ assert.match(gachonData, /languageMathMode: undefined/);
 assert.match(gachonData, /englishInquiryMode: undefined/);
 assert.deepEqual(gachonTotals, { 가: 347, 나: 346, 다: 378 });
 
+// 2027 서울대 정시 일반전형: 공식 요강의 모집단위별 일반전형 인원과 군·환산 보류 조건 검증
+const snuData = readFileSync(new URL("../lib/regular/data2027-snu.ts", import.meta.url), "utf8");
+const snuRowsText = snuData.slice(snuData.indexOf("const SNU_ROWS = ["), snuData.indexOf("] as const;"));
+const snuRows = [...snuRowsText.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", recruitmentCount: (\d+), additionalEligibilityRequired: (true|false)/g)];
+assert.equal(snuRows.length, 59);
+assert.equal(new Set(snuRows.map((row) => row[1])).size, 59);
+assert.equal(snuRows.reduce((sum, row) => sum + Number(row[4]), 0), 1056);
+assert.ok(snuRows.every((row) => row[5] === "true" || row[5] === "false"));
+assert.match(snuData, /koreanWeight: 100,[\\s\\S]*mathWeight: 120,[\\s\\S]*inquiryWeight: 80/);
+assert.match(snuData, /studentRecordWeight: 20/);
+assert.match(snuData, /cohortNormalizationRequired: true/);
+assert.match(snuData, /scienceCombinationBonusPoints: \\{ "I\\+I": 0, "I\\+II": 3, "II\\+II": 5 \\}/);
+assert.match(snuData, /calculationVerified: false/);
+assert.match(snuData, /additionalEligibilityRequired: row.additionalEligibilityRequired/);
+
 const admissionDataFiles = [
-  "../lib/regular/data2027.ts",
+  "../lib/regular/data2027.ts",\n  "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027Batch2.ts",
   "../lib/regular/data2027-extra-seoul.ts",
   "../lib/regular/data2027-gyeonggi.ts",
