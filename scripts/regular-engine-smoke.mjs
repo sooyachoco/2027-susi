@@ -385,6 +385,51 @@ assert.equal(
   "the displayed shortlist must contain globally distinct universities",
 );
 
+const portfolioPath = fileURLToPath(new URL("../lib/regular/portfolio.ts", import.meta.url));
+const portfolioModule = loadTsModule(portfolioPath, { "./recommend": recommendationModule });
+const repeatedUniversityPortfolioAdmissions = ["가", "나", "다"].flatMap((group) =>
+  Array.from({ length: 6 }, (_, universityIndex) => ({
+    id: `portfolio-${group}-${universityIndex}`,
+    universityId: `portfolio-university-${universityIndex}`,
+    universityName: `포트폴리오 테스트대학 ${universityIndex}`,
+    region: "서울",
+    department: "경영학부",
+    majorGroup: "경영·경제",
+    group,
+    recruitmentCount: 10,
+    scoreMetric: "백분위",
+    subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+    subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+    calculationMode: "normalized-standard-sum",
+    koreanWeight: 30,
+    mathWeight: 30,
+    englishWeight: 20,
+    inquiryWeight: 20,
+    inquirySubjects: 2,
+    inquiryAggregation: "mean",
+    englishGradeTable: { 1: 100, 2: 98, 3: 95, 4: 90, 5: 80, 6: 70, 7: 50, 8: 30, 9: 0 },
+    finalScoreMultiplier: 1000,
+    schoolViolencePenaltyRequired: false,
+    calculationVerified: true,
+    benchmarkComparable: true,
+    benchmarkYear: 2026,
+    benchmarkCutline70: 800,
+    benchmarkTotalScore: 1000,
+    benchmarkSourceUrl: "https://example.org/2026-regular-benchmark",
+  })),
+);
+const optimizedSyntheticPortfolio = portfolioModule.recommendRegularPortfolio(
+  syntheticProfile,
+  repeatedUniversityPortfolioAdmissions,
+);
+assert.equal(optimizedSyntheticPortfolio.length, 1);
+assert.equal(optimizedSyntheticPortfolio[0].recommendations.length, 3);
+assert.equal(
+  new Set(optimizedSyntheticPortfolio[0].recommendations.map((item) => item.universityName)).size,
+  3,
+  "the optimized 가·나·다 portfolio must use three distinct universities",
+);
+
 const cauNatural = {
   id: "cau-engine-smoke",
   universityId: "cau",
