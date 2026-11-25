@@ -81,6 +81,10 @@ assert.match(hufsSource, /HUFS_HISTORY = \{ 1:0, 2:0, 3:0, 4:-0\.02, 5:-0\.04, 6
 assert.match(hufsSource, /schoolViolencePenaltyRequired: true/);
 assert.match(hufsSource, /calculationVerified: false/);
 
+const khuInternationalSource = readFileSync(new URL("../lib/regular/data2027-khu-international.ts", import.meta.url), "utf8");
+assert.match(khuInternationalSource, /schoolViolencePenaltyRequired: true/);
+assert.match(khuInternationalSource, /1~3호 전형 총점의 1%, 4~5호 5%, 6~7호 20%, 8호 40% 감점, 9호 결격/);
+assert.match(khuInternationalSource, /calculationVerified: false/);
 
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
