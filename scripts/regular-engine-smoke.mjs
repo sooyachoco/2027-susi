@@ -1718,6 +1718,8 @@ assert.ok(swuData.includes('mathChoiceBonusRate:{미적분:0.2,기하:0.2'));
 
 const duksungData=readFileSync(new URL("../lib/regular/data2027-extra-seoul.ts",import.meta.url),"utf8");
 const duksungRows=[...duksungData.matchAll(/id:"duksung-seoul-[^"]+", universityId:"duksung-seoul"[^\n]*group:"([가나다])", recruitmentCount:(\d+)/g)];
+const duksungRepositorySource=readFileSync(new URL("../lib/regular/repository.ts",import.meta.url),"utf8");
+assert.ok(duksungRepositorySource.includes("...duksungAdmissions2027"), "덕성여대 정시 데이터가 전체 정시 데이터에 포함되어야 함");
 assert.equal(duksungRows.length,10);
 const duksungTotals=duksungRows.reduce((a,r)=>(a[r[1]]+=Number(r[2]),a),{가:0,나:0,다:0});
 assert.deepEqual(duksungTotals,{가:159,나:225,다:100});
