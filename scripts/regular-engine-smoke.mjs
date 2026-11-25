@@ -1225,7 +1225,7 @@ assert.match(yonseiData, /inquiryConversionRequired: true/);
 assert.match(yonseiData, /inquiryTypeBonusRate: inquiryBonus/);
 assert.match(yonseiData, /studentRecordWeight: sports \? 0 : 50/);
 assert.match(yonseiData, /practicalEvaluationRequired: sports/);
-assert.match(yonseiData, /additionalEligibilityRequired: interview/);
+assert.match(yonseiData, /additionalEligibilityRequired: interview \\|\\| contract/);
 assert.match(yonseiData, /calculationVerified: false/);
 assert.match(yonseiData, /2026-12-11/);
 
