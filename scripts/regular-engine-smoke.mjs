@@ -41,6 +41,33 @@ assert.match(samyukSource, /학교폭력 조치사항 입력 필요/);
 assert.match(samyukSource, /calculationVerified: false/);
 assert.match(samyukSource, /음악학과·아트앤디자인학과 27명/);
 
+const hufsSource = readFileSync(new URL("../lib/regular/data2027-hufs.ts", import.meta.url), "utf8");
+const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])" \}/g)];
+assert.equal(hufsRows.length, 89);
+assert.equal(new Set(hufsRows.map((row) => row[3])).size, 89);
+const hufsTotals = hufsRows.reduce((totals, row) => {
+  totals[row[1]][row[2]] += Number(row[4]);
+  totals[row[1]].total += Number(row[4]);
+  totals.groups[row[2]] += Number(row[4]);
+  totals.total += Number(row[4]);
+  return totals;
+}, { seoul:{가:0,나:0,다:0,total:0}, global:{가:0,나:0,다:0,total:0}, groups:{가:0,나:0,다:0}, total:0 });
+assert.deepEqual(hufsTotals, {
+  seoul:{가:160,나:312,다:75,total:547},
+  global:{가:37,나:336,다:337,total:710},
+  groups:{가:197,나:648,다:412},
+  total:1257,
+});
+assert.equal(hufsRows.some((row) => /송도|글로벌바이오/.test(row[3])), false);
+assert.match(hufsSource, /inquiryConversionRequired: true/);
+assert.match(hufsSource, /inquiryConversionPending: true/);
+assert.match(hufsSource, /HUFS_ENGLISH_20 = \{ 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 \}/);
+assert.match(hufsSource, /HUFS_ENGLISH_15 = \{ 1:150, 2:148\.5, 3:145\.5, 4:141, 5:135, 6:127\.5, 7:112\.5, 8:90, 9:0 \}/);
+assert.match(hufsSource, /HUFS_HISTORY = \{ 1:0, 2:0, 3:0, 4:-0\.2, 5:-0\.4, 6:-0\.6, 7:-0\.8, 8:-1, 9:-2 \}/);
+assert.match(hufsSource, /schoolViolencePenaltyRequired: true/);
+assert.match(hufsSource, /calculationVerified: false/);
+
+
 assert.match(regularAuditSource, /englishConversionPending !== true/);
 assert.match(regularAuditSource, /inquiryConversionPending !== true/);
 const yonseiPendingSource = readFileSync(new URL("../lib/regular/data2027-yonsei.ts", import.meta.url), "utf8");
@@ -1371,6 +1398,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-snue.ts",
   "../lib/regular/data2027-seokyeong.ts",
   "../lib/regular/data2027-samyuk.ts",
+  "../lib/regular/data2027-hufs.ts",
 ];
 const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 const registeredDataFiles = [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]*)"/g)]
