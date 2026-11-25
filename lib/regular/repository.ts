@@ -1,4 +1,5 @@
 import { regularAdmissions2027 } from "./data2027";
+import { snuAdmissions2027 } from "./data2027-snu";
 import { regularAdmissions2027Batch2 } from "./data2027Batch2";
 import { regularAdmissions2027SeoulExtra } from "./data2027-extra-seoul";
 import { seoulwomenAdmissions2027 } from "./data2027-seoulwomen";
@@ -15,6 +16,7 @@ const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
 
 const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027,
+  ...snuAdmissions2027,
   ...regularAdmissions2027Batch2,
   ...regularAdmissions2027SeoulExtra,
   ...seoulwomenAdmissions2027,
