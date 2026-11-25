@@ -80,7 +80,7 @@ export async function GET() {
   const pendingInquiryConversion = admissions.filter(
     (item) => item.inquiryConversionRequired && !item.inquiryConversionTable && item.inquiryConversionPending === true,
   );
-  const missingMaximumScores = admissions.filter((item) => {
+  const maximumScoresNeeded = admissions.filter((item) => {
     if ((item.calculationMode ?? "weighted-average") !== "normalized-standard-sum") return false;
     const metrics = item.subjectMetrics;
     const maxima = item.subjectMaximumScores;
@@ -92,6 +92,10 @@ export async function GET() {
       (mathNeedsMaximum && !(maxima?.math && maxima.math > 0)) ||
       (inquiryNeedsMaximum && !(maxima?.inquiry && maxima.inquiry > 0));
   });
+  // 2027 수능 성적 통지일: 2026-12-11. 그 전에는 당해 연도 최고점이 공식 확정되지 않는다.
+  const scoreResultsReleased = Date.now() >= Date.parse("2026-12-11T00:00:00+09:00");
+  const pendingMaximumScores = scoreResultsReleased ? [] : maximumScoresNeeded;
+  const missingMaximumScores = scoreResultsReleased ? maximumScoresNeeded : [];
   const invalidBenchmarkMetadata = admissions.filter((item) => {
     if (item.benchmarkComparable !== true) return false;
     const hasCutline = [item.benchmarkCutline70, item.benchmarkCutline95, item.expectedCutline, item.expectedCutline70, item.expectedCutline95]
@@ -184,6 +188,7 @@ export async function GET() {
       missingInquiryConversionTable: missingInquiryConversion.length,
       pendingInquiryConversionTable: pendingInquiryConversion.length,
       missingSubjectMaximumScores: missingMaximumScores.length,
+      pendingSubjectMaximumScores: pendingMaximumScores.length,
       missingComparableBenchmark: missingBenchmark.length,
       missingMethodNotes: missingMethodNotes.length,
       placeholderDepartments: placeholderDepartments.length,
@@ -207,6 +212,7 @@ export async function GET() {
       missingInquiryConversionTable: summarize(missingInquiryConversion),
       pendingInquiryConversionTable: summarize(pendingInquiryConversion),
       missingSubjectMaximumScores: summarize(missingMaximumScores),
+      pendingSubjectMaximumScores: summarize(pendingMaximumScores),
       missingComparableBenchmark: summarize(missingBenchmark),
       missingMethodNotes: summarize(missingMethodNotes),
       placeholderDepartments: summarize(placeholderDepartments),
