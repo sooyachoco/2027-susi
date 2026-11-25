@@ -1248,7 +1248,7 @@ assert.match(koreaData, /inquiryConversionRequired: true/);
 assert.match(koreaData, /inquiryTypeBonusRate: scienceBonus/);
 assert.match(koreaData, /gradeAdjustmentsAfterFinalMultiplier: true/);
 assert.match(koreaData, /practicalEvaluationRequired: practical/);
-assert.match(koreaData, /additionalEligibilityRequired: medicine \\|\\| cyber/);
+assert.match(koreaData, /additionalEligibilityRequired: medicine \|\| cyber/);
 assert.match(koreaData, /1호 1점, 2호 1점, 3호 1점, 4호 3점, 5호 3점, 6호 7점, 7호 7점, 8호 20점, 9호 20점/);
 assert.match(koreaData, /calculationVerified: false/);
 
