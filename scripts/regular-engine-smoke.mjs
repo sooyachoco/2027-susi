@@ -1593,9 +1593,11 @@ const admissionDataFiles = [
   "../lib/regular/data2027-hufs.ts",
 ];
 const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
-const registeredDataFiles = [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]*)"/g)]
-  .map((match) => `../lib/regular/${match[1]}.ts`)
-  .filter((path) => !path.endsWith("types.ts"));
+const registeredDataFiles = [...new Set(
+  [...repositoryRegistrationSource.matchAll(/from "\.\/(data2027[^"]*)"/g)]
+    .map((match) => `../lib/regular/${match[1]}.ts`)
+    .filter((path) => !path.endsWith("types.ts")),
+)];
 assert.deepEqual(
   [...registeredDataFiles].sort(),
   [...admissionDataFiles].sort(),
