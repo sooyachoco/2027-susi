@@ -416,6 +416,7 @@ export const konkukAdmissions2027: RegularAdmission[] = KONKUK_ROWS.map((row) =>
     finalScoreMultiplier: csatShare * 10,
     gradeAdjustmentsAfterFinalMultiplier: true,
     inquiryConversionRequired: true,
+    inquiryConversionPending: true,
     languageMathMode: free ? "고득점 우선" : undefined,
     alternateWeighting: free ? { koreanWeight:30, mathWeight:40, englishWeight:10, inquiryWeight:20 } : undefined,
     topAreaWeights: arts ? { areas:["math","inquiry"], count:1, weight:30 } : undefined,
