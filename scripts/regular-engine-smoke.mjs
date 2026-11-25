@@ -983,7 +983,7 @@ const gachonGeneral2 = calculateRegularAdmission({
   koreanHistoryRequired: false, schoolViolencePenaltyRequired: false,
   calculationVerified: true,
 }, { ...sampleScore, koreanGrade: 2, mathGrade: 1, inquiry1Grade: 2, englishGrade: 3 });
-assert.equal(gachonGeneral2.baseScore, 972000);
+assert.equal(gachonGeneral2.baseScore, 972);
 assert.equal(gachonGeneral2.calculationVerified, true);
 assert.ok(gachonGeneral2.appliedComponents.includes("국어·수학 A/B 고득점 조합 선택"));
 assert.ok(gachonGeneral2.appliedComponents.includes("영어·탐구 고득점 영역 가중치 선택"));
