@@ -37,6 +37,15 @@ export async function GET() {
     // Only percentage-based modes must total 100 across subject areas.
     const mode = item.calculationMode ?? "weighted-average";
     if (mode === "weighted-sum-with-additive-bonuses") return false;
+    // topAreaWeights replaces the ordinary area weights: only the selected
+    // top N areas receive config.weight each; English is added separately
+    // unless English itself belongs to the selectable set.
+    if (item.topAreaWeights) {
+      const config = item.topAreaWeights;
+      const effectiveTotal = config.count * config.weight +
+        (config.areas.includes("english") ? 0 : item.englishWeight);
+      return Number.isFinite(effectiveTotal) && Math.abs(effectiveTotal - 100) > 0.1;
+    }
     const groups = [
       [item.koreanWeight, item.mathWeight, item.englishWeight, item.inquiryWeight],
       item.alternateWeighting
