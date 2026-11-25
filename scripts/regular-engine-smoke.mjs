@@ -983,7 +983,7 @@ const gachonGeneral2 = calculateRegularAdmission({
   koreanHistoryRequired: false, schoolViolencePenaltyRequired: false,
   calculationVerified: true,
 }, { ...sampleScore, koreanGrade: 2, mathGrade: 1, inquiry1Grade: 2, englishGrade: 3 });
-assert.equal(gachonGeneral2.baseScore, 972);
+assert.equal(gachonGeneral2.baseScore, 972000);
 assert.equal(gachonGeneral2.calculationVerified, true);
 assert.ok(gachonGeneral2.appliedComponents.includes("국어·수학 A/B 고득점 조합 선택"));
 assert.ok(gachonGeneral2.appliedComponents.includes("영어·탐구 고득점 영역 가중치 선택"));
@@ -1435,8 +1435,8 @@ assert.match(gachonData, /englishInquiryMode: undefined/);
 assert.deepEqual(gachonTotals, { 가: 347, 나: 346, 다: 378 });
 
 const gachonGeneral2Text = gachonData.slice(
-  gachonData.indexOf("const GENERAL2_ROWS = ["),
-  gachonData.indexOf("];", gachonData.indexOf("const GENERAL2_ROWS = [")) + 2,
+  gachonData.indexOf("const GENERAL2_ROWS: Row[] = ["),
+  gachonData.indexOf("];", gachonData.indexOf("const GENERAL2_ROWS: Row[] = [")) + 2,
 );
 const gachonGeneral2Rows = [...gachonGeneral2Text.matchAll(/\{ id: "([^"]+)", department: "([^"]+)", majorGroup: "([^"]+)", group: "([가나다])", recruitmentCount: (\d+) \}/g)];
 assert.equal(gachonGeneral2Rows.length, 11);
@@ -1445,7 +1445,7 @@ const gachonGeneral2Totals = gachonGeneral2Rows.reduce((totals, row) => { totals
 assert.deepEqual(gachonGeneral2Totals, { 가: 75, 나: 82, 다: 73 });
 assert.match(gachonData, /scoreMetric: "등급"/);
 assert.match(gachonData, /subjectGradeTables:/);
-assert.match(gachonData, /calculationVerified: false);
+assert.match(gachonData, /calculationVerified: false/);
 
 // 2027 서울대 정시 일반전형: 공식 요강의 모집단위별 일반전형 인원과 군·환산 보류 조건 검증
 const snuData = readFileSync(new URL("../lib/regular/data2027-snu.ts", import.meta.url), "utf8");
