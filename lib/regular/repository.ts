@@ -18,6 +18,7 @@ import { khuInternationalAdmissions2027 } from "./data2027-khu-international";
 import { snueAdmissions2027 } from "./data2027-snue";
 import { seokyeongAdmissions2027 } from "./data2027-seokyeong";
 import { samyukAdmissions2027 } from "./data2027-samyuk";
+import { hufsAdmissions2027 } from "./data2027-hufs";
 import type { RegularAdmission } from "./types";
 
 const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -43,6 +44,7 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...snueAdmissions2027,
   ...seokyeongAdmissions2027,
   ...samyukAdmissions2027,
+  ...hufsAdmissions2027,
 ];
 
 function isExcludedAdmission(item: RegularAdmission) {
