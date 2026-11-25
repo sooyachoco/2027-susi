@@ -58,7 +58,8 @@ assert.deepEqual(hufsTotals, {
   groups:{가:197,나:648,다:412},
   total:1257,
 });
-assert.equal(hufsRows.some((row) => /송도|글로벌바이오/.test(row[3])), false);
+assert.equal(hufsRows.some((row) => /songdo|global-bio/.test(row[3])), false);
+assert.equal(hufsSource.includes('department:"글로벌바이오 & 비즈니스융합학부"'), false);
 assert.match(hufsSource, /inquiryConversionRequired: true/);
 assert.match(hufsSource, /inquiryConversionPending: true/);
 assert.match(hufsSource, /HUFS_ENGLISH_20 = \{ 1:200, 2:198, 3:194, 4:188, 5:180, 6:170, 7:150, 8:120, 9:0 \}/);
