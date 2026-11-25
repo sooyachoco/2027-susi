@@ -1243,7 +1243,7 @@ assert.match(koreaData, /inquiryTypeBonusRate: scienceBonus/);
 assert.match(koreaData, /gradeAdjustmentsAfterFinalMultiplier: true/);
 assert.match(koreaData, /practicalEvaluationRequired: practical/);
 assert.match(koreaData, /additionalEligibilityRequired: medicine \|\| cyber/);
-assert.match(koreaData, /1호 1점, 2호 1점, 3호 1점, 4호 3점, 5호 3점, 6호 7점, 7호 7점, 8호 20점, 9호 20점/);
+assert.match(koreaData, /학교폭력 조치사항은 2027 정시 최종 요강의 전형별 적용 기준/);
 assert.match(koreaData, /calculationVerified: false/);
 
 // 2027 한양대 서울캠퍼스 정시 일반전형: 모집단위별 가·나·다군 인원 및 실기 구분 검증
