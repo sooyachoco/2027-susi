@@ -13,6 +13,8 @@ assert.match(regularAuditSource, /pendingInquiryConversion/);
 assert.match(regularAuditSource, /2026-12-11T00:00:00\+09:00/);
 assert.match(regularAuditSource, /pendingMaximumScores/);
 assert.match(regularAuditSource, /pendingSubjectMaximumScores/);
+assert.match(regularAuditSource, /untrackedSchoolViolencePolicy/);
+assert.match(regularAuditSource, /schoolViolencePenaltyRequired == null/);
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
 const snueSource = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
 assert.match(snueSource, /recruitmentCount: 108/);
