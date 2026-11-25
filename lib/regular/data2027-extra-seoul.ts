@@ -17,10 +17,12 @@ const HANSUNG_ROWS = [
   {"key":"da-creative-humanities-night","department":"크리에이티브인문학부(야)","majorGroup":"인문·사회","group":"다","recruitmentCount":33,"field":"night"},
   {"key":"da-future-social-science-night","department":"미래융합사회과학대학(야)","majorGroup":"인문·사회","group":"다","recruitmentCount":45,"field":"night"},
   {"key":"da-ai-fashion-night","department":"AI패션학부(야)","majorGroup":"디자인","group":"다","recruitmentCount":17,"field":"night"},
-  {"key":"da-ai-beauty-night-conditional","department":"AI뷰티디자인학과(야·수시 미충원 시)","majorGroup":"디자인","group":"다","recruitmentCount":0,"field":"night","conditional":true}
+  {"key":"da-ai-beauty-night-conditional","department":"AI뷰티디자인학과(야·수시 미충원 시)","majorGroup":"디자인","group":"다","recruitmentCount":0,"field":"night","conditional":true},
+  {"key":"da-painting-oriental","department":"예술학부(동양화전공)","majorGroup":"예체능·미술","group":"다","recruitmentCount":6,"field":"practical"},
+  {"key":"da-painting-western","department":"예술학부(서양화전공)","majorGroup":"예체능·미술","group":"다","recruitmentCount":6,"field":"practical"}
 ] as const;
 const HANSUNG_ENGLISH = { 1:100, 2:97, 3:94, 4:80, 5:70, 6:55, 7:40, 8:25, 9:10 } as const;
-const HANSUNG_HISTORY = { 1:10, 2:10, 3:10, 4:10, 5:8, 6:6, 7:4, 8:2, 9:0 } as const;
+const HANSUNG_HISTORY = { 1:1, 2:1, 3:1, 4:1, 5:0.8, 6:0.6, 7:0.4, 8:0.2, 9:0 } as const;
 export const hansungAdmissions2027: RegularAdmission[] = HANSUNG_ROWS.map((row) => {
   const common = {
     id: `hansung-seoul-${row.key}`,
@@ -60,6 +62,14 @@ export const hansungAdmissions2027: RegularAdmission[] = HANSUNG_ROWS.map((row) 
     ...common, koreanWeight:40, mathWeight:40, englishWeight:20, inquiryWeight:40,
     topAreaWeights:{ areas:["korean","math","inquiry"], count:2, weight:40 },
     note: "야간 모집단위: 국어·수학·탐구 3개 영역 중 상위 2개를 각각 40%, 영어20%. 학교폭력 조치사항 감점은 별도 적용 여부 미입력으로 최종 계산 검증 보류."
+  };
+  if (row.field === "practical") return {
+    ...common, koreanWeight:40, mathWeight:40, englishWeight:40, inquiryWeight:20,
+    topAreaWeights:{ areas:["korean","math"], count:1, weight:40 },
+    finalScoreMultiplier:300,
+    practicalEvaluationRequired:true,
+    practicalEvaluationNote:"수능 30%(300점) + 실기 70%(700점) 반영. 국어·수학 중 높은 1개 영역 40%, 영어 40%, 탐구 20%로 수능 환산. 실기 점수 입력 전 최종점수·합격판정 보류.",
+    note:"예술학부 회화전공: 다군 동양화·서양화 각 6명. 수능 300점과 실기 700점 합산. 국어·수학 중 높은 1개 영역 40%, 영어 40%, 탐구 20%. 실기점수 및 학교폭력 조치사항 미입력으로 최종 검증 보류."
   };
   return {
     ...common, koreanWeight:35, mathWeight:25, englishWeight:20, inquiryWeight:20,
