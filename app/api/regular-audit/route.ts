@@ -168,6 +168,7 @@ export async function GET() {
       withRecruitmentCount: admissions.length - missingRecruitment.length,
       withSource: admissions.length - missingSource.length,
       requiresPracticalEvaluation: admissions.filter((item) => item.practicalEvaluationRequired === true).length,
+      requiresInterviewEvaluation: admissions.filter((item) => item.interviewEvaluationRequired === true).length,
       requiresSchoolViolenceInput: admissions.filter((item) => item.schoolViolencePenaltyRequired === true).length,
       requiresAdditionalEligibilityInput: admissions.filter((item) => item.additionalEligibilityRequired === true).length,
     },
