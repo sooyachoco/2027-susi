@@ -117,10 +117,66 @@ const kyonggiAdmissions: RegularAdmission[] = KYONGGI_ROWS.map(([key, department
   sourceUrl: KYONGGI_SOURCE, verifiedAt: "2026-11-23",
 }));
 
+const KAU_ENGLISH = { 1: 136, 2: 134, 3: 132, 4: 127, 5: 122, 6: 117, 7: 112, 8: 107, 9: 102 } as const;
+const KAU_HISTORY = { 1: 10, 2: 10, 3: 10, 4: 10, 5: 9.9, 6: 9.8, 7: 9.7, 8: 9.6, 9: 9.5 } as const;
+const KAU_SOURCE = "https://ibhak.kau.ac.kr/admission/html/regular/guide.asp";
+const KAU_ROWS = [
+  ["engineering-ga","공과대학","자연·공학","가",57,"engineering"],
+  ["aviation-management-science-ga","항공·경영대학(이학적성)","자연·공학","가",18,"flexible"],
+  ["aviation-management-social-ga","항공·경영대학(사회적성)","인문·사회","가",24,"flexible"],
+  ["ai-convergence-na","AI융합대학","자연·공학","나",57,"engineering"],
+  ["flight-operation-na","항공운항학과","항공·운항","나",10,"flexible"],
+  ["free-engineering-da","자유전공학부(공학적성)","자연·공학","다",28,"engineering"],
+  ["free-science-da","자유전공학부(이학적성)","자연·공학","다",23,"flexible"],
+  ["free-social-da","자유전공학부(사회적성)","인문·사회","다",4,"flexible"],
+] as const;
+
+const kauAdmissions: RegularAdmission[] = KAU_ROWS.map(([id, department, majorGroup, group, recruitmentCount, field]) => {
+  const engineering = field === "engineering";
+  const weights = engineering
+    ? { koreanWeight: 20, mathWeight: 35, englishWeight: 20, inquiryWeight: 25 }
+    : { koreanWeight: 25, mathWeight: 30, englishWeight: 20, inquiryWeight: 25 };
+  const scienceBonus = engineering ? { 사탐: 0, 과탐: 0.05, 직탐: 0 } : undefined;
+  return {
+    id: `kau-${id}`,
+    universityId: "kau",
+    universityName: "한국항공대학교",
+    region: "경기",
+    department,
+    majorGroup,
+    group,
+    recruitmentCount,
+    scoreMetric: "표준점수",
+    ...weights,
+    inquirySubjects: 2,
+    inquiryAggregation: "best",
+    calculationMode: "weighted-sum-with-additive-bonuses",
+    subjectScoreMultiplier: 5,
+    languageMathMode: engineering ? undefined : "고득점 우선",
+    inquiryTypeBonusRequired: engineering,
+    inquiryTypeBonusRate: scienceBonus,
+    englishGradeTable: KAU_ENGLISH,
+    koreanHistoryRequired: true,
+    koreanHistoryGradePoints: KAU_HISTORY,
+    schoolViolencePenaltyRequired: true,
+    schoolViolencePenaltyNote: "학교폭력 조치 4~7호는 환산총점의 10% 감점, 8~9호는 불합격 처리. 조치사항 입력 기능이 없어 최종 판정 보류.",
+    additionalEligibilityRequired: id === "flight-operation-na",
+    additionalEligibilityNote: id === "flight-operation-na"
+      ? "항공운항학과는 수능 성적순 3배수 대상자의 항공신체검사 1종 합격 여부가 최종 선발 요건이며, 신체검사는 점수 가산이 아닌 합격·불합격으로 처리."
+      : undefined,
+    calculationVerified: true,
+    benchmarkComparable: false,
+    note: `2027 정시 일반학생전형 ${group}군 ${recruitmentCount}명. 수능 100%, 표준점수 사용, 탐구 2과목 중 상위 1과목 반영. ${engineering ? "국20·수35·영20·탐25, 과탐 점수 5% 가산 후 상위 1과목 선택." : "국25·수30·영20·탐25 또는 국30·수25·영20·탐25 중 고득점 조합 적용."} 영어 등급별 환산 표준점수 및 한국사 가산점 반영. 학교폭력 조치사항 입력 전 최종 판정 보류.`,
+    sourceUrl: KAU_SOURCE,
+    verifiedAt: "2026-11-25",
+  };
+});
+
 // 2027 정시 경기권 데이터: 아주대·경기대 원천 행과 한양대 ERICA 공식 모집요강 행을 결합.
 const regularAdmissions2027GyeonggiBase: RegularAdmission[] = [
   ...ajouAdmissions,
   ...kyonggiAdmissions,
+  ...kauAdmissions,
 ];
 
 const HANYANG_ERICA_ROWS = [
@@ -212,4 +268,4 @@ export const regularAdmissions2027Gyeonggi: RegularAdmission[] = [
   ...hanyangEricaAdmissions,
 ];
 
-// 한국항공대 2027 공식 모집요강은 별도 세부 모집단위·환산 규칙 검증 후 등록한다.
+// 한국항공대 2027 정시 일반학생전형 8개 모집단위 등록 완료. 학교폭력·항공신체검사 입력 전 최종 판정은 보류한다.
