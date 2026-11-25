@@ -87,7 +87,7 @@ export const snuAdmissions2027: RegularAdmission[] = SNU_ROWS.map((row) => ({
   calculationMode: "weighted-sum-with-additive-bonuses",
   subjectScoreMultiplier: 1,
   finalScoreMultiplier: 1,
-  studentRecordWeight: 20,
+  studentRecordWeight: 40,
   curriculumEvaluationRequired: true,
   cohortNormalizationRequired: true,
   scienceCombinationAdjustmentRequired: true,
@@ -101,7 +101,7 @@ export const snuAdmissions2027: RegularAdmission[] = SNU_ROWS.map((row) => ({
   additionalEligibilityNote: row.additionalEligibilityNote,
   calculationVerified: false,
   benchmarkComparable: false,
-  note: `2027 정시 일반전형 나군 ${row.recruitmentCount}명. 1단계 수능 100%(2배수), 2단계 1단계 성적 80%+교과평가 20%. 국어 표준점수 + 수학 표준점수×1.2 + 탐구 2과목 표준점수 합×0.8, 영어·한국사 감점. 과탐 조합별 조정점수(I+I 0점, I+II 3점, II+II 5점). 모집단위별 1단계 최고·최저점 기반 환산 및 학생부 교과평가가 남아 있어 최종 환산·합격판정 보류.`,
+  note: `2027 정시 일반전형 나군 ${row.recruitmentCount}명. 1단계 수능 100%(2배수), 2단계 1단계 수능 성적 60점+교과평가 40점. 국어 표준점수 + 수학 표준점수×1.2 + 탐구 2과목 표준점수 합×0.8, 영어·한국사 감점. 과탐 조합별 조정점수(I+I 0점, I+II 3점, II+II 5점). 모집단위별 1단계 최고·최저점 기반 환산 및 학생부 교과평가가 남아 있어 최종 환산·합격판정 보류.`,
   sourceUrl: SNU_SOURCE,
   verifiedAt: "2026-11-25",
 }));
