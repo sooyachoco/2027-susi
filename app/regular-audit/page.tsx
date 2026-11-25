@@ -24,6 +24,7 @@ const LABELS: Record<string, string> = {
   invalidConversionTables: "환산표 값 오류",
   invalidSourceMetadata: "출처 URL·검증일 오류",
   genericSourceUrl: "입학처 메인 주소만 등록됨 · 모집요강 직접 연결 필요",
+  nonUniversitySourceDomain: "대학 입학처 외부 도메인 출처 · 공식 원문 재확인",
   invalidBenchmarkMetadata: "전년도 기준점 출처·만점 오류",
   missingEnglishGradeTable: "영어 등급 환산표 미확보",
   pendingEnglishGradeTable: "영어 등급 환산표 발표 대기",
@@ -149,7 +150,7 @@ export default function RegularAuditPage() {
                   {items.map((item, index) => {
                     const entry = item as AuditItem | { id: string; count: number };
                     return <div key={entry.id ?? index} className="balanceText" style={{ borderTop: "1px solid var(--line)", paddingTop: 8 }}>
-                      {"university" in entry ? <><strong>{entry.university}</strong> · {entry.region} · {entry.group}군<br />{entry.department}{key === "genericSourceUrl" && entry.sourceUrl ? <><br /><a href={entry.sourceUrl} target="_blank" rel="noreferrer">현재 등록된 출처 열기</a></> : null}</> : <>{entry.id} · {entry.count}회</>}
+                      {"university" in entry ? <><strong>{entry.university}</strong> · {entry.region} · {entry.group}군<br />{entry.department}{(key === "genericSourceUrl" || key === "nonUniversitySourceDomain") && entry.sourceUrl ? <><br /><a href={entry.sourceUrl} target="_blank" rel="noreferrer">현재 등록된 출처 열기</a></> : null}</> : <>{entry.id} · {entry.count}회</>}
                     </div>;
                   })}
                 </div>}
