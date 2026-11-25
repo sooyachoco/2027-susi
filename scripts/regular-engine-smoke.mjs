@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const enginePath = fileURLToPath(new URL("../lib/regular/engine2027.ts", import.meta.url));
+const engineSource = readFileSync(enginePath, "utf8");
 const regularAuditSource = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
 const regularAuditPageSource = readFileSync(new URL("../app/regular-audit/page.tsx", import.meta.url), "utf8");
 const regularRecommendationSource = readFileSync(new URL("../lib/regular/recommend.ts", import.meta.url), "utf8");
@@ -18,7 +19,6 @@ assert.match(regularRecommendationSource, /keywords: \["공연", "연극", "영�
 assert.match(regularAuditSource, /const effectiveTotal = config\.count \* config\.weight/);
 assert.match(regularAuditSource, /config\.areas\.includes\("english"\) \? 0 : item\.englishWeight/);
 assert.match(regularAuditSource, /config\.areas\.includes\("inquiry"\) \? 0 : item\.inquiryWeight/);
-assert.match(regularAuditSource, /const effectiveTotal = config\.count \* config\.weight/);
 assert.match(engineSource, /config\.areas\.includes\("inquiry"\) \? 0 : \(inquiryNormalized \?\? 0\) \* admission\.inquiryWeight/);
 assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
