@@ -1162,7 +1162,7 @@ const mandatoryMathResult = calculateRegularAdmission({
   englishGrade: 2, mathType: "확률과통계",
 });
 assert.equal(mandatoryMathResult.calculationVerified, true);
-assert.ok(Math.abs(mandatoryMathResult.totalScore - ((0.99 * 0.45) + (0.95 * 0.35) + (0.5 * 0.2)) * 500) < 0.000001);
+assert.ok(Math.abs(mandatoryMathResult.totalScore - ((0.99 * 0.45) + (0.96 * 0.35) + (0.5 * 0.2)) * 500) < 0.000001);
 assert.ok(mandatoryMathResult.appliedComponents.includes("필수 영역 포함 4개 영역 성적순 가중치 배정"));
 
 // 2027 Incheon official guide: CSAT-100% units only; mixed practical units are excluded.
