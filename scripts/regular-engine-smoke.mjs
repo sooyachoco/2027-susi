@@ -195,7 +195,7 @@ assert.match(donggukSource, /practicalEvaluationRequired: practical/);
 assert.match(donggukSource, /inquiryConversionRequired: true/);
 assert.equal(donggukSource.includes("대표"), false);
 assert.match(seoultechSource, /서울과학기술대학교/);
-const seoultechRows = [...seoultechSource.matchAll(/^\\s*\\[\\s*"([^"]+)",\\s*"([^"]+)",\\s*"([가나다])",\\s*(\\d+),\\s*"([^"]+)"\\s*\\]/gm)].map((row) => ({ id: row[1], group: row[3], count: Number(row[4]), field: row[5] }));
+const seoultechRows = [...seoultechSource.matchAll(/^\s*\[\s*"([^"]+)",\s*"([^"]+)",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\s*\]/gm)].map((row) => ({ id: row[1], group: row[3], count: Number(row[4]), field: row[5] }));
 assert.equal(seoultechRows.length, 49, "서울과기대 정시 모집단위별 데이터 행 수 확인");
 assert.equal(new Set(seoultechRows.map((row) => row.id)).size, 49, "서울과기대 정시 모집단위 ID 중복 금지");
 assert.deepEqual(seoultechRows.reduce((totals, row) => { totals[row.group] += row.count; totals.total += row.count; return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 304, 나: 403, 다: 61, total: 768 }, "서울과기대 2027 정시 군별·전체 모집인원 검증");
