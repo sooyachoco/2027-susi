@@ -1714,13 +1714,15 @@ assert.match(skkuData, /calculationVerified: false/);
 
 
 const seoulBatchSource = readFileSync(new URL("../lib/regular/data2027-seoul-batch.ts", import.meta.url), "utf8");
-const knsuRowsBlock = seoulBatchSource.match(/const KNSU_ROWS = \[([\s\S]*?)\n\] as const;/)?.[1] ?? "";\nconst knsuRows = [...knsuRowsBlock.matchAll(/\{\s*key:\s*"([^"]+)",\s*department:\s*"([^"]+)",\s*count:\s*(\d+),\s*csat:/g)];
+const knsuRowsBlock = seoulBatchSource.match(/const KNSU_ROWS = \[([\s\S]*?)\n\] as const;/)?.[1] ?? "";
+const knsuRows = [...knsuRowsBlock.matchAll(/\{\s*key:\s*"([^"]+)",\s*department:\s*"([^"]+)",\s*count:\s*(\d+),\s*csat:/g)];
 assert.equal(knsuRows.length, 9, "한국체육대 정시 일반학생·수능성적우수자 모집단위 9개");
 assert.equal(new Set(knsuRows.map((row) => row[1])).size, 9, "한국체육대 모집단위 ID 중복 금지");
 assert.equal(knsuRows.reduce((sum, row) => sum + Number(row[3]), 0), 166, "한국체육대 정원 내 일반학생 152명 + 수능성적우수자 14명");
 assert.match(seoulBatchSource, /특수체육교육과 면접 100점/);
 assert.match(seoulBatchSource, /학교폭력 1~2호 각 5점/);
-const gangseoRowsBlock = seoulBatchSource.match(/const GANGSEO_ROWS = \[([\s\S]*?)\n\] as const;/)?.[1] ?? "";\nconst gangseoRows = [...gangseoRowsBlock.matchAll(/\{\s*key:\s*"([^"]+)",\s*department:\s*"([^"]+)",\s*group:\s*"([가나다])",\s*count:\s*(\d+),\s*field:/g)];
+const gangseoRowsBlock = seoulBatchSource.match(/const GANGSEO_ROWS = \[([\s\S]*?)\n\] as const;/)?.[1] ?? "";
+const gangseoRows = [...gangseoRowsBlock.matchAll(/\{\s*key:\s*"([^"]+)",\s*department:\s*"([^"]+)",\s*group:\s*"([가나다])",\s*count:\s*(\d+),\s*field:/g)];
 assert.equal(gangseoRows.length, 6, "강서대 정시 신학과 제외 일반학생 6개 모집단위");
 assert.equal(new Set(gangseoRows.map((row) => row[1])).size, 6, "강서대 모집단위 ID 중복 금지");
 assert.equal(gangseoRows.reduce((sum, row) => sum + Number(row[4]), 0), 25, "강서대 신학과 제외 정원 내 정시 일반학생 25명");
