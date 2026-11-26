@@ -53,9 +53,11 @@ assert.match(regularAuditSource, /benchmarkComparable: admissions\.filter\(hasCo
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
 
 const dankookSource = readFileSync(new URL("../lib/regular/data2027-dankook.ts", import.meta.url), "utf8");
-const dankookRows = [...dankookSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\]/g)];
+const dankookRowsText = dankookSource.slice(dankookSource.indexOf("const ROWS = ["), dankookSource.indexOf("] as const;"));
+const dankookRows = [...dankookRowsText.matchAll(/\[\s*"[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"[^"]+"\s*\]/g)];
 assert.equal(dankookRows.length, 40, "단국대 죽전 수능 일반 모집단위 40개");
-assert.equal(dankookRows.reduce((sum, row) => sum + Number(row[4]), 0), 797, "단국대 죽전 정시 일반학생 모집인원 797명");
+assert.equal(dankookRows.reduce((sum, row) => sum + Number(row[2]), 0), 797, "단국대 죽전 정시 일반학생 모집인원 797명");
+assert.deepEqual(dankookRows.reduce((totals, row) => { totals[row[1]] += Number(row[2]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 220, 나: 280, 다: 297 }, "단국대 죽전 군별 모집인원");
 assert.match(dankookSource, /schoolViolencePenaltyRequired: true/);
 assert.match(dankookSource, /mathChoiceBonusRate/);
 assert.match(dankookSource, /inquiryTypeBonusRate/);
