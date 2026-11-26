@@ -449,6 +449,32 @@ const syntheticProfile = {
 };
 const syntheticRecommendations = recommendationModule.recommendRegular(syntheticProfile, syntheticAdmissions);
 assert.equal(syntheticRecommendations.length, 15);
+const ineligibleAdmission = {
+  ...syntheticAdmissions[0],
+  id: "synthetic-ineligible-eligibility",
+  universityId: "synthetic-ineligible-university",
+  universityName: "지원자격미충족대학",
+  additionalEligibilityRequired: true,
+};
+const unmetEligibilityProfile = { ...syntheticProfile, additionalEligibilityStatus: "미충족" };
+const unmetEligibilityRecommendations = recommendationModule.recommendRegular(
+  unmetEligibilityProfile,
+  [...syntheticAdmissions, ineligibleAdmission],
+);
+assert.equal(
+  unmetEligibilityRecommendations.some((item) => item.admissionId === ineligibleAdmission.id),
+  false,
+  "지원자격 미충족 전형은 개별 추천 후보에서 제외되어야 한다",
+);
+const metEligibilityRecommendations = recommendationModule.recommendRegular(
+  { ...syntheticProfile, additionalEligibilityStatus: "충족" },
+  [...syntheticAdmissions, ineligibleAdmission],
+);
+assert.equal(
+  metEligibilityRecommendations.some((item) => item.admissionId === ineligibleAdmission.id),
+  true,
+  "지원자격 충족 전형은 다른 조건에 따라 정상 후보가 될 수 있어야 한다",
+);
 const placeholderAdmissions = [
   ...syntheticAdmissions,
   { ...syntheticAdmissions[0], id: "synthetic-placeholder", universityId: "placeholder-university", universityName: "임시대학", department: "인문계열 대표" },
