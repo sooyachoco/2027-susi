@@ -112,6 +112,11 @@ function isPlaceholderDepartment(admission: RegularAdmission): boolean {
   return /대표/.test(admission.department);
 }
 
+// 지원자격을 충족하지 못한 전형은 점수·군별 순위와 무관하게 추천 후보에서 제외한다.
+function meetsAdditionalEligibility(admission: RegularAdmission, profile: RegularStudentProfile): boolean {
+  return admission.additionalEligibilityRequired !== true || profile.additionalEligibilityStatus !== "미충족";
+}
+
 export function isRegularProfileComplete(profile: RegularStudentProfile): boolean {
   return Boolean(
     profile.desiredMajor.trim() &&
@@ -196,7 +201,7 @@ export type RegularPortfolioRecommendation = {
 export function recommendRegular(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularRecommendation[] {
   if (!isRegularProfileComplete(profile)) return [];
 
-  const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission));
+  const eligibleAdmissions = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission) && meetsAdditionalEligibility(admission, profile));
   const scored: ScoredAdmission[] = eligibleAdmissions.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission);
@@ -254,7 +259,7 @@ export function recommendRegular(profile: RegularStudentProfile, admissions: Reg
 export function recommendRegularPortfolio(profile: RegularStudentProfile, admissions: RegularAdmission[]): RegularPortfolioRecommendation | null {
   if (!isRegularProfileComplete(profile)) return null;
 
-  const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission));
+  const eligible = admissions.filter((admission) => ["서울", "경기", "인천"].includes(admission.region) && admission.recruitmentCount !== 0 && !isExcludedMajor(admission) && !isPlaceholderDepartment(admission) && meetsAdditionalEligibility(admission, profile));
   const scored: ScoredAdmission[] = eligible.map((admission) => {
     const result = calculateRegularAdmission(admission, toEngineScore(profile));
     const fit = majorFit(profile.desiredMajor, admission);
