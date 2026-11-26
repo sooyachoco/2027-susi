@@ -187,6 +187,11 @@ export async function GET() {
     !GROUPS.includes(item.group),
   );
 
+  const recruitmentTotalsByRegion = Object.fromEntries(
+    TARGET_REGIONS.map((region) => [region, admissions
+      .filter((item) => item.region === region)
+      .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0)]),
+  );
   const recruitmentTotalsByGroup = Object.fromEntries(
     GROUPS.map((group) => [group, admissions
       .filter((item) => item.group === group)
@@ -224,6 +229,12 @@ export async function GET() {
         universityId, universityName, region: rows[0]?.region ?? "", admissions: rows.length,
         departments: new Set(rows.map((item) => item.department)).size,
         withRecruitmentCount: rows.filter((item) => item.recruitmentCount != null).length,
+        missingRecruitmentCount: rows.filter((item) => item.recruitmentCount == null).length,
+        sourceCoverage: {
+          missing: rows.filter((item) => !item.sourceUrl?.trim()).length,
+          generic: rows.filter((item) => genericSourceUrl.some((source) => source.id === item.id)).length,
+          externalDomain: rows.filter((item) => nonUniversitySourceDomain.some((source) => source.id === item.id)).length,
+        },
         recruitmentTotal: rows.reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
         recruitmentByGroup,
         recruitmentByEvaluation,
@@ -245,6 +256,7 @@ export async function GET() {
       byGroup,
       recruitmentTotal,
       recruitmentTotalsByGroup,
+      recruitmentTotalsByRegion,
       recruitmentByEvaluation,
     },
     universityCoverage,
