@@ -1770,10 +1770,14 @@ for (const path of admissionDataFiles) {
 }
 const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.ts")).flatMap((path) => {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
+  // Dankook builds IDs from keys in its multiline ROWS table.
+  if (path.endsWith("data2027-dankook.ts")) {
+    const rowsText = source.slice(source.indexOf("const ROWS = ["), source.indexOf("] as const;"));
+    return [...rowsText.matchAll(/^\s*"([^"]+)",\s*$/gm)].map((match) => `dankook-jukjeon-${match[1]}`);
+  }
   // SNU/Yonsei/Korea use local row keys inside mapping tables; audit their final
   // globally-prefixed admission IDs instead of those intentionally repeated keys.
-  const generatedIds = [...source.matchAll(/\bid:\s*`([^\`]*\$\{[^}]+\}[^\`]*)`/g)]
-    .map((match) => match[1]);
+  const generatedIds = [...source.matchAll(/\bid:\s*`([^`]*\$\{[^}]+\}[^`]*)`/g)].map((match) => match[1]);
   if (generatedIds.length > 0) return generatedIds;
   return [...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
 });
