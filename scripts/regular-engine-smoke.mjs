@@ -1416,9 +1416,9 @@ assert.match(dankookData, /schoolViolencePenaltyNote: "2027 정시 모집요강 
 assert.match(dankookData, /2027학년도 정시 모집요강 배포본\(2026\.09\.04\) pp\.28-30 대조 완료/);
 assert.match(dankookData, /sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-25"/);
 const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
-const dankookRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
-assert.equal(dankookRows.length, 40);
-const dankookTotals = dankookRows.reduce((totals, row) => {
+const dankookDetailedRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
+assert.equal(dankookDetailedRows.length, 40);
+const dankookTotals = dankookDetailedRows.reduce((totals, row) => {
   totals[row[1]] += Number(row[2]);
   return totals;
 }, { 가: 0, 나: 0, 다: 0 });
