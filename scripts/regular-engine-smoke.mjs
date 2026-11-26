@@ -1727,7 +1727,7 @@ assert.equal(gangseoRows.length, 6, "강서대 정시 신학과 제외 일반학
 assert.equal(new Set(gangseoRows.map((row) => row[1])).size, 6, "강서대 모집단위 ID 중복 금지");
 assert.equal(gangseoRows.reduce((sum, row) => sum + Number(row[4]), 0), 25, "강서대 신학과 제외 정원 내 정시 일반학생 25명");
 assert.deepEqual(gangseoRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가:0, 나:0, 다:0 }), { 가:0, 나:0, 다:25 });
-assert.match(seoulBatchSource, /간호학과 수능 80% \(800점\) \+ 면접 20%/);
+assert.match(seoulBatchSource, /간호학과 수능 80%\s*\(800점\)\s*\+\s*면접 20%/);
 assert.match(seoulBatchSource, /실용음악학과 다군 실기 80%/);
 assert.match(seoulBatchSource, /calculationVerified: false/);
 
