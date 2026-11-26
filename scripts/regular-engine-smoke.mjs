@@ -53,11 +53,11 @@ assert.match(regularAuditSource, /benchmarkComparable: admissions\.filter\(hasCo
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
 
 const dankookSource = readFileSync(new URL("../lib/regular/data2027-dankook.ts", import.meta.url), "utf8");
-const dankookRowsText = dankookSource.slice(dankookSource.indexOf("const ROWS = ["), dankookSource.indexOf("] as const;"));
-const dankookRows = [...dankookRowsText.matchAll(/\[\s*"[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"[^"]+"\s*\]/g)];
-assert.equal(dankookRows.length, 40, "단국대 죽전 수능 일반 모집단위 40개");
-assert.equal(dankookRows.reduce((sum, row) => sum + Number(row[2]), 0), 797, "단국대 죽전 정시 일반학생 모집인원 797명");
-assert.deepEqual(dankookRows.reduce((totals, row) => { totals[row[1]] += Number(row[2]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 220, 나: 280, 다: 297 }, "단국대 죽전 군별 모집인원");
+const dankookLegacyRowsText = dankookSource.slice(dankookSource.indexOf("const ROWS = ["), dankookSource.indexOf("] as const;"));
+const dankookLegacyRows = [...dankookLegacyRowsText.matchAll(/\[\s*"[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"[^"]+"\s*\]/g)];
+assert.equal(dankookLegacyRows.length, 40, "단국대 죽전 수능 일반 모집단위 40개");
+assert.equal(dankookLegacyRows.reduce((sum, row) => sum + Number(row[2]), 0), 797, "단국대 죽전 정시 일반학생 모집인원 797명");
+assert.deepEqual(dankookLegacyRows.reduce((totals, row) => { totals[row[1]] += Number(row[2]); return totals; }, { 가: 0, 나: 0, 다: 0 }), { 가: 220, 나: 280, 다: 297 }, "단국대 죽전 군별 모집인원");
 assert.match(dankookSource, /schoolViolencePenaltyRequired: true/);
 assert.match(dankookSource, /mathChoiceBonusRate/);
 assert.match(dankookSource, /inquiryTypeBonusRate/);
@@ -1417,8 +1417,8 @@ assert.match(dankookData, /inquirySubjects: 2, inquiryAggregation: "mean"/);
 assert.match(dankookData, /schoolViolencePenaltyNote: "2027 정시 모집요강 p\.29의 학교폭력 조치사항 반영표\(총점 1,000점 기준\): 1~3호 감점 없음, 4~5호 10점 감점, 6~7호 30점 감점, 8~9호 50점 감점\./);
 assert.match(dankookData, /2027학년도 정시 모집요강 배포본\(2026\.09\.04\) pp\.28-30 대조 완료/);
 assert.match(dankookData, /sourceUrl: DANKOOK_SOURCE, verifiedAt: "2026-11-25"/);
-const dankookRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
-const dankookDetailedRows = [...dankookRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
+const dankookLegacyRowsText = dankookData.slice(dankookData.indexOf("const DANKOOK_ROWS = ["), dankookData.indexOf("const dankookAdmissions"));
+const dankookDetailedRows = [...dankookLegacyRowsText.matchAll(/\["[^"]+","[^"]+","[^"]+","([가나다])",(\d+),/g)];
 assert.equal(dankookDetailedRows.length, 40);
 const dankookTotals = dankookDetailedRows.reduce((totals, row) => {
   totals[row[1]] += Number(row[2]);
