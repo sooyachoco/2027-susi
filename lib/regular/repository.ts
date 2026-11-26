@@ -24,6 +24,7 @@ import { samyukAdmissions2027 } from "./data2027-samyuk";
 import { hufsAdmissions2027 } from "./data2027-hufs";
 import { sookmyungAdmissions2027 } from "./data2027-sookmyung";
 import { dankookJukjeonAdmissions2027 } from "./data2027-dankook";
+import { knsuAdmissions2027, gangseoAdmissions2027 } from "./data2027-seoul-batch";
 import type { RegularAdmission } from "./types";
 
 const TARGET_REGIONS = new Set(["서울", "경기", "인천"]);
@@ -55,6 +56,8 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...hufsAdmissions2027,
   ...sookmyungAdmissions2027,
   ...dankookJukjeonAdmissions2027,
+  ...knsuAdmissions2027,
+  ...gangseoAdmissions2027,
 ];
 
 function isExcludedAdmission(item: RegularAdmission) {
