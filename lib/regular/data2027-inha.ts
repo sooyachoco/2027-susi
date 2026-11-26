@@ -80,6 +80,34 @@ const GENERAL_ROWS: InhaRow[] = [
   { id:"life-science", department:"생명과학과", group:"다", count:13, field:"natural" },
 ];
 
+// 정원 외 수능(특성화고교졸업자) 52명. 지원자격 확인 전에는 추천 확정 금지.
+const SPECIAL_ROWS: InhaRow[] = [
+  { id:"special-statistics", department:"통계학과", group:"가", count:1, field:"natural" },
+  { id:"special-public-administration", department:"행정학과", group:"가", count:2, field:"humanities" },
+  { id:"special-political-science", department:"정치외교학과", group:"가", count:2, field:"humanities" },
+  { id:"special-economics", department:"경제학과", group:"가", count:3, field:"humanities" },
+  { id:"special-korean-language", department:"한국어문학과", group:"가", count:1, field:"humanities" },
+  { id:"special-english-european", department:"영미유럽인문융합학부", group:"가", count:1, field:"humanities" },
+  { id:"special-culture-contents", department:"문화콘텐츠문화경영학과", group:"가", count:3, field:"humanities" },
+  { id:"special-mechanical", department:"기계공학과", group:"나", count:2, field:"natural" },
+  { id:"special-aerospace", department:"항공우주공학과", group:"나", count:2, field:"natural" },
+  { id:"special-industrial-management", department:"산업경영공학과", group:"나", count:2, field:"natural" },
+  { id:"special-chemical-engineering", department:"화공에너지공학부(화학공학전공)", group:"나", count:2, field:"natural" },
+  { id:"special-polymer", department:"고분자공학과", group:"나", count:2, field:"natural" },
+  { id:"special-business", department:"경영학부(경영학과)", group:"나", count:3, field:"humanities" },
+  { id:"special-design-convergence", department:"디자인융합학과", group:"나", count:2, field:"humanities" },
+  { id:"special-computer-engineering", department:"컴퓨터공학과", group:"나", count:3, field:"natural" },
+  { id:"special-biotechnology", department:"생명공학과", group:"나", count:1, field:"natural" },
+  { id:"special-naval-architecture", department:"조선해양공학과", group:"다", count:1, field:"natural" },
+  { id:"special-materials", department:"신소재공학과", group:"다", count:2, field:"natural" },
+  { id:"special-architecture", department:"건축학부", group:"다", count:2, field:"natural" },
+  { id:"special-electrical-electronics", department:"전기전자공학부", group:"다", count:7, field:"natural" },
+  { id:"special-international-trade", department:"국제통상학과", group:"다", count:2, field:"humanities" },
+  { id:"special-theatre-directing", department:"연극영화학과(연출)", group:"다", count:2, field:"humanities" },
+  { id:"special-apparel", department:"의류디자인학과(일반)", group:"다", count:2, field:"humanities" },
+  { id:"special-ai-engineering", department:"인공지능공학과", group:"다", count:2, field:"natural" },
+];
+
 const PRACTICAL_ROWS: InhaPracticalRow[] = [
   { id:"design-convergence", department:"디자인융합학과", group:"나", count:12, practical:true, csatWeight:30, practicalWeight:70, koreanWeight:40, mathWeight:0, englishWeight:40, inquiryWeight:20, englishScale:"humanities", note:"수능 30% + 실기 70%. 실기점수 입력 전 최종 합격 판정 보류." },
   { id:"sports-science", department:"스포츠과학과", group:"다", count:21, practical:true, csatWeight:60, practicalWeight:40, koreanWeight:40, mathWeight:0, englishWeight:40, inquiryWeight:20, englishScale:"humanities", note:"수능 60% + 실기 40%. 실기점수 입력 전 최종 합격 판정 보류." },
@@ -188,7 +216,19 @@ function makePractical(row: InhaPracticalRow): RegularAdmission {
   };
 }
 
+function makeSpecial(row: InhaRow): RegularAdmission {
+  const admission = makeGeneral(row);
+  return {
+    ...admission,
+    id:`inha-2027-${row.group}-special-${row.id}`,
+    additionalEligibilityRequired:true,
+    additionalEligibilityNote:"수능(특성화고교졸업자) 전형. 특성화고교 졸업(예정) 등 모집요강의 세부 지원자격 및 동일계열 인정 여부 확인 전 최종 추천·합격 판정 보류.",
+    note:"2027 정시 수능(특성화고교졸업자) 정원 외 모집인원. 지원자격 확인이 필수이며 일반전형 모집인원과 별도 집계.",
+  };
+}
+
 export const inhaAdmissions2027: RegularAdmission[] = [
   ...GENERAL_ROWS.map(makeGeneral),
+  ...SPECIAL_ROWS.map(makeSpecial),
   ...PRACTICAL_ROWS.map(makePractical),
 ];
