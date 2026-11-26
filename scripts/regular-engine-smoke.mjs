@@ -51,6 +51,16 @@ assert.match(regularAuditSource, /const hasComparableBenchmark70/);
 assert.match(regularAuditSource, /benchmarkCutline70 \?\? item\.expectedCutline70 \?\? item\.expectedCutline/);
 assert.match(regularAuditSource, /benchmarkComparable: admissions\.filter\(hasComparableBenchmark70\)\.length/);
 assert.match(regularAuditSource, /requiresInterviewEvaluation/);
+
+const dankookSource = readFileSync(new URL("../lib/regular/data2027-dankook.ts", import.meta.url), "utf8");
+const dankookRows = [...dankookSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\]/g)];
+assert.equal(dankookRows.length, 40, "단국대 죽전 수능 일반 모집단위 40개");
+assert.equal(dankookRows.reduce((sum, row) => sum + Number(row[4]), 0), 797, "단국대 죽전 정시 일반학생 모집인원 797명");
+assert.match(dankookSource, /schoolViolencePenaltyRequired: true/);
+assert.match(dankookSource, /mathChoiceBonusRate/);
+assert.match(dankookSource, /inquiryTypeBonusRate/);
+assert.ok(readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8").includes("...dankookJukjeonAdmissions2027"));
+
 const sookmyungSource = readFileSync(new URL("../lib/regular/data2027-sookmyung.ts", import.meta.url), "utf8");
 assert.match(sookmyungSource, /recruitmentCount/);
 assert.ok(sookmyungSource.includes("activeRows.length !== 52 || totals.가 !== 648 || totals.나 !== 408 || totals.다 !== 0"));
