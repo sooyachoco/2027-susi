@@ -53,7 +53,6 @@ export const knsuAdmissions2027: RegularAdmission[] = KNSU_ROWS.map((row) => ({
 
 const GANGSEO_SOURCE = "https://entrance.gangseo.ac.kr/template/2027jungsi.pdf";
 const GANGSEO_ENGLISH = { 1:9, 2:8, 3:7, 4:6, 5:5, 6:4, 7:3, 8:2, 9:1 } as const;
-const GANGSEO_HISTORY = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0 } as const;
 const GANGSEO_ROWS = [
   { key:"business", department:"경영학과", group:"다", count:3, field:"humanities" },
   { key:"social-welfare", department:"사회복지학과", group:"다", count:3, field:"humanities" },
@@ -90,7 +89,6 @@ export const gangseoAdmissions2027: RegularAdmission[] = GANGSEO_ROWS.map((row) 
     englishGradeTable: GANGSEO_ENGLISH,
     englishMaximumScore: 9,
     koreanHistoryRequired: true,
-    koreanHistoryGradePoints: GANGSEO_HISTORY,
     studentRecordWeight: practical ? 20 : 0,
     practicalEvaluationRequired: practical,
     practicalEvaluationNote: practical ? "실용음악학과 다군 실기 80% + 학생부 교과 20%. 실기·학생부 점수 입력 전 최종 판정 보류." : undefined,
