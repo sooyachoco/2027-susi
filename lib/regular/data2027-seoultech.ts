@@ -393,7 +393,13 @@ export const seoultechAdmissions2027: RegularAdmission[] = rows.map(([key, depar
     inquiryAggregation: "mean",
     calculationMode: "normalized-standard-sum",
     practicalEvaluationRequired: practical,
-    practicalEvaluationNote: practical ? "1단계 수능 100%로 모집인원의 6배수 선발, 2단계는 1단계 성적 800점+실기 200점(총점 1,000점). 실기 세부 점수 미입력으로 최종 환산점수 판정 보류." : undefined,
+    practicalEvaluationNote: practical
+      ? type === "sportsPractical"
+        ? "1단계 수능 100%로 모집인원의 6배수 선발, 2단계는 1단계 성적 80%+실기 20%. 실기 점수 입력 전 최종 환산점수 판정 보류."
+        : department === "도예학과" || department === "조형예술학과"
+          ? "1단계 수능 100%로 모집인원의 6배수 선발, 2단계는 1단계 성적 50%+실기 50%. 실기 점수 입력 전 최종 환산점수 판정 보류."
+          : "1단계 수능 100%로 모집인원의 6배수 선발, 2단계는 1단계 성적 60%+실기 40%. 실기 점수 입력 전 최종 환산점수 판정 보류."
+      : undefined,
     koreanHistoryRequired: true,
     englishGradeTable: SEOULTECH_ENGLISH,
     englishMaximumScore: 135,
