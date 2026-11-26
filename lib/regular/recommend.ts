@@ -66,6 +66,8 @@ function toEngineScore(profile: RegularStudentProfile): RegularStudentScore {
     inquiry1ScienceLevel: profile.inquiry1ScienceLevel === "미선택" ? undefined : profile.inquiry1ScienceLevel,
     inquiry2ScienceLevel: profile.inquiry2ScienceLevel === "미선택" ? undefined : profile.inquiry2ScienceLevel,
     unexcusedAbsenceDays: profile.unexcusedAbsenceDays ?? undefined,
+    schoolViolenceStatus: profile.schoolViolenceStatus ?? "미확인",
+    additionalEligibilityStatus: profile.additionalEligibilityStatus ?? "미확인",
   };
 }
 
