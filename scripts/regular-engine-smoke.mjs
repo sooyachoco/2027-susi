@@ -95,6 +95,27 @@ const incheonSource = readFileSync(new URL("../lib/regular/data2027-incheon.ts",
 assert.match(incheonSource, /schoolViolencePenaltyRequired: true/);
 assert.match(incheonSource, /calculationVerified: false/);
 assert.match(incheonSource, /2~3호 5% 감점, 4~5호 10% 감점, 6~9호 부적격/);
+const inhaSource = readFileSync(new URL("../lib/regular/data2027-inha.ts", import.meta.url), "utf8");
+const inhaGeneralBlock = inhaSource.match(/const GENERAL_ROWS: InhaRow\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "";
+const inhaGeneralRows = [...inhaGeneralBlock.matchAll(/\{ id:"([^"]+)", department:"([^"]+)", group:"([가나다])", count:(\d+), field:"([^"]+)" \}/g)];
+assert.equal(inhaGeneralRows.length, 41, "인하대 2027 수능 일반 모집단위 41개");
+assert.equal(new Set(inhaGeneralRows.map((row) => row[1])).size, 41, "인하대 일반전형 ID 중복 금지");
+assert.deepEqual(inhaGeneralRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); totals.total += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 415, 나: 537, 다: 211, total: 1163 }, "인하대 수능 일반 군별 모집인원 검증");
+const inhaPracticalBlock = inhaSource.match(/const PRACTICAL_ROWS: InhaPracticalRow\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "";
+const inhaPracticalRows = [...inhaPracticalBlock.matchAll(/\{ id:"([^"]+)", department:"([^"]+)", group:"([가나다])", count:(\d+), practical:true/g)];
+assert.equal(inhaPracticalRows.length, 8, "인하대 실기/실적 모집단위 8개");
+assert.deepEqual(inhaPracticalRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); totals.total += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 0, 나: 12, 다: 93, total: 105 }, "인하대 실기/실적 군별 모집인원 검증");
+assert.match(inhaSource, /INHA_ENGLISH_NATURAL = \{ 1:100, 2:98, 3:96, 4:90, 5:80, 6:60, 7:40, 8:20, 9:0 \}/);
+assert.match(inhaSource, /INHA_ENGLISH_HUMANITIES = \{ 1:150, 2:148, 3:145, 4:135, 5:120, 6:100, 7:80, 8:40, 9:0 \}/);
+assert.match(inhaSource, /INHA_HISTORY = \{ 1:0, 2:0, 3:0, 4:0, 5:-1, 6:-2, 7:-3, 8:-4, 9:-5 \}/);
+assert.match(inhaSource, /inquiryConversionRequired:true/);
+assert.match(inhaSource, /inquiryConversionPending:true/);
+assert.match(inhaSource, /alternateWeighting:row.id === "design-technology"/);
+assert.match(inhaSource, /schoolViolencePenaltyRequired:true/);
+assert.match(inhaSource, /calculationVerified:false/);
+const inhaRepositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
+assert.match(inhaRepositorySource, /\.\.\.inhaAdmissions2027/);
+
 
 const hufsSource = readFileSync(new URL("../lib/regular/data2027-hufs.ts", import.meta.url), "utf8");
 const hufsRows = [...hufsSource.matchAll(/\{ campus:"(seoul|global|songdo)", group:"([가나다])", key:"([^"]+)", department:"[^"]+", count:(\d+), field:"([ABN])"(?:, majorGroup:"[^"]+")? \}/g)];
