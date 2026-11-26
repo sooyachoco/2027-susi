@@ -1668,6 +1668,14 @@ const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be unique across source files");
 
+// Audit API must expose group totals and non-exclusive practical/interview recruitment totals.
+const regularAuditRoute = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
+assert.match(regularAuditRoute, /recruitmentTotalsByGroup/);
+assert.match(regularAuditRoute, /recruitmentByEvaluation/);
+assert.match(regularAuditRoute, /practical: admissions\.filter\(\(item\) => item\.practicalEvaluationRequired === true\)/);
+assert.match(regularAuditRoute, /interview: admissions\.filter\(\(item\) => item\.interviewEvaluationRequired === true\)/);
+assert.match(regularAuditRoute, /additionalEligibility: admissions\.filter\(\(item\) => item\.additionalEligibilityRequired === true\)/);
+
 console.log("Regular scoring smoke tests passed: Seoul SNU, Yonsei, Korea, Hanyang, UOS, SKKU, SNUE, Seokyeong, Samyook and HUFS coverage, including campus/group recruitment totals, scoring weights, pending conversion guards and missing-rule checks.");
 
 const hansungTopTwo = calculateRegularAdmission({
