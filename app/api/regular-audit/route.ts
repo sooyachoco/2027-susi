@@ -187,13 +187,26 @@ export async function GET() {
     !GROUPS.includes(item.group),
   );
 
+  const recruitmentTotalsByGroup = Object.fromEntries(
+    GROUPS.map((group) => [group, admissions
+      .filter((item) => item.group === group)
+      .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0)]),
+  );
+  const recruitmentTotal = admissions.reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0);
   const universityCoverage = [...new Map(admissions.map((item) => [item.universityId, item.universityName])).entries()]
     .map(([universityId, universityName]) => {
       const rows = admissions.filter((item) => item.universityId === universityId);
+      const recruitmentByGroup = Object.fromEntries(
+        GROUPS.map((group) => [group, rows
+          .filter((item) => item.group === group)
+          .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0)]),
+      );
       return {
         universityId, universityName, region: rows[0]?.region ?? "", admissions: rows.length,
         departments: new Set(rows.map((item) => item.department)).size,
         withRecruitmentCount: rows.filter((item) => item.recruitmentCount != null).length,
+        recruitmentTotal: rows.reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+        recruitmentByGroup,
         calculationVerified: rows.filter((item) => item.calculationVerified === true).length,
         benchmarkComparable: rows.filter(hasComparableBenchmark70).length,
       };
@@ -210,6 +223,8 @@ export async function GET() {
       universities: new Set(admissions.map((item) => item.universityId)).size,
       byRegion,
       byGroup,
+      recruitmentTotal,
+      recruitmentTotalsByGroup,
     },
     universityCoverage,
     genericSourceUniversitySummary,
