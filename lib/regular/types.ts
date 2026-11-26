@@ -26,6 +26,8 @@ export type RegularStudentProfile = {
   inquiry1ScienceLevel: "I" | "II" | "미선택";
   inquiry2ScienceLevel: "I" | "II" | "미선택";
   unexcusedAbsenceDays: number | null;
+  schoolViolenceStatus: "미확인" | "해당 없음" | "조치 있음";
+  additionalEligibilityStatus: "미확인" | "충족" | "미충족";
 };
 
 export type RegularSubjectMetrics = {
@@ -184,4 +186,6 @@ export const DEFAULT_REGULAR_PROFILE: RegularStudentProfile = {
   inquiry1ScienceLevel: "미선택",
   inquiry2ScienceLevel: "미선택",
   unexcusedAbsenceDays: null,
+  schoolViolenceStatus: "미확인",
+  additionalEligibilityStatus: "미확인",
 };
