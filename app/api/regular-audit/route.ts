@@ -193,6 +193,17 @@ export async function GET() {
       .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0)]),
   );
   const recruitmentTotal = admissions.reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0);
+  // Evaluation categories are independent flags, not mutually exclusive buckets.
+  // Keep them separate so practical/interview recruitment is visible without
+  // double-counting it into a fabricated exclusive total.
+  const recruitmentByEvaluation = {
+    practical: admissions.filter((item) => item.practicalEvaluationRequired === true)
+      .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+    interview: admissions.filter((item) => item.interviewEvaluationRequired === true)
+      .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+    additionalEligibility: admissions.filter((item) => item.additionalEligibilityRequired === true)
+      .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+  };
   const universityCoverage = [...new Map(admissions.map((item) => [item.universityId, item.universityName])).entries()]
     .map(([universityId, universityName]) => {
       const rows = admissions.filter((item) => item.universityId === universityId);
@@ -201,12 +212,21 @@ export async function GET() {
           .filter((item) => item.group === group)
           .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0)]),
       );
+      const recruitmentByEvaluation = {
+        practical: rows.filter((item) => item.practicalEvaluationRequired === true)
+          .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+        interview: rows.filter((item) => item.interviewEvaluationRequired === true)
+          .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+        additionalEligibility: rows.filter((item) => item.additionalEligibilityRequired === true)
+          .reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
+      };
       return {
         universityId, universityName, region: rows[0]?.region ?? "", admissions: rows.length,
         departments: new Set(rows.map((item) => item.department)).size,
         withRecruitmentCount: rows.filter((item) => item.recruitmentCount != null).length,
         recruitmentTotal: rows.reduce((sum, item) => sum + (item.recruitmentCount ?? 0), 0),
         recruitmentByGroup,
+        recruitmentByEvaluation,
         calculationVerified: rows.filter((item) => item.calculationVerified === true).length,
         benchmarkComparable: rows.filter(hasComparableBenchmark70).length,
       };
@@ -225,6 +245,7 @@ export async function GET() {
       byGroup,
       recruitmentTotal,
       recruitmentTotalsByGroup,
+      recruitmentByEvaluation,
     },
     universityCoverage,
     genericSourceUniversitySummary,
