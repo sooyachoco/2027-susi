@@ -191,6 +191,9 @@ assert.match(seoultechSource, /englishMaximumScore: 135/);
 assert.match(seoultechSource, /koreanHistoryGradePoints: SEOULTECH_HISTORY/);
 assert.match(seoultechSource, /calculationVerified: false/);
 assert.match(seoultechSource, /practicalEvaluationRequired: practical/);
+assert.match(seoultechSource, /1단계 수능 100%로 모집인원의 6배수 선발, 2단계는 1단계 성적 800점\+실기 200점/);
+assert.match(seoultechSource, /학교폭력 조치사항별 감점 입력 필요: 1~3호 5점, 4~7호 10점, 8~9호 30점/);
+assert.match(seoultechSource, /복수 조치는 조치별 감점 적용/);
 const seoultechRows = [...seoultechSource.matchAll(/\[\s*"(?:ga|na|da)-[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\s*\]/g)];
 assert.equal(seoultechRows.length, 49);
 const seoultechTotals = seoultechRows.reduce((totals, row) => {
