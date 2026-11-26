@@ -13,6 +13,7 @@ import { seoulwomenAdmissions2027 } from "./data2027-seoulwomen";
 import { regularAdmissions2027Gyeonggi } from "./data2027-gyeonggi";
 import { regularAdmissions2027Gachon } from "./data2027-gachon";
 import { regularAdmissions2027Incheon } from "./data2027-incheon";
+import { inhaAdmissions2027 } from "./data2027-inha";
 import { seoultechAdmissions2027 } from "./data2027-seoultech";
 import { donggukAdmissions2027 } from "./data2027-dongguk";
 import { konkukAdmissions2027 } from "./data2027-konkuk";
@@ -42,6 +43,7 @@ const ALL_REGULAR_ADMISSIONS_2027: RegularAdmission[] = [
   ...regularAdmissions2027Gyeonggi,
   ...regularAdmissions2027Gachon,
   ...regularAdmissions2027Incheon,
+  ...inhaAdmissions2027,
   ...seoultechAdmissions2027,
   ...donggukAdmissions2027,
   ...konkukAdmissions2027,
