@@ -555,6 +555,27 @@ assert.equal(
   "the optimized 가·나·다 portfolio must use three distinct universities",
 );
 
+// Portfolio recommendations must apply the same hard exclusion for unmet additional eligibility.
+const ineligiblePortfolioAdmission = {
+  ...repeatedUniversityPortfolioAdmissions[0],
+  id: "portfolio-ineligible-eligibility",
+  universityId: "portfolio-ineligible-university",
+  universityName: "지원자격 미충족 포트폴리오 대학",
+  additionalEligibilityRequired: true,
+};
+const unmetEligibilityPortfolio = portfolioModule.recommendRegularPortfolio(
+  { ...syntheticProfile, additionalEligibilityStatus: "미충족" },
+  [...repeatedUniversityPortfolioAdmissions, ineligiblePortfolioAdmission],
+);
+assert.ok(unmetEligibilityPortfolio.length > 0, "eligible admissions should still produce a portfolio");
+assert.equal(
+  unmetEligibilityPortfolio.some((portfolio) =>
+    portfolio.recommendations.some((item) => item.admissionId === ineligiblePortfolioAdmission.id),
+  ),
+  false,
+  "지원자격 미충족 전형은 가·나·다 포트폴리오에서도 제외되어야 한다",
+);
+
 // A 95% cutoff cannot be substituted into thresholds calibrated to the 70% cutoff.
 const ninetyFiveOnlyAdmission = {
   ...repeatedUniversityPortfolioAdmissions[0],
