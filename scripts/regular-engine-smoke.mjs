@@ -21,6 +21,9 @@ assert.match(regularAuditSource, /config\.areas\.includes\("english"\) \? 0 : it
 assert.match(regularAuditSource, /config\.areas\.includes\("inquiry"\) \? 0 : item\.inquiryWeight/);
 assert.match(engineSource, /config\.areas\.includes\("inquiry"\) \? 0 : \(inquiryNormalized \?\? 0\) \* admission\.inquiryWeight/);
 assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
+assert.match(regularAuditPageSource, /recruitmentByGroup/);
+assert.match(regularAuditPageSource, /recruitmentByEvaluation/);
+assert.match(regularAuditPageSource, /확인된 총 모집인원/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /pendingEnglishTable/);
 assert.match(regularAuditSource, /pendingInquiryConversion/);
