@@ -119,6 +119,11 @@ assert.match(inhaSource, /inquiryConversionPending:true/);
 assert.match(inhaSource, /alternateWeighting:row.id === "design-technology"/);
 assert.match(inhaSource, /schoolViolencePenaltyRequired:true/);
 assert.match(inhaSource, /calculationVerified:false/);
+const inhaAllRows = [...inhaGeneralRows, ...inhaSpecialRows, ...inhaPracticalRows];
+assert.equal(inhaAllRows.length, 73, "인하대 2027 정시 전체 등록 모집단위 73개");
+assert.equal(new Set(inhaAllRows.map((row) => row[1])).size, 73, "인하대 전형별 모집단위 ID 중복 금지");
+assert.deepEqual(inhaAllRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); totals.total += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 428, 나: 568, 다: 324, total: 1320 }, "인하대 2027 정시 전체 모집인원 군별 합계 검증");
+
 const inhaRepositorySource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 assert.match(inhaRepositorySource, /\.\.\.inhaAdmissions2027/);
 
