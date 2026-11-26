@@ -1,6 +1,24 @@
 import type { RegularAdmission } from "./types";
 const SOURCE="https://admission.swu.ac.kr/bbs/pdf_view.php?bo_table=flashpaper&no=0&sca=%EC%A0%95%EC%8B%9C&wr_id=27980";
 const ROWS=[["ga-social-welfare","사회복지학과","인문·사회","가",18,"std"],["ga-child","아동학과","인문·사회","가",25,"std"],["ga-media","언론영상학부","인문·사회","가",26,"std"],["ga-psychology","심리·인지과학학부","인문·사회","가",17,"std"],["ga-food-bio","식품생명공학과","자연·공학","가",18,"std"],["ga-food-nutrition","식품영양학과","자연·공학","가",18,"std"],["ga-business","경영학과","경영·경제","가",30,"std"],["ga-fashion","패션산업학과","디자인","가",14,"std"],["ga-digital-media","디지털미디어학과","자연·공학","가",21,"std"],["ga-security","지능정보보호학부","자연·공학","가",20,"std"],["ga-ai","인공지능전공","자연·공학","가",11,"std"],["ga-software","소프트웨어전공","자연·공학","가",13,"std"],["ga-data","데이터사이언스전공","자연·공학","가",18,"std"],["ga-industrial-design","산업디자인학과","예체능","가",15,"top3"],["ga-craft","공예_컬렉터블디자인전공","예체능","가",13,"top3"],["na-free-humanities","자유전공학부(인문)","자율전공","나",29,"std"],["na-free-social","자유전공학부(사회과학)","자율전공","나",40,"std"],["na-free-science","자유전공학부(과학기술융합)","자율전공","나",33,"std"],["na-free-future","자유전공학부(미래산업융합)","자율전공","나",27,"std"],["na-free-wide","자유전공학부(광역)","자율전공","나",16,"std"],["na-sports","스포츠운동과학과","예체능","나",14,"top3"],["na-modern-art","현대미술전공","예체능","나",15,"top3"],["na-visual-design","시각디자인전공","예체능","나",16,"top3"],["da-ai-content","AI융합콘텐츠전공","인문·콘텐츠","다",12,"std"],["da-french","프랑스문화콘텐츠전공","인문·어문","다",12,"std"],["da-german","독일문화콘텐츠전공","인문·어문","다",14,"std"],["da-korean","국어국문학과","인문·어문","다",19,"std"],["da-english","영어영문학과","인문·어문","다",19,"std"],["da-chinese","중어중문학과","인문·어문","다",12,"std"],["da-japanese","일어일문학과","인문·어문","다",18,"std"],["da-history","사학과","인문·어문","다",11,"std"],["da-christian","기독교학과","인문·종교","다",6,"std"],["da-economics","경제학과","경영·경제","다",19,"std"],["da-library","문헌정보학과","인문·사회","다",12,"std"],["da-admin","행정학과","인문·사회","다",19,"std"],["da-math","수학과","자연·공학","다",11,"math"],["da-chemistry","화학과","자연·공학","다",16,"std"],["da-bio-environment","생명환경공학과","자연·공학","다",12,"std"],["da-biohealth","바이오헬스융합학과","자연·공학","다",18,"std"],["da-horticulture","원예생명조경학과","자연·공학","다",21,"std"],["da-advanced-design","첨단미디어디자인전공","디자인","다",10,"std"],["da-ai-reality-conditional","첨단융합학부 - AI실감콘텐츠전공","융합","다",0,"conditional"],["da-new-media-conditional","첨단융합학부 - 뉴미디어디자인전공","융합","다",0,"conditional"],["da-business-conditional","첨단융합학부 - 기업경영전공","융합","다",0,"conditional"]] as const;
+
+const SEOULWOMEN_RECRUITMENT_TOTALS = ROWS.reduce(
+  (totals, row) => {
+    totals[row[3]] += row[4];
+    return totals;
+  },
+  { 가: 0, 나: 0, 다: 0 },
+);
+if (
+  ROWS.length !== 44 ||
+  ROWS.reduce((sum, row) => sum + row[4], 0) !== 728 ||
+  SEOULWOMEN_RECRUITMENT_TOTALS.가 !== 277 ||
+  SEOULWOMEN_RECRUITMENT_TOTALS.나 !== 190 ||
+  SEOULWOMEN_RECRUITMENT_TOTALS.다 !== 261 ||
+  ROWS.filter((row) => row[5] === "conditional").length !== 3
+) {
+  throw new Error("서울여대 2027 정시 모집단위·군별 모집인원 검증 실패");
+}
 const ENGLISH={1:100,2:97,3:93,4:85,5:70,6:50,7:35,8:20,9:0} as const;
 const HISTORY400={1:5,2:5,3:5,4:4.95,5:4.8,6:4.5,7:4,8:2,9:0} as const;
 const HISTORY100={1:5,2:5,3:5,4:5,5:4.95,6:4.8,7:4.5,8:4,9:0} as const;
