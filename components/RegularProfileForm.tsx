@@ -55,5 +55,7 @@ export function RegularProfileForm({ profile, onChange }: Props) {
       <div className="field"><label htmlFor="inquiry2-science-level">탐구 2 과학 선택</label><select id="inquiry2-science-level" value={profile.inquiry2ScienceLevel} onChange={(e) => onChange({ inquiry2ScienceLevel: e.target.value as RegularStudentProfile["inquiry2ScienceLevel"] })}><option value="미선택">선택하세요</option><option value="I">과탐Ⅰ</option><option value="II">과탐Ⅱ</option></select></div>
     </>}
     {numberField("absence-days", "미인정 결석 일수 (해당 대학만)", profile.unexcusedAbsenceDays, (v) => onChange({ unexcusedAbsenceDays: v }), 0, 365, "선택 입력")}
+    <div className="field"><label htmlFor="school-violence-status">학교폭력 조치사항</label><select id="school-violence-status" value={profile.schoolViolenceStatus ?? "미확인"} onChange={(e) => onChange({ schoolViolenceStatus: e.target.value as RegularStudentProfile["schoolViolenceStatus"] })}><option value="미확인">확인 전</option><option value="해당 없음">해당 없음</option><option value="조치 있음">조치 있음 (대학별 감점 확인 필요)</option></select></div>
+    <div className="field"><label htmlFor="eligibility-status">별도 지원자격 (해당 전형만)</label><select id="eligibility-status" value={profile.additionalEligibilityStatus ?? "미확인"} onChange={(e) => onChange({ additionalEligibilityStatus: e.target.value as RegularStudentProfile["additionalEligibilityStatus"] })}><option value="미확인">확인 전</option><option value="충족">충족 확인</option><option value="미충족">미충족</option></select></div>
   </div>;
 }
