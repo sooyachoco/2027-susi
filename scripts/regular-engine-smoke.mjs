@@ -198,6 +198,15 @@ assert.match(seoultechSource, /학교폭력 조치사항별 감점 입력 필요
 assert.match(seoultechSource, /복수 조치는 조치별 감점 적용/);
 const seoultechRows = [...seoultechSource.matchAll(/\[\s*"(?:ga|na|da)-[^"]+",\s*"[^"]+",\s*"([가나다])",\s*(\d+),\s*"([^"]+)"\s*\]/g)];
 assert.equal(seoultechRows.length, 49);
+const seoultechPracticalRows = seoultechRows.filter((row) => row[3].endsWith("Practical"));
+assert.equal(seoultechPracticalRows.length, 6);
+assert.deepEqual(seoultechPracticalRows.reduce((totals, row) => {
+  totals[row[3]] += Number(row[2]);
+  return totals;
+}, { sportsPractical: 0, artsPractical: 0 }), { sportsPractical: 14, artsPractical: 112 });
+assert.match(seoultechSource, /type === "sportsPractical"[\\s\\S]*?2단계는 1단계 성적 80%\\+실기 20%/);
+assert.match(seoultechSource, /department === "도예학과" \\|\\| department === "조형예술학과"[\\s\\S]*?2단계는 1단계 성적 50%\\+실기 50%/);
+assert.match(seoultechSource, /2단계는 1단계 성적 60%\\+실기 40%/);
 const seoultechTotals = seoultechRows.reduce((totals, row) => {
   const group = row[1];
   const count = Number(row[2]);
