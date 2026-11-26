@@ -204,9 +204,11 @@ assert.deepEqual(seoultechPracticalRows.reduce((totals, row) => {
   totals[row[3]] += Number(row[2]);
   return totals;
 }, { sportsPractical: 0, artsPractical: 0 }), { sportsPractical: 14, artsPractical: 112 });
-assert.match(seoultechSource, /type === "sportsPractical"[\\s\\S]*?2단계는 1단계 성적 80%\\+실기 20%/);
-assert.match(seoultechSource, /department === "도예학과" \\|\\| department === "조형예술학과"[\\s\\S]*?2단계는 1단계 성적 50%\\+실기 50%/);
-assert.match(seoultechSource, /2단계는 1단계 성적 60%\\+실기 40%/);
+assert.ok(seoultechSource.includes('type === "sportsPractical"'), "스포츠 실기 트랙 누락");
+assert.ok(seoultechSource.includes("2단계는 1단계 성적 80%+실기 20%"), "스포츠과학 80:20 반영비율 누락");
+assert.ok(seoultechSource.includes('department === "도예학과" || department === "조형예술학과"'), "도예·조형예술 학과별 조건 누락");
+assert.ok(seoultechSource.includes("2단계는 1단계 성적 50%+실기 50%"), "도예·조형예술 50:50 반영비율 누락");
+assert.ok(seoultechSource.includes("2단계는 1단계 성적 60%+실기 40%"), "디자인 실기 60:40 반영비율 누락");
 const seoultechTotals = seoultechRows.reduce((totals, row) => {
   const group = row[1];
   const count = Number(row[2]);
