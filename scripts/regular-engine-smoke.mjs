@@ -1712,6 +1712,23 @@ assert.match(skkuData, /practicalEvaluationRequired: hasPractical/);
 assert.match(skkuData, /학교폭력 조치사항: 1호 100점 감점, 2~9호는 전형 총점 0점 처리/);
 assert.match(skkuData, /calculationVerified: false/);
 
+
+const seoulBatchSource = readFileSync(new URL("../lib/regular/data2027-seoul-batch.ts", import.meta.url), "utf8");
+const knsuRows = [...seoulBatchSource.matchAll(/key:"([^"]+)", department:"([^"]+)", count:(\\d+), csat:/g)];
+assert.equal(knsuRows.length, 9, "한국체육대 정시 일반학생·수능성적우수자 모집단위 9개");
+assert.equal(new Set(knsuRows.map((row) => row[1])).size, 9, "한국체육대 모집단위 ID 중복 금지");
+assert.equal(knsuRows.reduce((sum, row) => sum + Number(row[3]), 0), 166, "한국체육대 정원 내 일반학생 152명 + 수능성적우수자 14명");
+assert.match(seoulBatchSource, /특수체육교육과 면접 100점/);
+assert.match(seoulBatchSource, /학교폭력 1~2호 각 5점/);
+const gangseoRows = [...seoulBatchSource.matchAll(/key:"([^"]+)", department:"([^"]+)", group:"([가나다])", count:(\\d+), field:/g)];
+assert.equal(gangseoRows.length, 6, "강서대 정시 신학과 제외 일반학생 6개 모집단위");
+assert.equal(new Set(gangseoRows.map((row) => row[1])).size, 6, "강서대 모집단위 ID 중복 금지");
+assert.equal(gangseoRows.reduce((sum, row) => sum + Number(row[4]), 0), 25, "강서대 신학과 제외 정원 내 정시 일반학생 25명");
+assert.deepEqual(gangseoRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가:0, 나:0, 다:0 }), { 가:0, 나:0, 다:25 });
+assert.match(seoulBatchSource, /간호학과 수능 80% \(800점\) \+ 면접 20%/);
+assert.match(seoulBatchSource, /실용음악학과 다군 실기 80%/);
+assert.match(seoulBatchSource, /calculationVerified: false/);
+
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
   "../lib/regular/data2027-dankook.ts",
@@ -1737,6 +1754,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-seokyeong.ts",
   "../lib/regular/data2027-samyuk.ts",
   "../lib/regular/data2027-hufs.ts",
+  "../lib/regular/data2027-seoul-batch.ts",
 ];
 const repositoryRegistrationSource = readFileSync(new URL("../lib/regular/repository.ts", import.meta.url), "utf8");
 const registeredDataFiles = [...new Set(
