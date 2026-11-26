@@ -1714,6 +1714,7 @@ assert.match(skkuData, /calculationVerified: false/);
 
 const admissionDataFiles = [
   "../lib/regular/data2027.ts",
+  "../lib/regular/data2027-dankook.ts",
   "../lib/regular/data2027-snu.ts",
   "../lib/regular/data2027-yonsei.ts",
   "../lib/regular/data2027-korea.ts",
