@@ -6,8 +6,8 @@ type AuditItem = { id: string; university: string; region: string; department: s
 type AuditData = {
   generatedAt: string;
   scope: string;
-  totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number>; recruitmentTotal: number; recruitmentTotalsByGroup: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number } };
-  universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; recruitmentTotal: number; recruitmentByGroup: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number }; calculationVerified: number; benchmarkComparable: number }>;
+  totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number>; recruitmentTotal: number; recruitmentTotalsByGroup: Record<string, number>; recruitmentTotalsByRegion: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number } };
+  universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; missingRecruitmentCount: number; sourceCoverage: { missing: number; generic: number; externalDomain: number }; recruitmentTotal: number; recruitmentByGroup: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number }; calculationVerified: number; benchmarkComparable: number }>;
   genericSourceUniversitySummary: Array<{ universityId: string; universityName: string; region: string; count: number; sourceUrl: string; departments: string[] }>;
   quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number; requiresAdditionalEligibilityInput: number };
   issueCounts: Record<string, number>;
@@ -46,6 +46,8 @@ export default function RegularAuditPage() {
   const [data, setData] = useState<AuditData | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [universityQuery, setUniversityQuery] = useState("");
+  const [universityRegion, setUniversityRegion] = useState("전체");
   const load = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -89,18 +91,25 @@ export default function RegularAuditPage() {
         <section className="section">
           <div className="sectionHead"><div><h2>지역·모집군 분포</h2><div className="muted">대상: {data.scope}</div></div></div>
           <div className="grid">
-            {Object.entries(data.totals.byRegion).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name}</div><strong>{count}</strong></article>)}
-            {Object.entries(data.totals.byGroup).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name}군</div><strong>{count}</strong></article>)}
+            {Object.entries(data.totals.byRegion).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name} 모집단위</div><strong>{count}</strong><div className="muted">모집인원 {data.totals.recruitmentTotalsByRegion[name]?.toLocaleString("ko-KR") ?? 0}명</div></article>)}
+            {Object.entries(data.totals.byGroup).map(([name, count]) => <article className="panel stat" key={name}><div className="muted">{name}군 모집단위</div><strong>{count}</strong><div className="muted">모집인원 {data.totals.recruitmentTotalsByGroup[name]?.toLocaleString("ko-KR") ?? 0}명</div></article>)}
           </div>
         </section>
         <section className="section">
           <div className="sectionHead"><div><h2>대학별 데이터 확보 현황</h2><div className="muted">대학별 모집단위 수, 모집인원 확보, 환산식 검증, 비교 가능한 전년도 기준점</div></div></div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
+            <input aria-label="대학명 검색" placeholder="대학명 검색" value={universityQuery} onChange={(event) => setUniversityQuery(event.target.value)} style={{ flex: "1 1 220px", minWidth: 0 }} />
+            <select aria-label="지역 필터" value={universityRegion} onChange={(event) => setUniversityRegion(event.target.value)}>
+              <option value="전체">전체 지역</option><option value="서울">서울</option><option value="경기">경기</option><option value="인천">인천</option>
+            </select>
+          </div>
           <div style={{ display: "grid", gap: 10 }}>
-            {data.universityCoverage.map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
+            {data.universityCoverage.filter((school) => (universityRegion === "전체" || school.region === universityRegion) && school.universityName.toLocaleLowerCase("ko-KR").includes(universityQuery.trim().toLocaleLowerCase("ko-KR"))).map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}><strong>{school.universityName}</strong><span className="muted">{school.region} · {school.admissions}개 모집단위 / {school.departments}개 학과명</span></div>
               <div className="muted" style={{ marginTop: 7 }}>모집인원 {school.withRecruitmentCount}/{school.admissions} · 총 {school.recruitmentTotal.toLocaleString("ko-KR")}명 · 가군 {school.recruitmentByGroup["가"]?.toLocaleString("ko-KR") ?? 0}명 / 나군 {school.recruitmentByGroup["나"]?.toLocaleString("ko-KR") ?? 0}명 / 다군 {school.recruitmentByGroup["다"]?.toLocaleString("ko-KR") ?? 0}명</div>
               <div className="muted" style={{ marginTop: 5 }}>실기 {school.recruitmentByEvaluation.practical.toLocaleString("ko-KR")}명 · 면접 {school.recruitmentByEvaluation.interview.toLocaleString("ko-KR")}명 · 별도 자격 확인 {school.recruitmentByEvaluation.additionalEligibility.toLocaleString("ko-KR")}명</div>
               <div className="muted" style={{ marginTop: 5 }}>환산식 검증 {school.calculationVerified}/{school.admissions} · 비교 기준점 {school.benchmarkComparable}/{school.admissions}</div>
+              <div className="muted" style={{ marginTop: 5 }}>모집인원 미확인 {school.missingRecruitmentCount}개 · 공식 출처 누락 {school.sourceCoverage.missing}개 · 입학처 메인 주소 {school.sourceCoverage.generic}개 · 외부 도메인 {school.sourceCoverage.externalDomain}개</div>
             </article>)}
           </div>
         </section>
