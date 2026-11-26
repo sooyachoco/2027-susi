@@ -1773,7 +1773,7 @@ const ids = admissionDataFiles.filter((path) => !path.endsWith("data2027-gachon.
   // Dankook builds IDs from keys in its multiline ROWS table.
   if (path.endsWith("data2027-dankook.ts")) {
     const rowsText = source.slice(source.indexOf("const ROWS = ["), source.indexOf("] as const;"));
-    return [...rowsText.matchAll(/^\s*"([^"]+)",\s*$/gm)].map((match) => `dankook-jukjeon-${match[1]}`);
+    return [...rowsText.matchAll(/^\s*\[\s*\n\s*"([^"]+)",/gm)].map((match) => `dankook-jukjeon-${match[1]}`);
   }
   // SNU/Yonsei/Korea use local row keys inside mapping tables; audit their final
   // globally-prefixed admission IDs instead of those intentionally repeated keys.
