@@ -1648,6 +1648,7 @@ const admissionDataFiles = [
   "../lib/regular/data2027-gyeonggi.ts",
   "../lib/regular/data2027-gachon.ts",
   "../lib/regular/data2027-incheon.ts",
+  "../lib/regular/data2027-inha.ts",
   "../lib/regular/data2027-seoultech.ts",
   "../lib/regular/data2027-dongguk.ts",
   "../lib/regular/data2027-konkuk.ts",
