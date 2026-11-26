@@ -1449,7 +1449,7 @@ assert.match(kauData, /학교폭력 조치 4~7호는 환산총점의 10% 감점,
 assert.match(kauData, /additionalEligibilityRequired: id === "flight-operation-na"/);
 assert.match(kauData, /항공신체검사 1종 합격 여부/);
 assert.match(readFileSync(new URL("../lib/regular/types.ts", import.meta.url), "utf8"), /additionalEligibilityRequired\?: boolean/);
-assert.match(readFileSync(new URL("../lib/regular/engine2027.ts", import.meta.url), "utf8"), /if \(admission\.additionalEligibilityRequired\) missingRules\.push/);
+assert.match(readFileSync(new URL("../lib/regular/engine2027.ts", import.meta.url), "utf8"), /admission\.additionalEligibilityRequired && score\.additionalEligibilityStatus !== "충족"/);
 
 // 2027 한국공학대: 일반학생1·2 전형별 모집인원 및 수학 필수 상위 3개 영역 산식
 const kutData = readFileSync(new URL("../lib/regular/data2027-gyeonggi.ts", import.meta.url), "utf8");
