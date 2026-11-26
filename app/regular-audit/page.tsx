@@ -6,8 +6,8 @@ type AuditItem = { id: string; university: string; region: string; department: s
 type AuditData = {
   generatedAt: string;
   scope: string;
-  totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number> };
-  universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; calculationVerified: number; benchmarkComparable: number }>;
+  totals: { admissions: number; universities: number; byRegion: Record<string, number>; byGroup: Record<string, number>; recruitmentTotal: number; recruitmentTotalsByGroup: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number } };
+  universityCoverage: Array<{ universityId: string; universityName: string; region: string; admissions: number; departments: number; withRecruitmentCount: number; recruitmentTotal: number; recruitmentByGroup: Record<string, number>; recruitmentByEvaluation: { practical: number; interview: number; additionalEligibility: number }; calculationVerified: number; benchmarkComparable: number }>;
   genericSourceUniversitySummary: Array<{ universityId: string; universityName: string; region: string; count: number; sourceUrl: string; departments: string[] }>;
   quality: { calculationVerified: number; calculationUnverified: number; benchmarkComparable: number; withRecruitmentCount: number; withSource: number; requiresPracticalEvaluation: number; requiresInterviewEvaluation: number; requiresSchoolViolenceInput: number; requiresAdditionalEligibilityInput: number };
   issueCounts: Record<string, number>;
@@ -83,6 +83,7 @@ export default function RegularAuditPage() {
         <div className="grid">
           <article className="panel stat"><div className="muted">전체 모집단위</div><strong>{data.totals.admissions}</strong></article>
           <article className="panel stat"><div className="muted">대학 수</div><strong>{data.totals.universities}</strong></article>
+          <article className="panel stat"><div className="muted">확인된 총 모집인원</div><strong>{data.totals.recruitmentTotal.toLocaleString("ko-KR")}</strong></article>
           <article className="panel stat"><div className="muted">환산식 검증 완료</div><strong>{data.quality.calculationVerified}<small style={{fontSize:13,color:"var(--muted)"}}> / {data.totals.admissions}</small></strong></article>
         </div>
         <section className="section">
@@ -97,7 +98,9 @@ export default function RegularAuditPage() {
           <div style={{ display: "grid", gap: 10 }}>
             {data.universityCoverage.map((school) => <article className="panel" key={school.universityId} style={{ padding: "14px 18px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}><strong>{school.universityName}</strong><span className="muted">{school.region} · {school.admissions}개 모집단위 / {school.departments}개 학과명</span></div>
-              <div className="muted" style={{ marginTop: 7 }}>모집인원 {school.withRecruitmentCount}/{school.admissions} · 환산식 검증 {school.calculationVerified}/{school.admissions} · 비교 기준점 {school.benchmarkComparable}/{school.admissions}</div>
+              <div className="muted" style={{ marginTop: 7 }}>모집인원 {school.withRecruitmentCount}/{school.admissions} · 총 {school.recruitmentTotal.toLocaleString("ko-KR")}명 · 가군 {school.recruitmentByGroup["가"]?.toLocaleString("ko-KR") ?? 0}명 / 나군 {school.recruitmentByGroup["나"]?.toLocaleString("ko-KR") ?? 0}명 / 다군 {school.recruitmentByGroup["다"]?.toLocaleString("ko-KR") ?? 0}명</div>
+              <div className="muted" style={{ marginTop: 5 }}>실기 {school.recruitmentByEvaluation.practical.toLocaleString("ko-KR")}명 · 면접 {school.recruitmentByEvaluation.interview.toLocaleString("ko-KR")}명 · 별도 자격 확인 {school.recruitmentByEvaluation.additionalEligibility.toLocaleString("ko-KR")}명</div>
+              <div className="muted" style={{ marginTop: 5 }}>환산식 검증 {school.calculationVerified}/{school.admissions} · 비교 기준점 {school.benchmarkComparable}/{school.admissions}</div>
             </article>)}
           </div>
         </section>
