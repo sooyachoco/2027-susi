@@ -22,6 +22,8 @@ export type RegularStudentScore = {
   inquiry1ScienceLevel?: "I" | "II";
   inquiry2ScienceLevel?: "I" | "II";
   unexcusedAbsenceDays?: number;
+  schoolViolenceStatus?: "미확인" | "해당 없음" | "조치 있음";
+  additionalEligibilityStatus?: "미확인" | "충족" | "미충족";
 };
 
 export type RegularCalculation = {
@@ -472,12 +474,18 @@ export function calculateRegularAdmission(
 
   if (admission.schoolViolencePenaltyRequired == null) {
     missingRules.push("2027 정시 학교폭력 반영 규칙 검토 상태 미기록");
-  } else if (admission.schoolViolencePenaltyRequired) {
-    missingRules.push(admission.schoolViolencePenaltyNote ?? "학교폭력 조치사항 입력 필요(대학별 감점·결격 기준 적용)");
+  } else if (admission.schoolViolencePenaltyRequired && score.schoolViolenceStatus !== "해당 없음") {
+    missingRules.push(score.schoolViolenceStatus === "조치 있음"
+      ? (admission.schoolViolencePenaltyNote ?? "학교폭력 조치사항별 대학 감점·결격 기준 계산 필요")
+      : "학교폭력 조치사항 해당 여부 입력 필요");
   }
   if (admission.practicalEvaluationRequired) missingRules.push(admission.practicalEvaluationNote ?? "실기평가 점수 미입력(대학별 실기 반영비율 적용 필요)");
   if (admission.interviewEvaluationRequired) missingRules.push(admission.interviewEvaluationNote ?? "면접평가 점수 미입력(대학별 면접 반영비율 적용 필요)");
-  if (admission.additionalEligibilityRequired) missingRules.push(admission.additionalEligibilityNote ?? "대학별 별도 자격·신체검사 합격 여부 확인 필요");
+  if (admission.additionalEligibilityRequired && score.additionalEligibilityStatus !== "충족") {
+    missingRules.push(score.additionalEligibilityStatus === "미충족"
+      ? "지원자격 미충족으로 해당 전형 지원 불가"
+      : (admission.additionalEligibilityNote ?? "대학별 별도 자격·신체검사 합격 여부 확인 필요"));
+  }
 
   if (admission.mathChoiceBonusRequired && !admission.mathChoiceBonusRate) {
     const points = score.mathType ? admission.mathChoiceBonusPoints?.[score.mathType] : undefined;
