@@ -99,6 +99,12 @@ const inhaSource = readFileSync(new URL("../lib/regular/data2027-inha.ts", impor
 const inhaGeneralBlock = inhaSource.match(/const GENERAL_ROWS: InhaRow\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "";
 const inhaGeneralRows = [...inhaGeneralBlock.matchAll(/\{ id:"([^"]+)", department:"([^"]+)", group:"([가나다])", count:(\d+), field:"([^"]+)" \}/g)];
 assert.equal(inhaGeneralRows.length, 41, "인하대 2027 수능 일반 모집단위 41개");
+const inhaSpecialBlock = inhaSource.match(/const SPECIAL_ROWS: InhaRow\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "";
+const inhaSpecialRows = [...inhaSpecialBlock.matchAll(/\{ id:"([^"]+)", department:"([^"]+)", group:"([가나다])", count:(\d+), field:"([^"]+)" \}/g)];
+assert.equal(inhaSpecialRows.length, 24, "인하대 특성화고교졸업자 모집단위 24개");
+assert.deepEqual(inhaSpecialRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); totals.total += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 13, 나: 19, 다: 20, total: 52 }, "인하대 특성화고교졸업자 군별 모집인원 검증");
+assert.match(inhaSource, /additionalEligibilityRequired:true/);
+
 assert.equal(new Set(inhaGeneralRows.map((row) => row[1])).size, 41, "인하대 일반전형 ID 중복 금지");
 assert.deepEqual(inhaGeneralRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); totals.total += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0, total: 0 }), { 가: 415, 나: 537, 다: 211, total: 1163 }, "인하대 수능 일반 군별 모집인원 검증");
 const inhaPracticalBlock = inhaSource.match(/const PRACTICAL_ROWS: InhaPracticalRow\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "";
