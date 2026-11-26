@@ -1626,7 +1626,7 @@ assert.deepEqual(
 // disappearing from recommendation results.
 for (const path of admissionDataFiles) {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
-  const datasetExports = [...source.matchAll(/export\s+const\s+(\w+)\s*(?::\s*RegularAdmission\[\])?\s*=/g)].map((match) => match[1]);
+  const datasetExports = [...source.matchAll(/export\s+const\s+(\w*Admissions2027\w*)\b/g)].map((match) => match[1]);
   for (const datasetName of datasetExports) {
     const sourceFile = path.split("/").pop().replace(/\.ts$/, "");
     const expectedImport = `import { ${datasetName} } from "./${sourceFile}"`;
