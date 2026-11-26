@@ -1777,9 +1777,11 @@ for (const path of admissionDataFiles) {
   const datasetExports = [...source.matchAll(/export\s+const\s+(\w*Admissions2027\w*)\b/g)].map((match) => match[1]);
   for (const datasetName of datasetExports) {
     const sourceFile = path.split("/").pop().replace(/\.ts$/, "");
-    const expectedImport = `import { ${datasetName} } from "./${sourceFile}"`;
+    const importPattern = new RegExp(
+      `import\\s*\\{[^}]*\\b${datasetName}\\b[^}]*\\}\\s*from\\s*["']\\./${sourceFile}["']`,
+    );
     assert.ok(
-      repositoryRegistrationSource.includes(expectedImport),
+      importPattern.test(repositoryRegistrationSource),
       `${datasetName} must be imported into the active repository`,
     );
     assert.ok(
