@@ -24,6 +24,10 @@ assert.match(regularAuditPageSource, /requiresAdditionalEligibilityInput/);
 assert.match(regularAuditPageSource, /recruitmentByGroup/);
 assert.match(regularAuditPageSource, /recruitmentByEvaluation/);
 assert.match(regularAuditPageSource, /확인된 총 모집인원/);
+assert.match(regularAuditPageSource, /universityQuery/);
+assert.match(regularAuditPageSource, /universityRegion/);
+assert.match(regularAuditPageSource, /recruitmentTotalsByRegion/);
+assert.match(regularAuditPageSource, /sourceCoverage/);
 assert.match(regularAuditPageSource, /placeholderDepartments/);
 assert.match(regularAuditSource, /pendingEnglishTable/);
 assert.match(regularAuditSource, /pendingInquiryConversion/);
@@ -1674,6 +1678,9 @@ assert.deepEqual([...new Set(duplicates)], [], "2027 admission IDs must be uniqu
 // Audit API must expose group totals and non-exclusive practical/interview recruitment totals.
 const regularAuditRoute = readFileSync(new URL("../app/api/regular-audit/route.ts", import.meta.url), "utf8");
 assert.match(regularAuditRoute, /recruitmentTotalsByGroup/);
+assert.match(regularAuditRoute, /recruitmentTotalsByRegion/);
+assert.match(regularAuditRoute, /sourceCoverage/);
+assert.match(regularAuditRoute, /missingRecruitmentCount/);
 assert.match(regularAuditRoute, /recruitmentByEvaluation/);
 assert.match(regularAuditRoute, /practical: admissions\.filter\(\(item\) => item\.practicalEvaluationRequired === true\)/);
 assert.match(regularAuditRoute, /interview: admissions\.filter\(\(item\) => item\.interviewEvaluationRequired === true\)/);
