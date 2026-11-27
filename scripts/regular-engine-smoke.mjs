@@ -1035,6 +1035,27 @@ assert.equal(incompleteInquiryInput.calculationVerified, false,
   "missing second inquiry percentile must never produce a verified calculation");
 assert.ok(incompleteInquiryInput.missingRules.includes("탐구 2과목 성적 입력 또는 대학별 환산값 확인 필요"));
 
+const incompleteEnglishGrade = calculateRegularAdmission(
+  { ...normFixture },
+  { ...sampleScore, englishGrade: undefined },
+);
+assert.equal(incompleteEnglishGrade.calculationVerified, false,
+  "missing English grade must never produce a verified calculation");
+assert.ok(incompleteEnglishGrade.missingRules.includes("영어 등급 입력 필요"));
+assert.ok(!incompleteEnglishGrade.missingRules.includes("대학별 영어 등급 환산표 미등록"),
+  "missing input must not be misreported as a missing university conversion table");
+
+const incompleteHistoryGrade = calculateRegularAdmission(
+  { ...normFixture },
+  { ...sampleScore, koreanHistoryGrade: undefined },
+);
+assert.equal(incompleteHistoryGrade.calculationVerified, false,
+  "missing Korean history grade must never produce a verified calculation");
+assert.ok(incompleteHistoryGrade.missingRules.includes("한국사 등급 입력 필요"));
+assert.ok(!incompleteHistoryGrade.missingRules.includes("대학별 한국사 등급 가산점표 미등록"),
+  "missing input must not be misreported as a missing university conversion table");
+
+
 const konkukA = calculateRegularAdmission({ ...normFixture }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukB = calculateRegularAdmission({ ...normFixture, koreanWeight: 30, mathWeight: 40 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukFree = calculateRegularAdmission({ ...normFixture, languageMathMode: "고득점 우선" }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
