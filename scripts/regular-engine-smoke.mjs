@@ -1733,6 +1733,30 @@ assert.match(skkuData, /학교폭력 조치사항: 1호 100점 감점, 2~9호는
 assert.match(skkuData, /calculationVerified: false/);
 
 
+// 2027 서울과기대: 모집단위별 정원 및 모집군 총계 회귀 검증
+const seoultechData = readFileSync(new URL("../lib/regular/data2027-seoultech.ts", import.meta.url), "utf8");
+const seoultechRows = [...seoultechData.matchAll(/^\\s*\\[\\s*"([^"]+)",\\s*"([^"]+)",\\s*"([가나다])",\\s*(\\d+),\\s*"([^"]+)"\\s*\\],?$/gm)];
+assert.equal(seoultechRows.length, 49, "서울과기대 2027 정시 모집단위 49개");
+assert.equal(new Set(seoultechRows.map((row) => row[1])).size, 49, "서울과기대 모집단위 키 중복 금지");
+assert.equal(seoultechRows.reduce((sum, row) => sum + Number(row[4]), 0), 768, "서울과기대 정시 모집인원 총 768명");
+assert.deepEqual(
+  seoultechRows.reduce((totals, row) => { totals[row[3]] += Number(row[4]); return totals; }, { 가: 0, 나: 0, 다: 0 }),
+  { 가: 304, 나: 403, 다: 61 },
+  "서울과기대 가·나·다군 모집인원 합계",
+);
+assert.match(seoultechData, /영어 가상 표준점수/);
+assert.match(seoultechData, /학교폭력 조치사항별 감점 입력 필요/);
+assert.match(seoultechData, /calculationVerified: false/);
+
+// 2027 서울교대: 초등교육과 나군 108명, 면접·최저 충족 전 최종판정 보류
+const snueData = readFileSync(new URL("../lib/regular/data2027-snue.ts", import.meta.url), "utf8");
+assert.match(snueData, /department: "초등교육과"/);
+assert.match(snueData, /group: "나"/);
+assert.match(snueData, /recruitmentCount: 108/);
+assert.match(snueData, /interviewEvaluationRequired: true/);
+assert.match(snueData, /additionalEligibilityRequired: true/);
+assert.match(snueData, /calculationVerified: false/);
+
 const seoulBatchSource = readFileSync(new URL("../lib/regular/data2027-seoul-batch.ts", import.meta.url), "utf8");
 const knsuRowsBlock = seoulBatchSource.match(/const KNSU_ROWS = \[([\s\S]*?)\n\] as const;/)?.[1] ?? "";
 const knsuRows = [...knsuRowsBlock.matchAll(/\{\s*key:\s*"([^"]+)",\s*department:\s*"([^"]+)",\s*count:\s*(\d+),\s*csat:/g)];
