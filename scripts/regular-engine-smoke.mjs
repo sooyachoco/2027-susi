@@ -1015,6 +1015,26 @@ const normFixture = {
   koreanHistoryRequired: true, koreanHistoryGradePoints: { 1: 0, 2: 0, 3: 0, 4: 0, 5: -1, 6: -1.75, 7: -3, 8: -4.25, 9: -5 },
   gradeAdjustmentsAfterFinalMultiplier: true, schoolViolencePenaltyRequired: false, calculationVerified: true,
 };
+const incompletePercentileInput = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+}, { ...sampleScore, koreanPercentile: undefined });
+assert.equal(incompletePercentileInput.calculationVerified, false,
+  "missing Korean percentile must never produce a verified calculation");
+assert.ok(incompletePercentileInput.missingRules.includes("국어 성적 입력 또는 대학별 국어 환산값 확인 필요"));
+
+const incompleteInquiryInput = calculateRegularAdmission({
+  ...normFixture,
+  scoreMetric: "백분위",
+  subjectMetrics: { korean: "백분위", math: "백분위", inquiry: "백분위" },
+  subjectMaximumScores: { korean: 100, math: 100, inquiry: 100 },
+}, { ...sampleScore, inquiry2Percentile: undefined });
+assert.equal(incompleteInquiryInput.calculationVerified, false,
+  "missing second inquiry percentile must never produce a verified calculation");
+assert.ok(incompleteInquiryInput.missingRules.includes("탐구 2과목 성적 입력 또는 대학별 환산값 확인 필요"));
+
 const konkukA = calculateRegularAdmission({ ...normFixture }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukB = calculateRegularAdmission({ ...normFixture, koreanWeight: 30, mathWeight: 40 }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
 const konkukFree = calculateRegularAdmission({ ...normFixture, languageMathMode: "고득점 우선" }, { ...sampleScore, englishGrade: 2, koreanHistoryGrade: 5 });
