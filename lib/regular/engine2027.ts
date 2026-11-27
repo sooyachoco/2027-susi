@@ -283,8 +283,11 @@ export function calculateRegularAdmission(
     let englishNormalized: number | undefined;
     if (admission.englishWeight > 0 || admission.topAreaWeights?.areas.includes("english")) {
       const english = gradePoints(admission.englishGradeTable, score.englishGrade);
-      if (english == null) missingRules.push("대학별 영어 등급 환산표 미등록");
-      else {
+      if (!validGrade(score.englishGrade)) {
+        missingRules.push("영어 등급 입력 필요");
+      } else if (english == null) {
+        missingRules.push("대학별 영어 등급 환산표 미등록");
+      } else {
         englishNormalized = english / (admission.englishMaximumScore ?? 100);
         appliedComponents.push("영어 등급 환산");
       }
@@ -367,8 +370,11 @@ export function calculateRegularAdmission(
     baseScore = normalized;
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
-      if (history == null) missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
-      else {
+      if (!validGrade(score.koreanHistoryGrade)) {
+        missingRules.push("한국사 등급 입력 필요");
+      } else if (history == null) {
+        missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
+      } else {
         bonusScore += history;
         appliedComponents.push("한국사 등급 반영");
       }
