@@ -454,7 +454,9 @@ export function calculateRegularAdmission(
       }
     }
     const english = gradePoints(admission.englishGradeTable, score.englishGrade);
-    if (english == null) {
+    if (!validGrade(score.englishGrade)) {
+      missingRules.push("영어 등급 입력 필요");
+    } else if (english == null) {
       missingRules.push("대학별 영어 등급 환산표 미등록");
     } else if (admission.englishWeight <= 0) {
       // When English has a positive weighted share, it was already included in baseScore above.
@@ -465,7 +467,9 @@ export function calculateRegularAdmission(
 
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
-      if (history == null) {
+      if (!validGrade(score.koreanHistoryGrade)) {
+        missingRules.push("한국사 등급 입력 필요");
+      } else if (history == null) {
         missingRules.push("대학별 한국사 등급 가산점표 미등록");
       } else {
         bonusScore += history;
@@ -485,7 +489,9 @@ export function calculateRegularAdmission(
     let includedWeight = academicContributionWeight;
     if (englishWeight > 0) {
       const english = gradePoints(admission.englishGradeTable, score.englishGrade);
-      if (english == null) {
+      if (!validGrade(score.englishGrade)) {
+        missingRules.push("영어 등급 입력 필요");
+      } else if (english == null) {
         missingRules.push("대학별 영어 등급 환산표 미등록");
       } else {
         weightedTotal += english * englishWeight;
@@ -499,7 +505,9 @@ export function calculateRegularAdmission(
 
     if (admission.koreanHistoryRequired) {
       const history = gradePoints(admission.koreanHistoryGradePoints, score.koreanHistoryGrade);
-      if (history == null) {
+      if (!validGrade(score.koreanHistoryGrade)) {
+        missingRules.push("한국사 등급 입력 필요");
+      } else if (history == null) {
         missingRules.push("대학별 한국사 등급 가산·감점표 미등록");
       } else {
         bonusScore += history * 10;
