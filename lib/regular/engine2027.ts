@@ -118,6 +118,25 @@ export function calculateRegularAdmission(
   const mathMetric = admission.subjectMetrics?.math ?? admission.scoreMetric;
   const korean = metricValue(score.korean, score.koreanPercentile, koreanMetric, 200, score.koreanGrade, admission.subjectGradeTables?.korean);
   let math = metricValue(score.math, score.mathPercentile, mathMetric, 200, score.mathGrade, admission.subjectGradeTables?.math);
+
+  const hasSubjectInput = (
+    metric: ScoreMetric,
+    standard: number,
+    percentile: number | undefined,
+    grade: number | undefined,
+    table: GradeConversionTable | undefined,
+  ) => metric === "백분위"
+    ? typeof percentile === "number" && Number.isFinite(percentile)
+    : metric === "등급"
+      ? gradePoints(table, grade) != null
+      : typeof standard === "number" && Number.isFinite(standard);
+
+  if (!hasSubjectInput(koreanMetric, score.korean, score.koreanPercentile, score.koreanGrade, admission.subjectGradeTables?.korean)) {
+    missingRules.push("국어 성적 입력 또는 대학별 국어 환산값 확인 필요");
+  }
+  if (!hasSubjectInput(mathMetric, score.math, score.mathPercentile, score.mathGrade, admission.subjectGradeTables?.math)) {
+    missingRules.push("수학 성적 입력 또는 대학별 수학 환산값 확인 필요");
+  }
   if (koreanMetric === "등급" && gradePoints(admission.subjectGradeTables?.korean, score.koreanGrade) == null) {
     missingRules.push("국어 등급 입력 또는 대학별 국어 등급 환산표 미등록");
   }
@@ -137,6 +156,29 @@ export function calculateRegularAdmission(
   let inquiry2 = admission.inquirySubjects === 2
     ? inquiryValue(admission, score.inquiry2, score.inquiry2Percentile, score.inquiry2Grade)
     : undefined;
+
+  const inquiryIsUsed = admission.inquiryWeight > 0 || Boolean(admission.topAreaWeights?.areas.includes("inquiry")) ||
+    Boolean(admission.rankedAreaWeights?.length);
+  if (inquiryIsUsed) {
+    const inquiryMetric = admission.subjectMetrics?.inquiry ?? admission.scoreMetric;
+    const hasInquiryInput = (
+      standard: number,
+      percentile: number | undefined,
+      grade: number | undefined,
+    ) => admission.inquiryConversionRequired || admission.inquiryConversionTable
+      ? typeof percentile === "number" && Number.isFinite(percentile)
+      : inquiryMetric === "백분위"
+        ? typeof percentile === "number" && Number.isFinite(percentile)
+        : inquiryMetric === "등급"
+          ? gradePoints(admission.subjectGradeTables?.inquiry, grade) != null
+          : typeof standard === "number" && Number.isFinite(standard);
+    if (!hasInquiryInput(score.inquiry1, score.inquiry1Percentile, score.inquiry1Grade)) {
+      missingRules.push("탐구 1과목 성적 입력 또는 대학별 환산값 확인 필요");
+    }
+    if (admission.inquirySubjects === 2 && !hasInquiryInput(score.inquiry2, score.inquiry2Percentile, score.inquiry2Grade)) {
+      missingRules.push("탐구 2과목 성적 입력 또는 대학별 환산값 확인 필요");
+    }
+  }
 
   if (admission.inquiryTypeBonusRequired) {
     const fallbackType = score.inquiryType && score.inquiryType !== "혼합"
