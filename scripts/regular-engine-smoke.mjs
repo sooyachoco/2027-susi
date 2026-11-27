@@ -1735,7 +1735,7 @@ assert.match(skkuData, /calculationVerified: false/);
 
 // 2027 서울과기대: 모집단위별 정원 및 모집군 총계 회귀 검증
 const seoultechData = readFileSync(new URL("../lib/regular/data2027-seoultech.ts", import.meta.url), "utf8");
-const seoultechRows = [...seoultechData.matchAll(/^\\s*\\[\\s*"([^"]+)",\\s*"([^"]+)",\\s*"([가나다])",\\s*(\\d+),\\s*"([^"]+)"\\s*\\],?$/gm)];
+const seoultechRows = [...seoultechData.matchAll(/^\s*\[\s*"([^"]+)",\s*"([^"]+)",\s*"([가나다])",\s*(\\d+),\s*"([^"]+)"\s*\],?$/gm)];
 assert.equal(seoultechRows.length, 49, "서울과기대 2027 정시 모집단위 49개");
 assert.equal(new Set(seoultechRows.map((row) => row[1])).size, 49, "서울과기대 모집단위 키 중복 금지");
 assert.equal(seoultechRows.reduce((sum, row) => sum + Number(row[4]), 0), 768, "서울과기대 정시 모집인원 총 768명");
@@ -1822,7 +1822,7 @@ for (const path of admissionDataFiles) {
   for (const datasetName of datasetExports) {
     const sourceFile = path.split("/").pop().replace(/\.ts$/, "");
     const importPattern = new RegExp(
-      `import\\s*\\{[^}]*\\b${datasetName}\\b[^}]*\\}\\s*from\\s*["']\\./${sourceFile}["']`,
+      `import\s*\\{[^}]*\\b${datasetName}\\b[^}]*\\}\s*from\s*["']\\./${sourceFile}["']`,
     );
     assert.ok(
       importPattern.test(repositoryRegistrationSource),
